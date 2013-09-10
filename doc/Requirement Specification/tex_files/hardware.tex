@@ -1,0 +1,32 @@
+Text about this part of the system
+
+
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=160mm]{images/example1.jpg}
+	\caption[This text ends up at the list of figures]{\textit{Data flow between modules.(example image)}}
+	\label{fig:block_overview_fig}  %Skapar referens till figuren
+\end{figure}
+
+
+
+\subsection{Description}
+Text here
+
+\subsection{External frameworks/interfaces}
+Text here
+
+\subsection{Limitations}
+Text here
+
+\subsection{Hardware Requirements}
+\label{sec:hardware_req}
+\reqtable
+{
+	\addreq{The system uses network cameras powered via ethernet}{1}	
+	\addreq{The system can operate using high resolution ($>$1 Mpixel) cameras}{1}
+	\addreq{Lower resolution cameras can be used}{2}
+	\addreq{A minimum of 1 camera per entrance is required}{1}
+	\addreq{Each camera can cover more than one entrance}{2}
+}

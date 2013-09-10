@@ -1,0 +1,29 @@
+Text here.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=110mm]{images/example2.png}
+	\caption[This text ends up at the list of figures]{\textit{Modules of the system(Example image)}}
+	\label{fig:block_overview2_fig}  %Skapar referens till figuren
+\end{figure}
+
+\subsection{Rough description of the system}
+Text here.
+
+\subsection{Components}
+Text here.
+
+\subsection{Dependencies}
+Text here.
+
+\subsection{Design Philosophy}
+Text here.
+
+\subsection{General Requirements}
+\label{sec:general_req}
+\reqtable
+{
+	\addreq{The main purpose of the system is to monitor the usage intensity of a room or building}{1}
+	\addreq{The system operates using cameras}{1}
+	\addreq{Data from each camera is forwarded to a server on which the processing takes place (several cameras, one computer)}{1} 
+}
