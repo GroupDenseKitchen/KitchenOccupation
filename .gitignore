@@ -4,3 +4,13 @@
 *.lof
 *.log
 *.out
+
+#unignore the cover pdf
+!*Cover/*
+
+#ignore some dumb pdf output folders
+*Output*
+
+#ignore archives
+*.zip
+*.gz
