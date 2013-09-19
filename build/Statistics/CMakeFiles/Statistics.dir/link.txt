@@ -1,2 +1,0 @@
-/usr/bin/ar cr libStatistics.a  CMakeFiles/Statistics.dir/Analytics.cpp.o
-/usr/bin/ranlib libStatistics.a

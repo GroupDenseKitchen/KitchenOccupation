@@ -1,2 +1,0 @@
-/usr/bin/ar cr libUtilities.a  CMakeFiles/Utilities.dir/Frame.cpp.o CMakeFiles/Utilities.dir/FrameList.cpp.o
-/usr/bin/ranlib libUtilities.a
