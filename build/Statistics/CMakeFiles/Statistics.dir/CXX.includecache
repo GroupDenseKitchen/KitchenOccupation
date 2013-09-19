@@ -6,5 +6,35 @@
 
 #IncludeRegexTransform: 
 
+/Users/gustavhager/Desktop/TSBB11/project/src/Statistics/../Utilities/Frame.h
+
+/Users/gustavhager/Desktop/TSBB11/project/src/Statistics/../Utilities/FrameList.h
+Frame.h
+/Users/gustavhager/Desktop/TSBB11/project/src/Statistics/../Utilities/Frame.h
+
+/Users/gustavhager/Desktop/TSBB11/project/src/Statistics/../Utilities/include.h
+string
+-
+list
+-
+vector
+-
+map
+-
+iostream
+-
+fstream
+-
+Frame.h
+/Users/gustavhager/Desktop/TSBB11/project/src/Statistics/../Utilities/Frame.h
+FrameList.h
+/Users/gustavhager/Desktop/TSBB11/project/src/Statistics/../Utilities/FrameList.h
+
 /Users/gustavhager/Desktop/TSBB11/project/src/Statistics/Analytics.cpp
+Analytics.h
+/Users/gustavhager/Desktop/TSBB11/project/src/Statistics/Analytics.h
+
+/Users/gustavhager/Desktop/TSBB11/project/src/Statistics/Analytics.h
+../Utilities/include.h
+/Users/gustavhager/Desktop/TSBB11/project/src/Statistics/../Utilities/include.h
 

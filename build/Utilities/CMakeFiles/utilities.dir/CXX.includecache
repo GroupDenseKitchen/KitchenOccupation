@@ -6,7 +6,13 @@
 
 #IncludeRegexTransform: 
 
-/Users/gustavhager/Desktop/TSBB11/project/src/Utilities/Frame.cpp
+/Users/gustavhager/Desktop/TSBB11/project/src/Utilities/Frame.h
 
 /Users/gustavhager/Desktop/TSBB11/project/src/Utilities/FrameList.cpp
+FrameList.h
+/Users/gustavhager/Desktop/TSBB11/project/src/Utilities/FrameList.h
+
+/Users/gustavhager/Desktop/TSBB11/project/src/Utilities/FrameList.h
+Frame.h
+/Users/gustavhager/Desktop/TSBB11/project/src/Utilities/Frame.h
 
