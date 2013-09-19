@@ -1,2 +1,2 @@
 #Statistics module
-add_library(Statistics StatisticsModule.cpp)
+add_library(Statistics Analytics.cpp)

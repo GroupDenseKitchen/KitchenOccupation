@@ -1,4 +1,4 @@
 #Debug module
 #this module is magical.
 
-add_library(debug DebugModule.cpp)
+add_library(Debugging Debug.cpp)

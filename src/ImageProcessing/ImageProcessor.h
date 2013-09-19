@@ -1,13 +1,16 @@
-#ifndef IMAGE_PROCESSING_MODULE_H
-#define IMAGE_PROCESSING_MODULE_H
+#ifndef IMAGE_PROCESSOR_H
+#define IMAGE_PROCESSOR_H
+
+#include "../Utilities/include.h"
 
 namespace image_processing
 {
-class ImageProcessing
+class ImageProcessor
 {
 public:
-	ImageProcessing();
-	~ImageProcessing();
+	ImageProcessor();
+	~ImageProcessor();
+    void processFrame(FrameList frames);
 private:
 };
 }

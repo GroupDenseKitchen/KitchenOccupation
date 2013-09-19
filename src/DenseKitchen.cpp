@@ -7,7 +7,7 @@ void DenseKitchen::readConfig(std::string path)
 
 void DenseKitchen::start()
 {
-    debug.start(this);
+    //debug.start(this);
     network.start();
     while(isRunning)
     {

@@ -1,14 +1,15 @@
-#include "ImageProcessingModule.h"
+#include "ImageProcessor.h"
 
 namespace image_processing
 {
-ImageProcessing::ImageProcessing()
-{
+    ImageProcessor::ImageProcessor(){
 
-}
+    }
 
-ImageProcessing::~ImageProcessing()
-{
+    ImageProcessor::~ImageProcessor(){
 
-}
+    }
+    void ImageProcessor::processFrame(FrameList frames){
+
+    }
 }

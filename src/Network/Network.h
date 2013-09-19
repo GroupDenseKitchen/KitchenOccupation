@@ -1,15 +1,18 @@
 #ifndef NETWORK_MODULE_H
 #define NETWORK_MODULE_H
 
+#include "../utilities/include.h"
+
 namespace network{
 
-class NetworkModule{
+class Network{
 public:
-	NetworkModule();
-	~NetworkModule();
+	Network();
+	~Network();
 
-	bool hasNewFrame();
-	Frame dequeFrame();
+    void start(void);
+	bool hasNewFrame(void);
+	Frame dequeFrame(void);
 private:
 
 };

@@ -2,11 +2,11 @@
 #define DENSE_KITCHEN_H
 
 #include "Utilities/include.h"
-#include "NetworkModule/NetworkModule.h"
-#include "ImageProcessingModule/ImageProcessingModule.h"
-#include "StatisticsModule/StatisticsModule.h"
-#include "ConfigurationModule/ConfigurationModule.h"
-#include "DebugModule/DebugModule.h"
+#include "Network/Network.h"
+#include "ImageProcessing/ImageProcessor.h"
+#include "Statistics/Analytics.h"
+#include "Configuration/ConfigurationManager.h"
+#include "Debugging/Debug.h"
 
 class DenseKitchen
 {
@@ -17,13 +17,16 @@ public:
     void start();
 
 private:
-    network::Network                  network;
-    image_processing::ImageProcessing imageProcessing;
-    statistics::Statistics            statistics;
-    configuration::Configuration      configuration;
-    debug::Debug                      debug;
+    network::Network network;
+    image_processing::ImageProcessor imageProcessing;
+    statistics::Analytics statistics;
+    configuration::ConfigurationManager  configuration;
+    
+    //debug::Debug debug;
 
     FrameList frames;
+
+    bool isRunning;
 };
 
 #endif

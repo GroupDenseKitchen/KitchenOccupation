@@ -1,3 +1,3 @@
 #image processing module
 
-add_library(imageProcessing ImageProcessing.cpp)
+add_library(ImageProcessing ImageProcessor.cpp)

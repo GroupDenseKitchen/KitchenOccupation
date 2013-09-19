@@ -1,2 +1,2 @@
 #Network module
-add_library(Network NetworkModule.cpp)
+add_library(Network Network.cpp)

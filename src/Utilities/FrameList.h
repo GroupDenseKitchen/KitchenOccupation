@@ -1,6 +1,8 @@
 #ifndef FRAME_LIST_H
 #define FRAME_LIST_H
 
+#include "Frame.h"
+
 class FrameList{
 public:
 	FrameList();
