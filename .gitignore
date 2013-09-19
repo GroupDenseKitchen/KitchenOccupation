@@ -14,3 +14,6 @@
 #ignore archives
 *.zip
 *.gz
+
+#editor/IDE ignores go here
+*sublime-*
