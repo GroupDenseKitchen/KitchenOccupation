@@ -8,7 +8,7 @@ class ImageProcessing
 public:
 	ImageProcessing();
 	~ImageProcessing();
-
+private:
 };
 }
 

@@ -14,7 +14,7 @@ public:
     DenseKitchen() {}
     ~DenseKitchen() {}
     void readConfig(std::string path);
-    void run();
+    void start();
 
 private:
     network::Network                  network;

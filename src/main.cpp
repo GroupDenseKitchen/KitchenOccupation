@@ -3,7 +3,7 @@
 int main()
 {
 	DenseKitchen program;
-	program.readConfig("config.?");
+	program.readConfig("config.yml");
 	program.run();
 	return 0;
 }

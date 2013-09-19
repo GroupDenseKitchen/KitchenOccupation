@@ -11,4 +11,7 @@
 
 #include "../DebugModule/DebugModule.h"
 
+#include "Frame.h"
+#include "FrameList.h"
+
 #endif

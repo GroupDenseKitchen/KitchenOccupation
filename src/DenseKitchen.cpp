@@ -10,7 +10,7 @@ void DenseKitchen::readConfig(std::string path)
        för variabler som är medlemsvariabler respektive icke medlemsvariabler (som standard).
        Därav är prefix/postfix för medlemsvariabler onödiga för oss i vårt arbeta och bör slopas?
  */
-void DenseKitchen::run()
+void DenseKitchen::start()
 {
     debug.start(this);
     network.start();
@@ -18,7 +18,9 @@ void DenseKitchen::run()
     {
         if(network.hasNewFrame())
         {
-            frames.add(network.dequeFrame());
+            Frame currentFrame = network.dequeFrame();
+            frames.append(currentFrame);
+
             imageProcessing.processFrame(frames);
             statistics.processFrame(frames);
         }
