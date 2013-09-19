@@ -17,3 +17,6 @@
 
 #editor/IDE ignores go here
 *sublime-*
+build/*
+
+
