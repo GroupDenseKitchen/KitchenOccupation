@@ -1,0 +1,2 @@
+/usr/bin/ar cr libAnalytics.a  CMakeFiles/Analytics.dir/Analytics.cpp.o
+/usr/bin/ranlib libAnalytics.a

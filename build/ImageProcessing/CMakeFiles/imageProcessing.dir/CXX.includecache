@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/gustavhager/Desktop/TSBB11/project/src/ImageProcessing/../Utilities/Frame.h
+
+/Users/gustavhager/Desktop/TSBB11/project/src/ImageProcessing/../Utilities/FrameList.h
+
+/Users/gustavhager/Desktop/TSBB11/project/src/ImageProcessing/../Utilities/include.h
+string
+-
+list
+-
+vector
+-
+map
+-
+iostream
+-
+fstream
+-
+Frame.h
+/Users/gustavhager/Desktop/TSBB11/project/src/ImageProcessing/../Utilities/Frame.h
+FrameList.h
+/Users/gustavhager/Desktop/TSBB11/project/src/ImageProcessing/../Utilities/FrameList.h
+
+/Users/gustavhager/Desktop/TSBB11/project/src/ImageProcessing/ImageProcessor.cpp
+ImageProcessor.h
+/Users/gustavhager/Desktop/TSBB11/project/src/ImageProcessing/ImageProcessor.h
+
+/Users/gustavhager/Desktop/TSBB11/project/src/ImageProcessing/ImageProcessor.h
+../Utilities/include.h
+/Users/gustavhager/Desktop/TSBB11/project/src/ImageProcessing/../Utilities/include.h
+

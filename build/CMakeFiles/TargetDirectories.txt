@@ -1,0 +1,7 @@
+/Users/gustavhager/Desktop/TSBB11/project/build/Configuration/CMakeFiles/Configuration.dir
+/Users/gustavhager/Desktop/TSBB11/project/build/Debugging/CMakeFiles/Debugging.dir
+/Users/gustavhager/Desktop/TSBB11/project/build/ImageProcessing/CMakeFiles/ImageProcessing.dir
+/Users/gustavhager/Desktop/TSBB11/project/build/Network/CMakeFiles/Network.dir
+/Users/gustavhager/Desktop/TSBB11/project/build/Statistics/CMakeFiles/Statistics.dir
+/Users/gustavhager/Desktop/TSBB11/project/build/Utilities/CMakeFiles/Utilities.dir
+/Users/gustavhager/Desktop/TSBB11/project/build/CMakeFiles/dense_kitchen.dir

@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/gustavhager/Desktop/TSBB11/project/src/Utilities/Frame.cpp
+
+/Users/gustavhager/Desktop/TSBB11/project/src/Utilities/FrameList.cpp
+

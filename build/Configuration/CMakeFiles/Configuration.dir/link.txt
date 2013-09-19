@@ -1,0 +1,2 @@
+/usr/bin/ar cr libConfiguration.a  CMakeFiles/Configuration.dir/ConfigurationManager.cpp.o
+/usr/bin/ranlib libConfiguration.a

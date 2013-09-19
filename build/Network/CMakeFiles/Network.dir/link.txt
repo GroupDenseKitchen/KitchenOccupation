@@ -1,0 +1,2 @@
+/usr/bin/ar cr libNetwork.a  CMakeFiles/Network.dir/Network.cpp.o
+/usr/bin/ranlib libNetwork.a
