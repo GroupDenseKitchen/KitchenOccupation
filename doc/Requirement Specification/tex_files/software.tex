@@ -1,28 +1,20 @@
-Some words go here
+The software part of the system performs all the image processing and analysis needed to detect usage of a room. It will also be cablable of predicting future room occupancy degree based on historical usage. 
 
-\begin{figure}[htb]
-	\centering
-	\includegraphics[width=160mm]{images/example1.jpg}
-	\caption[This text ends up at the list of figures]{\textit{Data flow between modules.(example image)}}
-	\label{fig:block_overview_fig}  %Skapar referens till figuren
-\end{figure}
-
-
-\subsection{Description}
-The software part of the system will perform all the image processing and analysis needed to detect usage of a room. In order to make future development of the system easier the software will be written to be as modular as possible. In order to maintain robustness in the system a set of automatic tests will be developed, to prevent regression of the system performance.
+A website for the project will be published using the wordpress CMS, it will describe the prject and its participants.
  
 \subsection{External dependencies}
-The software will be written using the OpenCV library to handle the image processing, and where possible interfacing with cameras. Any visualization and debugging tools will be written using the Qt framework.
+The software is written using the OpenCV library to handle the image processing, and when possible interfacing with cameras. 
+Any visualization and debugging tools are written using the Qt framework. 
+An HTTP library is used to handle communication with LIUs REST API.
+Cmake and any C++11 capable compiler can be used to compile the source code to a binary.
 
-Cmake will be required to build the source code into an executable.
+The website will be hosted on a standard LAMP stack.
 
 \subsection{Compatibility}
-The software will be possible to compile and run on most major platforms (Windows/OS X). The system will expose and API that allows modules for arbitrary cameras to be written.
-
-The system must be cabable of communicating using a REST API.
+The software is possible to build for most major plattforms (Windows/OS X). A REST API is used to communicate the results.
 
 \subsection{Limitations}
-For integrity reasons no personally identifiable information can be stored or reported by the system.
+For integrity reasons no personally identifiable information can be stored or reported by the system. As the processing is done on a server there is no hard limit on the computational complexity of the software.
 
 \subsection{Software Requirements}
 \label{sec:software_req}
@@ -31,5 +23,5 @@ For integrity reasons no personally identifiable information can be stored or re
 	\addreq{The system runs on Windows based plattforms}{1}
 	\addreq{The system runs on OS x}{1}
 	\addreq{The system is modular with respect to the camera manufacturer and/or network API}{1}
-	\addreq{The system must not store image data}
+	\addreq{The system must not store image data}{1}
 }

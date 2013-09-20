@@ -1,22 +1,24 @@
-Text about performance.
-
-
-\subsection{Description}
-Text here
+The performance of the system refers to what problems the system solves and the degree to which it solves them. The problem that the system solves is giving indications to how long the wait will be for use of microwaves in the student kitchen. The simplest indicator for this is simply the amount of people in the kitchens. This is made slightly more complicated by the potential presence of more than one door into the room. The amount of people in the room is also easily verified by hand, meaning that performance with regard to this indicator is easily defined and quantified. Other indicators of the length of waiting are detection of a queue, rough classification of the severity of the queue, and a directly estimated waiting time. The system performance on these indicators are all increasingly both hard to define and measure. The inclusion of methods to evaluate and test these more difficult indicators are therefore necessary.
 
 \subsection{Reliability}
-Text here
+The system must be able to perform reliably under varying lighting conditions, as well as being able to handle people with varying hair color and whearing a large varaiaty of different clothes, jackets, hats. It is preferable that the system also handles bags, trolleys etc. without counting them as extra people. 
 
 \subsection{Quality control}
-Text about testing and stuff
+The system is thoroughly tested throughout developement to ensure high quality. The core computer vision functionality is also continously tested against a test data set that is never used to train or tune any algorithms. 
 
 \subsection{Performance requirements}
-The requirements listed in the table below all assume one camera per room entrance, if each camera is required to monitor more than one entrance, the type of each requirement is incremented by one (Type 1 becomes type 2 etc.).
+The performance requirements listed below assume that it is possible to have cameras placed over each door. Removing this assumption results in increasing the type number by one (e.g. from 1 to 2).   
 \label{sec:performance_req}
 \reqtable
 {
-	\addreq{The system is able to count the number of people entering or leaving the room, thereby knowing the number of persons currently in the room.}{1}
-	\addreq{The system knows if there is a queue to enter the room}{1}
-	\addreq{A rough estimate of the queue size/waiting time is presented}{1}
-	\addreq{A more accurate estimate of the queue size and/or wait time is provided by using mathematical models}{2}
+	\addreq{The system is able to count the number of people entering and leaving the room, where the room has one door.}{1}
+	\addreq{The system is able to count the number of people entering and leaving the room, where the room has two doors. }{1}
+	\addreq{The system keeps track of the amount of people in the room at any one time, given that it can count the number of people passing through each door. }{1}
+	\addreq{The system knows if there is a queue to enter the room.}{1}
+	\addreq{A rough classification of the queue size/severity is presented by the system, where the room has one door.}{1}
+	\addreq{A rough classification of the queue size/severity is presented by the system, where the room has two or more doors.}{2}
+	\addreq{The system gives a model based estimate of the waiting time that is more informative than the rough que classifications. }{2}
+	\addreq{The system can handle daily variations in lighting conditions such that other performance metrics are not affected. }{1}
+	\addreq{The system handles sudden changes in lighting (e.g. a blackout) without crashing and keeping track of potentially induced knowledge gaps.}{2}
+	\addreq{The system is tested against a data set that covers a wide variety of the most common cases. }{1}
 }
