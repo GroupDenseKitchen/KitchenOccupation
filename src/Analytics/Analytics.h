@@ -2,6 +2,7 @@
 #define STATISTICS_MODULE_H
 
 #include "../Utilities/include.h"
+#include "../Utilities/FrameList.h"
 
 namespace statistics{
     class Analytics{

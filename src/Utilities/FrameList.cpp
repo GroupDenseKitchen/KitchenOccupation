@@ -9,5 +9,5 @@ FrameList::~FrameList(){
 }
 
 void FrameList::append(Frame f){
-    //TODO stub
+    frames.push_back(f);
 }

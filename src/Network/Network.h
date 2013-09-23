@@ -2,6 +2,7 @@
 #define NETWORK_MODULE_H
 
 #include "../utilities/include.h"
+#include "../utilities/Frame.h"
 
 namespace network{
 

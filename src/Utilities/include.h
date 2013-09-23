@@ -9,7 +9,4 @@
 #include <iostream>
 #include <fstream>
 
-#include "Frame.h"
-#include "FrameList.h"
-
 #endif

@@ -2,6 +2,7 @@
 #define IMAGE_PROCESSOR_H
 
 #include "../Utilities/include.h"
+#include "../Utilities/FrameList.h"
 
 namespace image_processing
 {
