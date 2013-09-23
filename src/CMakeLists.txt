@@ -2,9 +2,20 @@ cmake_minimum_required (VERSION 2.8.1)
 #Dense kitchen project
 project(dense_kitchen)
 
-#something apple
+# is TRUE on Apple OS X
+MESSAGE( STATUS "APPLE: " ${APPLE} )
+# is TRUE when using the MinGW compiler in Windows
+MESSAGE( STATUS "MINGW: " ${MINGW} )
 
-SET (CMAKE_CXX_FLAGS "-stdlib=libc++")
+
+#something apple
+IF(APPLE)
+    SET (CMAKE_CXX_FLAGS "-stdlib=libc++")
+ENDIF()
+
+IF(MINGW)
+    #something windows
+ENDIF()
 
 #something windows
 
