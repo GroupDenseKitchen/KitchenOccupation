@@ -15,6 +15,6 @@ namespace network{
         return false;
     }
     Frame Network::dequeFrame(){
-        return Frame();
+        return Frame(cv::Mat());
     }
 }

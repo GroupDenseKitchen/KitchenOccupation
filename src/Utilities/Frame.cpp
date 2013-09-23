@@ -1,7 +1,7 @@
 #include "Frame.h"
 
-Frame::Frame(){
-    //TODO stub
+Frame::Frame(cv::Mat image) : image(image){
+    
 }
 
 Frame::~Frame(){

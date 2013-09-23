@@ -4,6 +4,8 @@ project(dense_kitchen)
 
 #something apple
 
+SET (CMAKE_CXX_FLAGS "-stdlib=libc++")
+
 #something windows
 
 #magic QT preprocessor?
@@ -21,7 +23,20 @@ add_subdirectory(Utilities)
 
 #binaries
 add_executable(dense_kitchen main.cpp DenseKitchen.cpp)
+add_executable(debug_kitchen debugGui.cpp DebugKitchen.cpp)
 
+#link debug gui to libraries
+target_link_libraries (debug_kitchen 
+    Configuration 
+    Debugging 
+    ImageProcessing 
+    Network 
+    Statistics 
+    Utilities
+    opencv_core 
+    opencv_highgui 
+    opencv_imgproc
+    opencv_video) 
 
 #link to libraries
 target_link_libraries (dense_kitchen 
@@ -30,4 +45,8 @@ target_link_libraries (dense_kitchen
     ImageProcessing 
     Network 
     Statistics 
-    Utilities) 
+    Utilities
+    opencv_core 
+    opencv_highgui 
+    opencv_imgproc
+    opencv_video) 
