@@ -4,7 +4,7 @@
 #include "Utilities/include.h"
 #include "Network/Network.h"
 #include "ImageProcessing/ImageProcessor.h"
-#include "Statistics/Analytics.h"
+#include "Analytics/Analytics.h"
 #include "Configuration/ConfigurationManager.h"
 #include "Debugging/Debug.h"
 

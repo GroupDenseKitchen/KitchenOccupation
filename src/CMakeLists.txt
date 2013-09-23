@@ -15,7 +15,7 @@ add_subdirectory(Configuration)
 add_subdirectory(Debugging)
 add_subdirectory(ImageProcessing)
 add_subdirectory(Network)
-add_subdirectory(Statistics)
+add_subdirectory(Analytics)
 add_subdirectory(Utilities)
 
 
