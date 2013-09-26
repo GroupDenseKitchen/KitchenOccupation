@@ -1,6 +1,6 @@
-cmake_minimum_required (VERSION 2.8.1)
+CMAKE_MINIMUM_REQUIRED (VERSION 2.8.1)
 #Dense kitchen project
-project(dense_kitchen)
+PROJECT(dense_kitchen)
 
 # is TRUE on Apple OS X
 MESSAGE( STATUS "APPLE: " ${APPLE} )
@@ -10,7 +10,7 @@ MESSAGE( STATUS "MINGW: " ${MINGW} )
 
 #something apple
 IF(APPLE)
-    SET (CMAKE_CXX_FLAGS "-stdlib=libc++")
+    SET (CMAKE_CXX_FLAGS "-stdlib=libc++ -std=c++11")
 ENDIF()
 
 IF(MINGW)
@@ -24,20 +24,20 @@ ENDIF()
 #load external libs
 
 #load project libs
-add_subdirectory(Configuration)
-add_subdirectory(Debugging)
-add_subdirectory(ImageProcessing)
-add_subdirectory(Network)
-add_subdirectory(Analytics)
-add_subdirectory(Utilities)
+ADD_SUBDIRECTORY(Configuration)
+ADD_SUBDIRECTORY(Debugging)
+ADD_SUBDIRECTORY(ImageProcessing)
+ADD_SUBDIRECTORY(Network)
+ADD_SUBDIRECTORY(Analytics)
+ADD_SUBDIRECTORY(Utilities)
 
 
 #binaries
-add_executable(dense_kitchen main.cpp DenseKitchen.cpp)
-add_executable(debug_kitchen debugGui.cpp DebugKitchen.cpp)
+ADD_EXECUTABLE(dense_kitchen main.cpp DenseKitchen.cpp)
+ADD_EXECUTABLE(debug_kitchen debugGui.cpp DebugKitchen.cpp)
 
 #link debug gui to libraries
-target_link_libraries (debug_kitchen 
+TARGET_LINK_LIBRARIES (debug_kitchen 
     Configuration 
     Debugging 
     ImageProcessing 
@@ -50,7 +50,7 @@ target_link_libraries (debug_kitchen
     opencv_video) 
 
 #link to libraries
-target_link_libraries (dense_kitchen 
+TARGET_LINK_LIBRARIES (dense_kitchen 
     Configuration 
     Debugging 
     ImageProcessing 
