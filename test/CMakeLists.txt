@@ -25,7 +25,7 @@ ENABLE_TESTING()
 #include the gtest includes into the <file> scope for c++ (i think)
 INCLUDE_DIRECTORIES(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-ADD_EXECUTABLE(runUnitTests unit_test_main.cpp)
+ADD_EXECUTABLE(runUnitTests system_test.cpp other_system_test.cpp)
 
 #link it all together
 
@@ -41,4 +41,4 @@ TARGET_LINK_LIBRARIES(runUnitTests
 #this is bad and non-portable
 TARGET_LINK_LIBRARIES(runUnitTests opencv_core opencv_highgui opencv_imgproc opencv_video)
 
-ADD_TEST(SYSTEM_TEST system_test COMMAND runUnitTests)
+ADD_TEST(NAME system_test COMMAND runUnitTests)
