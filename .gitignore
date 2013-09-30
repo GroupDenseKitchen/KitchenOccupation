@@ -19,5 +19,7 @@
 *sublime-*
 build/*
 
+*build*
+
 #something QT adds
 CMakeLists.txt.user
