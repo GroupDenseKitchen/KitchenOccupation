@@ -25,12 +25,12 @@ ADD_SUBDIRECTORY(gtest)
 #include the gtest includes into the <file> scope for c++ (i think)
 INCLUDE_DIRECTORIES(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-ADD_EXECUTABLE(runUnitTests systemTest.cpp)
+ADD_EXECUTABLE(runUnitTests main.cpp)
 
 #link it all together
 
 #first the gtest libs
-TARGET_LINK_LIBRARIES(runUnitTests gtest gtest_main)
+TARGET_LINK_LIBRARIES(runUnitTests gtest)
 
 #then the project libs
 TARGET_LINK_LIBRARIES(runUnitTests 
