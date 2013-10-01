@@ -1,4 +1,4 @@
-#include "DenseKitchen.h"
+#include "DenseKitchen.hpp"
 
 int main()
 {

@@ -1,4 +1,4 @@
-#include "ImageProcessor.h"
+#include "ImageProcessor.hpp"
 
 namespace image_processing
 {

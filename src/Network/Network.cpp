@@ -1,4 +1,4 @@
-#include "Network.h"
+#include "Network.hpp"
 
 namespace network{
     Network::Network(){

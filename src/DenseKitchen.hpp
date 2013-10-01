@@ -1,12 +1,12 @@
 #ifndef DENSE_KITCHEN_H
 #define DENSE_KITCHEN_H
 
-#include "Utilities/include.h"
-#include "Network/Network.h"
-#include "ImageProcessing/ImageProcessor.h"
-#include "Analytics/Analytics.h"
-#include "Configuration/ConfigurationManager.h"
-#include "Debugging/Debug.h"
+#include "Utilities/utilities.hpp"
+#include "Network/Network.hpp"
+#include "ImageProcessing/ImageProcessor.hpp"
+#include "Analytics/Analytics.hpp"
+#include "Configuration/ConfigurationManager.hpp"
+#include "Debugging/Debug.hpp"
 
 class DenseKitchen
 {

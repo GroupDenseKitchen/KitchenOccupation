@@ -1,8 +1,8 @@
 #ifndef IMAGE_PROCESSOR_H
 #define IMAGE_PROCESSOR_H
 
-#include "../Utilities/include.h"
-#include "../Utilities/FrameList.h"
+#include "../Utilities/utilities.hpp"
+#include "../Utilities/FrameList.hpp"
 
 namespace image_processing
 {

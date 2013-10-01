@@ -34,20 +34,7 @@ ADD_SUBDIRECTORY(Utilities)
 
 #binaries
 ADD_EXECUTABLE(dense_kitchen main.cpp DenseKitchen.cpp)
-ADD_EXECUTABLE(debug_kitchen debugGui.cpp DebugKitchen.cpp)
 
-#link debug gui to libraries
-TARGET_LINK_LIBRARIES (debug_kitchen 
-    Configuration 
-    Debugging 
-    ImageProcessing 
-    Network 
-    Statistics 
-    Utilities
-    opencv_core 
-    opencv_highgui 
-    opencv_imgproc
-    opencv_video) 
 
 #link to libraries
 TARGET_LINK_LIBRARIES (dense_kitchen 

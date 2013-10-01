@@ -1,8 +1,8 @@
 #ifndef STATISTICS_MODULE_H
 #define STATISTICS_MODULE_H
 
-#include "../Utilities/include.h"
-#include "../Utilities/FrameList.h"
+#include "../Utilities/utilities.hpp"
+#include "../Utilities/FrameList.hpp"
 
 namespace statistics{
     class Analytics{

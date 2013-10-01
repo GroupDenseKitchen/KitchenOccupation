@@ -1,8 +1,8 @@
 #ifndef NETWORK_MODULE_H
 #define NETWORK_MODULE_H
 
-#include "../utilities/include.h"
-#include "../utilities/Frame.h"
+#include "../utilities/utilities.hpp"
+#include "../utilities/Frame.hpp"
 
 namespace network{
 

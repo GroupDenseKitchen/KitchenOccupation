@@ -1,4 +1,4 @@
-#include "Frame.h"
+#include "Frame.hpp"
 
 Frame::Frame(cv::Mat image) : image(image){
     

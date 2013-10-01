@@ -1,7 +1,7 @@
 #ifndef DEBUG_H
 #define DEBUG_H
 
-#include "../DenseKitchen.h"
+#include "../DenseKitchen.hpp"
 
 class DenseKitchen;
 

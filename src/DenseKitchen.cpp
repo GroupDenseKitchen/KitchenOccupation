@@ -1,4 +1,4 @@
-#include "DenseKitchen.h"
+#include "DenseKitchen.hpp"
 
 void DenseKitchen::readConfig(std::string path)
 {
