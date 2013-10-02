@@ -37,7 +37,7 @@ ADD_SUBDIRECTORY(Analytics)
 ADD_SUBDIRECTORY(Utilities)
 
 #binaries
-ADD_EXECUTABLE(dense_kitchen main.cpp DenseKitchen.cpp debugGui.cpp)
+ADD_EXECUTABLE(dense_kitchen main.cpp DenseKitchen.cpp)
 
 #Activate Qt for project
 qt5_use_modules(dense_kitchen Widgets)
