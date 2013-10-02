@@ -14,14 +14,19 @@ IF(APPLE)
 ENDIF()
 
 IF(MINGW)
-    #something windows
+    # OpenCV/include and Opencv/bin should be located two folders above your project
+    SET(OpenCV_INCLUDE_DIR "../../include")
+    INCLUDE_DIRECTORIES(OpenCV_INCLUDE_DIR)
+    SET(OpenCV_LIBS_DIR "../../bin")
+    LINK_DIRECTORIES(OpenCV_LIBS_DIR)
 ENDIF()
 
-#something windows
-
 #magic QT preprocessor?
+SET(CMAKE_AUTOMOC TRUE)
 
 #load external libs
+find_package(OpenCV REQUIRED)
+find_package(Qt5 COMPONENTS Core Gui REQUIRED)
 
 #load project libs
 ADD_SUBDIRECTORY(Configuration)
@@ -31,10 +36,11 @@ ADD_SUBDIRECTORY(Network)
 ADD_SUBDIRECTORY(Analytics)
 ADD_SUBDIRECTORY(Utilities)
 
-
 #binaries
-ADD_EXECUTABLE(dense_kitchen main.cpp DenseKitchen.cpp)
+ADD_EXECUTABLE(dense_kitchen main.cpp DenseKitchen.cpp debugGui.cpp)
 
+#Activate Qt for project
+qt5_use_modules(dense_kitchen Widgets)
 
 #link to libraries
 TARGET_LINK_LIBRARIES (dense_kitchen 
@@ -44,7 +50,4 @@ TARGET_LINK_LIBRARIES (dense_kitchen
     Network 
     Statistics 
     Utilities
-    opencv_core 
-    opencv_highgui 
-    opencv_imgproc
-    opencv_video) 
+    ${OpenCV_LIBS})

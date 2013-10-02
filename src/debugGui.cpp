@@ -1,6 +1,2 @@
-#include "Utilities/include.h"
+#include <QMainWindow>
 
-int main(){
-    //QT magic is happen here
-    return 0;
-}
