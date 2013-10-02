@@ -5,4 +5,4 @@ This project is part of the course TSBB11: Images and Graphics, Project Course C
 
 ***
 
-More information in wiki...
+Our project [wiki](https://github.com/GroupDenseKitchen/project/wiki) contains some information about how we develop. 
