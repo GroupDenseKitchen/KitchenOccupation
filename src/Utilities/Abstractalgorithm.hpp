@@ -14,4 +14,5 @@ public:
     virtual void process(FrameList frames) = 0;
 };
 
-#endif // ABSTRACTALGORITHM_H
+#endif 
+//ABSTRACTALGORITHM_H
