@@ -8,6 +8,8 @@
 #include "Configuration/ConfigurationManager.hpp"
 #include "Debugging/Debug.hpp"
 
+#include <QtCore/QtCore>
+
 class DenseKitchen
 {
 public:
