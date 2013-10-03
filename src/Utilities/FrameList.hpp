@@ -4,14 +4,19 @@
 #include "utilities.hpp"
 #include "Frame.hpp"
 
+#include <deque>
+
 class FrameList{
 public:
-	FrameList();
+    FrameList(int framesToKeep = -1);
 	~FrameList();
 
+    Frame getCurrent();
 	void append(Frame newFrame);
 private:
-	std::vector<Frame> frames;
+    std::deque<Frame> frames;
+    int framesToKeep;
+    int frameCounter;
 };
 
 #endif
