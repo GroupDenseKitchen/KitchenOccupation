@@ -1,5 +1,5 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 2.8.1)
-#Dense kitchen project
+# Dense kitchen project
 PROJECT(dense_kitchen)
 
 # is TRUE on Apple OS X
@@ -7,14 +7,14 @@ MESSAGE( STATUS "APPLE: " ${APPLE} )
 # is TRUE when using the MinGW compiler in Windows
 MESSAGE( STATUS "MINGW: " ${MINGW} )
 
-#something apple
+# Something apple
 IF(APPLE)
     SET (CMAKE_CXX_FLAGS "-stdlib=libc++ -std=c++11")
 ENDIF()
 
 IF(WIN32)
     IF(MINGW)
-        # Windos Specific
+        # Windows Specific
     ENDIF()
 ENDIF()
 
@@ -24,11 +24,11 @@ set(CMAKE_AUTOMOC ON)
 # to always look for includes there:
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-# Load external libs
-# Widgets finds its own dependencies (QtGui and QtCore).
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
+# Load external libraries
+find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
 find_package(OpenCV REQUIRED)
 
+# Include
 INCLUDE_DIRECTORIES(${Qt5Core_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${Qt5Gui_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${Qt5Widgets_INCLUDE_DIRS})
@@ -42,20 +42,18 @@ ADD_SUBDIRECTORY(Analytics)
 ADD_SUBDIRECTORY(Utilities)
 ADD_SUBDIRECTORY(Forms)
 
-#SET(CamRecorder_FORMS Forms/CamRecorderWindow.ui)
+# SET(CamRecorder_FORMS Forms/CamRecorderWindow.ui)
 #qt5_wrap_ui(CamRecorder_FORMS_HEADERS ${CamRecorder_FORMS})
 
-#binaries
+# Binaries
 ADD_EXECUTABLE(dense_kitchen main.cpp DenseKitchen.cpp debugGui.cpp)
 #ADD_EXECUTABLE(CamRecorder camRecorder.cpp ${CamRecorder_FORMS_HEADERS})
 
-#Activate Qt for project
-# use_modules adds activates Qt for main.cpp DenseKitchen.cpp debugGui.cpp and nothing else.
-# If <QtCore> etc. is include in some of these it works
+# Activate Qt for project
 qt5_use_modules(dense_kitchen Core Gui Widgets)
 #qt5_use_modules(CamRecorder Core Gui Widgets)
 
-#link to libraries
+# Link to libraries
 TARGET_LINK_LIBRARIES (dense_kitchen 
     Configuration 
     Debugging 
