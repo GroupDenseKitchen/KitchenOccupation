@@ -6,13 +6,14 @@
 
 class Frame{
 public:
-	Frame(cv::Mat image);
+	Frame();
 	~Frame();
 	
+	void addRawImage(cv::Mat image);
     void addHistory(std::string tag, cv::Mat image);
 
 private:
-    cv::Mat baseImage;
+    std::vector<cv::Mat> rawImages;
 
     std::map<std::string,cv::Mat> processHistory;
 };

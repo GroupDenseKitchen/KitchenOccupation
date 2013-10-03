@@ -2,7 +2,7 @@
 
 FrameList::FrameList(int framesToKeep) : framesToKeep(framesToKeep){
     frameCounter = 0;
-    assert(framesToKeep >= -1);
+    assert(framesToKeep >= 2 || framesToKeep == -1);
 }
 
 FrameList::~FrameList(){
