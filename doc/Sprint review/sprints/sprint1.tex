@@ -1,0 +1,44 @@
+\section{Review of Sprint 1}
+\label{sec:sprint0}
+\large Period: 2013-09-30 -- 2013-10-14 \\ 
+\large Est. time: No estimate was made
+
+\subsection{Sprint backlog}
+The main focus of this sprint is to get the simplest possible system up and running on pre-recorded test data. Unfortunately no time was available on hte planning meeting to perform time estimations, which is why no time estimates are available for the different sprint items.
+
+
+\itemtable
+{
+	\additem{Collect more test data, several data sets with varying difficulties using a single camra above a rooom entrance are desired.}{--}{AS, EF}
+	\additem{Label the new data (using the CAVIAR labeling program).)}{--}{AS}
+	\additem{Add more data structures to the code skeleton.}{--}{GH, MT}
+	\additem{Add DOxygen comments to the code skeleton.}{--}{MT}
+	\additem{Load video file(s) into network module, making it possible to retrieve individual frames.}{--}{MS}
+	\additem{Implement background model and segment background/foreground (Raw image in and foreground binary image mask for the pixels that are “moving” out. (Use openCV background subtractor class)}{--}{EF, NW}
+	\additem{Foreground labeling. Find distinct regions in a binary image mask and describe them with position and AABB.
+	Add regions as “objects” to current Frame.}{--}{EF, MS}
+	\additem{Track objects in the frames using the information recieved from the foreground labeling and estimate the net flow of objects.}{--}{EF, MT}
+	\additem{Debug program: Display the output of different modules as well as intermediate steps in hte image processing module for each Frame.}{--}{AS, NW, MR}
+	\additem{Debug program: Step between frames and intermediate steps.}{--}{AS, NW, MR}
+	\additem{Debug program: Read a simple config file (select data set).}{--}{AS, NW, MR}
+	\additem{Debugging: Wrap debug code and make it activateable}{--}{GH, MT}
+	\additem{Debugging: Read and use labeled test data as ground truth for performance evaluation}{--}{MR, MS}
+	\additem{Create a config file system}{--}{MS}
+
+		
+}
+\newpage
+
+\subsection{Result}
+General comments about the result go here
+
+\resulttable
+{
+	\addresult{Results regarding this specific item}{hours}{Involved members}
+}
+
+\subsection{New Backlog Items}
+General info about new backlog items created as a result of this sprint go here.
+
+\subsubsection{New backlog Item 1}
+More detailed info about this specific item and why it was added to the backlog.
