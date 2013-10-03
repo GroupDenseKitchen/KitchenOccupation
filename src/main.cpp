@@ -1,5 +1,4 @@
 #include "DenseKitchen.hpp"
-#include <QtCore>
 
 int main()
 {

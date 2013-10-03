@@ -1,10 +1,10 @@
-#include "Utilities/CamRecorderWindow.h"
+#include "CamRecWindow.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
+    CamRecWindow w;
     w.show();
 
     return a.exec();
