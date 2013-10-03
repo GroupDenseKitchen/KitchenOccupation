@@ -3,15 +3,17 @@
 
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/FrameList.hpp"
+#include "../Utilities/Abstractalgorithm.hpp"
 
 namespace image_processing
 {
-class ImageProcessor
+class ImageProcessor : public AbstractAlgorithm
 {
 public:
 	ImageProcessor();
 	~ImageProcessor();
-    void processFrame(FrameList frames);
+
+    void process(FrameList frames) override;
 private:
 };
 }

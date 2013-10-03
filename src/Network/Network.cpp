@@ -15,6 +15,9 @@ namespace network{
         return false;
     }
     Frame Network::dequeFrame(){
-        return Frame(cv::Mat());
+        //TODO stub!!!
+        Frame f = Frame();
+        f.addRawImage(cv::Mat());
+        return f;
     }
 }

@@ -3,14 +3,19 @@
 
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/FrameList.hpp"
+#include "../Utilities/Abstractalgorithm.hpp"
 
 namespace statistics{
-    class Analytics{
+class Analytics : public AbstractAlgorithm
+{
     public:
         Analytics();
         ~Analytics();
-        void processFrame(FrameList frames);
-    };
+        void process(FrameList frames) override;
+    private:
+
+};
+
 }
 
 #endif

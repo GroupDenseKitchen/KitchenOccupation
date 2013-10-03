@@ -7,7 +7,9 @@ namespace statistics{
     Analytics::~Analytics(){
         //TODO stub
     }
-    void Analytics::processFrame(FrameList frames){
+
+    void Analytics::process(FrameList frames){
         //TODO stub
     }
+
 }
