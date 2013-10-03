@@ -46,7 +46,7 @@ ADD_SUBDIRECTORY(Forms)
 #qt5_wrap_ui(CamRecorder_FORMS_HEADERS ${CamRecorder_FORMS})
 
 # Binaries
-ADD_EXECUTABLE(dense_kitchen main.cpp DenseKitchen.cpp)
+ADD_EXECUTABLE(dense_kitchen main.cpp DenseKitchen.cpp debugGui.cpp)
 #ADD_EXECUTABLE(CamRecorder camRecorder.cpp ${CamRecorder_FORMS_HEADERS})
 
 # Activate Qt for project
