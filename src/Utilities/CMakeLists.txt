@@ -1,4 +1,4 @@
 #Utilities library
 
-add_library(Utilities Frame.cpp FrameList.cpp AbstractAlgorithm.cpp)
+add_library(Utilities Frame.cpp FrameList.cpp)
 
