@@ -22,8 +22,8 @@ void DenseKitchen::start()
                 Frame currentFrame = network.dequeFrame();
                 frames.append(currentFrame);
 
-                imageProcessing.processFrame(frames);
-                statistics.processFrame(frames);
+                imageProcessing.process(frames);
+                statistics.process(frames);
             }
         #ifdef DEBUG
             running = false;

@@ -5,8 +5,6 @@
 class AbstractAlgorithm
 {
 public:
-    AbstractAlgorithm();
-
     virtual void process(FrameList frames) = 0;
 };
 

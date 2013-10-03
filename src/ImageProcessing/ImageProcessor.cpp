@@ -9,7 +9,7 @@ namespace image_processing
     ImageProcessor::~ImageProcessor(){
 
     }
-    void ImageProcessor::processFrame(FrameList frames){
-
+    void ImageProcessor::process(FrameList frames){
+        //TODO stub
     }
 }
