@@ -5,29 +5,22 @@ void DenseKitchen::readConfig(std::string path)
     configuration.readConfig(path);
 }
 
-void DenseKitchen::start()
-{
-    isRunning = false;
+void DenseKitchen::start(){
 
-    #ifdef DEBUG
-        debug.start(this);
-    #endif
+    isRunning = false;
+    
+    debug.start(this);
 
     network.start();
-    while(true){
-        while(isRunning)
-        {
-            if(network.hasNewFrame())
-            {
-                Frame currentFrame = network.dequeFrame();
-                frames.append(currentFrame);
+    while(isRunning){
+        
+        if(network.hasNewFrame()){
+            Frame currentFrame = network.dequeFrame();
+            frames.append(currentFrame);
 
-                imageProcessing.process(frames);
-                statistics.process(frames);
-            }
-        #ifdef DEBUG
-            running = false;
-        #endif
+            imageProcessing.process(frames);
+            statistics.process(frames);
         }
+        debug.process();
     }
 }
