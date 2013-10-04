@@ -2,15 +2,20 @@
 #define FRAME_H
 #include <opencv2/core/core.hpp>
 
+#include <map>
 
 class Frame{
 public:
-	Frame(cv::Mat image);
+	Frame();
 	~Frame();
 	
-private:
-    cv::Mat image;
+	void addRawImage(cv::Mat image);
+    void addHistory(std::string tag, cv::Mat image);
 
+private:
+    std::vector<cv::Mat> rawImages;
+
+    std::map<std::string,cv::Mat> processHistory;
 };
 
 #endif
