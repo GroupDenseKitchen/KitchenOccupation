@@ -14,10 +14,12 @@
 #ignore archives
 *.zip
 *.gz
+*.dll
 
 #editor/IDE ignores go here
 *sublime-*
 build/*
+lib/*
 
 *build*
 
