@@ -15,20 +15,19 @@ class DenseKitchen
 public:
     DenseKitchen() {}
     ~DenseKitchen() {}
-    void readConfig(std::string path);
-    void start();
+    bool init();
+    bool readConfig(std::string path);
+
+    bool singleIteration();
 
 private:
     network::Network network;
     image_processing::ImageProcessor imageProcessing;
     statistics::Analytics statistics;
-    configuration::ConfigurationManager  configuration;
-    
-    //debug::Debug debug;
+    configuration::ConfigurationManager settings;
 
     FrameList frames;
-
-    bool isRunning;
+    std::string configPath;
 };
 
 #endif

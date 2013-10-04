@@ -7,7 +7,7 @@ class DenseKitchen;
 
 //TODO this class is supposed to be friends with everyone...
 
-namespace debug{
+namespace debugging{
     class Debug{
     public:
         Debug();

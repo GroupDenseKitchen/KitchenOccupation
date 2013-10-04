@@ -4,7 +4,7 @@
 int main()
 {
 	DenseKitchen program;
-	program.readConfig("config.yml");
-	program.start();
+	program.init();
+	program.readConfig("file.yml");
 	return 0;
 }

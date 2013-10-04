@@ -1,6 +1,7 @@
 #include "ConfigurationManager.hpp"
 
-namespace configuration{
+namespace configuration
+{
     ConfigurationManager::ConfigurationManager(){
         //TODO stub
     }
@@ -9,8 +10,8 @@ namespace configuration{
         //TODO stub
     }
 
-    void ConfigurationManager::readConfig(std::string filePath){
-        //TODO read configuration file
+    bool ConfigurationManager::readConfig(std::string filePath){
+        return true;
     }
 
 }

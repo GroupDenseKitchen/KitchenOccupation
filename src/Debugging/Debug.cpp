@@ -1,6 +1,6 @@
 #include "Debug.hpp"
 
-namespace debug{
+namespace debugging{
     Debug::Debug(){
         //TODO magic
     }

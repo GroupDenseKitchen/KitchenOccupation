@@ -8,7 +8,7 @@ namespace configuration{
     public:
         ConfigurationManager();
         ~ConfigurationManager();
-        void readConfig(std::string filePath);
+        bool readConfig(std::string filePath);
     };
 }
 

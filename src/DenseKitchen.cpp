@@ -1,26 +1,30 @@
 #include "DenseKitchen.hpp"
 
-void DenseKitchen::readConfig(std::string path)
-{
-    configuration.readConfig(path);
+bool DenseKitchen::init(){
+
+    //TODO init stuff...
+    return true;
 }
 
-void DenseKitchen::start(){
-
-    isRunning = false;
+bool DenseKitchen::readConfig(std::string path){
     
-    debug.start(this);
+    configPath = path;
+    return settings.readConfig(path);
+}
 
-    network.start();
-    while(isRunning){
-        
-        if(network.hasNewFrame()){
-            Frame currentFrame = network.dequeFrame();
-            frames.append(currentFrame);
+bool DenseKitchen::singleIteration(){
+    
+    bool iterationSuccess = true;
 
-            imageProcessing.process(frames);
-            statistics.process(frames);
-        }
-        debug.process();
+    if(network.hasNewFrame()){
+        Frame currentFrame = network.dequeFrame();
+        frames.append(currentFrame);
+
+        imageProcessing.process(frames);
+        statistics.process(frames);
+    }else{
+        iterationSuccess = false;
     }
+
+    return iterationSuccess;
 }
