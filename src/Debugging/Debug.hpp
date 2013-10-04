@@ -13,6 +13,7 @@ namespace debug{
         Debug();
         ~Debug();
         void start(DenseKitchen *state);
+        void process();
     };
 }
 

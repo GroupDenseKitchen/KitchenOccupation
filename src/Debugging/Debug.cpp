@@ -10,4 +10,7 @@ namespace debug{
     void Debug::start(DenseKitchen *state){
         //TODO find bugs
     }
+    void Debug::process(){
+    	//TODO find bugs
+    }
 }
