@@ -1,12 +1,12 @@
-#include "DenseKitchen.hpp"
-#include <QtCore>
-#include "Debugging/Logger.hpp"
-#include <iostream>
+#include "Debugging/MainDebugWindow.hpp"
+#include <QApplication>
 
-int main(){
+int main(int argc, char *argv[]){
 
-	DenseKitchen program;
-	program.init();
-	program.readConfig("file.yml");
-	return 0;
+    QApplication a(argc, argv);
+    MainDebugWindow depugProgram;
+    depugProgram.show();
+
+    return a.exec();
+
 }
