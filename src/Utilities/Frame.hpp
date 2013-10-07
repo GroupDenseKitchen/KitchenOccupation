@@ -12,6 +12,7 @@ public:
 	void addRawImage(cv::Mat image);
     void addHistory(std::string tag, cv::Mat image);
 
+    friend class MainDebugWindow;
 private:
     std::vector<cv::Mat> rawImages;
 

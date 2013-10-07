@@ -2,7 +2,10 @@
 #define MAINDEBUGWINDOW_HPP
 
 #include <QMainWindow>
+#include <QString>
+
 #include <map>
+#include <atomic>
 
 #include "../DenseKitchen.hpp"
 #include "DebugView.hpp"
@@ -21,7 +24,6 @@ public:
 
     void init();
 
-    friend class Frame;
     friend class DenseKitchen;
 
 private slots:
@@ -29,12 +31,17 @@ private slots:
     void on_pauseButton_clicked();
     void on_stepButton_clicked();
 
+    void on_debugViewChooser_currentIndexChanged(const QString &arg1);
+
 private:
     Ui::MainDebugWindow *ui;
     DenseKitchen program;
-    std::map<QString,DebugView> debugViews;
+    std::map<QString,DebugView *> debugViews;
+    std::atomic_bool isRunningProgram;
+
 
     void setUpDebugViewWindows();
+    void updateDebugViews();
 };
 
 #endif // MAINDEBUGWINDOW_HPP

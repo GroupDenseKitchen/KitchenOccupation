@@ -21,52 +21,77 @@ MainDebugWindow::~MainDebugWindow()
 
 void MainDebugWindow:: init()
 {
-    DenseKitchen program;
     program.init();
     program.readConfig("file.yml");
 
     setUpDebugViewWindows();
+    isRunningProgram = false;
 }
 
 void MainDebugWindow::on_runButton_clicked()
 {
     qDebug() << "Run button clicked!";
+    isRunningProgram = true;
+    while(isRunningProgram){
+        isRunningProgram = program.singleIteration();
+        updateDebugViews();
+    }
 }
 
 void MainDebugWindow::on_pauseButton_clicked()
 {
     qDebug() << "Pause button clicked!";
+    isRunningProgram = false;
 }
 
 void MainDebugWindow::on_stepButton_clicked()
 {
     qDebug() << "Step button clicked!";
+    program.singleIteration();
+    updateDebugViews();
+    isRunningProgram = false;
 }
 
 void MainDebugWindow:: setUpDebugViewWindows()
 {
 
+    //Create some dummy data to use for developing
+    //TODO: This is where we should get the names of existing process steps
+    //from DenseKitchen
     Frame lastFrame;
-
     cv::Mat dummyImage;
     lastFrame.addHistory("First",dummyImage);
     lastFrame.addHistory("Second",dummyImage);
     lastFrame.addHistory("Third",dummyImage);
     lastFrame.addHistory("Fourth",dummyImage);
-//TODO: Continue developing from here
-    ui_->chooseDebugView->clear();
-       std::map<QString,int>::iterator debugView = debugViews.begin();
-       for(debugView; debugView != debugViews.end(); ++debugView)
-       {
-           ui->chooseDebugView->addItem(debugView->first);
-           qDebug() << debugView->first;
-       }
+    //End dummy stuff
 
-       debugViewWindows.clear();
-       std::map<QString,int>::iterator it = debugViews.begin();
-       for(it; it != debugViews.end(); ++it)
-       {
-           debugViewWindows.insert(std::pair<QString, DebugView *>(it->first,NULL));
-       }
+    ui->debugViewChooser->clear();
+    ui->debugViewChooser->addItem("<none>");
+    debugViews.clear();
+    std::map<std::string, cv::Mat> processSteps = lastFrame.processHistory;
+    std::map<std::string, cv::Mat>::iterator processStep = processSteps.begin();
+    for(processStep; processStep != processSteps.end(); ++processStep) {
+        QString processStepName = processStep->first.c_str();
+        ui->debugViewChooser->addItem(processStepName);
+        debugViews.insert(std::pair<QString, DebugView *>(processStepName,NULL));
 
+        qDebug() << processStepName;
+    }
+
+}
+
+void MainDebugWindow::on_debugViewChooser_currentIndexChanged(const QString &chosenView)
+{
+    if (chosenView != "<none>") {
+        DebugView * newWindow = new DebugView(this);
+        newWindow->setName(chosenView);
+        debugViews.find(chosenView)->second = newWindow;
+        newWindow->show();
+    }
+}
+
+void MainDebugWindow:: updateDebugViews()
+{
+    //TODO:Fill this out
 }
