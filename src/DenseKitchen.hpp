@@ -10,14 +10,38 @@
 
 #include <QtCore/QtCore>
 
+/*!
+ *  \brief     Main program class.
+ *  \details   It provides the interface for people detection and counting engine.
+ *             Run in order: Init() once, readConfig(...) once, singleIteration() as many times as wished.
+ *  \version   0.1
+ *  \date      2013-10-07
+ *  \warning   Warnings go here (about how to not use the class etc. etc.)
+ */
 class DenseKitchen
 {
 public:
     DenseKitchen() {}
     ~DenseKitchen() {}
+
+    /*!
+       \brief     Initialize the program.
+       \return    False if it fails, otherwise True.
+    */
     bool init();
+
+    /*!
+       \brief       Read a config file with program parameters.
+       \param path  The config file and its path.
+       \return      False if it fails, otherwise True.
+    */
     bool readConfig(std::string path);
 
+    /*!
+       \brief     Run one iteration of the program.
+       \details   Deque one frame and perform person tracking and update the statistics.
+       \return    False if the program want to terminate, otherwise True.
+    */
     bool singleIteration();
 
 private:

@@ -5,7 +5,18 @@
 #include "../Utilities/FrameList.hpp"
 #include "../Utilities/Abstractalgorithm.hpp"
 
-namespace statistics{
+/*!
+ *  \brief    Statistical analysis
+ *  \details  Estimates the number of people, models, flows etc..
+ */
+namespace statistics
+{
+/*!
+ *  \brief
+ *  \details
+ *  \version   0.1
+ *  \date      2013-10-07
+ */
 class Analytics : public AbstractAlgorithm
 {
     public:
@@ -15,7 +26,6 @@ class Analytics : public AbstractAlgorithm
     private:
 
 };
-
 }
 
 #endif

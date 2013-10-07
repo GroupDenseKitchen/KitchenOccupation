@@ -14,7 +14,7 @@ ENDIF()
 
 IF(WIN32)
     IF(MINGW)
-        # Windows Specific
+        SET (CMAKE_CXX_FLAGS "-std=c++11")
     ENDIF()
 ENDIF()
 

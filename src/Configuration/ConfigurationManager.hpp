@@ -3,13 +3,25 @@
 
 #include "../Utilities/utilities.hpp"
 
-namespace configuration{
-    class ConfigurationManager{
-    public:
-        ConfigurationManager();
-        ~ConfigurationManager();
-        bool readConfig(std::string filePath);
-    };
+/*!
+ *  \brief     Configuration management
+ *  \details   Provide config file functionality
+ */
+namespace configuration
+{
+/*!
+ *  \brief
+ *  \details
+ *  \version   0.1
+ *  \date      2013-10-07
+ */
+class ConfigurationManager
+{
+public:
+    ConfigurationManager();
+    ~ConfigurationManager();
+    bool readConfig(std::string filePath);
+};
 }
 
 #endif

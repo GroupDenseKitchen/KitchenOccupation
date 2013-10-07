@@ -4,17 +4,29 @@
 #include "../DenseKitchen.hpp"
 
 class DenseKitchen;
-
 //TODO this class is supposed to be friends with everyone...
 
-namespace debugging{
-    class Debug{
-    public:
-        Debug();
-        ~Debug();
-        void start(DenseKitchen *state);
-        void process();
-    };
+
+/*!
+ *  \brief     Debugging
+ *  \details   Contains debugging utilities.
+ */
+namespace debugging
+{
+/*!
+ *  \brief
+ *  \details
+ *  \version   0.1
+ *  \date      2013-10-07
+ */
+class Debug
+{
+public:
+    Debug();
+    ~Debug();
+    void start(DenseKitchen *state);
+    void process();
+};
 }
 
 #endif
