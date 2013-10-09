@@ -16,7 +16,15 @@
 class Frame
 {
 public:
+
+    /*!
+       \brief   Constructor.
+    */
 	Frame();
+
+    /*!
+       \brief   Destructor.
+    */
 	~Frame();
 
     /*!

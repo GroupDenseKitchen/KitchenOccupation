@@ -16,12 +16,19 @@
  *             Run in order: Init() once, readConfig(...) once, singleIteration() as many times as wished.
  *  \version   0.1
  *  \date      2013-10-07
- *  \warning   Warnings go here (about how to not use the class etc. etc.)
  */
 class DenseKitchen
 {
 public:
+
+    /*!
+       \brief   Constructor.
+    */
     DenseKitchen() {}
+
+    /*!
+       \brief   Destructor.
+    */
     ~DenseKitchen() {}
 
     /*!

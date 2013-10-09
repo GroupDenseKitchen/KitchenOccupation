@@ -5,35 +5,40 @@
 #include "../utilities/Frame.hpp"
 
 /*!
- *  \brief     Network
- *  \details   Contains network functionality.
+ *  \brief     Network contains all network functionality.
  */
 namespace network
 {
 /*!
- *  \brief     Network module.
- *  \details   The interface to the network functionality.
+ *  \brief     The Network is the interface to the network functionality.
  *  \version   0.1
  *  \date      2013-10-07
  */
 class Network
 {
 public:
+    /*!
+       \brief   Constructor.
+    */
 	Network();
+
+    /*!
+       \brief   Destructor.
+    */
 	~Network();
 
     /*!
-       \brief   Append the FrameList with the latest Frame.
+       \brief   Start the network module.
     */
     void start();
 
     /*!
-       \brief   Append the FrameList with the latest Frame.
+       \brief   Weather or not a new unprocessed frame is fetchable.
     */
     bool hasNewFrame();
 
     /*!
-       \brief   Append the FrameList with the latest Frame.
+       \brief   Deque the next frame in cronological order.
     */
     Frame dequeFrame();
 private:

@@ -15,7 +15,15 @@
 class FrameList
 {
 public:
+
+    /*!
+       \brief   Constructor.
+    */
     FrameList(int framesToKeep = -1);
+
+    /*!
+       \brief   Destructor.
+    */
 	~FrameList();
 
     /*!
