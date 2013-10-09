@@ -11,7 +11,7 @@ public:
 	Network();
 	~Network();
 
-    void start(bool loadFromFile);
+    void start(void);
 	bool hasNewFrame(void);
 	Frame dequeFrame(void);
 private:

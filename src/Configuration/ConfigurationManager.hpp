@@ -32,20 +32,28 @@ class ConfigurationManager
          */
         bool readConfig(std::string filePath);
 
-
-
     private:
-        void readItem(std::string itemName, bool item);
-        void readItem(std::string itemName, int item) {}
-        void readItem(std::string itemName, std::string item) {}
+        // Reading functions. (Templates won't work because OpenCV is not super awesome)
+        void readItem(std::string itemNameInFile, bool item);
+        void readItem(std::string itemNameInFile, int item);
+        void readItem(std::string itemNameInFile, float item);
+        void readItem(std::string itemNameInFile, std::string item);
+        void readItem(std::string itemNameInFile, cv::Mat item);
 
-        int errors;
+        int nItemsRead;     // Total number of items read
+        int nErrors;        // Total number of errors
 
-        cv::FileStorage configFile;
-        bool isDebug, isTesting;
-        int nCameras;               // Also specifies the number of video files.
-        std::string videoFilePath;
+        cv::FileStorage configFile;     // OpenCV file management class
 
+        // Settings
+        bool isDebug;                   // Running debug GUI?
+        bool isTesting;                 // Running from video file?
+        bool hasGroundTruth;            // Has labeled ground truth data?
+
+        int nCameras;                   // Number of cameras/video files.
+
+        std::string videoFilePath;      // Location of video file(s).
+        std::string groundTruthPath;    // Location of ground truth data for specified video
 
 };
 
