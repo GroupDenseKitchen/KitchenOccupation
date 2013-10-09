@@ -17,7 +17,8 @@ namespace network{
     Frame Network::dequeFrame(){
         //TODO stub!!!
         Frame f = Frame();
-        f.addRawImage(cv::Mat());
+        CameraObject c = CameraObject();
+        f.addCamera(c);
         return f;
     }
 }
