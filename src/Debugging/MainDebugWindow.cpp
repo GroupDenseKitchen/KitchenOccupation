@@ -21,8 +21,8 @@ MainDebugWindow::~MainDebugWindow()
 
 void MainDebugWindow:: init()
 {
-    program.init();
     program.readConfig("file.yml");
+    program.init();
 
     setUpDebugViewWindows();
     isRunningProgram = false;
@@ -78,7 +78,6 @@ void MainDebugWindow:: setUpDebugViewWindows()
 
         qDebug() << processStepName;
     }
-
 }
 
 void MainDebugWindow::on_debugViewChooser_currentIndexChanged(const QString &chosenView)
