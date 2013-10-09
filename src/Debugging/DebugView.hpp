@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QString>
+#include "CvImageWidget.hpp"
 
 namespace Ui {
 class DebugView;
@@ -16,10 +17,13 @@ public:
     explicit DebugView(QWidget *parent = 0);
     ~DebugView();
 
-    void setName(QString);
+    void init(const QString);
+    void showImage(const cv::Mat& image);
+
 private:
     Ui::DebugView *ui;
     QString name;
+    CvImageWidget * debugImageWidget;
 };
 
 #endif // DEBUGVIEW_HPP

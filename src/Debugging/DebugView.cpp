@@ -13,8 +13,16 @@ DebugView::~DebugView()
     delete ui;
 }
 
-void DebugView:: setName(QString newName)
+void DebugView:: init(const QString newName)
 {
     name = newName;
     ui->label->setText(newName);
+
+    debugImageWidget = new CvImageWidget(this);
+    ui->verticalLayout->addWidget(debugImageWidget);
+}
+
+void DebugView::showImage(const cv::Mat& image)
+{
+    debugImageWidget->showImage(image);
 }

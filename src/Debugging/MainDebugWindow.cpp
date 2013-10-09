@@ -84,14 +84,31 @@ void MainDebugWindow:: setUpDebugViewWindows()
 void MainDebugWindow::on_debugViewChooser_currentIndexChanged(const QString &chosenView)
 {
     if (chosenView != "<none>") {
+        DebugView * oldWindow = debugViews.find(chosenView)->second;
+        if (oldWindow != NULL) {
+            debugViews.find(chosenView)->second->close();
+        }
         DebugView * newWindow = new DebugView(this);
-        newWindow->setName(chosenView);
+        newWindow->init(chosenView);
         debugViews.find(chosenView)->second = newWindow;
         newWindow->show();
     }
+    updateDebugViews();
 }
 
 void MainDebugWindow:: updateDebugViews()
 {
-    //TODO:Fill this out
+    //TODO:Make this function read from processHistory in program
+
+    cv::Mat image = cv::Mat::ones(200,200, CV_8UC1);
+    uint multiplier = 1;
+    std::map<QString, DebugView *>::iterator debugView = debugViews.begin();
+    for(debugView; debugView != debugViews.end(); ++debugView) {
+        image = image*multiplier;
+        if (debugView->second != NULL) {
+            debugView->second->showImage(image);
+        }
+        multiplier += 30;
+        qDebug() << debugView->first << ", multiplier =" << multiplier;
+    }
 }
