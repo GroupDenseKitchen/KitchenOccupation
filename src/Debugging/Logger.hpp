@@ -50,7 +50,8 @@ struct LogEntry
  *  \version   0.1
  *  \date      2013-10-07
  */
-class Logger {
+class Logger
+{
 public:
 
     /*!
