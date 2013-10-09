@@ -32,6 +32,34 @@ class ConfigurationManager
          */
         bool readConfig(std::string filePath);
 
+
+        /*!
+         * \brief Do we run the debug GUI?
+         */
+        bool isDebug();
+        /*!
+         * \brief Do we load video from files?
+         */
+        bool isTesting();
+        /*!
+         * \brief Do we have ground truth data for the file.
+         */
+        bool hasGroundTruth();
+
+        /*!
+         * \brief Returns the total number of cameras/video files.
+         */
+        int getNumberOfCameras();
+
+        /*!
+         * \brief Get path to video file.
+         */
+        std::string getVideoFilePath();
+        /*!
+         * \brief Get path to XML ground truth file.
+         */
+        std::string getGroundTruthPath();
+
     private:
         // Reading functions. (Templates won't work because OpenCV is not super awesome)
         void readItem(std::string itemNameInFile, bool item);

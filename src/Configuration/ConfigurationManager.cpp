@@ -6,6 +6,15 @@ namespace configuration
 
     ConfigurationManager::~ConfigurationManager() {}
 
+    bool ConfigurationManager::isDebug() {return isDebug;}
+    bool ConfigurationManager::isTesting() {return isTesting;}
+    bool ConfigurationManager::hasGroundTruth() {return hasGroundTruth;}
+
+    int ConfigurationManager::getNumberOfCameras() {return nCameras;}
+
+    std::string ConfigurationManager::getVideoFilePath() {return videoFilePath;}
+    std::string ConfigurationManager::getGroundTruthPath() {return groundTruthPath;}
+
     void ConfigurationManager::readItem(std::string itemName, bool item)
     {
         nItemsRead++;
