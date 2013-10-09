@@ -6,9 +6,9 @@ namespace configuration
 
     ConfigurationManager::~ConfigurationManager() {}
 
-    bool ConfigurationManager::isDebug() {return isDebug;}
-    bool ConfigurationManager::isTesting() {return isTesting;}
-    bool ConfigurationManager::hasGroundTruth() {return hasGroundTruth;}
+    bool ConfigurationManager::getDebugStatus() {return isDebug;}
+    bool ConfigurationManager::getTestingStatus() {return isTesting;}
+    bool ConfigurationManager::getGroundTruthStatus() {return hasGroundTruth;}
 
     int ConfigurationManager::getNumberOfCameras() {return nCameras;}
 
