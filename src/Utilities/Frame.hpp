@@ -6,7 +6,6 @@
 
 typedef struct CameraObject{
 	std::string roomID;
-	std::vector<CameraObject*> overlap;
 	cv::Mat rawImage;
 
 	//debug information
