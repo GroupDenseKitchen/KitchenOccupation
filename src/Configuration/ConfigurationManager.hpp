@@ -36,15 +36,15 @@ class ConfigurationManager
         /*!
          * \brief Do we run the debug GUI?
          */
-        bool getDebugStatus();
+        bool isDebugMode();
         /*!
          * \brief Do we load video from files?
          */
-        bool getTestingStatus();
+        bool isTestingMode();
         /*!
          * \brief Do we have ground truth data for the file.
          */
-        bool getGroundTruthStatus();
+        bool isGroundTruthAvailable();
 
         /*!
          * \brief Returns the total number of cameras/video files.
