@@ -4,6 +4,8 @@
 //this is possible to link in via cmake
 //#include "DenseKitchen.h"
 
+#include "Configuration/ConfigurationManager.hpp"
+
 TEST(DenseKitchenTest, ConstructorDoesntFail)
 {
     bool constructorFailed = false;
@@ -17,3 +19,7 @@ TEST(DenseKitchenTest, ConstructorDoesntFail)
 	ASSERT_FALSE( constructorFailed );
 }
 
+TEST (CfgTest, ReadFile)
+{
+
+}

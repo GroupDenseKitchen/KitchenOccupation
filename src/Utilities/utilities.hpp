@@ -15,4 +15,6 @@
 #include <opencv2/video/tracking.hpp>
 #include <opencv2/video/video.hpp>
 
+#include "../Debugging/Logger.hpp"
+
 #endif
