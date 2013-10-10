@@ -9,5 +9,4 @@ int main(int argc, char *argv[]){
     debugProgram.show();
 
     return a.exec();
-
 }
