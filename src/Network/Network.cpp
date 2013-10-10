@@ -22,7 +22,6 @@ bool Network::init(configuration::ConfigurationManager& settings)
     if(isTesting) {
         std::string filePath = settings.getVideoFilePath();
         cv::VideoCapture cam(filePath);
-
         if (cam.isOpened()) {
             streams.push_back(cam);
             return true;
@@ -33,7 +32,6 @@ bool Network::init(configuration::ConfigurationManager& settings)
     } else {
         //TODO (read from network)
     }
-
     //if we reach this point, something went wrong
     return false;
 }

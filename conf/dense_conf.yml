@@ -3,5 +3,5 @@ isDebug: 0
 isTesting: 1
 hasGroundTruth: 0
 nCameras: 1
-videoFilePath: "camera1.mov"
-groundTruthPath: "data/someFile00GT.xml"
+videoFilePath: "../data/seq3/seq3.mp4"
+groundTruthPath: "../data/seq3/seq3GT.xml"
