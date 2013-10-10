@@ -1,8 +1,21 @@
 #include "Logger.hpp"
 
 
-namespace debugging{
+namespace debugging
+{
 Logger logObject;
+
+std::string LogEntry::toString(std::string format)
+{
+    replaceString(format, "%tag", tag);
+    replaceString(format, "%message", message);
+    replaceString(format, "%file", fileName);
+    replaceString(format, "%function", callingFunction);
+    replaceString(format, "%line", lineNumber);
+    replaceString(format, "%time", time);
+    replaceString(format, "%date", date);
+    return format;
+}
 
 Logger::Logger()
 {
@@ -10,37 +23,26 @@ Logger::Logger()
 	buildTime = __TIME__;
 }
 
-void Logger::append(LogEntry entry) {
+void Logger::append(LogEntry entry)
+{
 	time(&rawTime);
-	entry.timestamp = asctime(localtime(&rawTime));
+    struct tm * timeInfo = localtime(&rawTime);
+    entry.time = std::to_string(timeInfo->tm_hour)+":"+std::to_string(timeInfo->tm_min)+":"+std::to_string(timeInfo->tm_sec);
+    entry.date = std::to_string(timeInfo->tm_mday)+":"+std::to_string(timeInfo->tm_mon)+":"+std::to_string(timeInfo->tm_year);
 	logFile.push_back(entry);
 }
 
-void replaceString(std::string & str, std::string toReplace, std::string replaceWith){
+std::string Logger::getLastEntry( std::string format )
+{
 
-	str.replace(str.find(toReplace), toReplace.length(), replaceWith);
-}
-
-std::string Logger::getLastEntry( std::string format ) {
-
-	if(!logFile.empty()) {
-		LogEntry l = logFile.front();
-
-		std::string logString = format;
-
-		replaceString(logString, "%tag", l.tag);
-		replaceString(logString, "%msg", l.msg);
-		replaceString(logString, "%file", l.filename);
-		replaceString(logString, "%function", l.callingFunction);
-		replaceString(logString, "%line", l.lineNumber);
-		replaceString(logString, "%time", l.timestamp);
-
-		return logString;
+    if(!logFile.empty()) {
+        return logFile.front().toString(format);
 	}
 	return std::string("Error: No log (empty)!");
 }
 
-std::vector<std::string> Logger::flushLog() {
+std::vector<std::string> Logger::flushLog()
+{
 	std::vector<std::string> v;
     while(!logFile.empty()) {
 		v.push_back(getLastEntry());
@@ -49,7 +51,15 @@ std::vector<std::string> Logger::flushLog() {
 	return v;
 }
 
-void Logger::dumpToConsole(void){
+LogEntry Logger::pop()
+{
+    LogEntry front = logFile.front();
+    logFile.pop_front();
+    return front;
+}
+
+void Logger::dumpToConsole(void)
+{
 	std::vector<std::string> lines = flushLog();
 	for(std::vector<std::string>::iterator it = lines.begin(); it != lines.end(); ++it){
 		std::cout << *it << std::endl;
