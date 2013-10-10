@@ -6,10 +6,13 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <list>
 #include <deque>
 #include <map>
 #include <stdio.h>
 #include <iostream>
+
+#include "../Utilities/utilities.hpp"
 
 
 //This is the project wide logging class
@@ -40,6 +43,17 @@ struct LogEntry
              std::string lineNumber) :
             msg(msg), callingFunction(callingFunction), tag(tag), filename(filename), lineNumber(lineNumber)
             {}
+};
+
+struct ProfilerEntry
+{
+    std::string tag;
+    std::string milliseconds;
+    int64 begun, ended;
+    std::list<ProfilerEntry> children;
+    ProfilerEntry * parent;
+
+    ProfilerEntry(std::string tag, int64 begun, ProfilerEntry * parent) : tag(tag), begun(begun), parent(parent) {}
 };
 
 /*!
@@ -84,11 +98,47 @@ public:
        \brief   Empties the log and dumps all entries as strings in the console.
     */
     void dumpToConsole();
+
+    /*!
+       \brief   Initiate a new iteration for the profiler.
+    */
+    void profilerBeginIteration();
+
+    /*!
+       \brief   Finalize an iteration for the profiler.
+    */
+    void profilerEndIteration();
+
+    /*!
+       \brief   Initiate a new section for the profiler.
+    */
+    void profilerBeginSection(std::string tag);
+
+    /*!
+       \brief   FInalize a section for the profiler.
+    */
+    void profilerEndSection();
+
+    /*!
+       \brief   Get the most recent iteration from the profiler.
+    */
+    ProfilerEntry * getLatestIteration() { return &loopIterations.back(); }
+
+    /*!
+       \brief   Dump a specific iteration from the profiler.
+    */
+    void profilerDumpSectionToConsole(ProfilerEntry * pe, int depth = 0);
 private:
     std::deque<LogEntry> logFile;
     std::string buildDate;
     std::string buildTime;
     time_t rawTime;
+
+    // Profiler
+    std::deque<ProfilerEntry> loopIterations;
+    ProfilerEntry * parent;
+    int iteration;
+    int historyLength;
 };
 
 // Global Logger
@@ -105,6 +155,12 @@ extern Logger logObject;
                 Example: LOG("Config", "Successfully loaded " << nSuccess << " configurations!")
 */
 #define LOG(TAG, message) {std::stringstream ss; ss << message; debugging::logObject.append(debugging::LogEntry(TAG, ss.str(), __FUNCTION__, __FILE__, std::to_string(__LINE__))); }
+
+#define PROFILE_ITERATION_START() debugging::logObject.profilerBeginIteration();
+#define PROFILE_ITERATION_END()   debugging::logObject.profilerEndIteration();
+#define PROFILE_START(tag)        debugging::logObject.profilerBeginSection(tag);
+#define PROFILE_END()             debugging::logObject.profilerEndSection();
+#define PROFILE_DUMP();           debugging::logObject.profilerDumpSectionToConsole(debugging::logObject.getLatestIteration());
 
 }
 

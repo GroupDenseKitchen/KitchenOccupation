@@ -8,6 +8,8 @@ Logger::Logger()
 {
 	buildDate = __DATE__;
 	buildTime = __TIME__;
+    iteration = 0;
+    historyLength = 500;
 }
 
 void Logger::append(LogEntry entry) {
@@ -55,5 +57,44 @@ void Logger::dumpToConsole(void){
 		std::cout << *it << std::endl;
 	}
 }
+
+void Logger::profilerBeginIteration()
+{
+    if(loopIterations.size() > historyLength)
+        loopIterations.pop_front();
+    loopIterations.push_back(ProfilerEntry("Iteration " + std::to_string(iteration++), cv::getTickCount(), 0));
+    parent = &loopIterations.back();
+    loopIterations.back().parent = parent;  // Handle if something goes wrong in profilerEndSection
+}
+
+void Logger::profilerEndIteration()
+{
+    loopIterations.back().ended = cv::getTickCount();
+    loopIterations.back().milliseconds = std::to_string((double(parent->ended - parent->begun)*1e6)/cv::getTickFrequency());
+}
+
+void Logger::profilerBeginSection(std::string tag)
+{
+    parent->children.push_back(ProfilerEntry(tag, cv::getTickCount(), parent));
+    parent = &parent->children.back();
+}
+
+void Logger::profilerEndSection()
+{
+    parent->ended = cv::getTickCount();
+    parent->milliseconds = std::to_string((double(parent->ended - parent->begun)*1e6)/cv::getTickFrequency());
+    parent = parent->parent;
+}
+
+void Logger::profilerDumpSectionToConsole(ProfilerEntry * pe, int depth)
+{
+    for(int n = 0; n < depth; n++)
+        std::cout << " ";
+    std::cout << pe->tag << " [" << pe->milliseconds << "]\n";
+    depth++;
+    for(std::list<ProfilerEntry>::iterator entry = pe->children.begin(); entry != pe->children.end(); entry++)
+        profilerDumpSectionToConsole(&*entry, depth);
+}
+
 
 }
