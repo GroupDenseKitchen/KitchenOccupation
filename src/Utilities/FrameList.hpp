@@ -6,12 +6,34 @@
 
 #include <deque>
 
-class FrameList{
+/*!
+ *  \brief     A container of cronoligicaly ordered Frames.
+ *  \details   Keeps infinitly or a configurable number of Frames as history apart from the current Frame.
+ *  \version   0.1
+ *  \date      2013-10-07
+ */
+class FrameList
+{
 public:
+
+    /*!
+       \brief   Constructor.
+    */
     FrameList(int framesToKeep = -1);
+
+    /*!
+       \brief   Destructor.
+    */
 	~FrameList();
 
+    /*!
+       \brief   Get the current (latest) Frame.
+    */
     Frame getCurrent();
+
+    /*!
+       \brief   Append the FrameList with the latest Frame.
+    */
 	void append(Frame newFrame);
 private:
     std::deque<Frame> frames;

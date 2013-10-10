@@ -7,14 +7,15 @@ MESSAGE( STATUS "APPLE: " ${APPLE} )
 # is TRUE when using the MinGW compiler in Windows
 MESSAGE( STATUS "MINGW: " ${MINGW} )
 
-# Something apple
 IF(APPLE)
+    # Apple specific
     SET (CMAKE_CXX_FLAGS "-stdlib=libc++ -std=c++11")
 ENDIF()
 
 IF(WIN32)
+    # Windows specific
     IF(MINGW)
-        # Windows Specific
+        SET (CMAKE_CXX_FLAGS "-std=c++11")
         SET (CMAKE_CXX_FLAGS "-std=c++11")
     ENDIF()
 ENDIF()
@@ -41,7 +42,6 @@ ADD_SUBDIRECTORY(ImageProcessing)
 ADD_SUBDIRECTORY(Network)
 ADD_SUBDIRECTORY(Analytics)
 ADD_SUBDIRECTORY(Utilities)
-ADD_SUBDIRECTORY(Forms)
 
 # Binaries
 ADD_EXECUTABLE(dense_kitchen main.cpp DenseKitchen.cpp)
