@@ -11,6 +11,27 @@ MainDebugWindow::MainDebugWindow(QWidget *parent) :
     ui(new Ui::MainDebugWindow)
 {
     ui->setupUi(this);
+
+    cameraItemModel = new QStandardItemModel;
+    cameraTree = ui->camerasTreeView;
+    cameraTree->setModel(cameraItemModel);
+
+    QStringList headerLabels;
+    headerLabels << "Cameras" << "Step";
+    cameraItemModel->setHorizontalHeaderLabels(headerLabels);
+
+    cameraSelection = cameraTree->selectionModel();
+
+    connect(cameraSelection, SIGNAL(currentChanged(QModelIndex,QModelIndex)),
+            this, SLOT(cameraSelctionUpdate(QModelIndex,QModelIndex)));
+
+    currentCameraIndex = -1;
+    currentKey = "";
+
+    timer = new QTimer;
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateGUI()));
+    timerDelay = 20;
+    timer->start(20);
 }
 
 MainDebugWindow::~MainDebugWindow()
@@ -18,101 +39,95 @@ MainDebugWindow::~MainDebugWindow()
     delete ui;
 }
 
-
 void MainDebugWindow:: init()
 {
     program.readConfig("dense_conf.yml");
     program.init();
 
-    setUpDebugViewWindows();
-    isRunningProgram = false;
+    // Init camera and frame selector treeView
+    Frame currentFrame;
+    // Needed to get frames
+    program.singleIteration();
+    currentFrame = program.frames.getCurrent();
+
+    std::vector<CameraObject> cameras = currentFrame.getCameras();
+    int nCameras = cameras.size();
+
+    qDebug(QByteArray::number(nCameras));
+
+    for (int i = 0; i < nCameras; i++){
+        QStandardItem* item = new QStandardItem(QString::number(i));
+        item->setSelectable(false);
+
+        CameraObject c = cameras[i];
+        std::map<std::string,cv::Mat>::iterator stepImage = c.images.begin();
+        for(; stepImage != c.images.end(); ++stepImage){
+            QStandardItem* child = new QStandardItem(QString::fromStdString(stepImage->first));
+            child->setSelectable(true);
+            item->setChild(0, 1, child);
+        }
+        cameraItemModel->appendRow(item);
+    }
+
+    isRunning = false;
+}
+
+void MainDebugWindow::updateGUI()
+{
+    // Update GUI
+    if (isRunning && program.singleIteration()){
+        updateDebugViews();
+    } else {
+        isRunning = false;
+    }
+}
+
+void MainDebugWindow::cameraSelctionUpdate(QModelIndex current, QModelIndex previous)
+{
+    qDebug(QByteArray::number(current.column()));
+    qDebug(QByteArray::number(current.row()));
+    qDebug(current.data().toByteArray());
+
+    currentCameraIndex = current.parent().row();
+
+    if (current.column() == 1){
+        currentKey = current.data().toString().toStdString();
+        cv::Mat matImage = program.frames.getCurrent().getCameras()[currentCameraIndex].images[currentKey];
+        cv::cvtColor(matImage, matImage, CV_BGR2RGB);
+
+        qImage = QImage((uchar*)matImage.data, matImage.cols, matImage.rows, matImage.step, QImage::Format_RGB888);
+        ui->image1->setPixmap(QPixmap::fromImage(qImage));
+    }
 }
 
 void MainDebugWindow::on_runButton_clicked()
 {
-    qDebug() << "Run button clicked!";
-    isRunningProgram = true;
-    while(isRunningProgram){
-        isRunningProgram = program.singleIteration();
-        updateDebugViews();
-    }
+    isRunning = true;
 }
 
 void MainDebugWindow::on_pauseButton_clicked()
 {
-    qDebug() << "Pause button clicked!";
-    isRunningProgram = false;
+    isRunning = false;
 }
 
 void MainDebugWindow::on_stepButton_clicked()
 {
-    qDebug() << "Step button clicked!";
-    program.singleIteration();
-    updateDebugViews();
-    isRunningProgram = false;
-}
-
-void MainDebugWindow:: setUpDebugViewWindows()
-{
-
-    //Create some dummy data to use for developing
-    //TODO: This is where we should get the names of existing process steps
-    //from DenseKitchen
-    Frame lastFrame;
-    cv::Mat dummyImage;
-    /*
-    lastFrame.addHistory("First",dummyImage);
-    lastFrame.addHistory("Second",dummyImage);
-    lastFrame.addHistory("Third",dummyImage);
-    lastFrame.addHistory("Fourth",dummyImage);
-    */
-    //End dummy stuff
-
-    ui->debugViewChooser->clear();
-    ui->debugViewChooser->addItem("<none>");
-    debugViews.clear();
-    //std::map<std::string, cv::Mat> processSteps = lastFrame.processHistory;
-    //std::map<std::string, cv::Mat>::iterator processStep = processSteps.begin();
-    /*
-    for(processStep; processStep != processSteps.end(); ++processStep) {
-        QString processStepName = processStep->first.c_str();
-        ui->debugViewChooser->addItem(processStepName);
-        debugViews.insert(std::pair<QString, DebugView *>(processStepName,NULL));
-
-        qDebug() << processStepName;
+    isRunning = false;
+    if(program.singleIteration()){
+        updateDebugViews();
     }
-    */
-}
-
-void MainDebugWindow::on_debugViewChooser_currentIndexChanged(const QString &chosenView)
-{
-    if (chosenView != "<none>") {
-        DebugView * oldWindow = debugViews.find(chosenView)->second;
-        if (oldWindow != NULL) {
-            debugViews.find(chosenView)->second->close();
-        }
-        DebugView * newWindow = new DebugView(this);
-        newWindow->init(chosenView);
-        debugViews.find(chosenView)->second = newWindow;
-        newWindow->show();
-    }
-    updateDebugViews();
 }
 
 void MainDebugWindow:: updateDebugViews()
 {
-    //TODO:Make this function read from processHistory in program
-/*
-    cv::Mat image = cv::Mat::ones(200,200, CV_8UC1);
-    uint multiplier = 1;
-    std::map<QString, DebugView *>::iterator debugView = debugViews.begin();
-    for(debugView; debugView != debugViews.end(); ++debugView) {
-        image = image*multiplier;
-        if (debugView->second != NULL) {
-            debugView->second->showImage(image);
-        }
-        multiplier += 30;
-        qDebug() << debugView->first << ", multiplier =" << multiplier;
+    if(currentKey.length() > 0 && currentCameraIndex != -1){
+        //TODO:Make this function read from processHistory in program
+        cv::Mat matImage = program.frames.getCurrent().getCameras()[currentCameraIndex].images[currentKey];
+        cv::cvtColor(matImage, matImage, CV_BGR2RGB);
+
+        qImage = QImage((uchar*)matImage.data, matImage.cols, matImage.rows, matImage.step, QImage::Format_RGB888);
+        ui->image1->setPixmap(QPixmap::fromImage(qImage));
     }
-    */
 }
+
+
