@@ -1,4 +1,4 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 2.8.1)
+CMAKE_MINIMUM_REQUIRED (VERSION 2.8.8)
 # Dense kitchen project
 PROJECT(dense_kitchen)
 
@@ -7,12 +7,13 @@ MESSAGE( STATUS "APPLE: " ${APPLE} )
 # is TRUE when using the MinGW compiler in Windows
 MESSAGE( STATUS "MINGW: " ${MINGW} )
 
-# Something apple
 IF(APPLE)
+    # Apple specific
     SET (CMAKE_CXX_FLAGS "-stdlib=libc++ -std=c++11")
 ENDIF()
 
 IF(WIN32)
+    # Windows specific
     IF(MINGW)
         SET (CMAKE_CXX_FLAGS "-std=c++11")
     ENDIF()
@@ -40,18 +41,12 @@ ADD_SUBDIRECTORY(ImageProcessing)
 ADD_SUBDIRECTORY(Network)
 ADD_SUBDIRECTORY(Analytics)
 ADD_SUBDIRECTORY(Utilities)
-ADD_SUBDIRECTORY(Forms)
-
-# SET(CamRecorder_FORMS Forms/CamRecorderWindow.ui)
-#qt5_wrap_ui(CamRecorder_FORMS_HEADERS ${CamRecorder_FORMS})
 
 # Binaries
 ADD_EXECUTABLE(dense_kitchen main.cpp DenseKitchen.cpp)
-#ADD_EXECUTABLE(CamRecorder camRecorder.cpp ${CamRecorder_FORMS_HEADERS})
 
 # Activate Qt for project
 qt5_use_modules(dense_kitchen Core Gui Widgets)
-#qt5_use_modules(CamRecorder Core Gui Widgets)
 
 # Link to libraries
 TARGET_LINK_LIBRARIES (dense_kitchen 
@@ -63,11 +58,4 @@ TARGET_LINK_LIBRARIES (dense_kitchen
     Utilities
     ${OpenCV_LIBS}
 )
-
-#TARGET_LINK_LIBRARIES (CamRecorder
-#    Utilities
-#    ${CamRecorder_FORMS_HEADERS}
-#    ${OpenCV_LIBS}
-#    ${Qt5Widgets_LIBRARIES})
-
 
