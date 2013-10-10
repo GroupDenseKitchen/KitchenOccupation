@@ -8,13 +8,8 @@
 int main()
 {
     DenseKitchen program;
-    program.readConfig("../conf/dense_conf.yml");
-
-    if (!program.init()); {
-        std::cout << "Error initializing program" << std::endl;
-        debugging::logObject.dumpToConsole();
-        return 0;
-    }
+    program.readConfig("settings.yml");
+    program.init();
 
     cv::namedWindow("camera1.mov");
     cv::Mat image;
