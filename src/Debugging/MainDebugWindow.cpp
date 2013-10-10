@@ -21,7 +21,7 @@ MainDebugWindow::~MainDebugWindow()
 
 void MainDebugWindow:: init()
 {
-    program.readConfig("file.yml");
+    program.readConfig("dense_conf.yml");
     program.init();
 
     setUpDebugViewWindows();
@@ -102,7 +102,7 @@ void MainDebugWindow::on_debugViewChooser_currentIndexChanged(const QString &cho
 void MainDebugWindow:: updateDebugViews()
 {
     //TODO:Make this function read from processHistory in program
-
+/*
     cv::Mat image = cv::Mat::ones(200,200, CV_8UC1);
     uint multiplier = 1;
     std::map<QString, DebugView *>::iterator debugView = debugViews.begin();
@@ -114,4 +114,5 @@ void MainDebugWindow:: updateDebugViews()
         multiplier += 30;
         qDebug() << debugView->first << ", multiplier =" << multiplier;
     }
+    */
 }
