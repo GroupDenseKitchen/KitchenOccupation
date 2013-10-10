@@ -50,14 +50,14 @@ public:
        \return    False if the program want to terminate, otherwise True.
     */
     bool singleIteration();
-
+    FrameList frames;
 private:
     network::Network network;
     image_processing::ImageProcessor imageProcessing;
     statistics::Analytics statistics;
     configuration::ConfigurationManager settings;
 
-    FrameList frames;
+    //FrameList frames;
     std::string configPath;
 };
 

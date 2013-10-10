@@ -1,1 +1,7 @@
-dummy conf
+%YAML:1.0
+isDebug: 0
+isTesting: 1
+hasGroundTruth: 0
+nCameras: 1
+videoFilePath: "camera1.mov"
+groundTruthPath: "data/someFile00GT.xml"

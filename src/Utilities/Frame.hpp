@@ -13,6 +13,7 @@
  *  \version   0.1
  *  \date      2013-10-07
  */
+
 class Frame
 {
 public:
@@ -20,31 +21,45 @@ public:
     /*!
        \brief   Constructor.
     */
-	Frame();
+    Frame();
 
     /*!
        \brief   Destructor.
     */
-	~Frame();
+    ~Frame();
 
     /*!
-       \brief        Add a raw image (done by the image provider).
-       \param image  A camera image.
+       \brief   TODO...
     */
-	void addRawImage(cv::Mat image);
+    void addCamera(CameraObject c);
 
     /*!
-       \brief        Add a raw image (done by the image provider).
-       \param tag    A string with a very short descriptive label for the image.
-       \param image  A camera image.
+       \brief   TODO...
     */
-    void addHistory(std::string tag, cv::Mat image);
+    std::vector<CameraObject> getCameras();
+
+    /*!
+       \brief   TODO...
+    */
+    std::vector<cv::Mat> getRoomImages(std::string roomID);
+
+    /*!
+       \brief   TODO...
+    */
+    std::vector<std::string> getRoomIDs();
 
 private:
-    std::vector<cv::Mat> rawImages;
-    std::map<std::string,cv::Mat> processHistory;
-
-    // Here be dragons
+    std::vector<CameraObject> cameras;
 };
 
-#endif
+typedef struct CameraObject
+{
+    std::string roomID;
+    cv::Mat rawImage;
+
+    //debug information
+    std::map<std::string,cv::Mat> processHistory;
+} CameraObject;
+
+
+#endif // FRAME_H

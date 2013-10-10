@@ -3,6 +3,7 @@
 
 #include "../utilities/utilities.hpp"
 #include "../utilities/Frame.hpp"
+#include "../Configuration/ConfigurationManager.hpp"
 
 /*!
  *  \brief     Network contains all network functionality.
@@ -27,22 +28,27 @@ public:
     */
 	~Network();
 
-    /*!
-       \brief   Start the network module.
-    */
-    void start();
+    /*
+     * \brief Initializes the network module.
+     * \param settings A configuration object containing program settings
+     */
+    bool init(configuration::ConfigurationManager& settings);
 
     /*!
-       \brief   Weather or not a new unprocessed frame is fetchable.
-    */
-    bool hasNewFrame();
+     * \brief dequeFrame returns a pointer to the latest frame.
+     * \return Returns zero if no frame is available.
+     */
+    Frame* dequeFrame(void);
 
-    /*!
-       \brief   Deque the next frame in cronological order.
-    */
-    Frame dequeFrame();
 private:
+    bool firstFrame;    // Is this the first frame?
+    bool isTesting;     // True if reading from file
 
+    int nCameras;       // Number of cameras
+
+    Frame nextFrame;
+
+    std::vector<cv::VideoCapture> streams;
 };
 
 }
