@@ -40,7 +40,6 @@ std::string Logger::getLastEntry( std::string format ) {
 	return std::string("Error: No log (empty)!");
 }
 
-
 std::vector<std::string> Logger::flushLog() {
 	std::vector<std::string> v;
     while(!logFile.empty()) {

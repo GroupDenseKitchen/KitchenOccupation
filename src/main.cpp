@@ -1,11 +1,12 @@
 #include "DenseKitchen.hpp"
+
 #include <QtCore>
 #include "Debugging/Logger.hpp"
 #include <iostream>
 
-int main(){
 
-
+int main()
+{
     DenseKitchen program;
     program.readConfig("../conf/dense_conf.yml");
 
@@ -30,4 +31,5 @@ int main(){
     debugging::logObject.dumpToConsole();
     cv::waitKey(0);
     return 0;
+
 }

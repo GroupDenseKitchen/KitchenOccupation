@@ -6,13 +6,13 @@ bool DenseKitchen::init(){
     return networkSuccess;
 }
 
-bool DenseKitchen::readConfig(std::string path){
+bool DenseKitchen::readConfig(std::string path) {
     
     configPath = path;
     return settings.readConfig(path);
 }
 
-bool DenseKitchen::singleIteration(){
+bool DenseKitchen::singleIteration() {
     
     bool iterationSuccess = true;
 

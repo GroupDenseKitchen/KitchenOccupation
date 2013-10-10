@@ -21,10 +21,12 @@ class ConfigurationManager
          * \brief Empty constructor
          */
         ConfigurationManager();
+
         /*!
          * \brief Destructor
          */
         ~ConfigurationManager();
+
         /*!
          * \brief Reads a configuration file.
          * \param Location of configuration file.
@@ -32,15 +34,16 @@ class ConfigurationManager
          */
         bool readConfig(std::string filePath);
 
-
         /*!
          * \brief Do we run the debug GUI?
          */
         bool isDebugMode();
+
         /*!
          * \brief Do we load video from files?
          */
         bool isTestingMode();
+
         /*!
          * \brief Do we have ground truth data for the file.
          */
@@ -55,6 +58,7 @@ class ConfigurationManager
          * \brief Get path to video file.
          */
         std::string getVideoFilePath();
+
         /*!
          * \brief Get path to XML ground truth file.
          */
