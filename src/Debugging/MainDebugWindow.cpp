@@ -60,17 +60,20 @@ void MainDebugWindow:: setUpDebugViewWindows()
     //from DenseKitchen
     Frame lastFrame;
     cv::Mat dummyImage;
+    /*
     lastFrame.addHistory("First",dummyImage);
     lastFrame.addHistory("Second",dummyImage);
     lastFrame.addHistory("Third",dummyImage);
     lastFrame.addHistory("Fourth",dummyImage);
+    */
     //End dummy stuff
 
     ui->debugViewChooser->clear();
     ui->debugViewChooser->addItem("<none>");
     debugViews.clear();
-    std::map<std::string, cv::Mat> processSteps = lastFrame.processHistory;
-    std::map<std::string, cv::Mat>::iterator processStep = processSteps.begin();
+    //std::map<std::string, cv::Mat> processSteps = lastFrame.processHistory;
+    //std::map<std::string, cv::Mat>::iterator processStep = processSteps.begin();
+    /*
     for(processStep; processStep != processSteps.end(); ++processStep) {
         QString processStepName = processStep->first.c_str();
         ui->debugViewChooser->addItem(processStepName);
@@ -78,6 +81,7 @@ void MainDebugWindow:: setUpDebugViewWindows()
 
         qDebug() << processStepName;
     }
+    */
 }
 
 void MainDebugWindow::on_debugViewChooser_currentIndexChanged(const QString &chosenView)
