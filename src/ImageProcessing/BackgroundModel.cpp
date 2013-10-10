@@ -37,15 +37,22 @@ bool BackgroundModel::init()
 
  void BackgroundModel::process(FrameList frames)
  {
-     // TODO: Get rawImage matrix
-     cv::Mat rawImage;      // From frames (current)
-     cv::Mat foreground;    // From frames (current)
+     //TODO: loop over all cameras...
+     CameraObject & camera = frames.getCurrent().getCameras().back();
 
-     bg(rawImage,foreground,0.001);
+     if(!camera.hasImage("rawImage"))
+     {
+         LOG("ImageProcessing Error", "Image \"rawImage\" not set in current frame!");
+         return;
+     }
 
-     cv::erode(foreground,foreground,cv::Mat(),cv::Point(-1,-1),erotions);
-     cv::dilate(foreground,foreground,cv::Mat(),cv::Point(-1,-1),dilations);
-     cv::threshold(foreground,foreground,230,255,CV_THRESH_BINARY);
+     cv::Mat rawImage = camera.getImage("rawImage");
+     cv::Mat foregroundMask;    // From frames (current)
 
-     // TODO: Save foreground to matrix
+     bg(rawImage,foregroundMask,0.001);
+     cv::erode(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), erotions);
+     cv::dilate(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), dilations);
+     cv::threshold(foregroundMask,foregroundMask,230,255,CV_THRESH_BINARY);
+
+     camera.addImage("foregroundMask", foregroundMask);
  }

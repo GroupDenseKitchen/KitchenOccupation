@@ -11,6 +11,14 @@
  */
 namespace image_processing
 {
+
+struct ObjectPair
+{
+    Object object;
+    int correspondingIndex;
+    ObjectPair(Object object, int correspondingIndex) : object(object), correspondingIndex(correspondingIndex) {}
+};
+
 /*!
  *  \brief     TODO...
  *  \version   0.1
@@ -41,6 +49,13 @@ public:
     void process(FrameList frames) override;
 
 private:
+    std::list<ObjectPair> candidatePrev;
+    std::list<ObjectPair> candidateCurr;
+    int nextUniequeID;
+
+    void populate(std::list<ObjectPair> & objectPairs, std::vector<Object> & objects);
+    void mapClosestCandidate(std::list<ObjectPair> & candidatePrev, std::list<ObjectPair> & candidateCurr, std::vector<Object> & prev, std::vector<Object> & curr);
+    int getUniqueID();
 };
 }
 

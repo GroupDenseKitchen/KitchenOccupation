@@ -32,6 +32,16 @@ public:
     Frame getCurrent();
 
     /*!
+       \brief   Get the previous (previously latest) Frame.
+    */
+    Frame getPrevious();
+
+    /*!
+       \brief   Weather there are two or more frames.
+    */
+    bool hasPrevious();
+
+    /*!
        \brief   Append the FrameList with the latest Frame.
     */
 	void append(Frame newFrame);

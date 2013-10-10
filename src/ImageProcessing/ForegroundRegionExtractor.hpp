@@ -41,6 +41,8 @@ public:
     void process(FrameList frames) override;
 
 private:
+    cv::Mat foregroundMask;
+    cv::vector<cv::vector<cv::Point> > contours;
 };
 }
 
