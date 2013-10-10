@@ -1,5 +1,5 @@
-#ifndef TRACKING_HPP
-#define TRACKING_HPP
+#ifndef FOREGROUND_REGION_EXTRACTOR_HPP
+#define FOREGROUND_REGION_EXTRACTOR_HPP
 
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/FrameList.hpp"
@@ -16,19 +16,19 @@ namespace image_processing
  *  \version   0.1
  *  \date      2013-10-07
  */
-class Tracking : public AbstractAlgorithm
+class ForegroundRegionExtractor : public AbstractAlgorithm
 {
 public:
 
     /*!
        \brief   Constructor.
     */
-    Tracking();
+    ForegroundRegionExtractor();
 
     /*!
        \brief   Destructor.
     */
-    ~Tracking();
+    ~ForegroundRegionExtractor();
 
     /*!
        \brief   Initializer.

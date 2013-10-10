@@ -1,12 +1,12 @@
-#include "ImageProcessor.hpp"
+#include "Tracking.hpp"
 
 namespace image_processing
 {
-    Tracking::ImageProcessor() {
+    Tracking::Tracking() {
 
     }
 
-    Tracking::~ImageProcessor() {
+    Tracking::~Tracking() {
 
     }
 
