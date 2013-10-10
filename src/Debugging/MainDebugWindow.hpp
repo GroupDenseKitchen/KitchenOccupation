@@ -2,7 +2,13 @@
 #define MAINDEBUGWINDOW_HPP
 
 #include <QMainWindow>
+#include <QtGui>
 #include <QString>
+#include <QTimer>
+#include <QTreeView>
+#include <QStandardItemModel>
+#include <QItemSelectionModel>
+#include <QImage>
 
 #include <map>
 #include <atomic>
@@ -31,16 +37,27 @@ private slots:
     void on_pauseButton_clicked();
     void on_stepButton_clicked();
 
-    void on_debugViewChooser_currentIndexChanged(const QString &arg1);
+    void updateGUI();
+    void cameraSelctionUpdate(QModelIndex,QModelIndex);
 
 private:
     Ui::MainDebugWindow *ui;
     DenseKitchen program;
     std::map<QString,DebugView *> debugViews;
-    std::atomic_bool isRunningProgram;
+    std::atomic_bool isRunning;
 
+    QTreeView* cameraTree;
+    QStandardItemModel* cameraItemModel;
+    QItemSelectionModel* cameraSelection;
 
-    void setUpDebugViewWindows();
+    int currentCameraIndex;
+    std::string currentKey;
+
+    QImage qImage;
+
+    QTimer* timer;
+    int timerDelay;
+
     void updateDebugViews();
 };
 
