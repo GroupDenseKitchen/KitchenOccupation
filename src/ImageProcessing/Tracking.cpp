@@ -10,12 +10,12 @@ namespace image_processing
 
     }
 
-    bool Tracking::initialize() {
-
+    bool Tracking::initialize(configuration::ConfigurationManager &configuration)
+    {
         return true;
     }
 
-    void Tracking::process(FrameList frames) {
+    void Tracking::process(FrameList &frames) {
         //TODO: loop over all cameras...)
 
         if(frames.hasPrevious())

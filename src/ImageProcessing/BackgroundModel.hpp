@@ -3,7 +3,7 @@
 
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/FrameList.hpp"
-#include "../Utilities/Abstractalgorithm.hpp"
+#include "../Utilities/Algorithm.hpp"
 
 /*!
  *  \brief     Short, one-line description.
@@ -14,13 +14,13 @@
  *  \warning   Warnings go here (about how to not use the class etc. etc.)
  */
 
-class BackgroundModel : public AbstractAlgorithm
+class BackgroundModel : public Algorithm
 {
 public:
     BackgroundModel();
     ~BackgroundModel();
-    void process(FrameList frames) override;
-    bool init();
+    void process(FrameList &frames) override;
+    bool initialize(configuration::ConfigurationManager &configuration) override;
 
 private:
     cv::BackgroundSubtractorMOG2 bg;

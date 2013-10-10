@@ -3,7 +3,10 @@
 
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/FrameList.hpp"
-#include "../Utilities/Abstractalgorithm.hpp"
+#include "../Utilities/Algorithm.hpp"
+#include "BackgroundModel.hpp"
+#include "ForegroundRegionExtractor.hpp"
+#include "Tracking.hpp"
 
 /*!
  *  \brief   Image processing contains functionality for the different
@@ -16,7 +19,7 @@ namespace image_processing
  *  \version   0.1
  *  \date      2013-10-10
  */
-class ImageProcessor : public AbstractAlgorithm
+class ImageProcessor : public Algorithm
 {
 public:
 
@@ -31,10 +34,11 @@ public:
 	~ImageProcessor();
 
     /*!
-       \brief   Process the current frame (possibly using older frames) by calling
-                image processing algorithms in order.
+       \brief   Initialize the ImageProcessor.
+       \details Configurates which algorithms to be applied in which order.
     */
-    void process(FrameList frames) override;
+    bool initialize(configuration::ConfigurationManager & configuration) override;
+
 private:
 };
 }

@@ -7,7 +7,7 @@ BackgroundModel::~BackgroundModel(){
 
 }
 
-bool BackgroundModel::init()
+bool BackgroundModel::initialize(configuration::ConfigurationManager &configuration)
 {
     //STANDARD VALUES
     nmixtures = 5;
@@ -35,7 +35,7 @@ bool BackgroundModel::init()
     return true;
 }
 
- void BackgroundModel::process(FrameList frames)
+ void BackgroundModel::process(FrameList &frames)
  {
      //TODO: loop over all cameras...
      CameraObject & camera = frames.getCurrent().getCameras().back();

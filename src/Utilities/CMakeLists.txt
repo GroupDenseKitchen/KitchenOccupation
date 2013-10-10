@@ -1,3 +1,3 @@
 #Utilities library
 
-add_library(Utilities Frame.cpp FrameList.cpp Object.cpp)
+add_library(Utilities Frame.cpp FrameList.cpp Object.cpp Algorithm.cpp)

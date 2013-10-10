@@ -10,12 +10,12 @@ namespace image_processing
 
     }
 
-    bool ForegroundRegionExtractor::initialize() {
-
+    bool ForegroundRegionExtractor::initialize(configuration::ConfigurationManager &configuration)
+    {
         return true;
     }
 
-    void ForegroundRegionExtractor::process(FrameList frames) {
+    void ForegroundRegionExtractor::process(FrameList &frames) {
         //TODO: loop over all cameras...
         CameraObject & camera = frames.getCurrent().getCameras().back();
 

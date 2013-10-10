@@ -9,7 +9,12 @@ namespace image_processing
     ImageProcessor::~ImageProcessor(){
 
     }
-    void ImageProcessor::process(FrameList frames){
-        //TODO stub
+
+    bool ImageProcessor::initialize(configuration::ConfigurationManager & configuration)
+    {
+        addAlgorithm("Background modeling",         BackgroundModel());
+        addAlgorithm("Foreground region extractor", ForegroundRegionExtractor());
+        addAlgorithm("Tracking",                    Tracking());
+        Algorithm::initialize(configuration);   // Initialize all algorithms
     }
 }

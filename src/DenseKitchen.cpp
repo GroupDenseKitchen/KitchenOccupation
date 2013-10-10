@@ -16,16 +16,23 @@ bool DenseKitchen::singleIteration() {
     
     bool iterationSuccess = true;
 
-    Frame* currentFrame = network.dequeFrame();
-    if(currentFrame){
-
-        frames.append(*currentFrame);
-        delete currentFrame;
-        imageProcessing.process(frames);
-        statistics.process(frames);
-    }else{
-        iterationSuccess = false;
-    }
+    PROFILE_ITERATION_START();
+        PROFILE_START("Network deque");
+            Frame* currentFrame = network.dequeFrame();
+        PROFILE_END();
+        if(currentFrame){
+            frames.append(*currentFrame);
+            delete currentFrame;
+            PROFILE_START("Image Processing");
+                imageProcessing.process(frames);
+            PROFILE_END();
+            PROFILE_START("Statistics Processing");
+                statistics.process(frames);
+            PROFILE_END();
+        }else{
+            iterationSuccess = false;
+        }
+    PROFILE_ITERATION_END();
 
     return iterationSuccess;
 }
