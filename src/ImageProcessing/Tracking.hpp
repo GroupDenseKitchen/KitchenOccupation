@@ -56,6 +56,7 @@ private:
     void populate(std::list<ObjectPair> & objectPairs, std::vector<Object> & objects);
     void mapClosestCandidate(std::list<ObjectPair> & candidatePrev, std::list<ObjectPair> & candidateCurr, std::vector<Object> & prev, std::vector<Object> & curr);
     int getUniqueID();
+    void setID(std::vector<Object> & objects, int index, int ID);
 };
 }
 

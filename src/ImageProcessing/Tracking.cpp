@@ -53,7 +53,7 @@ namespace image_processing
 
     void Tracking::mapClosestCandidate(std::list<ObjectPair> & candidatePrev, std::list<ObjectPair> & candidateCurr, std::vector<Object> & prev, std::vector<Object> & curr)
     {
-        std::list<Object>::iterator bestPrev = prev.begin(), bestCurr = curr.begin();
+        int bestPrevIndex = 0, bestCurrIndex = 0;
 
         // Loopa över alla candidatePrev och candidateCurr,
         // hitta de som är närmast varandra (min(distance(...))
@@ -74,14 +74,15 @@ namespace image_processing
         return nextUniequeID++;
     }
 
-
-void Tracking::populate(std::list<ObjectPair> & objectPairs, std::vector<Object> & objects)
-{
-    objectPairs.clear();
-    int n = 0;
-    for(std::vector<Object>::iterator object = objects.begin(); object != objects.end(); object++)
+    void Tracking::populate(std::list<ObjectPair> & objectPairs, std::vector<Object> & objects)
     {
-        objectPairs.push_back(ObjectPair(objects, n));
-        n++;
+        objectPairs.clear();
+        int n = 0;
+        for(std::vector<Object>::iterator object = objects.begin(); object != objects.end(); object++)
+        {
+            objectPairs.push_back(ObjectPair(*object, n));
+            n++;
+        }
     }
+
 }
