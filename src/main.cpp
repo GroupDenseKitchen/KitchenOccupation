@@ -10,15 +10,14 @@ int main(){
     program.readConfig("settings.yml");
     program.init();
 
-
-    cv::namedWindow("Da window");
+    cv::namedWindow("camera1.mov");
     cv::Mat image;
 
     bool hasNewFrame = program.singleIteration();
     while (hasNewFrame) {
 
         image =  program.frames.getCurrent().getCameras().back().rawImage;
-        cv::imshow("Da window", image);
+        cv::imshow("camera1.mov", image);
         cv::waitKey(1); // 20fps;
 
         hasNewFrame = program.singleIteration();
