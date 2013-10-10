@@ -24,7 +24,7 @@ int main()
     bool hasNewFrame = program.singleIteration();
     while (hasNewFrame) {
 
-        image =  program.frames.getCurrent().getCameras().back().rawImage;
+        image =  program.frames.getCurrent().getCameras().back().getImage("rawImage");
         cv::imshow("camera1.mov", image);
         cv::waitKey(40); // 20fps;
 
