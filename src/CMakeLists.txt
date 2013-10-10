@@ -25,6 +25,9 @@ set(CMAKE_AUTOMOC ON)
 # to always look for includes there:
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+#move the configurationfile to the build dir
+CONFIGURE_FILE(../conf/dense_conf.yml dense_conf.yml COPYONLY)
+
 # Load external libraries
 find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
 find_package(OpenCV REQUIRED)
@@ -45,9 +48,6 @@ ADD_SUBDIRECTORY(Utilities)
 # Binaries
 ADD_EXECUTABLE(dense_kitchen main.cpp DenseKitchen.cpp)
 
-# Activate Qt for project
-qt5_use_modules(dense_kitchen Core Gui Widgets)
-
 # Link to libraries
 TARGET_LINK_LIBRARIES (dense_kitchen 
     Configuration 
@@ -59,3 +59,6 @@ TARGET_LINK_LIBRARIES (dense_kitchen
     ${OpenCV_LIBS}
 )
 
+# Activate Qt for project
+# Must be the last line in this file, else { FAIL }
+qt5_use_modules(dense_kitchen Core Gui Widgets)

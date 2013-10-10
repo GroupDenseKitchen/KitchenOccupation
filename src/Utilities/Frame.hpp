@@ -75,6 +75,8 @@ class Frame
 {
 public:
 
+    friend class MainDebugWindow;
+
     /*!
        \brief   Constructor.
     */
