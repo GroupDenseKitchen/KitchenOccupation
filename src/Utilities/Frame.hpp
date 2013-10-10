@@ -57,7 +57,7 @@ public:
 public:
     std::string roomID;
     std::map<std::string,cv::Mat> images;
-    std::list<Object> objects;  // Moving things...
+    std::vector<Object> objects;  // Moving things...
 
     //debug information
     std::list<ProcessHistory> processHistory;
