@@ -14,6 +14,15 @@
  *  \date      2013-10-07
  */
 
+typedef struct CameraObject
+{
+    std::string roomID;
+    cv::Mat rawImage;
+
+    //debug information
+    std::map<std::string,cv::Mat> processHistory;
+} CameraObject;
+
 class Frame
 {
 public:
@@ -51,15 +60,5 @@ public:
 private:
     std::vector<CameraObject> cameras;
 };
-
-typedef struct CameraObject
-{
-    std::string roomID;
-    cv::Mat rawImage;
-
-    //debug information
-    std::map<std::string,cv::Mat> processHistory;
-} CameraObject;
-
 
 #endif // FRAME_H
