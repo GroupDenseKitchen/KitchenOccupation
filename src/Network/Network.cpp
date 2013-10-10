@@ -34,6 +34,8 @@ bool Network::init(configuration::ConfigurationManager& settings)
         //TODO (read from network)
     }
 
+    //if we reach this point, something went wrong
+    return false;
 }
 
 Frame* Network::dequeFrame()
