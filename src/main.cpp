@@ -8,7 +8,7 @@
 int main()
 {
     DenseKitchen program;
-    program.readConfig("../conf/dense_conf.yml");
+    program.readConfig("dense_conf.yml");
 
     if (!program.init()) {
         std::cout << "Error initializing program" << std::endl;
