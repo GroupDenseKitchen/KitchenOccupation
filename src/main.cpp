@@ -13,7 +13,7 @@ int main(int argc, char *argv[]){
     debugProgram.show();
 
     DenseKitchen program;
-    program.readConfig("../conf/dense_conf.yml");
+    program.readConfig("dense_conf.yml");
 
     if (!program.init()) {
         std::cout << "Error initializing program" << std::endl;
@@ -29,7 +29,7 @@ int main(int argc, char *argv[]){
     bool hasNewFrame = program.singleIteration();
     while (hasNewFrame) {
 
-        image =  program.frames.getCurrent().getCameras().back().rawImage;
+        image =  program.frames.getCurrent().getCameras().back().getImage("rawImage");
         cv::imshow("camera1.mov", image);
         cv::waitKey(40); // 20fps;
 
