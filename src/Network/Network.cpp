@@ -45,12 +45,13 @@ Frame* Network::dequeFrame()
     if (isTesting) { // Loading from file
         for (int i = 0; i != streams.size(); i++) {
             CameraObject cam;
+            cv::Mat rawImage;
             // Grab and retrieve image
-            success = streams[i].grab() && streams[i].retrieve(cam.rawImage);
+            success = streams[i].grab() && streams[i].retrieve(rawImage);
             if (success)
             {
                 cam.roomID = std::to_string(i);
-                cam.processHistory.emplace(std::pair<std::string, cv::Mat>("RawImage", cam.rawImage));
+                cam.addImage("rawImage", rawImage);
                 frame->addCamera(cam);
             } else {
                 LOG("Network Error", "Error retrieving frame from video file " << std::to_string(i) << ".");
@@ -65,10 +66,11 @@ Frame* Network::dequeFrame()
         // Retrieve all images
         for (int i = 0; i != streams.size(); i++) {
             CameraObject cam;
-            success = streams[i].retrieve(cam.rawImage);
+            cv::Mat rawImage;
+            success = streams[i].retrieve(rawImage);
             if(success) {
                 cam.roomID = std::to_string(i);
-                cam.processHistory.emplace(std::pair<std::string, cv::Mat>("RawImage", cam.rawImage));
+                cam.addImage("rawImage", rawImage);
                 frame->addCamera(cam);
             } else {
                 LOG("Network Error", "Error retrieving frame from camera " << std::to_string(i) << ".");

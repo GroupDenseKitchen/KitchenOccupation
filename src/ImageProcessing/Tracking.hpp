@@ -14,7 +14,7 @@ namespace image_processing
 /*!
  *  \brief     TODO...
  *  \version   0.1
- *  \date      2013-10-07
+ *  \date      2013-10-10
  */
 class Tracking : public AbstractAlgorithm
 {
