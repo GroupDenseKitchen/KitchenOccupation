@@ -43,8 +43,10 @@ std::string Logger::getLastEntry( std::string format ) {
 
 std::vector<std::string> Logger::flushLog() {
 	std::vector<std::string> v;
-	while(!logFile.empty())
+    while(!logFile.empty()) {
 		v.push_back(getLastEntry());
+        logFile.pop_front();
+    }
 	return v;
 }
 
