@@ -2,8 +2,8 @@
 
 bool DenseKitchen::init(){
 
-    //TODO init stuff...
-    return true;
+    bool networkSuccess = network.init(settings);
+    return networkSuccess;
 }
 
 bool DenseKitchen::readConfig(std::string path){
@@ -16,10 +16,11 @@ bool DenseKitchen::singleIteration(){
     
     bool iterationSuccess = true;
 
-    if(network.hasNewFrame()){
-        Frame currentFrame = network.dequeFrame();
-        frames.append(currentFrame);
+    Frame* currentFrame = network.dequeFrame();
+    if(currentFrame){
 
+        frames.append(*currentFrame);
+        delete currentFrame;
         imageProcessing.process(frames);
         statistics.process(frames);
     }else{

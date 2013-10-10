@@ -49,10 +49,10 @@ namespace configuration
         }
     }
 
-    void ConfigurationManager::readItem(std::string itemName, std::string item)
+    void ConfigurationManager::readItem(std::string itemName, std::string& item)
     {
         nItemsRead++;
-        if (configFile[itemName].type() == cv::FileNode::STRING) {
+        if (configFile[itemName].type() == cv::FileNode::STR) {
             configFile[itemName] >> item;
         } else {
             LOG("Config error", "Error reading " << itemName << " from configuration file");
@@ -92,7 +92,6 @@ namespace configuration
         readItem("nCameras", nCameras);
         readItem("videoFilePath", videoFilePath);
         readItem("groundTruthPath", groundTruthPath);
-
 
         LOG("Config", "Configuration file " << filePath << " read successfully with " <<
                       nErrors << " errors out of a total " << nItemsRead << " attempts.");
