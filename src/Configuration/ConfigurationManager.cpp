@@ -15,7 +15,7 @@ namespace configuration
     std::string ConfigurationManager::getVideoFilePath() {return videoFilePath;}
     std::string ConfigurationManager::getGroundTruthPath() {return groundTruthPath;}
 
-    void ConfigurationManager::readItem(std::string itemName, bool item)
+    void ConfigurationManager::readItem(std::string itemName, bool& item)
     {
         nItemsRead++;
         if (configFile[itemName].type() == cv::FileNode::INT) {
@@ -26,7 +26,7 @@ namespace configuration
         }
     }
 
-    void ConfigurationManager::readItem(std::string itemName, int item)
+    void ConfigurationManager::readItem(std::string itemName, int& item)
     {
         nItemsRead++;
         if (configFile[itemName].type() == cv::FileNode::INT) {
@@ -38,7 +38,7 @@ namespace configuration
     }
 
 
-    void ConfigurationManager::readItem(std::string itemName, float item)
+    void ConfigurationManager::readItem(std::string itemName, float& item)
     {
         nItemsRead++;
         if (configFile[itemName].type() == cv::FileNode::FLOAT) {
@@ -60,7 +60,7 @@ namespace configuration
         }
     }
 
-    void ConfigurationManager::readItem(std::string itemName, cv::Mat item)
+    void ConfigurationManager::readItem(std::string itemName, cv::Mat& item)
     {
         nItemsRead++;
         try {
