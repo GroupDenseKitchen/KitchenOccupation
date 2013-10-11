@@ -48,7 +48,7 @@ struct LogEntry
 struct ProfilerEntry
 {
     std::string tag;
-    std::string milliseconds;
+    double milliseconds;
     int64 begun, ended;
     std::list<ProfilerEntry> children;
     ProfilerEntry * parent;
@@ -156,11 +156,11 @@ extern Logger logObject;
 */
 #define LOG(TAG, message) {std::stringstream ss; ss << message; debugging::logObject.append(debugging::LogEntry(TAG, ss.str(), __FUNCTION__, __FILE__, std::to_string(__LINE__))); }
 
-#define PROFILE_ITERATION_START() debugging::logObject.profilerBeginIteration();
-#define PROFILE_ITERATION_END()   debugging::logObject.profilerEndIteration();
-#define PROFILE_START(tag)        debugging::logObject.profilerBeginSection(tag);
-#define PROFILE_END()             debugging::logObject.profilerEndSection();
-#define PROFILE_DUMP();           debugging::logObject.profilerDumpSectionToConsole(debugging::logObject.getLatestIteration());
+#define PROFILER_ITERATION_START() debugging::logObject.profilerBeginIteration();
+#define PROFILER_ITERATION_END()   debugging::logObject.profilerEndIteration();
+#define PROFILER_START(tag)        debugging::logObject.profilerBeginSection(tag);
+#define PROFILER_END()             debugging::logObject.profilerEndSection();
+#define PROFILER_DUMP();           debugging::logObject.profilerDumpSectionToConsole(debugging::logObject.getLatestIteration());
 
 }
 

@@ -8,10 +8,20 @@
 
 int main(int argc, char *argv[])
 {
+    /*
     QApplication a(argc, argv);
     MainDebugWindow debugProgram;
     debugProgram.init();
-    debugProgram.show();
+    debugProgram.show();*/
 
-    return a.exec();
+    DenseKitchen p;
+    //PROFILER_DUMP();
+    p.init();
+    p.singleIteration();
+    PROFILER_DUMP();
+    p.singleIteration();
+    PROFILER_DUMP();
+    return 0;
+
+    //return a.exec();
 }

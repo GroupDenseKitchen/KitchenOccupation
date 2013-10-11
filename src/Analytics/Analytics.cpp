@@ -12,7 +12,16 @@ namespace statistics
 
     bool Analytics::initialize(configuration::ConfigurationManager & configuration)
     {
-        //TODO stub
+        //TODO: Add algorithms...
         Algorithm::initialize(configuration);   // Initialize all algorithms
     }
+
+
+    void Analytics::process(FrameList &frames)
+    {
+        PROFILER_START("Statistics Processing");
+        Algorithm::process(frames);
+        PROFILER_END();
+    }
+
 }

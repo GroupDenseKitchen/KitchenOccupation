@@ -39,6 +39,11 @@ public:
     */
     bool initialize(configuration::ConfigurationManager & configuration) override;
 
+    /*!
+       \brief   Perform all image processing algorithms in order.
+    */
+    void process(FrameList &frames) override;
+
 private:
 };
 }

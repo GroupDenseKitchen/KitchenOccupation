@@ -1,9 +1,10 @@
 #include "DenseKitchen.hpp"
 
 bool DenseKitchen::init(){
-
     bool networkSuccess = network.init(settings);
-    return networkSuccess;
+    bool imageProcessingSuccess = imageProcessing.initialize(settings);
+    bool statisticsSuccess = statistics.initialize(settings);
+    return networkSuccess && imageProcessingSuccess && statisticsSuccess;
 }
 
 bool DenseKitchen::readConfig(std::string path) {
@@ -16,23 +17,19 @@ bool DenseKitchen::singleIteration() {
     
     bool iterationSuccess = true;
 
-    PROFILE_ITERATION_START();
-        PROFILE_START("Network deque");
-            Frame* currentFrame = network.dequeFrame();
-        PROFILE_END();
+    PROFILER_ITERATION_START();
+        PROFILER_START("Network deque");
+        Frame* currentFrame = network.dequeFrame();
+        PROFILER_END();
         if(currentFrame){
             frames.append(*currentFrame);
             delete currentFrame;
-            PROFILE_START("Image Processing");
-                imageProcessing.process(frames);
-            PROFILE_END();
-            PROFILE_START("Statistics Processing");
-                statistics.process(frames);
-            PROFILE_END();
+            imageProcessing.process(frames);
+            statistics.process(frames);
         }else{
             iterationSuccess = false;
         }
-    PROFILE_ITERATION_END();
+    PROFILER_ITERATION_END();
 
     return iterationSuccess;
 }

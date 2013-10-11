@@ -17,7 +17,7 @@ namespace image_processing
 
     void Tracking::process(FrameList &frames) {
         //TODO: loop over all cameras...)
-
+        PROFILER_START("HEJ");
         if(frames.hasPrevious())
         {
             CameraObject & cameraPrev = frames.getPrevious().getCameras().back();
@@ -49,6 +49,7 @@ namespace image_processing
                 }
             }
         }
+        PROFILER_END();
     }
 
     void Tracking::mapClosestCandidate(std::list<ObjectPair> & candidatePrev, std::list<ObjectPair> & candidateCurr, std::vector<Object> & prev, std::vector<Object> & curr)

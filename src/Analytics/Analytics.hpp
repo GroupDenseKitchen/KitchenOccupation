@@ -35,6 +35,11 @@ class Analytics : public Algorithm
         */
         bool initialize(configuration::ConfigurationManager & configuration) override;
 
+        /*!
+           \brief   Perform all Statistics algorithms in order.
+        */
+        void process(FrameList &frames) override;
+
     private:
 
 };
