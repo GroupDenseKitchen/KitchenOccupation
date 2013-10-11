@@ -17,7 +17,7 @@ namespace image_processing
 
     void ForegroundRegionExtractor::process(FrameList &frames) {
         //TODO: loop over all cameras...
-        CameraObject & camera = frames.getCurrent().getCameras().back();
+        CameraObject camera = frames.getCurrent().getCameras().back();
 
         if(!camera.hasImage("foregroundMask"))
         {

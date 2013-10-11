@@ -38,7 +38,7 @@ bool BackgroundModel::initialize(configuration::ConfigurationManager &configurat
  void BackgroundModel::process(FrameList &frames)
  {
      //TODO: loop over all cameras...
-     CameraObject & camera = frames.getCurrent().getCameras().back();
+     CameraObject camera = frames.getCurrent().getCameras().back();
 
      if(!camera.hasImage("rawImage"))
      {

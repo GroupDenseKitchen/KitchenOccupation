@@ -70,7 +70,7 @@ void Logger::profilerBeginIteration()
 void Logger::profilerEndIteration()
 {
     loopIterations.back().ended = cv::getTickCount();
-    loopIterations.back().milliseconds = (double(parent->ended - parent->begun)*1e6)/cv::getTickFrequency();
+    loopIterations.back().milliseconds = (double(parent->ended - parent->begun)*1e3)/cv::getTickFrequency();
 }
 
 void Logger::profilerBeginSection(std::string tag)
@@ -82,7 +82,7 @@ void Logger::profilerBeginSection(std::string tag)
 void Logger::profilerEndSection()
 {
     parent->ended = cv::getTickCount();
-    parent->milliseconds = (double(parent->ended - parent->begun)*1e6)/cv::getTickFrequency();
+    parent->milliseconds = (double(parent->ended - parent->begun)*1e3)/cv::getTickFrequency();
     parent = parent->parent;
 }
 

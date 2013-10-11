@@ -23,8 +23,6 @@ int main(int argc, char *argv[])
     }
     p.singleIteration();
     PROFILER_DUMP();
-    p.singleIteration();
-    PROFILER_DUMP();
     return 0;
 
     //return a.exec();

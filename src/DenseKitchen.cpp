@@ -5,6 +5,9 @@ bool DenseKitchen::init(){
     bool imageProcessingSuccess = imageProcessing.initialize(settings);
     bool statisticsSuccess = statistics.initialize(settings);
     // LOG this...
+    std::cout << networkSuccess << "\n";
+    std::cout << imageProcessingSuccess << "\n";
+    std::cout << statisticsSuccess << "\n";
     return networkSuccess && imageProcessingSuccess && statisticsSuccess;
 }
 
