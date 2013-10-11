@@ -66,11 +66,11 @@ class ConfigurationManager
 
     private:
         // Reading functions. (Templates won't work because OpenCV is not super awesome)
-        void readItem(std::string itemNameInFile, bool item);
-        void readItem(std::string itemNameInFile, int item);
-        void readItem(std::string itemNameInFile, float item);
+        void readItem(std::string itemNameInFile, bool& item);
+        void readItem(std::string itemNameInFile, int& item);
+        void readItem(std::string itemNameInFile, float& item);
         void readItem(std::string itemNameInFile, std::string& item);
-        void readItem(std::string itemNameInFile, cv::Mat item);
+        void readItem(std::string itemNameInFile, cv::Mat& item);
 
         int nItemsRead;     // Total number of items read
         int nErrors;        // Total number of errors
