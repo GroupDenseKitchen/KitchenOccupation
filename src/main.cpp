@@ -8,22 +8,10 @@
 
 int main(int argc, char *argv[])
 {
-    /*
     QApplication a(argc, argv);
     MainDebugWindow debugProgram;
     debugProgram.init();
-    debugProgram.show();*/
+    debugProgram.show();
 
-    DenseKitchen p;
-    p.readConfig("../conf/dense_conf.yml");
-    if(!p.init())
-    {
-        std::cout << "Init failed!\n";
-        return 0;
-    }
-    p.singleIteration();
-    PROFILER_DUMP();
-    return 0;
-
-    //return a.exec();
+    return a.exec();
 }
