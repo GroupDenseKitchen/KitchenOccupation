@@ -53,7 +53,7 @@ void MainDebugWindow:: init()
     std::vector<CameraObject> cameras = currentFrame.getCameras();
     int nCameras = cameras.size();
 
-    qDebug(QByteArray::number(nCameras));
+    qDebug("%d",nCameras);
 
     for (int i = 0; i < nCameras; i++){
         QStandardItem* item = new QStandardItem(QString::number(i));
@@ -84,14 +84,25 @@ void MainDebugWindow::updateGUI()
 
 void MainDebugWindow::cameraSelctionUpdate(QModelIndex current, QModelIndex previous)
 {
-    qDebug(QByteArray::number(current.column()));
-    qDebug(QByteArray::number(current.row()));
-    qDebug(current.data().toByteArray());
+    qDebug("%d",current.column());
+    qDebug("%d",current.row());
+    qDebug("%s",current.data().toString().toStdString().c_str());
 
     currentCameraIndex = current.parent().row();
 
     if (current.column() == 1){
         currentKey = current.data().toString().toStdString();
+        cv::Mat matImage = program.frames.getCurrent().getCameras()[currentCameraIndex].images[currentKey];
+        cv::cvtColor(matImage, matImage, CV_BGR2RGB);
+
+        qImage = QImage((uchar*)matImage.data, matImage.cols, matImage.rows, matImage.step, QImage::Format_RGB888);
+        ui->image1->setPixmap(QPixmap::fromImage(qImage));
+    }
+}
+
+void MainDebugWindow:: updateDebugViews()
+{
+    if(currentKey.length() > 0 && currentCameraIndex != -1){
         cv::Mat matImage = program.frames.getCurrent().getCameras()[currentCameraIndex].images[currentKey];
         cv::cvtColor(matImage, matImage, CV_BGR2RGB);
 
@@ -110,7 +121,7 @@ void MainDebugWindow::on_pauseButton_clicked()
     isRunning = false;
 }
 
-void MainDebugWindow::on_stepButton_clicked()
+void MainDebugWindow::on_stepForwardButton_clicked()
 {
     isRunning = false;
     if(program.singleIteration()){
@@ -118,16 +129,8 @@ void MainDebugWindow::on_stepButton_clicked()
     }
 }
 
-void MainDebugWindow:: updateDebugViews()
+void MainDebugWindow::on_stepBackwardButton_clicked()
 {
-    if(currentKey.length() > 0 && currentCameraIndex != -1){
-        //TODO:Make this function read from processHistory in program
-        cv::Mat matImage = program.frames.getCurrent().getCameras()[currentCameraIndex].images[currentKey];
-        cv::cvtColor(matImage, matImage, CV_BGR2RGB);
-
-        qImage = QImage((uchar*)matImage.data, matImage.cols, matImage.rows, matImage.step, QImage::Format_RGB888);
-        ui->image1->setPixmap(QPixmap::fromImage(qImage));
-    }
+    isRunning = false;
+    // TODO
 }
-
-
