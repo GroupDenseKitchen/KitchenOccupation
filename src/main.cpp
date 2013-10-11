@@ -15,8 +15,12 @@ int main(int argc, char *argv[])
     debugProgram.show();*/
 
     DenseKitchen p;
-    //PROFILER_DUMP();
-    p.init();
+    p.readConfig("../conf/dense_conf.yml");
+    if(!p.init())
+    {
+        std::cout << "Init failed!\n";
+        return 0;
+    }
     p.singleIteration();
     PROFILER_DUMP();
     p.singleIteration();

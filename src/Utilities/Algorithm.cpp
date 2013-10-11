@@ -2,12 +2,14 @@
 
 bool Algorithm::initialize(configuration::ConfigurationManager & configuration)
 {
+    bool success = true;
     for(int n = 0; n < algorithms.size(); n++)
     {
         //PROFILER_START(algorithmTag[n]+" initialization");
-            algorithms[n]->initialize(configuration);
+        success &= algorithms[n]->initialize(configuration);
         //PROFILER_END();
     }
+    return success;
 }
 
 void Algorithm::process(FrameList & frames)

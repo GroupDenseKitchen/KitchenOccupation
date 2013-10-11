@@ -31,8 +31,8 @@ namespace image_processing
         cv::findContours(foregroundMask.clone(), contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
         for(unsigned int c = 0; c < contours.size(); c++)
         {
-            camera.objects.push_back(Object());
-            camera.objects.back().boundingBox = cv::boundingRect(contours[c]);
+            //camera.objects.push_back(Object());
+            //camera.objects.back().boundingBox = cv::boundingRect(contours[c]);
         }
     }
 }

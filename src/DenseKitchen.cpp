@@ -4,6 +4,7 @@ bool DenseKitchen::init(){
     bool networkSuccess = network.init(settings);
     bool imageProcessingSuccess = imageProcessing.initialize(settings);
     bool statisticsSuccess = statistics.initialize(settings);
+    // LOG this...
     return networkSuccess && imageProcessingSuccess && statisticsSuccess;
 }
 

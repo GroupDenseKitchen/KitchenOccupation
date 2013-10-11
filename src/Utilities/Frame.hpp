@@ -108,7 +108,7 @@ public:
     std::vector<std::string> getRoomIDs();
 
 
-private:
+public:
     std::vector<CameraObject> cameras;
 };
 

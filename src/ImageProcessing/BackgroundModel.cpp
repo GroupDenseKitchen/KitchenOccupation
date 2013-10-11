@@ -25,7 +25,7 @@ bool BackgroundModel::initialize(configuration::ConfigurationManager &configurat
 
     bg.set("history",history);
     bg.set("varThreshold",varThresholdGen);
-    //bg.setBool("bShadowDetection",isShadowDetection);
+    //bg.setBool("shadowDetection",isShadowDetection);
     bg.set("nmixtures",nmixtures);
     bg.set("backgroundRatio",backgroundRatio);
 
@@ -40,10 +40,8 @@ bool BackgroundModel::initialize(configuration::ConfigurationManager &configurat
      //TODO: loop over all cameras...
      CameraObject & camera = frames.getCurrent().getCameras().back();
 
-     std::cout << "1";
      if(!camera.hasImage("rawImage"))
      {
-         std::cout << "2";
          LOG("ImageProcessing Error", "Image \"rawImage\" not set in current frame!");
          return;
      }

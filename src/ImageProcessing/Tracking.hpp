@@ -5,6 +5,8 @@
 #include "../Utilities/FrameList.hpp"
 #include "../Utilities/Algorithm.hpp"
 
+#include <vector>
+
 /*!
  *  \brief   Image processing contains functionality for the different
  *           states of image processing required for human detection and tracking.
@@ -14,9 +16,9 @@ namespace image_processing
 
 struct ObjectPair
 {
-    Object object;
+    Object * object;
     int correspondingIndex;
-    ObjectPair(Object object, int correspondingIndex) : object(object), correspondingIndex(correspondingIndex) {}
+    ObjectPair(Object * object, int correspondingIndex) : object(object), correspondingIndex(correspondingIndex) {}
 };
 
 /*!

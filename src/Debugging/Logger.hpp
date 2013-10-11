@@ -160,7 +160,7 @@ extern Logger logObject;
 #define PROFILER_ITERATION_END()   debugging::logObject.profilerEndIteration();
 #define PROFILER_START(tag)        debugging::logObject.profilerBeginSection(tag);
 #define PROFILER_END()             debugging::logObject.profilerEndSection();
-#define PROFILER_DUMP();           debugging::logObject.profilerDumpSectionToConsole(debugging::logObject.getLatestIteration());
+#define PROFILER_DUMP()            debugging::logObject.profilerDumpSectionToConsole(debugging::logObject.getLatestIteration());
 
 }
 

@@ -13,7 +13,7 @@ namespace statistics
     bool Analytics::initialize(configuration::ConfigurationManager & configuration)
     {
         //TODO: Add algorithms...
-        Algorithm::initialize(configuration);   // Initialize all algorithms
+        return Algorithm::initialize(configuration);   // Initialize all algorithms
     }
 
 

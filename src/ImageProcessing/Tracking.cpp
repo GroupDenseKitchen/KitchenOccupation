@@ -17,11 +17,10 @@ namespace image_processing
 
     void Tracking::process(FrameList &frames) {
         //TODO: loop over all cameras...)
-        PROFILER_START("HEJ");
         if(frames.hasPrevious())
         {
-            CameraObject & cameraPrev = frames.getPrevious().getCameras().back();
-            CameraObject & cameraCurr = frames.getCurrent().getCameras().back();
+            CameraObject cameraPrev = frames.getPrevious().getCameras().back();
+            CameraObject cameraCurr = frames.getCurrent().getCameras().back();
 
             populate(candidatePrev, cameraPrev.objects);
             populate(candidateCurr, cameraCurr.objects);
@@ -49,7 +48,6 @@ namespace image_processing
                 }
             }
         }
-        PROFILER_END();
     }
 
     void Tracking::mapClosestCandidate(std::list<ObjectPair> & candidatePrev, std::list<ObjectPair> & candidateCurr, std::vector<Object> & prev, std::vector<Object> & curr)
@@ -79,11 +77,18 @@ namespace image_processing
     {
         objectPairs.clear();
         int n = 0;
-        for(std::vector<Object>::iterator object = objects.begin(); object != objects.end(); object++)
+        for(int n = 0; n < objects.size(); n++)
         {
-            objectPairs.push_back(ObjectPair(*object, n));
+            objectPairs.push_back(ObjectPair(&objects[n], n));
             n++;
         }
+        /*
+        for(std::vector<Object>::iterator object = objects.begin(); object != objects.end(); object++)
+        {
+            objectPairs.push_back(ObjectPair(&*object, n));
+            n++;
+        }
+        */
     }
 
 }
