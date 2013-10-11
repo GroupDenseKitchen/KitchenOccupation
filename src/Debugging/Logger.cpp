@@ -57,6 +57,16 @@ void Logger::dumpToConsole(void){
 		std::cout << *it << std::endl;
 	}
 }
+/*
+ProfilerEntry Logger::popProfiler()
+{
+    ProfilerEntry entry = loopIterations.get_
+}*/
+
+int Logger::profilerSize()
+{
+    return loopIterations.size();
+}
 
 void Logger::profilerBeginIteration()
 {

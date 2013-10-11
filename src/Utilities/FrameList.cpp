@@ -9,11 +9,11 @@ FrameList::~FrameList(){
     //TODO stub
 }
 
-Frame FrameList::getCurrent(){
+Frame &FrameList::getCurrent(){
     return frames.back();
 }
 
-Frame FrameList::getPrevious(){
+Frame &FrameList::getPrevious(){
     return frames[frames.size()-1];
 }
 

@@ -42,7 +42,7 @@ void Frame::addCamera(CameraObject c){
 }
 
 
-std::vector<CameraObject> Frame::getCameras(){
+std::vector<CameraObject> &Frame::getCameras(){
     return cameras;
 }
 

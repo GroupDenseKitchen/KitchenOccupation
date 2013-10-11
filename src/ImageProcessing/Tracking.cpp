@@ -17,17 +17,19 @@ namespace image_processing
 
     void Tracking::process(FrameList &frames) {
         //TODO: loop over all cameras...)
+
         if(frames.hasPrevious())
         {
-            CameraObject cameraPrev = frames.getPrevious().getCameras().back();
-            CameraObject cameraCurr = frames.getCurrent().getCameras().back();
+            CameraObject &cameraPrev = frames.getPrevious().getCameras().back();
+            CameraObject &cameraCurr = frames.getCurrent().getCameras().back();
 
             populate(candidatePrev, cameraPrev.objects);
             populate(candidateCurr, cameraCurr.objects);
 
             while(!candidatePrev.empty() && !candidateCurr.empty())
-                mapClosestCandidate(candidatePrev, candidateCurr, cameraPrev.objects, cameraCurr.objects);
+                mapClosestCandidatePair(candidatePrev, candidateCurr, cameraPrev.objects, cameraCurr.objects);
 
+            int lost = 0, found = 0;
             // Detected lost objects
             if(!candidatePrev.empty())
             {
@@ -35,6 +37,7 @@ namespace image_processing
                 {
                     //releaseID();
                     candidateCurr.pop_back();
+                    lost++;
                 }
             }
 
@@ -45,19 +48,41 @@ namespace image_processing
                 {
                     setID(cameraCurr.objects, candidateCurr.back().correspondingIndex, getUniqueID());
                     candidateCurr.pop_back();
+                    found++;
                 }
             }
         }
     }
 
-    void Tracking::mapClosestCandidate(std::list<ObjectPair> & candidatePrev, std::list<ObjectPair> & candidateCurr, std::vector<Object> & prev, std::vector<Object> & curr)
+    void Tracking::mapClosestCandidatePair(std::list<ObjectPair> & candidatePrev, std::list<ObjectPair> & candidateCurr, std::vector<Object> & prev, std::vector<Object> & curr)
     {
-        int bestPrevIndex = 0, bestCurrIndex = 0;
+        std::list<ObjectPair>::iterator bestPrev, bestCurr;
+        double shortestDistance = 1e10;
 
-        // Loopa över alla candidatePrev och candidateCurr,
-        // hitta de som är närmast varandra (min(distance(...))
-        // och sätt bestPrev och bestCurr till de motsvarande bästa objecten
-        // Efter: sätt id:t på bestPrev till bestCurr
+        for(std::list<ObjectPair>::iterator prevCandidate = candidatePrev.begin(); prevCandidate != candidatePrev.end(); prevCandidate++)
+        {
+            for(std::list<ObjectPair>::iterator currCandidate = candidateCurr.begin(); currCandidate != candidateCurr.end(); currCandidate++)
+            {
+                if(distance(*prevCandidate, *currCandidate) < shortestDistance)
+                {
+                    shortestDistance = distance(*prevCandidate, *currCandidate);
+                    bestPrev = prevCandidate;
+                    bestCurr = currCandidate;
+                }
+            }
+        }
+        bestCurr->object->id = bestPrev->object->id;
+        candidatePrev.erase(bestPrev);
+        candidateCurr.erase(bestCurr);
+    }
+
+    double Tracking::distance(ObjectPair previous, ObjectPair current)
+    {
+        double x1 = previous.object->boundingBox.x;
+        double y1 = previous.object->boundingBox.y;
+        double x2 = current.object->boundingBox.x;
+        double y2 = current.object->boundingBox.y;
+        return (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2);
     }
 
     void Tracking::setID(std::vector<Object> & objects, int index, int ID)
@@ -80,15 +105,7 @@ namespace image_processing
         for(int n = 0; n < objects.size(); n++)
         {
             objectPairs.push_back(ObjectPair(&objects[n], n));
-            n++;
         }
-        /*
-        for(std::vector<Object>::iterator object = objects.begin(); object != objects.end(); object++)
-        {
-            objectPairs.push_back(ObjectPair(&*object, n));
-            n++;
-        }
-        */
     }
 
 }

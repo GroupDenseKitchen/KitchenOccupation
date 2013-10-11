@@ -17,7 +17,7 @@ void Algorithm::process(FrameList & frames)
     for(int n = 0; n < algorithms.size(); n++)
     {
         PROFILER_START(algorithmTag[n]);
-            algorithms[n]->process(frames);
+        algorithms[n]->process(frames);
         PROFILER_END();
     }
 }

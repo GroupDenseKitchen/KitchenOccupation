@@ -38,7 +38,7 @@ bool BackgroundModel::initialize(configuration::ConfigurationManager &configurat
  void BackgroundModel::process(FrameList &frames)
  {
      //TODO: loop over all cameras...
-     CameraObject camera = frames.getCurrent().getCameras().back();
+     CameraObject &camera = frames.getCurrent().getCameras().back();
 
      if(!camera.hasImage("rawImage"))
      {
@@ -53,6 +53,9 @@ bool BackgroundModel::initialize(configuration::ConfigurationManager &configurat
      cv::erode(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), erotions);
      cv::dilate(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), dilations);
      cv::threshold(foregroundMask,foregroundMask,230,255,CV_THRESH_BINARY);
+
+     cv::namedWindow("binary");
+     cv::imshow("binary", foregroundMask);
 
      camera.addImage("foregroundMask", foregroundMask);
  }

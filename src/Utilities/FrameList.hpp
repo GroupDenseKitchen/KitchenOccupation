@@ -29,12 +29,12 @@ public:
     /*!
        \brief   Get the current (latest) Frame.
     */
-    Frame getCurrent();
+    Frame &getCurrent();
 
     /*!
        \brief   Get the previous (previously latest) Frame.
     */
-    Frame getPrevious();
+    Frame &getPrevious();
 
     /*!
        \brief   Weather there are two or more frames.
@@ -45,6 +45,11 @@ public:
        \brief   Append the FrameList with the latest Frame.
     */
 	void append(Frame newFrame);
+
+    /*!
+       \brief   Get the number of frames in history.
+    */
+    int size() { return frames.size(); }
 private:
     std::deque<Frame> frames;
     int framesToKeep;

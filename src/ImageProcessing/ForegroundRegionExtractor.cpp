@@ -17,7 +17,7 @@ namespace image_processing
 
     void ForegroundRegionExtractor::process(FrameList &frames) {
         //TODO: loop over all cameras...
-        CameraObject camera = frames.getCurrent().getCameras().back();
+        CameraObject &camera = frames.getCurrent().getCameras().back();
 
         if(!camera.hasImage("foregroundMask"))
         {
@@ -25,14 +25,21 @@ namespace image_processing
             return;
         }
 
+        cv::namedWindow("boundingboxes");           // Debug
+        cv::Mat raw = camera.getImage("rawImage");  // Debug
+
         foregroundMask = camera.getImage("foregroundMask");
         contours.clear();
         // TODO: is clone() necessary!?
         cv::findContours(foregroundMask.clone(), contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
         for(unsigned int c = 0; c < contours.size(); c++)
         {
-            //camera.objects.push_back(Object());
-            //camera.objects.back().boundingBox = cv::boundingRect(contours[c]);
+            camera.objects.push_back(Object());
+            camera.objects.back().boundingBox = cv::boundingRect(contours[c]);
+            cv::rectangle(raw, camera.objects.back().boundingBox, cv::Scalar(0,0,255), 2);     // Debug
         }
+        cv::imshow("boundingboxes", raw);     // Debug
+
+
     }
 }

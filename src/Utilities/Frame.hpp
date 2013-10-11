@@ -95,7 +95,7 @@ public:
     /*!
        \brief   TODO...
     */
-    std::vector<CameraObject> getCameras();
+    std::vector<CameraObject> &getCameras();
 
     /*!
        \brief   TODO...

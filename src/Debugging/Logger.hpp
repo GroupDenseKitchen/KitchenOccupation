@@ -100,6 +100,16 @@ public:
     void dumpToConsole();
 
     /*!
+       \brief   Pop the oldest profiler entry
+    */
+    //ProfilerEntry popProfiler();
+
+    /*!
+       \brief   Get the number of profiler entries.
+    */
+    int profilerSize();
+
+    /*!
        \brief   Initiate a new iteration for the profiler.
     */
     void profilerBeginIteration();
