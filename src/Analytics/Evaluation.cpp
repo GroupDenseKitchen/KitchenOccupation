@@ -72,8 +72,8 @@ void Evaluation::readXML2FrameList(char* fileName)
             h = atoi(objectPropertyPointer->first_attribute("h")->value());
             w = atoi(objectPropertyPointer->first_attribute("w")->value());
 
-            groundTruth.back().back().boundingBox.x = x;
-            groundTruth.back().back().boundingBox.y = y;
+            groundTruth.back().back().boundingBox.x = x - w/2;
+            groundTruth.back().back().boundingBox.y = y - h/2;
             groundTruth.back().back().boundingBox.height = h;
             groundTruth.back().back().boundingBox.width = w;
             groundTruth.back().back().id = objectID;
@@ -166,7 +166,8 @@ void Evaluation::currentFrame()
             for( vector<Object>::iterator hypObj = hypothesisList.begin(); hypObj != hypothesisList.end(); hypObj++)
             {
                 //cout << "Alg part 2.3" << endl;
-                double distance = sqrt(std::pow(truObj->boundingBox.x - hypObj->boundingBox.x, 2) + std::pow(truObj->boundingBox.y - hypObj->boundingBox.y, 2));
+                double distance = sqrt(std::pow(truObj->boundingBox.x - hypObj->boundingBox.x, 2) +
+                                       std::pow(truObj->boundingBox.y - hypObj->boundingBox.y, 2));
                     if (distance < T)
                     {
                         distMap.emplace(distance, make_pair(truObj->id, hypObj->id));
@@ -287,70 +288,6 @@ void Evaluation::MOTA()
         motaValue = 1 - (float)(sumMisses + sumFalsePositive + sumMismatches)/sumNumberOfObjects;
     }
     //cout << "MOTA:\t\t" << motaValue << endl;
-}
-
-#define PUTTEXT(x,y,text) putText(infoDisplayMatrix, text, Point(x, y), fontFace, fontScale, Scalar::all(0), thickness, 8);
-
-void Evaluation::displayInfo(string windowID)
-{
-    int fontFace = CV_FONT_HERSHEY_COMPLEX;
-    double fontScale = 1;
-    int thickness = 1;
-
-    infoDisplayMatrix = Scalar::all(200);
-    string text;
-    //int baseline;
-
-    PUTTEXT(5,25,"Evaluation info:");
-    int l = 60;
-
-    int leftTab = 50;
-    int rightTab = 360;
-
-    l += 35;
-    PUTTEXT(leftTab, l, "Frame:");			PUTTEXT(rightTab, l, to_string(frameCounter));				l += 35;
-    l += 35;
-    PUTTEXT(leftTab, l, "MOTA:");			PUTTEXT(rightTab, l, to_string(motaValue));					l += 35;
-    PUTTEXT(leftTab, l, "MOTP:");			PUTTEXT(rightTab, l, to_string(motpValue));					l += 35;
-    l += 35;
-    PUTTEXT(leftTab, l, "Matches:");		PUTTEXT(rightTab, l, to_string(matches.back()));			l += 35;
-    PUTTEXT(leftTab, l, "Misses:");			PUTTEXT(rightTab, l, to_string(misses.back()));				l += 35;
-    PUTTEXT(leftTab, l, "False Positive:");	PUTTEXT(rightTab, l, to_string(falsePositive.back()));		l += 35;
-    PUTTEXT(leftTab, l, "Mismatches:");		PUTTEXT(rightTab, l, to_string(mismatches.back()));			l += 35;
-    PUTTEXT(leftTab, l, "Distance:");		PUTTEXT(rightTab, l, to_string(distance.back()));			l += 35;
-
-    imshow( windowID.c_str(), infoDisplayMatrix);
-}
-
-void Evaluation::displaySequenceInfo(string windowID)
-{
-    int fontFace = CV_FONT_HERSHEY_COMPLEX;
-    double fontScale = 1;
-    int thickness = 1;
-
-    infoDisplayMatrix = Scalar::all(200);
-    string text;
-    //int baseline;
-
-    PUTTEXT(5,25,"Sequence info:");
-    int l = 60;
-
-    int leftTab = 50;
-    int rightTab = 360;
-
-    l += 35;
-    PUTTEXT(leftTab, l, "Frames:");			PUTTEXT(rightTab, l, to_string(frameCounter));			l += 35;
-    l += 35;
-    PUTTEXT(leftTab, l, "MOTA:");			PUTTEXT(rightTab, l, to_string(motaValue));				l += 35;
-    PUTTEXT(leftTab, l, "MOTP:");			PUTTEXT(rightTab, l, to_string(motpValue));				l += 35;
-    l += 35;
-    PUTTEXT(leftTab, l, "Matches:");		PUTTEXT(rightTab, l, to_string(sumMatches));			l += 35;
-    PUTTEXT(leftTab, l, "Misses:");			PUTTEXT(rightTab, l, to_string(sumMisses));				l += 35;
-    PUTTEXT(leftTab, l, "False Positive:");	PUTTEXT(rightTab, l, to_string(sumFalsePositive));		l += 35;
-    PUTTEXT(leftTab, l, "Mismatches:");		PUTTEXT(rightTab, l, to_string(sumMismatches));			l += 35;
-    PUTTEXT(leftTab, l, "Distance:");		PUTTEXT(rightTab, l, to_string(sumDistance));			l += 35;
-
-    imshow( windowID.c_str(), infoDisplayMatrix);
 }
 
 Object* Evaluation::getObj(vector<Object>* objVec, int ID)

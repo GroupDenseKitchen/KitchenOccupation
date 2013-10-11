@@ -25,8 +25,6 @@ public:
     void currentFrame();
     void MOTP();
     void MOTA();
-    void displayInfo(string windowID);
-    void displaySequenceInfo(string windowID);
 
     // GroundTruth
     vector<vector<Object>> groundTruth;
