@@ -100,6 +100,17 @@ void MainDebugWindow::cameraSelctionUpdate(QModelIndex current, QModelIndex prev
     }
 }
 
+void MainDebugWindow:: updateDebugViews()
+{
+    if(currentKey.length() > 0 && currentCameraIndex != -1){
+        cv::Mat matImage = program.frames.getCurrent().getCameras()[currentCameraIndex].images[currentKey];
+        cv::cvtColor(matImage, matImage, CV_BGR2RGB);
+
+        qImage = QImage((uchar*)matImage.data, matImage.cols, matImage.rows, matImage.step, QImage::Format_RGB888);
+        ui->image1->setPixmap(QPixmap::fromImage(qImage));
+    }
+}
+
 void MainDebugWindow::on_runButton_clicked()
 {
     isRunning = true;
@@ -110,7 +121,7 @@ void MainDebugWindow::on_pauseButton_clicked()
     isRunning = false;
 }
 
-void MainDebugWindow::on_stepButton_clicked()
+void MainDebugWindow::on_stepForwardButton_clicked()
 {
     isRunning = false;
     if(program.singleIteration()){
@@ -118,16 +129,8 @@ void MainDebugWindow::on_stepButton_clicked()
     }
 }
 
-void MainDebugWindow:: updateDebugViews()
+void MainDebugWindow::on_stepBackwardButton_clicked()
 {
-    if(currentKey.length() > 0 && currentCameraIndex != -1){
-        //TODO:Make this function read from processHistory in program
-        cv::Mat matImage = program.frames.getCurrent().getCameras()[currentCameraIndex].images[currentKey];
-        cv::cvtColor(matImage, matImage, CV_BGR2RGB);
-
-        qImage = QImage((uchar*)matImage.data, matImage.cols, matImage.rows, matImage.step, QImage::Format_RGB888);
-        ui->image1->setPixmap(QPixmap::fromImage(qImage));
-    }
+    isRunning = false;
+    // TODO
 }
-
-

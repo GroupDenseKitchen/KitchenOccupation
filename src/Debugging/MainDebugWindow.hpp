@@ -33,12 +33,13 @@ public:
     friend class DenseKitchen;
 
 private slots:
-    void on_runButton_clicked();
-    void on_pauseButton_clicked();
-    void on_stepButton_clicked();
-
     void updateGUI();
     void cameraSelctionUpdate(QModelIndex,QModelIndex);
+
+    void on_runButton_clicked();
+    void on_pauseButton_clicked();
+    void on_stepForwardButton_clicked();
+    void on_stepBackwardButton_clicked();
 
 private:
     Ui::MainDebugWindow *ui;

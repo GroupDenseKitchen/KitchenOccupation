@@ -22,8 +22,8 @@
      <rect>
       <x>10</x>
       <y>500</y>
-      <width>640</width>
-      <height>192</height>
+      <width>500</width>
+      <height>150</height>
      </rect>
     </property>
    </widget>
@@ -43,53 +43,77 @@
      <string/>
     </property>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
+   <widget class="QPushButton" name="runButton">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>700</y>
-      <width>295</width>
-      <height>30</height>
+      <x>520</x>
+      <y>500</y>
+      <width>130</width>
+      <height>28</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QPushButton" name="runButton">
-       <property name="font">
-        <font>
-         <family>Helvetica</family>
-        </font>
-       </property>
-       <property name="text">
-        <string>Run</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pauseButton">
-       <property name="font">
-        <font>
-         <family>Helvetica</family>
-        </font>
-       </property>
-       <property name="text">
-        <string>Pause</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="stepButton">
-       <property name="font">
-        <font>
-         <family>Helvetica</family>
-        </font>
-       </property>
-       <property name="text">
-        <string>Step</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <property name="font">
+     <font>
+      <family>Helvetica</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Run</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pauseButton">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>540</y>
+      <width>130</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Helvetica</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Pause</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="stepForwardButton">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>580</y>
+      <width>130</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Helvetica</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Step Forward</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="stepBackwardButton">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>620</y>
+      <width>130</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Helvetica</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Step Backward</string>
+    </property>
    </widget>
   </widget>
  </widget>
