@@ -13,9 +13,7 @@
 #include <iostream>
 
 #include "../Utilities/utilities.hpp"
-
-
-//This is the project wide logging class
+#include "../Utilities/StringUtilities.hpp"
 
 /*!
  *  \brief    Debugging utilities.
@@ -30,20 +28,27 @@ namespace debugging
 struct LogEntry
 {
     std::string tag;
-    std::string msg;
+    std::string message;
     std::string callingFunction;
-    std::string filename;
+    std::string fileName;
     std::string lineNumber;
-    std::string timestamp;
+    std::string time;
+    std::string date;
 
     /*!
        \brief   Constructor.
     */
-    LogEntry(std::string tag, std::string msg, std::string callingFunction, std::string filename,
+    LogEntry(std::string tag, std::string message, std::string callingFunction, std::string fileName,
              std::string lineNumber) :
-            msg(msg), callingFunction(callingFunction), tag(tag), filename(filename), lineNumber(lineNumber)
+            message(message), callingFunction(callingFunction), tag(tag), fileName(fileName), lineNumber(lineNumber)
             {}
+
+    /*!
+       \brief   Get a string with default format or with specified formating.
+    */
+    std::string toString(std::string format = "[%tag]%msg(%file::%function@%line)[%time]");
 };
+
 
 struct ProfilerEntry
 {
@@ -55,6 +60,8 @@ struct ProfilerEntry
 
     ProfilerEntry(std::string tag, int64 begun, ProfilerEntry * parent) : tag(tag), begun(begun), parent(parent) {}
 };
+
+typedef std::deque<LogEntry>::iterator LogIterator;
 
 /*!
  *  \brief     Logger is a logging manager that is globally accessable
@@ -82,6 +89,42 @@ public:
        \brief   Add a log entry and give it a time stamp.
     */
     void append(LogEntry);
+
+    /*!
+       \brief   Pop a log entry.
+    */
+    LogEntry pop();
+
+    /*!
+       \brief   Get a specific log entry.
+       \warning index must be between 0 and size()-1
+    */
+    LogEntry get(int index) { return logFile[index];  }
+
+    /*!
+       \brief   The number of stored log entries.
+    */
+    int size()              { return logFile.size();  }
+
+    /*!
+       \brief   Weather or not no log entries exist.
+    */
+    bool isEmpty()          { return logFile.empty(); }
+
+    /*!
+       \brief   Remove all log entries.
+    */
+    void clear()            { logFile.clear();        }
+
+    /*!
+       \brief   Get the begin iterator for the log entries.
+    */
+    LogIterator begin()     { return logFile.begin(); }
+
+    /*!
+       \brief   Get the end iterator for the log entries.
+    */
+    LogIterator end()       { return logFile.end();   }
 
     /*!
        \brief   Getter for the most recent log entry as a string,
