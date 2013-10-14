@@ -42,7 +42,6 @@ MainDebugWindow::~MainDebugWindow()
 void MainDebugWindow:: init()
 { 
     program.readConfig("dense_conf.yml");
-    debugging::logObject.dumpToConsole();
     program.init();
 
     // Init camera and frame selector treeView
