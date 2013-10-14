@@ -41,9 +41,8 @@ MainDebugWindow::~MainDebugWindow()
 
 void MainDebugWindow:: init()
 { 
-    std::cout << "Well well, congratulations on coming this far \n";
     program.readConfig("dense_conf.yml");
-    std::cout << "Well well, congratulations on coming this far \n";
+    debugging::logObject.dumpToConsole();
     program.init();
 
     // Init camera and frame selector treeView
