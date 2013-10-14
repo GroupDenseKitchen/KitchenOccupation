@@ -152,7 +152,7 @@ public:
     /*!
        \brief   Pop the oldest profiler entry
     */
-    //ProfilerEntry popProfiler();
+    ProfilerEntry popProfiler();
 
     /*!
        \brief   Get the number of profiler entries.

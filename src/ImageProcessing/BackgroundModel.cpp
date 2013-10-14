@@ -12,7 +12,7 @@ bool BackgroundModel::initialize(configuration::ConfigurationManager &configurat
     //STANDARD VALUES
     nmixtures = 5;
     backgroundRatio = 0.9;
-    varThresholdGen = 9;
+    varThresholdGen = 19;
     fVarInit = 15;
     //fVarMin = ;
     //fVarMax = ;
@@ -53,9 +53,9 @@ bool BackgroundModel::initialize(configuration::ConfigurationManager &configurat
      cv::erode(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), erotions);
      cv::dilate(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), dilations);
      cv::threshold(foregroundMask,foregroundMask,230,255,CV_THRESH_BINARY);
-
      cv::namedWindow("binary");
      cv::imshow("binary", foregroundMask);
+
 
      camera.addImage("foregroundMask", foregroundMask);
  }

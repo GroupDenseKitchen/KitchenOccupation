@@ -36,7 +36,6 @@ void Logger::append(LogEntry entry)
 
 std::string Logger::getLastEntry( std::string format )
 {
-
     if(!logFile.empty()) {
         return logFile.front().toString(format);
 	}
@@ -67,11 +66,13 @@ void Logger::dumpToConsole(void)
 		std::cout << *it << std::endl;
 	}
 }
-/*
+
 ProfilerEntry Logger::popProfiler()
 {
-    ProfilerEntry entry = loopIterations.get_
-}*/
+    ProfilerEntry entry = loopIterations.front();
+    loopIterations.pop_front();
+    return entry;
+}
 
 int Logger::profilerSize()
 {
