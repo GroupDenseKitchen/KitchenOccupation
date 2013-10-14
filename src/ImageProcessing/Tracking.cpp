@@ -10,9 +10,11 @@ namespace image_processing
 
     }
 
-    bool Tracking::initialize(configuration::ConfigurationManager &configuration)
+    bool Tracking::initialize(configuration::ConfigurationManager &config)
     {
-        return true;
+        isInitialized = true;
+        //TODO: Initialize variables
+        return isInitialized;
     }
 
     void Tracking::process(FrameList &frames) {

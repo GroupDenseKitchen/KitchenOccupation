@@ -144,4 +144,29 @@ namespace configuration
 
     }
 
+    bool ConfigurationManager::configure(std::string name, bool &variable) {
+        if(!hasBool(name))
+            return false;
+        variable = getBool(name);
+        return true;
+    }
+
+    bool ConfigurationManager::configure(std::string name, int &variable) {
+        if(!hasInt(name))
+            return false;
+        variable = getInt(name);
+        return true;
+    }
+    bool ConfigurationManager::configure(std::string name, double &variable) {
+        if(!hasDouble(name))
+            return false;
+        variable = getDouble(name);
+        return true;
+    }
+    bool ConfigurationManager::configure(std::string name, std::string &variable) {
+        if(!hasString(name))
+            return false;
+        variable = getString(name);
+        return true;
+    }
 }

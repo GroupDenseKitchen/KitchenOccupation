@@ -10,10 +10,10 @@ namespace statistics
         //TODO stub
     }
 
-    bool Analytics::initialize(configuration::ConfigurationManager & configuration)
+    bool Analytics::initialize(configuration::ConfigurationManager & config)
     {
         //TODO: Add algorithms...
-        return Algorithm::initialize(configuration);   // Initialize all algorithms
+        return Algorithm::initialize(config);   // Initialize all algorithms
     }
 
 

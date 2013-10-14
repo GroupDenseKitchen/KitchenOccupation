@@ -20,7 +20,7 @@ public:
     BackgroundModel();
     ~BackgroundModel();
     void process(FrameList &frames) override;
-    bool initialize(configuration::ConfigurationManager &configuration) override;
+    bool initialize(configuration::ConfigurationManager &conf) override;
 
 private:
     cv::BackgroundSubtractorMOG2 bg;
@@ -28,13 +28,13 @@ private:
     int dilations;
     int erotions;
     int history;
-    float backgroundRatio;
-    float varThresholdGen;
-    float fVarInit;
-    float fVarMin;
-    float fVarMax;
-    float fCT;
-    float fTau;
+    double backgroundRatio;
+    double varThresholdGen;
+    double fVarInit;
+    double fVarMin;
+    double fVarMax;
+    double fCT;
+    double fTau;
     bool isShadowDetection;
 
 };

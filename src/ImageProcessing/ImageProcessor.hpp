@@ -37,7 +37,7 @@ public:
        \brief   Initialize the ImageProcessor.
        \details Configurates which algorithms to be applied in which order.
     */
-    bool initialize(configuration::ConfigurationManager & configuration) override;
+    bool initialize(configuration::ConfigurationManager & config) override;
 
     /*!
        \brief   Perform all image processing algorithms in order.

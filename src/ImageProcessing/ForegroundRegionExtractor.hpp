@@ -33,7 +33,7 @@ public:
     /*!
        \brief   Initializer.
     */
-    bool initialize(configuration::ConfigurationManager &configuration) override;
+    bool initialize(configuration::ConfigurationManager &config) override;
 
     /*!
        \brief   TODO...

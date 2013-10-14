@@ -7,21 +7,26 @@ BackgroundModel::~BackgroundModel(){
 
 }
 
-bool BackgroundModel::initialize(configuration::ConfigurationManager &configuration)
+bool BackgroundModel::initialize(configuration::ConfigurationManager &conf)
 {
-    //STANDARD VALUES
-    nmixtures = 5;
-    backgroundRatio = 0.9;
-    varThresholdGen = 19;
-    fVarInit = 15;
+    isInitialized = true;
+
+    // Initialize variables
+    //
+    //           |VARIABLE          |NAME                  |DEFAULT
+    //---------------------------------------------------------------
+    CONFIG(conf, nmixtures,         "nmixtures",            5);
+    CONFIG(conf, backgroundRatio,   "backgroundRatio",      0.9);
+    CONFIG(conf, varThresholdGen,   "varThresholdGen",      19);
+    CONFIG(conf, fVarInit,          "fVarInit",             15);
+    CONFIG(conf, fCT,               "fCT",                  0.05);
+    CONFIG(conf, isShadowDetection, "isShadowDetection",    false);
+    CONFIG(conf, erotions,          "erotions",             3);
+    CONFIG(conf, dilations,         "dilations",            3);
+    CONFIG(conf, history,           "history",              500);
     //fVarMin = ;
     //fVarMax = ;
-    fCT = 0.05;
     //fTau = ;
-    isShadowDetection = false;
-    erotions = 3;
-    dilations = 3;
-    history = 500;
 
     bg.set("history",history);
     bg.set("varThreshold",varThresholdGen);
@@ -31,8 +36,7 @@ bool BackgroundModel::initialize(configuration::ConfigurationManager &configurat
 
     //TODO: more parameters should be set, see above and clean it up, function should get inparameters...
 
-
-    return true;
+    return isInitialized;
 }
 
  void BackgroundModel::process(FrameList &frames)

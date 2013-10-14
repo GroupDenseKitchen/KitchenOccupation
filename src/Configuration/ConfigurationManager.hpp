@@ -90,6 +90,11 @@ class ConfigurationManager
          */
         std::string getString(std::string name);
 
+        bool configure(std::string name, bool &variable);
+        bool configure(std::string name, int &variable);
+        bool configure(std::string name, double &variable);
+        bool configure(std::string name, std::string &variable);
+
     private:
         // Reading functions. (Templates won't work because OpenCV is not super awesome)
 

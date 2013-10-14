@@ -10,9 +10,11 @@ namespace image_processing
 
     }
 
-    bool ForegroundRegionExtractor::initialize(configuration::ConfigurationManager &configuration)
+    bool ForegroundRegionExtractor::initialize(configuration::ConfigurationManager &config)
     {
-        return true;
+        isInitialized = true;
+        //TODO: Initialize variables
+        return isInitialized;
     }
 
     void ForegroundRegionExtractor::process(FrameList &frames) {
