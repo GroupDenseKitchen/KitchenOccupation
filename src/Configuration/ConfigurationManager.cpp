@@ -75,6 +75,7 @@ namespace configuration
 
     bool ConfigurationManager::readConfig(std::string filePath)
     {
+        std::cout << "Well well, congratulations on coming this far \n";
         nErrors = 0;
         nItemsRead = 0;
         try {
@@ -86,13 +87,51 @@ namespace configuration
         }
         cv::Mat fgsfds;
 
+        cv::FileNode nodes;
+        try {
+            nodes = configFile.root();
+        }
+        catch (cv::Exception& e) {
+            LOG("Config error", "Error reading configuration file " << filePath);
+            return false;
+        }
+
+        int nodeType = cv::FileNode::NONE;
+        for(cv::FileNodeIterator node = nodes.begin(); node != nodes.end(); node++)
+        {
+            /*
+            try {
+                node = configFile[i];
+            }
+            catch (cv::Exception& e) {
+                nodeType = cv::FileNode::NONE;
+            }*/
+
+            switch (nodeType) {
+                case cv::FileNode::INT:
+                    readItem("isDebug", isDebug);
+                    readItem("isTesting", isTesting);
+                    readItem("hasGroundTruth", hasGroundTruth);
+                    readItem("nCameras", nCameras);
+                    break;
+                case cv::FileNode::STRING:
+                    readItem("videoFilePath", videoFilePath);
+                    readItem("groundTruthPath", groundTruthPath);
+                    break;
+                default:
+                    std::cout << "Something went wrong \n";
+            }
+        }
+
+
+        /*
         readItem("isDebug", isDebug);
         readItem("isTesting", isTesting);
         readItem("hasGroundTruth", hasGroundTruth);
         readItem("nCameras", nCameras);
         readItem("videoFilePath", videoFilePath);
         readItem("groundTruthPath", groundTruthPath);
-
+*/
         LOG("Config", "Configuration file " << filePath << " read successfully with " <<
                       nErrors << " errors out of a total " << nItemsRead << " attempts.");
         nErrors = 0;

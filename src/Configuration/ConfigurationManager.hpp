@@ -87,6 +87,12 @@ class ConfigurationManager
         std::string videoFilePath;      // Location of video file(s).
         std::string groundTruthPath;    // Location of ground truth data for specified video
 
+        std::map<std::string, int> intBoolMap;
+        std::map<std::string, double> doubleMap;
+        std::map<std::string, std::string> stringMap;
+
+
+
 };
 
 } // namespace
