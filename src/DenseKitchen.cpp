@@ -1,6 +1,7 @@
 #include "DenseKitchen.hpp"
 
-bool DenseKitchen::init(){
+bool DenseKitchen::init() {
+    PROFILER_ITERATION_START();
     bool networkSuccess = network.init(settings);
     bool imageProcessingSuccess = imageProcessing.initialize(settings);
     bool statisticsSuccess = statistics.initialize(settings);
@@ -8,6 +9,7 @@ bool DenseKitchen::init(){
     std::cout << networkSuccess << "\n";
     std::cout << imageProcessingSuccess << "\n";
     std::cout << statisticsSuccess << "\n";
+    PROFILER_ITERATION_END();
     return networkSuccess && imageProcessingSuccess && statisticsSuccess;
 }
 

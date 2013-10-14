@@ -5,9 +5,12 @@ bool Algorithm::initialize(configuration::ConfigurationManager & configuration)
     bool success = true;
     for(int n = 0; n < algorithms.size(); n++)
     {
-        //PROFILER_START(algorithmTag[n]+" initialization");
-        success &= algorithms[n]->initialize(configuration);
-        //PROFILER_END();
+        PROFILER_START(algorithmTag[n]+" initialization");
+        if(algorithms[n]->initialize(configuration))
+            success = false;
+        else
+            LOG(algorithmTag[n]+" initialization error", algorithmTag[n] << "failed at initialization!");
+        PROFILER_END();
     }
     return success;
 }

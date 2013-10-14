@@ -49,7 +49,11 @@ struct LogEntry
     std::string toString(std::string format = "[%tag]%msg(%file::%function@%line)[%time]");
 };
 
-
+/*!
+ *  \brief     A profiler entry is a container of profiler information.
+ *  \version   0.1
+ *  \date      2013-10-11
+ */
 struct ProfilerEntry
 {
     std::string tag;
@@ -61,6 +65,9 @@ struct ProfilerEntry
     ProfilerEntry(std::string tag, int64 begun, ProfilerEntry * parent) : tag(tag), begun(begun), parent(parent) {}
 };
 
+/*!
+ *  \brief     LogEntry iterator
+ */
 typedef std::deque<LogEntry>::iterator LogIterator;
 
 /*!
