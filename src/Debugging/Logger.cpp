@@ -61,10 +61,9 @@ LogEntry Logger::pop()
 
 void Logger::dumpToConsole(void)
 {
-	std::vector<std::string> lines = flushLog();
-	for(std::vector<std::string>::iterator it = lines.begin(); it != lines.end(); ++it){
-		std::cout << *it << std::endl;
-	}
+    for(std::deque<LogEntry>::iterator it = logFile.begin(); it != logFile.end(); ++it) {
+        std::cerr << it->toString() << std::endl;
+    }
 }
 
 ProfilerEntry Logger::popProfiler()

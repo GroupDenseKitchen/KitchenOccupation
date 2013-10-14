@@ -32,7 +32,7 @@ public:
      * \brief Initializes the network module.
      * \param settings A configuration object containing program settings
      */
-    bool init(configuration::ConfigurationManager& settings);
+    bool initialize(configuration::ConfigurationManager& settings);
 
     /*!
      * \brief dequeFrame returns a pointer to the latest frame.

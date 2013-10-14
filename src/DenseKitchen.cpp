@@ -2,7 +2,7 @@
 
 bool DenseKitchen::init() {
     PROFILER_ITERATION_START();
-    bool networkSuccess = network.init(settings);
+    bool networkSuccess = network.initialize(settings);
     bool imageProcessingSuccess = imageProcessing.initialize(settings);
     bool statisticsSuccess = statistics.initialize(settings);
     // LOG this...

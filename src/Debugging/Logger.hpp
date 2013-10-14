@@ -46,7 +46,7 @@ struct LogEntry
     /*!
        \brief   Get a string with default format or with specified formating.
     */
-    std::string toString(std::string format = "[%tag]%msg(%file::%function@%line)[%time]");
+    std::string toString(std::string format = "[%tag]%message(%file::%function@%line)[%time]");
 };
 
 /*!

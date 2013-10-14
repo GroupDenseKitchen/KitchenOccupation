@@ -6,70 +6,81 @@ namespace configuration
 
     ConfigurationManager::~ConfigurationManager() {}
 
-    bool ConfigurationManager::isDebugMode() {return isDebug;}
-    bool ConfigurationManager::isTestingMode() {return isTesting;}
-    bool ConfigurationManager::isGroundTruthAvailable() {return hasGroundTruth;}
-
-    int ConfigurationManager::getNumberOfCameras() {return nCameras;}
-
-    std::string ConfigurationManager::getVideoFilePath() {return videoFilePath;}
-    std::string ConfigurationManager::getGroundTruthPath() {return groundTruthPath;}
-
-    void ConfigurationManager::readItem(std::string itemName, bool& item)
+    bool ConfigurationManager::hasBool(std::string name)
     {
-        nItemsRead++;
-        if (configFile[itemName].type() == cv::FileNode::INT) {
-            configFile[itemName] >> item;
+        bool isBool = false;
+        bool exists = intBoolMap.find(name) != intBoolMap.end();
+        if (exists) {
+             isBool = intBoolMap[name] == 0 || intBoolMap[name] == 1;
+        }
+        if(!isBool) {
+            LOG("Config Warning", "Boolean named: " << name << " unavailable.");
+        }
+        return isBool;
+    }
+    bool ConfigurationManager::hasInt(std::string name)
+    {
+        bool exists = intBoolMap.find(name) != intBoolMap.end();
+        if (!exists) {
+            LOG("Config Warning", "Int named: " << name << " unavailable.");
+        }
+        return exists;
+    }
+    bool ConfigurationManager::hasDouble(std::string name)
+    {
+        bool exists = doubleMap.find(name) != doubleMap.end();
+        if (!exists) {
+            LOG("Config Warning", "Double named: " << name << " unavailable.");
+        }
+        return exists;
+    }
+
+    bool ConfigurationManager::hasString(std::string name)
+    {
+        bool exists = stringMap.find(name) != stringMap.end();
+        if (!exists) {
+            LOG("Config Warning", "String named: " << name << " unavailable.");
+        }
+        return exists;
+    }
+
+    bool ConfigurationManager::getBool(std::string name)
+    {
+        if (hasBool(name)) {
+            return intBoolMap[name];
         } else {
-            LOG("Config error", "Error reading " << itemName << " from configuration file");
-            nErrors++;
+            LOG("Config Error", "Seriously?! Variable not found, use the \"hasBool\" function first");
+            return false;
         }
     }
 
-    void ConfigurationManager::readItem(std::string itemName, int& item)
+    int ConfigurationManager::getInt(std::string name)
     {
-        nItemsRead++;
-        if (configFile[itemName].type() == cv::FileNode::INT) {
-            configFile[itemName] >> item;
+        if (hasInt(name)) {
+            return intBoolMap[name];
         } else {
-            LOG("Config error", "Error reading " << itemName << " from configuration file");
-            nErrors++;
+            LOG("Config Error", "Seriously?! Variable not found, use the \"hasInt\" function first");
+            return 0;
         }
     }
 
-
-    void ConfigurationManager::readItem(std::string itemName, float& item)
+    double ConfigurationManager::getDouble(std::string name)
     {
-        nItemsRead++;
-        if (configFile[itemName].type() == cv::FileNode::FLOAT) {
-            configFile[itemName] >> item;
+        if (hasDouble(name)) {
+            return doubleMap[name];
         } else {
-            LOG("Config error", "Error reading " << itemName << " from configuration file");
-            nErrors++;
+            LOG("Config Error", "Seriously?! Variable not found, use the \"hasDouble\" function first");
+            return 0;
         }
     }
 
-    void ConfigurationManager::readItem(std::string itemName, std::string& item)
+    std::string ConfigurationManager::getString(std::string name)
     {
-        nItemsRead++;
-        if (configFile[itemName].type() == cv::FileNode::STR) {
-            configFile[itemName] >> item;
+        if (hasString(name)) {
+            return stringMap[name];
         } else {
-            LOG("Config error", "Error reading " << itemName << " from configuration file");
-            nErrors++;
-        }
-    }
-
-    void ConfigurationManager::readItem(std::string itemName, cv::Mat& item)
-    {
-        nItemsRead++;
-        try {
-            configFile[itemName] >> item;
-        }
-        catch (cv::Exception& e) {
-            LOG("Config error", "Error reading " << itemName << " from configuration file");
-            nErrors++;
-            return;
+            LOG("Config Error", "Seriously?! Variable not found, use the \"hasString\" function first");
+            return "";
         }
     }
 
@@ -84,14 +95,45 @@ namespace configuration
             LOG("Config error", "Error reading configuration file " << filePath);
             return false;
         }
-        cv::Mat fgsfds;
 
-        readItem("isDebug", isDebug);
-        readItem("isTesting", isTesting);
-        readItem("hasGroundTruth", hasGroundTruth);
-        readItem("nCameras", nCameras);
-        readItem("videoFilePath", videoFilePath);
-        readItem("groundTruthPath", groundTruthPath);
+        cv::FileNode nodes;
+        try {
+            nodes = configFile.root();
+        }
+        catch (cv::Exception& e) {
+            LOG("Config error", "Error reading configuration file " << filePath);
+            return false;
+        }
+
+        int nodeType = cv::FileNode::NONE;
+        int tempInt;
+        double tempDouble;
+        cv::string tempString;
+        for(cv::FileNodeIterator node = nodes.begin(); node != nodes.end(); node++)
+        {
+
+            nodeType = (*node).type();
+            switch (nodeType) {
+                case cv::FileNode::INT :
+                    tempInt = *node;
+                    intBoolMap[(*node).name()] = tempInt;
+                    nItemsRead++;
+                break;
+                case cv::FileNode::FLOAT :
+                    tempDouble = *node;
+                    doubleMap[(*node).name()] = tempDouble;
+                    nItemsRead++;
+                break;
+                case cv::FileNode::STRING :
+                    *node >> tempString;
+                    stringMap[(*node).name()] = tempString;
+                    nItemsRead++;
+                    break;
+                default:
+                    LOG("Config Error", "Variable with name: " << (*node).name() << " is of unknown type");
+                    nErrors++;
+            }
+        }
 
         LOG("Config", "Configuration file " << filePath << " read successfully with " <<
                       nErrors << " errors out of a total " << nItemsRead << " attempts.");

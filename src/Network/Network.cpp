@@ -13,14 +13,23 @@ Network::~Network()
     //TODO stub
 }
 
-bool Network::init(configuration::ConfigurationManager& settings)
+bool Network::initialize(configuration::ConfigurationManager& settings)
 {
+    // Check if the necessary variables are available
+    bool hasSettings = settings.hasBool("isTesting") &&
+                       settings.hasInt("nCameras") &&
+                       settings.hasString("videoFilePath");
+    if(!hasSettings) {
+        LOG("Network Error", "One ore more properties undefined");
+        debugging::logObject.dumpToConsole();
+        return false;
+    }
 
-    nCameras = settings.getNumberOfCameras();
-    isTesting = settings.isTestingMode();
+    nCameras = settings.getInt("nCameras");
+    isTesting = settings.getBool("isTesting");
     // If read from file
     if(isTesting) {
-        std::string filePath = settings.getVideoFilePath();
+        std::string filePath = settings.getString("videoFilePath");
         cv::VideoCapture cam(filePath);
         if (cam.isOpened()) {
             streams.push_back(cam);
@@ -79,6 +88,7 @@ Frame* Network::dequeFrame()
             }
         }
     }
+    debugging::logObject.dumpToConsole();
 
     return frame;
 }
