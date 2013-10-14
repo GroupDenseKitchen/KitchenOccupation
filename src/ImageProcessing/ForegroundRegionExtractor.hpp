@@ -3,7 +3,7 @@
 
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/FrameList.hpp"
-#include "../Utilities/Abstractalgorithm.hpp"
+#include "../Utilities/Algorithm.hpp"
 
 /*!
  *  \brief   Image processing contains functionality for the different
@@ -16,7 +16,7 @@ namespace image_processing
  *  \version   0.1
  *  \date      2013-10-10
  */
-class ForegroundRegionExtractor : public AbstractAlgorithm
+class ForegroundRegionExtractor : public Algorithm
 {
 public:
 
@@ -33,14 +33,16 @@ public:
     /*!
        \brief   Initializer.
     */
-    bool initialize();
+    bool initialize(configuration::ConfigurationManager &configuration) override;
 
     /*!
        \brief   TODO...
     */
-    void process(FrameList frames) override;
+    void process(FrameList &frames) override;
 
 private:
+    cv::Mat foregroundMask;
+    cv::vector<cv::vector<cv::Point> > contours;
 };
 }
 

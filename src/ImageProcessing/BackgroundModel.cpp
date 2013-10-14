@@ -7,7 +7,7 @@ BackgroundModel::~BackgroundModel(){
 
 }
 
-bool BackgroundModel::init()
+bool BackgroundModel::initialize(configuration::ConfigurationManager &configuration)
 {
     //STANDARD VALUES
     nmixtures = 5;
@@ -25,7 +25,7 @@ bool BackgroundModel::init()
 
     bg.set("history",history);
     bg.set("varThreshold",varThresholdGen);
-    bg.setBool("bShadowDetection",isShadowDetection);
+    //bg.setBool("shadowDetection",isShadowDetection);
     bg.set("nmixtures",nmixtures);
     bg.set("backgroundRatio",backgroundRatio);
 
@@ -35,17 +35,27 @@ bool BackgroundModel::init()
     return true;
 }
 
- void BackgroundModel::process(FrameList frames)
+ void BackgroundModel::process(FrameList &frames)
  {
-     // TODO: Get rawImage matrix
-     cv::Mat rawImage;      // From frames (current)
-     cv::Mat foreground;    // From frames (current)
+     //TODO: loop over all cameras...
+     CameraObject &camera = frames.getCurrent().getCameras().back();
 
-     bg(rawImage,foreground,0.001);
+     if(!camera.hasImage("rawImage"))
+     {
+         LOG("ImageProcessing Error", "Image \"rawImage\" not set in current frame!");
+         return;
+     }
 
-     cv::erode(foreground,foreground,cv::Mat(),cv::Point(-1,-1),erotions);
-     cv::dilate(foreground,foreground,cv::Mat(),cv::Point(-1,-1),dilations);
-     cv::threshold(foreground,foreground,230,255,CV_THRESH_BINARY);
+     cv::Mat rawImage = camera.getImage("rawImage");
+     cv::Mat foregroundMask;    // From frames (current)
 
-     // TODO: Save foreground to matrix
+     bg(rawImage,foregroundMask,0.001);
+     cv::erode(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), erotions);
+     cv::dilate(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), dilations);
+     cv::threshold(foregroundMask,foregroundMask,230,255,CV_THRESH_BINARY);
+
+     cv::namedWindow("binary");
+     cv::imshow("binary", foregroundMask);
+
+     camera.addImage("foregroundMask", foregroundMask);
  }

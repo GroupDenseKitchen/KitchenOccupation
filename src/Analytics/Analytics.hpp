@@ -3,7 +3,7 @@
 
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/FrameList.hpp"
-#include "../Utilities/Abstractalgorithm.hpp"
+#include "../Utilities/Algorithm.hpp"
 
 /*!
  *  \brief    Statistical analysis
@@ -16,7 +16,7 @@ namespace statistics
  *  \version   0.1
  *  \date      2013-10-07
  */
-class Analytics : public AbstractAlgorithm
+class Analytics : public Algorithm
 {
     public:
         /*!
@@ -30,10 +30,16 @@ class Analytics : public AbstractAlgorithm
         ~Analytics();
 
         /*!
-           \brief   Process the current frame (possibly using older frames) by calling
-                    statistical analytics algorithms in order.
+           \brief   Initialize the Analytics module.
+           \details Configurates which algorithms to be applied in which order.
         */
-        void process(FrameList frames) override;
+        bool initialize(configuration::ConfigurationManager & configuration) override;
+
+        /*!
+           \brief   Perform all Statistics algorithms in order.
+        */
+        void process(FrameList &frames) override;
+
     private:
 
 };

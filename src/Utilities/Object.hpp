@@ -9,15 +9,22 @@
 #include "../Utilities/utilities.hpp"
 
 /*!
- *  \brief     TODO...
- *  \details   TODO...
+ *  \brief     A movable object seen (candidate for human)
  *  \version   0.1
  *  \date      2013-10-10
  */
 class Object
 {
 public:
+
+    /*!
+       \brief   Constructor.
+    */
     Object();
+
+    /*!
+       \brief   Destructor.
+    */
     ~Object();
 
 public:
