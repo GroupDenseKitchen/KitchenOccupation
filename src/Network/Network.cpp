@@ -21,7 +21,6 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
                        settings.hasString("videoFilePath");
     if(!hasSettings) {
         LOG("Network Error", "One ore more properties undefined");
-        debugging::logObject.dumpToConsole();
         return false;
     }
 
@@ -88,7 +87,6 @@ Frame* Network::dequeFrame()
             }
         }
     }
-    debugging::logObject.dumpToConsole();
 
     return frame;
 }

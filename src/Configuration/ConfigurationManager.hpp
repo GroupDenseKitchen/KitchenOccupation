@@ -64,7 +64,7 @@ class ConfigurationManager
 
         /*!
          * \brief       Gets value of bool with key "name".
-         * \param name  Name of the bool variable in question .
+         * \param name  Name of the bool variable in question.
          * \return      Value of requested boolean.
          */
         bool getBool(std::string name);
@@ -89,10 +89,53 @@ class ConfigurationManager
          * \return      Value of requested string.
          */
         std::string getString(std::string name);
+		
+        /*!
+         * \brief       Sets value of bool with key "name".
+         * \param name  Name of the bool variable in question.
+         * \param value New value of the bool variable in question.
+         */
+        void setBool(std::string name, bool value);
 
+        /*!
+         * \brief       Sets value of int with key "name".
+         * \param name  Name of the int variable in question.
+         * \param value New value of the int variable in question.
+         */
+        void setInt(std::string name, int value);
+
+        /*!
+         * \brief       Sets value of double with key "name".
+         * \param name  Name of the double variable in question.
+         * \param value New value of the double variable in question.
+         */
+        void setDouble(std::string name, double value);
+
+        /*!
+         * \brief       Sets value of string with key "name".
+         * \param name  Name of the string variable in question.
+         * \param value New value of the string variable in question.
+         */
+        void setString(std::string name, std::string value);
+
+        /*!
+         * \brief       Sets variable if it exists otherwise return false.
+         */
         bool configure(std::string name, bool &variable);
+		
+        /*!
+         * \brief       Sets variable if it exists otherwise return false.
+         */
         bool configure(std::string name, int &variable);
+		
+        /*!
+         * \brief       Sets variable if it exists otherwise return false.
+         */
         bool configure(std::string name, double &variable);
+		
+        /*!
+         * \brief       Sets variable if it exists otherwise return false.
+         */
         bool configure(std::string name, std::string &variable);
 
     private:

@@ -84,6 +84,27 @@ namespace configuration
         }
     }
 
+
+    void ConfigurationManager::setBool(std::string name, bool value)
+    {
+        intBoolMap[name] = value;
+    }
+
+    void ConfigurationManager::setInt(std::string name, int value)
+    {
+        intBoolMap[name] = value;
+    }
+
+    void ConfigurationManager::setDouble(std::string name, double value)
+    {
+        doubleMap[name] = value;
+    }
+
+    void ConfigurationManager::setString(std::string name, std::string value)
+    {
+        stringMap[name] = value;
+    }
+
     bool ConfigurationManager::readConfig(std::string filePath)
     {
         nErrors = 0;
