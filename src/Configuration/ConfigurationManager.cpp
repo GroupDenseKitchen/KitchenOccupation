@@ -44,6 +44,15 @@ namespace configuration
         return exists;
     }
 
+    bool ConfigurationManager::hasStringSeq(std::string name)
+    {
+        bool exists = stringSeqMap.find(name) != stringSeqMap.end();
+        if (!exists) {
+            LOG("Config Warning", "String sequence named: " << name << " unavailable.");
+        }
+        return exists;
+    }
+
     bool ConfigurationManager::getBool(std::string name)
     {
         if (hasBool(name)) {
@@ -84,6 +93,16 @@ namespace configuration
         }
     }
 
+    std::vector<std::string> ConfigurationManager::getStringSeq(std::string name)
+    {
+        if (hasStringSeq(name)) {
+            return stringSeqMap[name];
+        } else {
+            LOG("Config Error", "Seriously?! Variable not found, use the \"hasStringSeq\" function first");
+            std::vector<std::string> emptyVec;
+            return emptyVec;
+        }
+    }
 
     void ConfigurationManager::setBool(std::string name, bool value)
     {
@@ -104,6 +123,12 @@ namespace configuration
     {
         stringMap[name] = value;
     }
+
+    void ConfigurationManager::setStringSeq(std::string name, std::vector<std::string> value)
+    {
+        stringSeqMap[name] = value;
+    }
+
 
     bool ConfigurationManager::readConfig(std::string filePath)
     {
@@ -130,6 +155,7 @@ namespace configuration
         int tempInt;
         double tempDouble;
         cv::string tempString;
+        std::vector<std::string> tempStringVec;
         for(cv::FileNodeIterator node = nodes.begin(); node != nodes.end(); node++)
         {
 
@@ -150,6 +176,12 @@ namespace configuration
                     stringMap[(*node).name()] = tempString;
                     nItemsRead++;
                     break;
+                case cv::FileNode::SEQ :
+                    *node >> tempStringVec;
+                    stringSeqMap[(*node).name()] = tempStringVec;
+                    tempStringVec.clear();
+                    nItemsRead++;
+                    break;
                 default:
                     LOG("Config Error", "Variable with name: " << (*node).name() << " is of unknown type");
                     nErrors++;
@@ -161,6 +193,7 @@ namespace configuration
         nErrors = 0;
         nItemsRead = 0;
 
+        configFile.release();
         return true;
 
     }
@@ -189,5 +222,64 @@ namespace configuration
             return false;
         variable = getString(name);
         return true;
+    }
+
+    bool ConfigurationManager::writeToFile(std::string filePath)
+    {
+        cv::FileStorage file;
+        try {
+            file.open(filePath, cv::FileStorage::WRITE);
+        }
+        catch (cv::Exception& e) {
+            LOG("Configuration Error", "Error opening file for writing at: " << filePath << ".");
+            return false;
+        }
+
+        // All ints and booleans
+        for (std::map<std::string, int>::iterator intBool = intBoolMap.begin(); intBool != intBoolMap.end(); intBool++) {
+            try {
+                file << intBool->first << intBool->second;
+            }
+            catch (cv::Exception& e) {
+                LOG("Configuration Error", "Error writing int named: " << intBool->first <<
+                                           " with value: " << intBool->second << " to file " << filePath << ".");
+            }
+        }
+
+        // All doubles
+        for (std::map<std::string, double>::iterator dbl = doubleMap.begin(); dbl != doubleMap.end(); dbl++) {
+            try {
+                file << dbl->first << dbl->second;
+            }
+            catch (cv::Exception& e) {
+                LOG("Configuration Error", "Error writing double named: " << dbl->first <<
+                                           " with value: " << dbl->second << " to file " << filePath << ".");
+            }
+        }
+
+        // All strings
+        for (std::map<std::string, std::string>::iterator str = stringMap.begin(); str != stringMap.end(); str++) {
+            try {
+                file << str->first << str->second;
+            }
+            catch (cv::Exception& e) {
+                LOG("Configuration Error", "Error writing string named: " << str->first <<
+                                           " with value: " << str->second << " to file " << filePath << ".");
+            }
+        }
+
+        // All string sequences
+        for (std::map<std::string, std::vector<std::string>>::iterator stringSeq = stringSeqMap.begin(); stringSeq != stringSeqMap.end(); stringSeq++) {
+            try {
+                file << stringSeq->first << stringSeq->second;
+            }
+            catch (cv::Exception& e) {
+                LOG("Configuration Error", "Error writing string sequence named: " << stringSeq->first <<
+                                           " to file " << filePath << ".");
+            }
+        }
+
+        return true;
+        file.release();
     }
 }
