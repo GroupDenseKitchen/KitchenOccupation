@@ -95,14 +95,13 @@ namespace configuration
 
     std::vector<std::string> ConfigurationManager::getStringSeq(std::string name)
     {
-        //if (hasStringSeq(name)) {
+        if (hasStringSeq(name)) {
             return stringSeqMap[name];
-        /*
         } else {
             LOG("Config Error", "Seriously?! Variable not found, use the \"hasStringSeq\" function first");
             std::vector<std::string> emptyVec;
             return emptyVec;
-        }*/
+        }
     }
 
     void ConfigurationManager::setBool(std::string name, bool value)
@@ -178,12 +177,7 @@ namespace configuration
                     nItemsRead++;
                     break;
                 case cv::FileNode::SEQ :
-                    for (cv::FileNodeIterator subNode = (*node).begin(); subNode != (*node).end(); ++subNode) {
-                            tempStringVec.push_back((std::string)*subNode);
-
-                            std::cerr << (std::string)*subNode << std::endl;
-                        }
-                    std::cerr << tempStringVec[2] << std::endl;
+                    *node >> tempStringVec;
                     stringSeqMap[(*node).name()] = tempStringVec;
                     tempStringVec.clear();
                     nItemsRead++;
