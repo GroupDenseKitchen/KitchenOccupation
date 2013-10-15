@@ -1,7 +1,14 @@
 #include "AlgorithmFactory.hpp"
 
+AlgorithmFactory::~AlgorithmFactory() {
+    clear();
+}
+
 void AlgorithmFactory::clear() {
-    algorithms.clear(); //TODO: delete all algorithms first
+    while(!algorithms.empty()) {
+        delete algorithms.begin()->second;
+        algorithms.erase(algorithms.begin());
+    }
 }
 
 bool AlgorithmFactory::has(std::string algorithmClassName) {

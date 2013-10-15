@@ -1,25 +1,21 @@
-#include "Tracking.hpp"
+#include "TrackingBruteForce.hpp"
 
 namespace image_processing
 {
-    Tracking::Tracking() {
+    TrackingBruteForce::TrackingBruteForce() {
         nextUniequeID = 1;
     }
 
-    Tracking::~Tracking() {
+    TrackingBruteForce::~TrackingBruteForce() {}
 
-    }
-
-    bool Tracking::initialize(configuration::ConfigurationManager &config)
-    {
+    bool TrackingBruteForce::initialize(configuration::ConfigurationManager &settings) {
         isInitialized = true;
         //TODO: Initialize variables
         return isInitialized;
     }
 
-    void Tracking::process(FrameList &frames) {
+    void TrackingBruteForce::process(FrameList &frames) {
         //TODO: loop over all cameras...)
-
         if(frames.hasPrevious())
         {
             CameraObject &cameraPrev = frames.getPrevious().getCameras().back();
@@ -56,7 +52,7 @@ namespace image_processing
         }
     }
 
-    void Tracking::mapClosestCandidatePair(std::list<ObjectPair> & candidatePrev, std::list<ObjectPair> & candidateCurr, std::vector<Object> & prev, std::vector<Object> & curr)
+    void TrackingBruteForce::mapClosestCandidatePair(std::list<ObjectPair> & candidatePrev, std::list<ObjectPair> & candidateCurr, std::vector<Object> & prev, std::vector<Object> & curr)
     {
         std::list<ObjectPair>::iterator bestPrev, bestCurr;
         double shortestDistance = 1e10;
@@ -78,7 +74,7 @@ namespace image_processing
         candidateCurr.erase(bestCurr);
     }
 
-    double Tracking::distance(ObjectPair previous, ObjectPair current)
+    double TrackingBruteForce::distance(ObjectPair previous, ObjectPair current)
     {
         double x1 = previous.object->boundingBox.x;
         double y1 = previous.object->boundingBox.y;
@@ -87,7 +83,7 @@ namespace image_processing
         return (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2);
     }
 
-    void Tracking::setID(std::vector<Object> & objects, int index, int ID)
+    void TrackingBruteForce::setID(std::vector<Object> & objects, int index, int ID)
     {
         std::vector<Object>::iterator object = objects.begin();
         for(int i = 0; i < index; i++)
@@ -95,12 +91,12 @@ namespace image_processing
         object->id = ID;
     }
 
-    int Tracking::getUniqueID()
+    int TrackingBruteForce::getUniqueID()
     {
         return nextUniequeID++;
     }
 
-    void Tracking::populate(std::list<ObjectPair> & objectPairs, std::vector<Object> & objects)
+    void TrackingBruteForce::populate(std::list<ObjectPair> & objectPairs, std::vector<Object> & objects)
     {
         objectPairs.clear();
         int n = 0;

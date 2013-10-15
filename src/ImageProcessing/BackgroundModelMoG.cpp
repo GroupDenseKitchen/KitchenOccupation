@@ -1,16 +1,16 @@
-#include "BackgroundModel.hpp"
+#include "BackgroundModelMoG.hpp"
 
 namespace image_processing
 {
 
-BackgroundModel::BackgroundModel(){
+BackgroundModelMoG::BackgroundModelMoG(){
 
 }
-BackgroundModel::~BackgroundModel(){
+BackgroundModelMoG::~BackgroundModelMoG(){
 
 }
 
-bool BackgroundModel::initialize(configuration::ConfigurationManager &conf)
+bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &settings)
 {
     isInitialized = true;
 
@@ -18,15 +18,15 @@ bool BackgroundModel::initialize(configuration::ConfigurationManager &conf)
     //
     //           |VARIABLE          |NAME                  |DEFAULT
     //---------------------------------------------------------------
-    CONFIG(conf, nmixtures,         "nmixtures",            5);
-    CONFIG(conf, backgroundRatio,   "backgroundRatio",      0.9);
-    CONFIG(conf, varThresholdGen,   "varThresholdGen",      19);
-    CONFIG(conf, fVarInit,          "fVarInit",             15);
-    CONFIG(conf, fCT,               "fCT",                  0.05);
-    CONFIG(conf, isShadowDetection, "isShadowDetection",    false);
-    CONFIG(conf, erotions,          "erotions",             3);
-    CONFIG(conf, dilations,         "dilations",            3);
-    CONFIG(conf, history,           "history",              500);
+    CONFIG(settings, nmixtures,         "nmixtures",            5);
+    CONFIG(settings, backgroundRatio,   "backgroundRatio",      0.9);
+    CONFIG(settings, varThresholdGen,   "varThresholdGen",      19);
+    CONFIG(settings, fVarInit,          "fVarInit",             15);
+    CONFIG(settings, fCT,               "fCT",                  0.05);
+    CONFIG(settings, isShadowDetection, "isShadowDetection",    false);
+    CONFIG(settings, erotions,          "erotions",             3);
+    CONFIG(settings, dilations,         "dilations",            3);
+    CONFIG(settings, history,           "history",              500);
     //fVarMin = ;
     //fVarMax = ;
     //fTau = ;
@@ -42,7 +42,7 @@ bool BackgroundModel::initialize(configuration::ConfigurationManager &conf)
     return isInitialized;
 }
 
- void BackgroundModel::process(FrameList &frames)
+ void BackgroundModelMoG::process(FrameList &frames)
  {
      //TODO: loop over all cameras...
      CameraObject &camera = frames.getCurrent().getCameras().back();

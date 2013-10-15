@@ -14,7 +14,7 @@ namespace configuration
              isBool = intBoolMap[name] == 0 || intBoolMap[name] == 1;
         }
         if(!isBool) {
-            LOG("Config Warning", "Boolean named: " << name << " unavailable.");
+            LOG("settings Warning", "Boolean named: " << name << " unavailable.");
         }
         return isBool;
     }
@@ -22,7 +22,7 @@ namespace configuration
     {
         bool exists = intBoolMap.find(name) != intBoolMap.end();
         if (!exists) {
-            LOG("Config Warning", "Int named: " << name << " unavailable.");
+            LOG("settings Warning", "Int named: " << name << " unavailable.");
         }
         return exists;
     }
@@ -30,7 +30,7 @@ namespace configuration
     {
         bool exists = doubleMap.find(name) != doubleMap.end();
         if (!exists) {
-            LOG("Config Warning", "Double named: " << name << " unavailable.");
+            LOG("settings Warning", "Double named: " << name << " unavailable.");
         }
         return exists;
     }
@@ -39,7 +39,7 @@ namespace configuration
     {
         bool exists = stringMap.find(name) != stringMap.end();
         if (!exists) {
-            LOG("Config Warning", "String named: " << name << " unavailable.");
+            LOG("settings Warning", "String named: " << name << " unavailable.");
         }
         return exists;
     }
@@ -48,7 +48,7 @@ namespace configuration
     {
         bool exists = stringSeqMap.find(name) != stringSeqMap.end();
         if (!exists) {
-            LOG("Config Warning", "String sequence named: " << name << " unavailable.");
+            LOG("settings Warning", "String sequence named: " << name << " unavailable.");
         }
         return exists;
     }
@@ -58,7 +58,7 @@ namespace configuration
         if (hasBool(name)) {
             return intBoolMap[name];
         } else {
-            LOG("Config Error", "Seriously?! Variable not found, use the \"hasBool\" function first");
+            LOG("settings Error", "Seriously?! Variable not found, use the \"hasBool\" function first");
             return false;
         }
     }
@@ -68,7 +68,7 @@ namespace configuration
         if (hasInt(name)) {
             return intBoolMap[name];
         } else {
-            LOG("Config Error", "Seriously?! Variable not found, use the \"hasInt\" function first");
+            LOG("settings Error", "Seriously?! Variable not found, use the \"hasInt\" function first");
             return 0;
         }
     }
@@ -78,7 +78,7 @@ namespace configuration
         if (hasDouble(name)) {
             return doubleMap[name];
         } else {
-            LOG("Config Error", "Seriously?! Variable not found, use the \"hasDouble\" function first");
+            LOG("settings Error", "Seriously?! Variable not found, use the \"hasDouble\" function first");
             return 0;
         }
     }
@@ -88,7 +88,7 @@ namespace configuration
         if (hasString(name)) {
             return stringMap[name];
         } else {
-            LOG("Config Error", "Seriously?! Variable not found, use the \"hasString\" function first");
+            LOG("settings Error", "Seriously?! Variable not found, use the \"hasString\" function first");
             return "";
         }
     }
@@ -98,7 +98,7 @@ namespace configuration
         if (hasStringSeq(name)) {
             return stringSeqMap[name];
         } else {
-            LOG("Config Error", "Seriously?! Variable not found, use the \"hasStringSeq\" function first");
+            LOG("settings Error", "Seriously?! Variable not found, use the \"hasStringSeq\" function first");
             std::vector<std::string> emptyVec;
             return emptyVec;
         }
@@ -138,7 +138,7 @@ namespace configuration
             configFile.open(filePath,cv::FileStorage::READ);
         }
         catch (cv::Exception& e) {
-            LOG("Config error", "Error reading configuration file " << filePath);
+            LOG("settings error", "Error reading configuration file " << filePath);
             return false;
         }
 
@@ -147,7 +147,7 @@ namespace configuration
             nodes = configFile.root();
         }
         catch (cv::Exception& e) {
-            LOG("Config error", "Error reading configuration file " << filePath);
+            LOG("settings error", "Error reading configuration file " << filePath);
             return false;
         }
 
@@ -183,12 +183,12 @@ namespace configuration
                     nItemsRead++;
                     break;
                 default:
-                    LOG("Config Error", "Variable with name: " << (*node).name() << " is of unknown type");
+                    LOG("settings Error", "Variable with name: " << (*node).name() << " is of unknown type");
                     nErrors++;
             }
         }
 
-        LOG("Config", "Configuration file " << filePath << " read successfully with " <<
+        LOG("settings", "Configuration file " << filePath << " read successfully with " <<
                       nErrors << " errors out of a total " << nItemsRead << " attempts.");
         nErrors = 0;
         nItemsRead = 0;

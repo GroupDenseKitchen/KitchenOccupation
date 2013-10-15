@@ -10,7 +10,7 @@ namespace configuration
 {
 /*!
  * \brief Manages application settings.
- * \details This class reads the config file and stores all settings
+ * \details This class reads the settings file and stores all settings
  * as local variables.
  *
  */

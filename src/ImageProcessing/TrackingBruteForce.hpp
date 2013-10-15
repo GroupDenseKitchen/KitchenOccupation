@@ -1,11 +1,9 @@
-#ifndef TRACKING_HPP
-#define TRACKING_HPP
+#ifndef TRACKING_BRUTE_FORCE_HPP
+#define TRACKING_BRUTE_FORCE_HPP
 
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/FrameList.hpp"
 #include "../Utilities/Algorithm.hpp"
-
-#include <vector>
 
 /*!
  *  \brief   Image processing contains functionality for the different
@@ -14,41 +12,40 @@
 namespace image_processing
 {
 
-struct ObjectPair
-{
-    Object * object;
-    int correspondingIndex;
-    ObjectPair(Object * object, int correspondingIndex) : object(object), correspondingIndex(correspondingIndex) {}
-};
-
 /*!
  *  \brief     TODO...
- *  \version   0.1
- *  \date      2013-10-10
  */
-class Tracking : public Algorithm
+class TrackingBruteForce : public Algorithm
 {
 public:
 
     /*!
        \brief   Constructor.
     */
-    Tracking();
+    TrackingBruteForce();
 
     /*!
        \brief   Destructor.
     */
-    ~Tracking();
+    ~TrackingBruteForce();
 
     /*!
        \brief   Initializer.
     */
-    bool initialize(configuration::ConfigurationManager &config) override;
+    bool initialize(configuration::ConfigurationManager &settings) override;
 
     /*!
        \brief   TODO...
     */
     void process(FrameList &frames) override;
+
+private:
+    struct ObjectPair
+    {
+        Object * object;
+        int correspondingIndex;
+        ObjectPair(Object * object, int correspondingIndex) : object(object), correspondingIndex(correspondingIndex) {}
+    };
 
 private:
     std::list<ObjectPair> candidatePrev;

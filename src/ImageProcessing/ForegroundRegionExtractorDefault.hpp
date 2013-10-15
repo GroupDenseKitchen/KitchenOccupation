@@ -1,5 +1,5 @@
-#ifndef FOREGROUND_REGION_EXTRACTOR_HPP
-#define FOREGROUND_REGION_EXTRACTOR_HPP
+#ifndef FOREGROUND_REGION_EXTRACTOR_DEFAULT_HPP
+#define FOREGROUND_REGION_EXTRACTOR_DEFAULT_HPP
 
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/FrameList.hpp"
@@ -13,27 +13,25 @@ namespace image_processing
 {
 /*!
  *  \brief     TODO...
- *  \version   0.1
- *  \date      2013-10-10
  */
-class ForegroundRegionExtractor : public Algorithm
+class ForegroundRegionExtractorDefault : public Algorithm
 {
 public:
 
     /*!
        \brief   Constructor.
     */
-    ForegroundRegionExtractor();
+    ForegroundRegionExtractorDefault();
 
     /*!
        \brief   Destructor.
     */
-    ~ForegroundRegionExtractor();
+    ~ForegroundRegionExtractorDefault();
 
     /*!
        \brief   Initializer.
     */
-    bool initialize(configuration::ConfigurationManager &config) override;
+    bool initialize(configuration::ConfigurationManager &settings) override;
 
     /*!
        \brief   TODO...

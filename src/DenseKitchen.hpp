@@ -9,18 +9,17 @@
 
 #include <QtCore/QtCore>
 
+// Include algorithms here
 #include "ImageProcessing/ImageProcessor.hpp"
-#include "ImageProcessing/BackgroundModel.hpp"
-#include "ImageProcessing/ForegroundRegionExtractor.hpp"
-#include "ImageProcessing/Tracking.hpp"
+#include "ImageProcessing/BackgroundModelMoG.hpp"
+#include "ImageProcessing/ForegroundRegionExtractorDefault.hpp"
+#include "ImageProcessing/TrackingBruteForce.hpp"
 #include "Analytics/Analytics.hpp"
 
 /*!
  *  \brief     Main program class.
  *  \details   It provides the interface for people detection and counting engine.
  *             Run in order: Init() once, readConfig(...) once, singleIteration() as many times as wished.
- *  \version   0.1
- *  \date      2013-10-07
  */
 class DenseKitchen
 {
@@ -37,7 +36,7 @@ public:
     ~DenseKitchen() {}
 
     /*!
-       \brief     Initialize the program using a config file specified.
+       \brief     Initialize the program using a settings file specified.
        \return    False if it fails, otherwise True.
     */
     bool initialize(std::string path);

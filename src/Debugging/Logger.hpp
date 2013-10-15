@@ -208,11 +208,11 @@ extern Logger logObject;
 /*!
    \brief   MACRO used for logging anywhere in the project.
    \param   TAG is a string useful for filtering.
-                Use "Config" for config,
-                    "Config error" for config errors,
-                    "Config defails" for additional details...
+                Use "settings" for settings,
+                    "settings error" for settings errors,
+                    "settings defails" for additional details...
    \param   message is a stream, so about enything can be piped using <<.
-                Example: LOG("Config", "Successfully loaded " << nSuccess << " configurations!")
+                Example: LOG("settings", "Successfully loaded " << nSuccess << " configurations!")
 */
 #define LOG(TAG, message) {std::stringstream ss; ss << message; debugging::logObject.append(debugging::LogEntry(TAG, ss.str(), __FUNCTION__, __FILE__, std::to_string(__LINE__))); }
 

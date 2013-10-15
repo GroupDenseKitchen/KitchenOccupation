@@ -7,7 +7,7 @@
 
 class AlgorithmFactory;
 
-/*! 
+/*!
  *  \brief     Base class for pipeline algorithms
  *  \details   Derive form this class to maintain a simple interface for all algorithms used in the processing pipeline.
  *  \version   1.0
@@ -24,12 +24,12 @@ public:
     /*!
        \brief   Initializes algorithm and all sub algorithms.
     */
-    virtual bool initialize(configuration::ConfigurationManager &config);
+    virtual bool initialize(configuration::ConfigurationManager &settings);
 
     /*!
-       \brief   Initializes algorithm, add sub algorithms from config apply this function on all sub algorithms.
+       \brief   Adds sub algorithms from settings, then calls this function for every sub algorithm.
     */
-    bool initializeRoot(configuration::ConfigurationManager &config, std::string algorithmName, AlgorithmFactory &algorithmFactory);
+    bool populateSubAlgorithms(configuration::ConfigurationManager &settings, std::string algorithmName, AlgorithmFactory &algorithmFactory);
 
     /*!
        \brief   Processes all sub algorithms.
@@ -65,5 +65,5 @@ protected:
 
 #include "AlgorithmFactory.hpp"
 
-#endif 
+#endif
 //ALGORITHM_HPP

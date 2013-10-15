@@ -4,9 +4,6 @@
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/FrameList.hpp"
 #include "../Utilities/Algorithm.hpp"
-#include "BackgroundModel.hpp"
-#include "ForegroundRegionExtractor.hpp"
-#include "Tracking.hpp"
 
 /*!
  *  \brief   Image processing contains functionality for the different
@@ -16,8 +13,6 @@ namespace image_processing
 {
 /*!
  *  \brief     The Image Processor is the interface to the image processing functionality.
- *  \version   0.1
- *  \date      2013-10-10
  */
 class ImageProcessor : public Algorithm
 {
@@ -26,25 +21,22 @@ public:
     /*!
        \brief   Constructor.
     */
-	ImageProcessor();
+    ImageProcessor();
 
     /*!
        \brief   Destructor.
     */
-	~ImageProcessor();
+    ~ImageProcessor();
 
     /*!
-       \brief   Initialize the ImageProcessor.
-       \details Configurates which algorithms to be applied in which order.
+       \brief   Initialize all image processing algorithms.
     */
-    bool initialize(configuration::ConfigurationManager & config) override;
+    bool initialize(configuration::ConfigurationManager & settings) override;
 
     /*!
        \brief   Perform all image processing algorithms in order.
     */
     void process(FrameList &frames) override;
-
-private:
 };
 }
 

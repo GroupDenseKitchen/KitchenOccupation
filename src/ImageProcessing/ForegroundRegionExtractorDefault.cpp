@@ -1,23 +1,23 @@
-#include "ForegroundRegionExtractor.hpp"
+#include "ForegroundRegionExtractorDefault.hpp"
 
 namespace image_processing
 {
-    ForegroundRegionExtractor::ForegroundRegionExtractor() {
+    ForegroundRegionExtractorDefault::ForegroundRegionExtractorDefault() {
 
     }
 
-    ForegroundRegionExtractor::~ForegroundRegionExtractor() {
+    ForegroundRegionExtractorDefault::~ForegroundRegionExtractorDefault() {
 
     }
 
-    bool ForegroundRegionExtractor::initialize(configuration::ConfigurationManager &config)
+    bool ForegroundRegionExtractorDefault::initialize(configuration::ConfigurationManager &settings)
     {
         isInitialized = true;
         //TODO: Initialize variables
         return isInitialized;
     }
 
-    void ForegroundRegionExtractor::process(FrameList &frames) {
+    void ForegroundRegionExtractorDefault::process(FrameList &frames) {
         //TODO: loop over all cameras...
         CameraObject &camera = frames.getCurrent().getCameras().back();
 

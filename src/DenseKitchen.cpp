@@ -8,29 +8,31 @@ bool DenseKitchen::initialize(std::string path) {
     /*
      *  REGISTER ALGORITHMS HERE
      */
-    algorithmFactory.add("ImageProcessor",               new image_processing::ImageProcessor());
-    algorithmFactory.add("BackgroundModel",              new image_processing::BackgroundModel());
-    algorithmFactory.add("ForegroundRegionExtractor",    new image_processing::ForegroundRegionExtractor());
-    algorithmFactory.add("Tracking",                     new image_processing::Tracking());
-    algorithmFactory.add("Analytics",                    new statistics::Analytics());
+    algorithmFactory.add("ImageProcessor",                   new image_processing::ImageProcessor());
+    algorithmFactory.add("BackgroundModelMoG",               new image_processing::BackgroundModelMoG());
+    algorithmFactory.add("ForegroundRegionExtractorDefault", new image_processing::ForegroundRegionExtractorDefault());
+    algorithmFactory.add("TrackingBruteForce",               new image_processing::TrackingBruteForce());
+    algorithmFactory.add("Analytics",                        new statistics::Analytics());
 
     if(!settings.readConfig(path)) {
-        LOG("DenseKitchen initialization error", "Config file read error! path: \"" << path << "\"");
+        LOG("DenseKitchen initialization error", "settings file read error! path: \"" << path << "\"");
         isInitialized = false;
     }
     if(!network.initialize(settings)) {
         LOG("DenseKitchen initialize error", "Network module could not be initialized!");
         isInitialized = false;
     }
-    imageProcessor.initializeRoot(settings, "ImageProcessor", algorithmFactory);
-    statistics.initializeRoot(settings, "Statistics", algorithmFactory);
+    imageProcessor.populateSubAlgorithms(settings, "ImageProcessor", algorithmFactory);
+    statistics.populateSubAlgorithms(settings, "Statistics", algorithmFactory);
+    imageProcessor.initialize(settings);
+    statistics.initialize(settings);
     PROFILER_ITERATION_END();
 
     return isInitialized;
 }
 
 bool DenseKitchen::singleIteration() {
-    
+
     bool iterationSuccess = true;
 
     if(isInitialized) {

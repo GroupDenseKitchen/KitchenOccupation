@@ -1,7 +1,7 @@
 #include <string>
 
-#ifndef STRING_UTILITIES
-#define STRING_UTILITIES
+#ifndef STRING_UTILITIES_HPP
+#define STRING_UTILITIES_HPP
 
 void replaceString(std::string & str, std::string toReplace, std::string replaceWith);
 
