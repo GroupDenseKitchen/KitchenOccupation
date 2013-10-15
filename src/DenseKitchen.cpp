@@ -16,7 +16,32 @@ bool DenseKitchen::init() {
 bool DenseKitchen::readConfig(std::string path) {
     
     configPath = path;
-    return settings.readConfig(path);
+    std::vector<std::string> hereBeStrings, hereMightBeStrings;
+    bool success = settings.readConfig("testConf.yml");
+
+    hereMightBeStrings = settings.getStringSeq("Walla walla stringSeq");
+    debugging::logObject.dumpToConsole();
+
+    std::cerr << "Third element is: " << hereMightBeStrings[3] << std::endl;
+
+
+    //return settings.readConfig(path);
+    settings.setString("Walla walla string", "derp");
+    settings.setInt("Walla walla int", 1337);
+    settings.setBool("Walla walla bool", true);
+
+    hereBeStrings.push_back("string0");
+    hereBeStrings.push_back("string1");
+    hereBeStrings.push_back("string2");
+    hereBeStrings.push_back("string3");
+
+    settings.setStringSeq("Walla walla stringSeq", hereBeStrings);
+    settings.writeToFile("testConf.yml");
+    std::cerr << "dafuq?\n";
+    hereMightBeStrings = settings.getStringSeq("Walla walla stringSeq");
+    debugging::logObject.dumpToConsole();
+    return success;
+
 }
 
 bool DenseKitchen::singleIteration() {
