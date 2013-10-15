@@ -16,6 +16,8 @@
 #include "../DenseKitchen.hpp"
 #include "DebugView.hpp"
 
+#include <opencv2/core/core.hpp>
+
 namespace Ui {
 class MainDebugWindow;
 }
@@ -32,6 +34,9 @@ public:
 
     friend class DenseKitchen;
 
+    int getCurrentCameraIndex() const;
+    void setCurrentCameraIndex(int value);
+
 private slots:
     void updateGUI();
     void cameraSelctionUpdate(QModelIndex,QModelIndex);
@@ -45,7 +50,7 @@ private:
     Ui::MainDebugWindow *ui;
     DenseKitchen program;
     std::map<QString,DebugView *> debugViews;
-    std::atomic_bool isRunning;
+    bool isRunning;
 
     QTreeView* cameraTree;
     QStandardItemModel* cameraItemModel;
@@ -58,6 +63,10 @@ private:
 
     QTimer* timer;
     int timerDelay;
+
+    cv::FileStorage configFile;
+    void configureGUI();
+    void readConfig(std::string filePath);
 
     void updateDebugViews();
 };

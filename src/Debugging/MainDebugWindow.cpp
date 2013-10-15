@@ -12,6 +12,34 @@ MainDebugWindow::MainDebugWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+
+}
+
+MainDebugWindow::~MainDebugWindow()
+{
+    delete ui;
+}
+
+void MainDebugWindow::configureGUI()
+{
+    // TODO
+    readConfig("guiConfig.yml");
+
+    isRunning = false;
+    timerDelay = 10;
+}
+
+void MainDebugWindow::init()
+{
+    // --------------------------------------
+    configureGUI();
+
+
+    // -------------------------------------------
+    program.readConfig("dense_conf.yml");
+    program.init();
+
+    // -------- Camera/Step Selector Init ----------------
     cameraItemModel = new QStandardItemModel;
     cameraTree = ui->camerasTreeView;
     cameraTree->setModel(cameraItemModel);
@@ -28,23 +56,6 @@ MainDebugWindow::MainDebugWindow(QWidget *parent) :
     currentCameraIndex = -1;
     currentKey = "";
 
-    timer = new QTimer;
-    connect(timer, SIGNAL(timeout()), this, SLOT(updateGUI()));
-    timerDelay = 20;
-    timer->start(20);
-}
-
-MainDebugWindow::~MainDebugWindow()
-{
-    delete ui;
-}
-
-void MainDebugWindow:: init()
-{ 
-    program.readConfig("dense_conf.yml");
-    program.init();
-
-    // Init camera and frame selector treeView
     Frame currentFrame;
     // Needed to get frames
     program.singleIteration();
@@ -53,7 +64,7 @@ void MainDebugWindow:: init()
     std::vector<CameraObject> cameras = currentFrame.getCameras();
     int nCameras = cameras.size();
 
-    qDebug("%d",nCameras);
+    qDebug(QByteArray::number(nCameras));
 
     for (int i = 0; i < nCameras; i++){
         QStandardItem* item = new QStandardItem(QString::number(i));
@@ -69,7 +80,10 @@ void MainDebugWindow:: init()
         cameraItemModel->appendRow(item);
     }
 
-    isRunning = false;
+    // ------ Timer ---------
+    timer = new QTimer;
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateGUI()));
+    timer->start(timerDelay);
 }
 
 void MainDebugWindow::updateGUI()
@@ -84,23 +98,18 @@ void MainDebugWindow::updateGUI()
 
 void MainDebugWindow::cameraSelctionUpdate(QModelIndex current, QModelIndex previous)
 {
-    qDebug("%d",current.column());
-    qDebug("%d",current.row());
-    qDebug("%s",current.data().toString().toStdString().c_str());
-
-    currentCameraIndex = current.parent().row();
+    qDebug(QByteArray::number(current.column()));
+    qDebug(QByteArray::number(current.row()));
+    qDebug(current.data().toByteArray());
 
     if (current.column() == 1){
         currentKey = current.data().toString().toStdString();
-        cv::Mat matImage = program.frames.getCurrent().getCameras()[currentCameraIndex].images[currentKey];
-        cv::cvtColor(matImage, matImage, CV_BGR2RGB);
-
-        qImage = QImage((uchar*)matImage.data, matImage.cols, matImage.rows, matImage.step, QImage::Format_RGB888);
-        ui->image1->setPixmap(QPixmap::fromImage(qImage));
+        currentCameraIndex = current.parent().row();
     }
+    updateDebugViews();
 }
 
-void MainDebugWindow:: updateDebugViews()
+void MainDebugWindow::updateDebugViews()
 {
     if(currentKey.length() > 0 && currentCameraIndex != -1){
         cv::Mat matImage = program.frames.getCurrent().getCameras()[currentCameraIndex].images[currentKey];
@@ -109,6 +118,29 @@ void MainDebugWindow:: updateDebugViews()
         qImage = QImage((uchar*)matImage.data, matImage.cols, matImage.rows, matImage.step, QImage::Format_RGB888);
         ui->image1->setPixmap(QPixmap::fromImage(qImage));
     }
+}
+
+void MainDebugWindow::readConfig(std::string filePath)
+{
+    qDebug("Reading Config");
+
+    //configFile.open(filePath, cv::FileStorage::READ);
+
+    if(configFile.open("filePath.yml", cv::FileStorage::READ)){
+        // TODO: Read config
+        qDebug("Seccesfull reading");
+        configFile["isRunning"] >> isRunning;
+
+    } else {
+        // TODO: Generate default config
+    }
+
+    /*
+    configFile.open("filePath", cv::FileStorage::WRITE);
+    configFile << "timerDelay" << 20;
+    configFile << "isRunning" << false;
+    configFile.release();
+    */
 }
 
 void MainDebugWindow::on_runButton_clicked()
