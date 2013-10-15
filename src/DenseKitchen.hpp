@@ -3,12 +3,17 @@
 
 #include "Utilities/utilities.hpp"
 #include "Network/Network.hpp"
-#include "ImageProcessing/ImageProcessor.hpp"
-#include "Analytics/Analytics.hpp"
 #include "Configuration/ConfigurationManager.hpp"
 #include "Debugging/Debug.hpp"
+#include "Utilities/Algorithm.hpp"
 
 #include <QtCore/QtCore>
+
+#include "ImageProcessing/ImageProcessor.hpp"
+#include "ImageProcessing/BackgroundModel.hpp"
+#include "ImageProcessing/ForegroundRegionExtractor.hpp"
+#include "ImageProcessing/Tracking.hpp"
+#include "Analytics/Analytics.hpp"
 
 /*!
  *  \brief     Main program class.
@@ -24,7 +29,7 @@ public:
     /*!
        \brief   Constructor.
     */
-    DenseKitchen() {}
+    DenseKitchen() { isInitialized = false; }
 
     /*!
        \brief   Destructor.
@@ -32,17 +37,10 @@ public:
     ~DenseKitchen() {}
 
     /*!
-       \brief     Initialize the program.
+       \brief     Initialize the program using a config file specified.
        \return    False if it fails, otherwise True.
     */
-    bool init();
-
-    /*!
-       \brief       Read a config file with program parameters.
-       \param path  The config file and its path.
-       \return      False if it fails, otherwise True.
-    */
-    bool readConfig(std::string path);
+    bool initialize(std::string path);
 
     /*!
        \brief     Run one iteration of the program.
@@ -50,14 +48,17 @@ public:
        \return    False if the program want to terminate, otherwise True.
     */
     bool singleIteration();
-    FrameList frames;
-private:
-    network::Network network;
-    image_processing::ImageProcessor imageProcessing;
-    statistics::Analytics statistics;
-    configuration::ConfigurationManager settings;
 
-    //FrameList frames;
+    FrameList frames;   //TODO: make private and provide interface (?)
+private:
+    bool isInitialized;
+
+    network::Network network;
+    configuration::ConfigurationManager settings;
+    AlgorithmFactory algorithmFactory;
+    image_processing::ImageProcessor imageProcessor;
+    statistics::Analytics statistics;
+
     std::string configPath;
 };
 

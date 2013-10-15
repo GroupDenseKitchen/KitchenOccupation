@@ -5,6 +5,8 @@
 #include "FrameList.hpp"
 #include "../Configuration/ConfigurationManager.hpp"
 
+class AlgorithmFactory;
+
 /*! 
  *  \brief     Base class for pipeline algorithms
  *  \details   Derive form this class to maintain a simple interface for all algorithms used in the processing pipeline.
@@ -27,7 +29,7 @@ public:
     /*!
        \brief   Initializes algorithm, add sub algorithms from config apply this function on all sub algorithms.
     */
-    bool initialize(configuration::ConfigurationManager &config, std::string AlgorithmName);
+    bool initializeRoot(configuration::ConfigurationManager &config, std::string algorithmName, AlgorithmFactory &algorithmFactory);
 
     /*!
        \brief   Processes all sub algorithms.
@@ -59,6 +61,9 @@ protected:
    \brief   Set the variable to config data if such exist, otherwise log warning and set variable to default value
 */
 #define CONFIG(c, variable, name, defaultValue) if(!c.configure(name, variable)){LOG("Initialization warning", "Property \"" << name << "\" not specified, uses default value: " << defaultValue); variable = defaultValue;}
+
+
+#include "AlgorithmFactory.hpp"
 
 #endif 
 //ALGORITHM_HPP

@@ -1,5 +1,8 @@
 #include "BackgroundModel.hpp"
 
+namespace image_processing
+{
+
 BackgroundModel::BackgroundModel(){
 
 }
@@ -63,3 +66,5 @@ bool BackgroundModel::initialize(configuration::ConfigurationManager &conf)
 
      camera.addImage("foregroundMask", foregroundMask);
  }
+
+}

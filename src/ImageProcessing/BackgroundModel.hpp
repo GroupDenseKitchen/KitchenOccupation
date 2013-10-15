@@ -5,6 +5,8 @@
 #include "../Utilities/FrameList.hpp"
 #include "../Utilities/Algorithm.hpp"
 
+namespace image_processing
+{
 /*!
  *  \brief     Short, one-line description.
  *  \details   Longer, more detailed description of the class and it's purpose.
@@ -13,7 +15,6 @@
  *  \bug       Any knowns bugs in this class are listed here
  *  \warning   Warnings go here (about how to not use the class etc. etc.)
  */
-
 class BackgroundModel : public Algorithm
 {
 public:
@@ -38,7 +39,7 @@ private:
     bool isShadowDetection;
 
 };
-
+}
 
 
 #endif

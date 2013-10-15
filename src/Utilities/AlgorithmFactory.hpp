@@ -2,8 +2,7 @@
 #define ALGORITHM_FACTORY_HPP
 
 #include "utilities.hpp"
-
-class Algorithm;
+#include "Algorithm.hpp"
 
 /*! 
  *  \brief     Global factory of algorithms
@@ -13,16 +12,13 @@ class Algorithm;
 class AlgorithmFactory
 {
 public:
-    static void initialize();
-    static bool has(std::string algorithmClassName);
-    static Algorithm * get(std::string algorithmClassName);
-    static void add(std::string algorithmClassName, Algorithm * algorithm);
+    bool has(std::string algorithmClassName);
+    Algorithm * get(std::string algorithmClassName);
+    void add(std::string algorithmClassName, Algorithm * algorithm);
+    void clear();
 private:
-    AlgorithmFactory() {}
-    static std::map<std::string, Algorithm*> algorithms;
-};
-
-#include "Algorithm.hpp"
+    std::map<std::string, Algorithm*> algorithms;
+} ;
 
 #endif 
 //ALGORITHM_FACTORY_HPP

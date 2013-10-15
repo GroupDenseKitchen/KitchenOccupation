@@ -24,11 +24,32 @@ bool Algorithm::initialize(configuration::ConfigurationManager & config)
     return success;
 }
 
-bool Algorithm::initialize(configuration::ConfigurationManager &config, std::string AlgorithmName)
+bool Algorithm::initializeRoot(configuration::ConfigurationManager &config, std::string algorithmName, AlgorithmFactory &algorithmFactory)
 {
-    //TODO: add sub patterns from config
+    if(config.hasStringSeq(algorithmName))
+    {
+        std::vector<std::string> algorithms = config.getStringSeq("ImageProcessor");
+        for(std::vector<std::string>::iterator algorithm = algorithms.begin(); algorithm != algorithms.end(); algorithm++)
+        {
+            if(algorithmFactory.has(*algorithm))
+                addAlgorithm(*algorithm, algorithmFactory.get(*algorithm));
+            else    //TODO: Add support to recursivly add sub-algorithms...
+                LOG("ImageProcessor initialize error", "Algorithm \"" << *algorithm << "\" not found!");
+        }
+    }
+    debugging::logObject.dumpToConsole();
     return initialize(config);
 }
+
+
+/*
+std::vector<std::string> algorithms = config.getStringSequence("ImageProcessor");
+for(std::vector<std::string>::iterator algorithm = algorithms.begin(); algorithm != algorithms.end(); algorithm++)
+    if(AlgorithmFactory::has(*algorithm))
+        addAlgorithm(*algorithm, AlgorithmFactory::get(*algorithm));
+    else    //TODO: Add support to recursivly add sub-algorithms...
+        LOG("ImageProcessor initialize error", "Algorithm \"" << *algorithm << "\" not found!");
+*/
 
 void Algorithm::process(FrameList & frames)
 {
