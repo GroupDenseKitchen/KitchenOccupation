@@ -10,6 +10,12 @@ bool DenseKitchen::init() {
     std::cout << imageProcessingSuccess << "\n";
     std::cout << statisticsSuccess << "\n";
     PROFILER_ITERATION_END();
+
+    if(networkSuccess == false){
+        std::cout << "Network init failed, is the video file path correct?" << std::endl;
+        exit(-1);
+    }
+
     return networkSuccess && imageProcessingSuccess && statisticsSuccess;
 }
 
