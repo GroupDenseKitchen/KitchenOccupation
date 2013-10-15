@@ -56,6 +56,11 @@ private:
     Ui::MainDebugWindow *ui;
     DenseKitchen program;
     DebugView * debugView;
+    /* --- use the debugView like this each time new window wanted
+    debugView = new DebugView(this);
+    debugView->init(currentKey,currentCameraIndex);
+    debugView->show();
+    */
     bool isRunning;
 
     QTreeView* cameraTree;

@@ -101,12 +101,6 @@ void MainDebugWindow::init()
     timer = new QTimer;
     connect(timer, SIGNAL(timeout()), this, SLOT(updateGUI()));
     timer->start(timerDelay);
-
-
-    //---debugging the debugger =)
-    debugView = new DebugView(this);
-    debugView->init("Test view",0);
-    debugView->show();
 }
 
 void MainDebugWindow::updateGUI()
