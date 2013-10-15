@@ -101,13 +101,19 @@ void MainDebugWindow::init()
     timer = new QTimer;
     connect(timer, SIGNAL(timeout()), this, SLOT(updateGUI()));
     timer->start(timerDelay);
+
+
+    //---debugging the debugger =)
+    debugView = new DebugView(this);
+    debugView->init("Test view",0);
+    debugView->show();
 }
 
 void MainDebugWindow::updateGUI()
 {
     // Update GUI
     if (isRunning && program.singleIteration()){
-        updateDebugViews();
+        emit updateDebugViews(program.frames.getCurrent());
         updateLog();
     } else {
         isRunning = false;
@@ -124,18 +130,7 @@ void MainDebugWindow::cameraSelctionUpdate(QModelIndex current, QModelIndex prev
         currentKey = current.data().toString().toStdString();
         currentCameraIndex = current.parent().row();
     }
-    updateDebugViews();
-}
-
-void MainDebugWindow::updateDebugViews()
-{
-    if(currentKey.length() > 0 && currentCameraIndex != -1){
-        cv::Mat matImage = program.frames.getCurrent().getCameras()[currentCameraIndex].images[currentKey];
-        cv::cvtColor(matImage, matImage, CV_BGR2RGB);
-
-        qImage = QImage((uchar*)matImage.data, matImage.cols, matImage.rows, matImage.step, QImage::Format_RGB888);
-        ui->image1->setPixmap(QPixmap::fromImage(qImage));
-    }
+   emit updateDebugViews(program.frames.getCurrent());
 }
 
 void MainDebugWindow::readConfig(std::string filePath)
@@ -175,7 +170,7 @@ void MainDebugWindow::on_stepForwardButton_clicked()
 {
     isRunning = false;
     if(program.singleIteration()){
-        updateDebugViews();
+        emit updateDebugViews(program.frames.getCurrent());
     }
 }
 

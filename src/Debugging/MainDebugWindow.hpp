@@ -49,10 +49,13 @@ private slots:
 
     void on_tagFilterLineEdit_textEdited(const QString &arg1);
 
+signals:
+    void updateDebugViews( Frame currentFrame);
+
 private:
     Ui::MainDebugWindow *ui;
     DenseKitchen program;
-    std::map<QString,DebugView *> debugViews;
+    DebugView * debugView;
     bool isRunning;
 
     QTreeView* cameraTree;
@@ -78,7 +81,6 @@ private:
     void configureGUI();
     void readConfig(std::string filePath);
 
-    void updateDebugViews();
 };
 
 #endif // MAINDEBUGWINDOW_HPP
