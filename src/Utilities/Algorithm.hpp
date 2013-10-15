@@ -20,9 +20,14 @@ public:
     Algorithm();
 
     /*!
-       \brief   Initializes all sub algorithms.
+       \brief   Initializes algorithm and all sub algorithms.
     */
-    virtual bool initialize(configuration::ConfigurationManager & config);
+    virtual bool initialize(configuration::ConfigurationManager &config);
+
+    /*!
+       \brief   Initializes algorithm, add sub algorithms from config apply this function on all sub algorithms.
+    */
+    bool initialize(configuration::ConfigurationManager &config, std::string AlgorithmName);
 
     /*!
        \brief   Processes all sub algorithms.
@@ -33,7 +38,6 @@ public:
        \brief   Add sub algorithm.
     */
     void addAlgorithm(std::string tag, Algorithm * algorithm);
-
 
     /*!
        \brief   Remove all sub algorithms

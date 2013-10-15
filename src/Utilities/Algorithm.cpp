@@ -8,6 +8,8 @@ Algorithm::Algorithm()
 bool Algorithm::initialize(configuration::ConfigurationManager & config)
 {
     bool success = true;
+
+    // Initialize sub algorithms
     for(int n = 0; n < algorithms.size(); n++)
     {
         PROFILER_START(algorithmTag[n]+" initialization");
@@ -20,6 +22,12 @@ bool Algorithm::initialize(configuration::ConfigurationManager & config)
         PROFILER_END();
     }
     return success;
+}
+
+bool Algorithm::initialize(configuration::ConfigurationManager &config, std::string AlgorithmName)
+{
+    //TODO: add sub patterns from config
+    return initialize(config);
 }
 
 void Algorithm::process(FrameList & frames)
