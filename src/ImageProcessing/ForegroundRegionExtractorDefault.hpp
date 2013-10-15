@@ -41,6 +41,8 @@ public:
 private:
     cv::Mat foregroundMask;
     cv::vector<cv::vector<cv::Point> > contours;
+
+    double minimalArea;
 };
 }
 

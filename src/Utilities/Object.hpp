@@ -1,11 +1,6 @@
 #ifndef OBJECT_HPP
 #define OBJECT_HPP
 
-#include <opencv2/core/core.hpp>
-
-#include <list>
-#include <map>
-
 #include "../Utilities/utilities.hpp"
 
 /*!
@@ -20,7 +15,7 @@ public:
     /*!
        \brief   Constructor.
     */
-    Object();
+    Object(cv::Rect boundingBox);
 
     /*!
        \brief   Destructor.
@@ -30,6 +25,7 @@ public:
 public:
     int id;
     cv::Rect boundingBox;
+    cv::Point2d center;
 };
 
 #endif // OBJECT_HPP

@@ -13,7 +13,9 @@ namespace image_processing
     bool ForegroundRegionExtractorDefault::initialize(configuration::ConfigurationManager &settings)
     {
         isInitialized = true;
-        //TODO: Initialize variables
+
+        CONFIG(settings, minimalArea, "minimalArea", 2000);
+
         return isInitialized;
     }
 
@@ -30,7 +32,6 @@ namespace image_processing
         cv::namedWindow("boundingboxes");           // Debug
         cv::Mat raw = camera.getImage("rawImage");  // Debug
 
-
         foregroundMask = camera.getImage("foregroundMask");
         contours.clear();
         // TODO: is clone() necessary!?
@@ -38,10 +39,9 @@ namespace image_processing
         for(unsigned int c = 0; c < contours.size(); c++)
         {
             cv::Rect rectangle = cv::boundingRect(contours[c]);
-            if(rectangle.height * rectangle.width >= 2000)
+            if(rectangle.height * rectangle.width >= minimalArea)
             {
-                camera.objects.push_back(Object());
-                camera.objects.back().boundingBox = rectangle;
+                camera.objects.push_back(Object(rectangle));
                 cv::rectangle(raw, camera.objects.back().boundingBox, cv::Scalar(0,0,255), 2);     // Debug
             }
         }
