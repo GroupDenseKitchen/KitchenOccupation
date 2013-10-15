@@ -5,10 +5,11 @@
 #include <QtGui>
 #include <QString>
 #include <QTimer>
+#include <QImage>
 #include <QTreeView>
 #include <QStandardItemModel>
 #include <QItemSelectionModel>
-#include <QImage>
+#include <QSortFilterProxyModel>
 
 #include <map>
 #include <atomic>
@@ -46,6 +47,8 @@ private slots:
     void on_stepForwardButton_clicked();
     void on_stepBackwardButton_clicked();
 
+    void on_tagFilterLineEdit_textEdited(const QString &arg1);
+
 private:
     Ui::MainDebugWindow *ui;
     DenseKitchen program;
@@ -58,6 +61,13 @@ private:
 
     int currentCameraIndex;
     std::string currentKey;
+
+    QTreeView* logTree;
+    QStandardItemModel* logItemModel;
+    QSortFilterProxyModel* logProxyModel;
+
+    void adaptLogColumnsToContent();
+    void updateLog();
 
     QImage qImage;
 

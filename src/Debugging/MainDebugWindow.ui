@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>660</width>
-    <height>740</height>
+    <height>820</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -113,6 +113,39 @@
     </property>
     <property name="text">
      <string>Step Backward</string>
+    </property>
+   </widget>
+   <widget class="QTreeView" name="logTreeView">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>660</y>
+      <width>500</width>
+      <height>150</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="tagFilterLabel">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>660</y>
+      <width>130</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Tag filter</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="tagFilterLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>690</y>
+      <width>130</width>
+      <height>22</height>
+     </rect>
     </property>
    </widget>
   </widget>

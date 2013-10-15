@@ -31,15 +31,14 @@ void MainDebugWindow::configureGUI()
 
 void MainDebugWindow::init()
 {
-    // --------------------------------------
+    // --------------------------------------------------
     configureGUI();
 
-
-    // -------------------------------------------
+    // -------- Instanciate Main Program ----------------
     program.readConfig("dense_conf.yml");
     program.init();
 
-    // -------- Camera/Step Selector Init ----------------
+    // -------- Camera/Step Selector Init ---------------
     cameraItemModel = new QStandardItemModel;
     cameraTree = ui->camerasTreeView;
     cameraTree->setModel(cameraItemModel);
@@ -80,7 +79,25 @@ void MainDebugWindow::init()
         cameraItemModel->appendRow(item);
     }
 
-    // ------ Timer ---------
+    // ------ Log ---------------------------------------
+
+    logItemModel = new QStandardItemModel;
+    headerLabels.clear();
+    headerLabels << "Time" << "Tag" << "Message" << "CallFunc" << "Line";
+    logItemModel->setHorizontalHeaderLabels(headerLabels);
+
+
+    logProxyModel = new QSortFilterProxyModel;
+    logProxyModel->setSourceModel(logItemModel);
+
+    logTree = ui->logTreeView;
+    logTree->setRootIsDecorated(false);
+    logTree->setSortingEnabled(true);
+    logTree->setModel(logProxyModel);
+
+    adaptLogColumnsToContent();
+
+    // ------ Timer -------------------------------------
     timer = new QTimer;
     connect(timer, SIGNAL(timeout()), this, SLOT(updateGUI()));
     timer->start(timerDelay);
@@ -91,6 +108,7 @@ void MainDebugWindow::updateGUI()
     // Update GUI
     if (isRunning && program.singleIteration()){
         updateDebugViews();
+        updateLog();
     } else {
         isRunning = false;
     }
@@ -165,4 +183,38 @@ void MainDebugWindow::on_stepBackwardButton_clicked()
 {
     isRunning = false;
     // TODO
+}
+
+void MainDebugWindow::on_tagFilterLineEdit_textEdited(const QString &arg1)
+{
+    // TODO
+}
+
+void MainDebugWindow::adaptLogColumnsToContent()
+{
+    int currentColumn = 0;
+    int nColumns = logItemModel->columnCount();
+
+    while(currentColumn < nColumns){
+        logTree->resizeColumnToContents(currentColumn);
+        currentColumn++;
+    }
+}
+
+void MainDebugWindow::updateLog()
+{
+    debugging::LogIterator logEntry;
+
+    logEntry = debugging::logObject.begin();
+    for ( ; logEntry != debugging::logObject.end(); logEntry++){
+        QList<QStandardItem*> row;
+        row << new QStandardItem(QString::fromStdString(logEntry->time));
+        row << new QStandardItem(QString::fromStdString(logEntry->tag));
+        row << new QStandardItem(QString::fromStdString(logEntry->message));
+        row << new QStandardItem(QString::fromStdString(logEntry->callingFunction));
+        row << new QStandardItem(QString::fromStdString(logEntry->lineNumber));
+        logItemModel->appendRow(row);
+    }
+
+    debugging::logObject.clear();
 }
