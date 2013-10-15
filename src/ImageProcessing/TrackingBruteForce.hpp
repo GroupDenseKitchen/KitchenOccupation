@@ -40,23 +40,16 @@ public:
     void process(FrameList &frames) override;
 
 private:
-    struct ObjectPair
-    {
-        Object * object;
-        int correspondingIndex;
-        ObjectPair(Object * object, int correspondingIndex) : object(object), correspondingIndex(correspondingIndex) {}
-    };
-
-private:
-    std::list<ObjectPair> candidatePrev;
-    std::list<ObjectPair> candidateCurr;
+    std::list<Object*> candidatePrev;
+    std::list<Object*> candidateCurr;
     int nextUniequeID;
 
-    void populate(std::list<ObjectPair> & objectPairs, std::vector<Object> & objects);
-    void mapClosestCandidatePair(std::list<ObjectPair> & candidatePrev, std::list<ObjectPair> & candidateCurr, std::vector<Object> & prev, std::vector<Object> & curr);
+    double maximumDistance;
+
+    void populate(std::list<Object*> & candidates, std::vector<Object> & objects);
+    double mapClosestCandidatePair(std::list<Object*> & candidatePrev, std::list<Object*> & candidateCurr, std::vector<Object> & prev, std::vector<Object> & curr);
     int getUniqueID();
-    void setID(std::vector<Object> & objects, int index, int ID);
-    double distance(ObjectPair previous, ObjectPair current);
+    double distance(Object* previous, Object* current);
 };
 }
 

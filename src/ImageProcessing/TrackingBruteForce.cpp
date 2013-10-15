@@ -8,9 +8,11 @@ namespace image_processing
 
     TrackingBruteForce::~TrackingBruteForce() {}
 
-    bool TrackingBruteForce::initialize(configuration::ConfigurationManager &settings) {
+    bool TrackingBruteForce::initialize(configuration::ConfigurationManager& settings) {
         isInitialized = true;
-        //TODO: Initialize variables
+
+        CONFIG(settings, maximumDistance, "maximumDistance", 500);
+
         return isInitialized;
     }
 
@@ -20,21 +22,24 @@ namespace image_processing
         {
             CameraObject &cameraPrev = frames.getPrevious().getCameras().back();
             CameraObject &cameraCurr = frames.getCurrent().getCameras().back();
+            int lost = 0, found = 0;
+            double lastDistance = 0;
 
+            // Copy object lists to temp lists
             populate(candidatePrev, cameraPrev.objects);
             populate(candidateCurr, cameraCurr.objects);
 
-            while(!candidatePrev.empty() && !candidateCurr.empty())
-                mapClosestCandidatePair(candidatePrev, candidateCurr, cameraPrev.objects, cameraCurr.objects);
+            // Pair closest points and remove from temp lists
+            while(lastDistance <= maximumDistance && !candidatePrev.empty() && !candidateCurr.empty())
+                lastDistance = mapClosestCandidatePair(candidatePrev, candidateCurr, cameraPrev.objects, cameraCurr.objects);
 
-            int lost = 0, found = 0;
             // Detected lost objects
             if(!candidatePrev.empty())
             {
                 while(!candidatePrev.empty())
                 {
                     //releaseID();
-                    candidateCurr.pop_back();
+                    candidatePrev.pop_back();
                     lost++;
                 }
             }
@@ -44,7 +49,7 @@ namespace image_processing
             {
                 while(!candidateCurr.empty())
                 {
-                    setID(cameraCurr.objects, candidateCurr.back().correspondingIndex, getUniqueID());
+                    candidateCurr.back()->id = getUniqueID();
                     candidateCurr.pop_back();
                     found++;
                 }
@@ -52,14 +57,14 @@ namespace image_processing
         }
     }
 
-    void TrackingBruteForce::mapClosestCandidatePair(std::list<ObjectPair> & candidatePrev, std::list<ObjectPair> & candidateCurr, std::vector<Object> & prev, std::vector<Object> & curr)
+    double TrackingBruteForce::mapClosestCandidatePair(std::list<Object*> & candidatePrev, std::list<Object*> & candidateCurr, std::vector<Object> & prev, std::vector<Object> & curr)
     {
-        std::list<ObjectPair>::iterator bestPrev, bestCurr;
+        std::list<Object*>::iterator bestPrev, bestCurr;
         double shortestDistance = 1e10;
 
-        for(std::list<ObjectPair>::iterator prevCandidate = candidatePrev.begin(); prevCandidate != candidatePrev.end(); prevCandidate++)
+        for(std::list<Object*>::iterator prevCandidate = candidatePrev.begin(); prevCandidate != candidatePrev.end(); prevCandidate++)
         {
-            for(std::list<ObjectPair>::iterator currCandidate = candidateCurr.begin(); currCandidate != candidateCurr.end(); currCandidate++)
+            for(std::list<Object*>::iterator currCandidate = candidateCurr.begin(); currCandidate != candidateCurr.end(); currCandidate++)
             {
                 if(distance(*prevCandidate, *currCandidate) < shortestDistance)
                 {
@@ -69,26 +74,21 @@ namespace image_processing
                 }
             }
         }
-        bestCurr->object->id = bestPrev->object->id;
-        candidatePrev.erase(bestPrev);
-        candidateCurr.erase(bestCurr);
+        if(shortestDistance <= maximumDistance) {
+            (*bestCurr)->id = (*bestPrev)->id;
+            candidatePrev.erase(bestPrev);
+            candidateCurr.erase(bestCurr);
+        }
+        return shortestDistance;
     }
 
-    double TrackingBruteForce::distance(ObjectPair previous, ObjectPair current)
+    double TrackingBruteForce::distance(Object* previous, Object* current)
     {
-        double x1 = previous.object->boundingBox.x;
-        double y1 = previous.object->boundingBox.y;
-        double x2 = current.object->boundingBox.x;
-        double y2 = current.object->boundingBox.y;
+        double x1 = previous->center.x;
+        double y1 = previous->center.y;
+        double x2 = current->center.x;
+        double y2 = current->center.y;
         return (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2);
-    }
-
-    void TrackingBruteForce::setID(std::vector<Object> & objects, int index, int ID)
-    {
-        std::vector<Object>::iterator object = objects.begin();
-        for(int i = 0; i < index; i++)
-            object++;
-        object->id = ID;
     }
 
     int TrackingBruteForce::getUniqueID()
@@ -96,13 +96,13 @@ namespace image_processing
         return nextUniequeID++;
     }
 
-    void TrackingBruteForce::populate(std::list<ObjectPair> & objectPairs, std::vector<Object> & objects)
+    void TrackingBruteForce::populate(std::list<Object*>& candidates, std::vector<Object> & objects)
     {
-        objectPairs.clear();
+        candidates.clear();
         int n = 0;
         for(int n = 0; n < objects.size(); n++)
         {
-            objectPairs.push_back(ObjectPair(&objects[n], n));
+            candidates.push_back(&objects[n]);
         }
     }
 
