@@ -182,7 +182,8 @@ void MainDebugWindow::on_stepBackwardButton_clicked()
 
 void MainDebugWindow::on_tagFilterLineEdit_textEdited(const QString &arg1)
 {
-    // TODO
+    logProxyModel->setFilterRegExp(QRegExp(arg1, Qt::CaseInsensitive, QRegExp::FixedString));
+    logProxyModel->setFilterKeyColumn(1);
 }
 
 void MainDebugWindow::adaptLogColumnsToContent()
