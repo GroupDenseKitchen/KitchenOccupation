@@ -40,7 +40,7 @@ MainDebugWindow::~MainDebugWindow()
 }
 
 void MainDebugWindow:: init()
-{
+{ 
     program.readConfig("dense_conf.yml");
     program.init();
 
@@ -53,7 +53,7 @@ void MainDebugWindow:: init()
     std::vector<CameraObject> cameras = currentFrame.getCameras();
     int nCameras = cameras.size();
 
-    qDebug(QByteArray::number(nCameras));
+    qDebug("%d",nCameras);
 
     for (int i = 0; i < nCameras; i++){
         QStandardItem* item = new QStandardItem(QString::number(i));
@@ -84,9 +84,9 @@ void MainDebugWindow::updateGUI()
 
 void MainDebugWindow::cameraSelctionUpdate(QModelIndex current, QModelIndex previous)
 {
-    qDebug(QByteArray::number(current.column()));
-    qDebug(QByteArray::number(current.row()));
-    qDebug(current.data().toByteArray());
+    qDebug("%d",current.column());
+    qDebug("%d",current.row());
+    qDebug("%s",current.data().toString().toStdString().c_str());
 
     currentCameraIndex = current.parent().row();
 

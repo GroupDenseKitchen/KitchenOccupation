@@ -1,15 +1,27 @@
 #include "Analytics.hpp"
 
-namespace statistics{
-    Analytics::Analytics(){
-        //TODO stub
-    }
-    Analytics::~Analytics(){
+namespace statistics
+{
+    Analytics::Analytics() {
         //TODO stub
     }
 
-    void Analytics::process(FrameList frames){
+    Analytics::~Analytics() {
         //TODO stub
+    }
+
+    bool Analytics::initialize(configuration::ConfigurationManager & config)
+    {
+        //TODO: Add algorithms...
+        return Algorithm::initialize(config);   // Initialize all algorithms
+    }
+
+
+    void Analytics::process(FrameList &frames)
+    {
+        PROFILER_START("Statistics Processing");
+        Algorithm::process(frames);
+        PROFILER_END();
     }
 
 }

@@ -3,7 +3,7 @@
 
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/FrameList.hpp"
-#include "../Utilities/Abstractalgorithm.hpp"
+#include "../Utilities/Algorithm.hpp"
 
 /*!
  *  \brief     Short, one-line description.
@@ -14,13 +14,13 @@
  *  \warning   Warnings go here (about how to not use the class etc. etc.)
  */
 
-class BackgroundModel : public AbstractAlgorithm
+class BackgroundModel : public Algorithm
 {
 public:
     BackgroundModel();
     ~BackgroundModel();
-    void process(FrameList frames) override;
-    bool init();
+    void process(FrameList &frames) override;
+    bool initialize(configuration::ConfigurationManager &conf) override;
 
 private:
     cv::BackgroundSubtractorMOG2 bg;
@@ -28,13 +28,13 @@ private:
     int dilations;
     int erotions;
     int history;
-    float backgroundRatio;
-    float varThresholdGen;
-    float fVarInit;
-    float fVarMin;
-    float fVarMax;
-    float fCT;
-    float fTau;
+    double backgroundRatio;
+    double varThresholdGen;
+    double fVarInit;
+    double fVarMin;
+    double fVarMax;
+    double fCT;
+    double fTau;
     bool isShadowDetection;
 
 };

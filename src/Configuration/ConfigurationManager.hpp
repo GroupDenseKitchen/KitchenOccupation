@@ -30,47 +30,116 @@ class ConfigurationManager
         /*!
          * \brief Reads a configuration file.
          * \param Location of configuration file.
-         * \return Resturns true if successful.
+         * \return Returns true if successful.
          */
         bool readConfig(std::string filePath);
 
         /*!
-         * \brief Do we run the debug GUI?
+         * \brief       Checks availability of an int-type property
+         * \param name  Name of requested property
+         * \return      Returns true if specified property exists
          */
-        bool isDebugMode();
+        bool hasBool(std::string name);
 
         /*!
-         * \brief Do we load video from files?
+         * \brief       Checks availability of an int-type property
+         * \param name  Name of requested property
+         * \return      Returns true if specified property exists
          */
-        bool isTestingMode();
+        bool hasInt(std::string name);
 
         /*!
-         * \brief Do we have ground truth data for the file.
+         * \brief       Checks availability of a string-type property
+         * \param name  Name of requested property
+         * \return      Returns true if specified property exists
          */
-        bool isGroundTruthAvailable();
+        bool hasDouble(std::string name);
 
         /*!
-         * \brief Returns the total number of cameras/video files.
+         * \brief       Checks availability of a double-type property
+         * \param item  Name of requested property
+         * \return      Returns true if specified property exists
          */
-        int getNumberOfCameras();
+        bool hasString(std::string name);
 
         /*!
-         * \brief Get path to video file.
+         * \brief       Gets value of bool with key "name".
+         * \param name  Name of the bool variable in question.
+         * \return      Value of requested boolean.
          */
-        std::string getVideoFilePath();
+        bool getBool(std::string name);
 
         /*!
-         * \brief Get path to XML ground truth file.
+         * \brief       Gets value of int with key "name".
+         * \param name  Name of the int variable in question.
+         * \return      Value of requested int.
          */
-        std::string getGroundTruthPath();
+        int getInt(std::string name);
+
+        /*!
+         * \brief       Gets value of double with key "name".
+         * \param name  Name of the double variable in question.
+         * \return      Value of requested double.
+         */
+        double getDouble(std::string name);
+
+        /*!
+         * \brief       Gets value of string with key "name".
+         * \param name  Name of the string variable in question.
+         * \return      Value of requested string.
+         */
+        std::string getString(std::string name);
+		
+        /*!
+         * \brief       Sets value of bool with key "name".
+         * \param name  Name of the bool variable in question.
+         * \param value New value of the bool variable in question.
+         */
+        void setBool(std::string name, bool value);
+
+        /*!
+         * \brief       Sets value of int with key "name".
+         * \param name  Name of the int variable in question.
+         * \param value New value of the int variable in question.
+         */
+        void setInt(std::string name, int value);
+
+        /*!
+         * \brief       Sets value of double with key "name".
+         * \param name  Name of the double variable in question.
+         * \param value New value of the double variable in question.
+         */
+        void setDouble(std::string name, double value);
+
+        /*!
+         * \brief       Sets value of string with key "name".
+         * \param name  Name of the string variable in question.
+         * \param value New value of the string variable in question.
+         */
+        void setString(std::string name, std::string value);
+
+        /*!
+         * \brief       Sets variable if it exists otherwise return false.
+         */
+        bool configure(std::string name, bool &variable);
+		
+        /*!
+         * \brief       Sets variable if it exists otherwise return false.
+         */
+        bool configure(std::string name, int &variable);
+		
+        /*!
+         * \brief       Sets variable if it exists otherwise return false.
+         */
+        bool configure(std::string name, double &variable);
+		
+        /*!
+         * \brief       Sets variable if it exists otherwise return false.
+         */
+        bool configure(std::string name, std::string &variable);
 
     private:
         // Reading functions. (Templates won't work because OpenCV is not super awesome)
-        void readItem(std::string itemNameInFile, bool item);
-        void readItem(std::string itemNameInFile, int item);
-        void readItem(std::string itemNameInFile, float item);
-        void readItem(std::string itemNameInFile, std::string& item);
-        void readItem(std::string itemNameInFile, cv::Mat item);
 
         int nItemsRead;     // Total number of items read
         int nErrors;        // Total number of errors
@@ -86,6 +155,12 @@ class ConfigurationManager
 
         std::string videoFilePath;      // Location of video file(s).
         std::string groundTruthPath;    // Location of ground truth data for specified video
+
+        std::map<std::string, int> intBoolMap;
+        std::map<std::string, double> doubleMap;
+        std::map<std::string, std::string> stringMap;
+
+
 
 };
 

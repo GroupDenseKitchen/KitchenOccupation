@@ -7,45 +7,59 @@ BackgroundModel::~BackgroundModel(){
 
 }
 
-bool BackgroundModel::init()
+bool BackgroundModel::initialize(configuration::ConfigurationManager &conf)
 {
-    //STANDARD VALUES
-    nmixtures = 5;
-    backgroundRatio = 0.9;
-    varThresholdGen = 9;
-    fVarInit = 15;
+    isInitialized = true;
+
+    // Initialize variables
+    //
+    //           |VARIABLE          |NAME                  |DEFAULT
+    //---------------------------------------------------------------
+    CONFIG(conf, nmixtures,         "nmixtures",            5);
+    CONFIG(conf, backgroundRatio,   "backgroundRatio",      0.9);
+    CONFIG(conf, varThresholdGen,   "varThresholdGen",      19);
+    CONFIG(conf, fVarInit,          "fVarInit",             15);
+    CONFIG(conf, fCT,               "fCT",                  0.05);
+    CONFIG(conf, isShadowDetection, "isShadowDetection",    false);
+    CONFIG(conf, erotions,          "erotions",             3);
+    CONFIG(conf, dilations,         "dilations",            3);
+    CONFIG(conf, history,           "history",              500);
     //fVarMin = ;
     //fVarMax = ;
-    fCT = 0.05;
     //fTau = ;
-    isShadowDetection = false;
-    erotions = 3;
-    dilations = 3;
-    history = 500;
 
     bg.set("history",history);
     bg.set("varThreshold",varThresholdGen);
-    bg.setBool("bShadowDetection",isShadowDetection);
+    //bg.setBool("shadowDetection",isShadowDetection);
     bg.set("nmixtures",nmixtures);
     bg.set("backgroundRatio",backgroundRatio);
 
     //TODO: more parameters should be set, see above and clean it up, function should get inparameters...
 
-
-    return true;
+    return isInitialized;
 }
 
- void BackgroundModel::process(FrameList frames)
+ void BackgroundModel::process(FrameList &frames)
  {
-     // TODO: Get rawImage matrix
-     cv::Mat rawImage;      // From frames (current)
-     cv::Mat foreground;    // From frames (current)
+     //TODO: loop over all cameras...
+     CameraObject &camera = frames.getCurrent().getCameras().back();
 
-     bg(rawImage,foreground,0.001);
+     if(!camera.hasImage("rawImage"))
+     {
+         LOG("ImageProcessing Error", "Image \"rawImage\" not set in current frame!");
+         return;
+     }
 
-     cv::erode(foreground,foreground,cv::Mat(),cv::Point(-1,-1),erotions);
-     cv::dilate(foreground,foreground,cv::Mat(),cv::Point(-1,-1),dilations);
-     cv::threshold(foreground,foreground,230,255,CV_THRESH_BINARY);
+     cv::Mat rawImage = camera.getImage("rawImage");
+     cv::Mat foregroundMask;    // From frames (current)
 
-     // TODO: Save foreground to matrix
+     bg(rawImage,foregroundMask,0.001);
+     cv::erode(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), erotions);
+     cv::dilate(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), dilations);
+     cv::threshold(foregroundMask,foregroundMask,230,255,CV_THRESH_BINARY);
+     cv::namedWindow("binary");
+     cv::imshow("binary", foregroundMask);
+
+
+     camera.addImage("foregroundMask", foregroundMask);
  }

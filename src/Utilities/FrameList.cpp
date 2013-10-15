@@ -9,8 +9,17 @@ FrameList::~FrameList(){
     //TODO stub
 }
 
-Frame FrameList::getCurrent(){
+Frame &FrameList::getCurrent(){
     return frames.back();
+}
+
+Frame &FrameList::getPrevious(){
+    return frames[frames.size()-1];
+}
+
+bool FrameList::hasPrevious()
+{
+    return frames.size() > 1;
 }
 
 void FrameList::append(Frame f){
