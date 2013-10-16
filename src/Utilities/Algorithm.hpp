@@ -22,6 +22,11 @@ public:
     Algorithm();
 
     /*!
+       \brief   Destructor.
+    */
+    virtual ~Algorithm() {}
+
+    /*!
        \brief   Initializes algorithm and all sub algorithms.
     */
     virtual bool initialize(configuration::ConfigurationManager &settings);

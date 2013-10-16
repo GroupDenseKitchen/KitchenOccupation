@@ -279,7 +279,7 @@ namespace configuration
             }
         }
 
-        return true;
         file.release();
+        return true;
     }
 }

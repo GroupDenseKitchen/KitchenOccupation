@@ -113,7 +113,7 @@ namespace image_processing
     void TrackingBruteForce::populate(std::list<Object*> & candidates, std::vector<Object> & objects)
     {
         candidates.clear();
-        for(int n = 0; n < objects.size(); n++)
+        for(unsigned int n = 0; n < objects.size(); n++)
         {
             candidates.push_back(&(objects[n]));
         }

@@ -8,7 +8,7 @@ bool Algorithm::initialize(configuration::ConfigurationManager & settings) {
     isInitialized = true;
 
     // Initialize sub algorithms
-    for(int n = 0; n < algorithms.size(); n++) {
+    for(unsigned int n = 0; n < algorithms.size(); n++) {
         PROFILER_START(algorithmTag[n]+" initialization");
         if(!algorithms[n]->initialize(settings)) {
             isInitialized = false;
@@ -41,7 +41,7 @@ bool Algorithm::populateSubAlgorithms(configuration::ConfigurationManager& setti
             }
         }
         // Let all sub algorithms add their sub algorithms
-        for(int n = 0; n < algorithms.size(); n++) {
+        for(unsigned int n = 0; n < algorithms.size(); n++) {
             isSuccessful &= algorithms[n]->populateSubAlgorithms(settings, algorithmTag[n], algorithmFactory);
         }
     }
@@ -49,7 +49,7 @@ bool Algorithm::populateSubAlgorithms(configuration::ConfigurationManager& setti
 }
 
 void Algorithm::process(FrameList & frames) {
-    for(int n = 0; n < algorithms.size(); n++) {
+    for(unsigned int n = 0; n < algorithms.size(); n++) {
         if(algorithms[n]->isInitialized) {
             PROFILER_START(algorithmTag[n]);
             algorithms[n]->process(frames);

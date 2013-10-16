@@ -15,7 +15,7 @@ ENDIF()
 IF(WIN32)
     # Windows specific
     IF(MINGW)
-        SET (CMAKE_CXX_FLAGS "-std=c++11")
+        SET (CMAKE_CXX_FLAGS "-std=c++11 -Wall")
     ENDIF()
 ENDIF()
 
@@ -49,12 +49,12 @@ ADD_SUBDIRECTORY(Utilities)
 ADD_EXECUTABLE(dense_kitchen main.cpp DenseKitchen.cpp)
 
 # Link to libraries
-TARGET_LINK_LIBRARIES (dense_kitchen 
-    Configuration 
-    Debugging 
-    ImageProcessing 
-    Network 
-    Statistics 
+TARGET_LINK_LIBRARIES (dense_kitchen
+    Configuration
+    Debugging
+    ImageProcessing
+    Network
+    Statistics
     Utilities
     ${OpenCV_LIBS}
 )
