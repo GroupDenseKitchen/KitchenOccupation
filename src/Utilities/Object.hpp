@@ -22,10 +22,22 @@ public:
     */
     ~Object();
 
+    /*!
+       \brief   Destructor.
+    */
+    void merge(Object & previousState);
+
+
 public:
     int id;
     cv::Rect boundingBox;
     cv::Point2d center;
+
+    cv::Point2d entryPoint;
+    cv::Point2d exitPoint;
+
+    // Status
+    bool lost;
 };
 
 #endif // OBJECT_HPP

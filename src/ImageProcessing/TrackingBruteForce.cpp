@@ -39,6 +39,9 @@ namespace image_processing
                 while(!candidatePrev.empty())
                 {
                     //releaseID();
+                    candidatePrev.back()->exitPoint = candidatePrev.back()->center;
+                    candidatePrev.back()->lost = true;
+                    cameraCurr.objects.push_back(*candidatePrev.back());
                     candidatePrev.pop_back();
                     lost++;
                 }
@@ -50,9 +53,21 @@ namespace image_processing
                 while(!candidateCurr.empty())
                 {
                     candidateCurr.back()->id = getUniqueID();
+                    candidateCurr.back()->entryPoint = candidatePrev.back()->center;
                     candidateCurr.pop_back();
                     found++;
                 }
+            }
+
+            cv::Mat raw = cameraCurr.getImage("rawImage");  // Debug
+            std::string text = "";
+            int fontFace = cv::FONT_HERSHEY_PLAIN;
+            double fontScale = 1;
+            int thickness = 1;
+            for(std::vector<Object>::iterator object = cameraCurr.objects.begin(); object != cameraCurr.objects.end(); object++) {
+                cv::Point2d pos = object->center;
+                text = "id: "+std::to_string(object->id);
+                putText(raw, text, pos, fontFace, fontScale, cv::Scalar::all(255), thickness, 8);
             }
         }
     }
@@ -75,7 +90,7 @@ namespace image_processing
             }
         }
         if(shortestDistance <= maximumDistance) {
-            (*bestCurr)->id = (*bestPrev)->id;
+            (*bestCurr)->merge(**bestPrev);
             candidatePrev.erase(bestPrev);
             candidateCurr.erase(bestCurr);
         }
