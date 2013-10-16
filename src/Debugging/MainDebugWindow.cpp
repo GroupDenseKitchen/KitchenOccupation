@@ -233,3 +233,14 @@ void MainDebugWindow::on_stepBackwardButton_clicked()
     isRunning = false;
     // TODO
 }
+
+void MainDebugWindow::on_popWindowButton_clicked()
+{
+    // TODOING
+    /*
+    DebugView* debugView = new DebugView(this);
+    debugView->init(currentKey,currentCameraIndex);
+    debugView->show();
+    debugViews.push_back(debugView);
+    */
+}

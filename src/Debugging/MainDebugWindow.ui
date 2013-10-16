@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>660</width>
-    <height>1080</height>
+    <height>590</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,33 +21,17 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>500</y>
+      <y>10</y>
       <width>500</width>
       <height>150</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="image1">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>640</width>
-      <height>480</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>true</bool>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="runButton">
     <property name="geometry">
      <rect>
       <x>520</x>
-      <y>500</y>
+      <y>10</y>
       <width>130</width>
       <height>28</height>
      </rect>
@@ -65,7 +49,7 @@
     <property name="geometry">
      <rect>
       <x>520</x>
-      <y>540</y>
+      <y>40</y>
       <width>130</width>
       <height>28</height>
      </rect>
@@ -83,7 +67,7 @@
     <property name="geometry">
      <rect>
       <x>520</x>
-      <y>580</y>
+      <y>70</y>
       <width>130</width>
       <height>28</height>
      </rect>
@@ -101,7 +85,7 @@
     <property name="geometry">
      <rect>
       <x>520</x>
-      <y>620</y>
+      <y>100</y>
       <width>130</width>
       <height>28</height>
      </rect>
@@ -119,7 +103,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>689</y>
+      <y>200</y>
       <width>640</width>
       <height>160</height>
      </rect>
@@ -129,17 +113,17 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>860</y>
+      <y>370</y>
       <width>315</width>
       <height>210</height>
      </rect>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>660</y>
+      <y>170</y>
       <width>641</width>
       <height>24</height>
      </rect>
@@ -205,6 +189,24 @@
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QPushButton" name="popWindowButton">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>130</y>
+      <width>130</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Helvetica</family>
+     </font>
+    </property>
+    <property name="text">
+     <string>Pop Windwow</string>
+    </property>
    </widget>
   </widget>
  </widget>

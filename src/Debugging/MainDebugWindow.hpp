@@ -48,14 +48,12 @@ private slots:
     void on_stepBackwardButton_clicked();
 
     void on_tagFilterLineEdit_textEdited(const QString &arg1);
-
     void on_timeFilterLineEdit_textEdited(const QString &arg1);
-
     void on_messageFilterLineEdit_textEdited(const QString &arg1);
-
     void on_callingFuncFilterLineEdit_textEdited(const QString &arg1);
-
     void on_lineNumberFilterLineEdit_textEdited(const QString &arg1);
+
+    void on_popWindowButton_clicked();
 
 signals:
     void updateDebugViews( Frame currentFrame);
@@ -63,7 +61,7 @@ signals:
 private:
     Ui::MainDebugWindow *ui;
     DenseKitchen program;
-    DebugView * debugView;
+    std::vector<DebugView*> debugViews;
     /* --- use the debugView like this each time new window wanted
     debugView = new DebugView(this);
     debugView->init(currentKey,currentCameraIndex);
@@ -100,7 +98,6 @@ private:
     cv::FileStorage configFile;
     void configureGUI();
     void readConfig(std::string filePath);
-
 };
 
 #endif // MAINDEBUGWINDOW_HPP
