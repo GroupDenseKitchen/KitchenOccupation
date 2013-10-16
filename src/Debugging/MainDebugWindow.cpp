@@ -223,7 +223,8 @@ void MainDebugWindow::on_stepForwardButton_clicked()
 {
     isRunning = false;
     if(program.singleIteration()){
-        updateDebugViews();
+        // TODO again..
+        //updateDebugViews();
     }
 }
 
