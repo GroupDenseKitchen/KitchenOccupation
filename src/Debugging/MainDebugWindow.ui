@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>660</width>
-    <height>820</height>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -119,34 +119,92 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>660</y>
-      <width>500</width>
-      <height>150</height>
+      <y>689</y>
+      <width>640</width>
+      <height>160</height>
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="tagFilterLabel">
+   <widget class="QTreeView" name="treeView">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>660</y>
-      <width>130</width>
-      <height>28</height>
+      <x>10</x>
+      <y>860</y>
+      <width>315</width>
+      <height>210</height>
      </rect>
-    </property>
-    <property name="text">
-     <string>Tag filter</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="tagFilterLineEdit">
+   <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>690</y>
-      <width>130</width>
-      <height>22</height>
+      <x>10</x>
+      <y>660</y>
+      <width>641</width>
+      <height>24</height>
      </rect>
     </property>
+    <layout class="QHBoxLayout" name="filterHBox">
+     <property name="spacing">
+      <number>7</number>
+     </property>
+     <item>
+      <widget class="QLineEdit" name="timeFilterLineEdit">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="tagFilterLineEdit">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="messageFilterLineEdit">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="callingFuncFilterLineEdit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineNumberFilterLineEdit">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
  </widget>

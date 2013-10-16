@@ -49,6 +49,14 @@ private slots:
 
     void on_tagFilterLineEdit_textEdited(const QString &arg1);
 
+    void on_timeFilterLineEdit_textEdited(const QString &arg1);
+
+    void on_messageFilterLineEdit_textEdited(const QString &arg1);
+
+    void on_callingFuncFilterLineEdit_textEdited(const QString &arg1);
+
+    void on_lineNumberFilterLineEdit_textEdited(const QString &arg1);
+
 private:
     Ui::MainDebugWindow *ui;
     DenseKitchen program;
@@ -68,6 +76,13 @@ private:
 
     void adaptLogColumnsToContent();
     void updateLog();
+
+    QTreeView* profilerTree;
+    QStandardItemModel* profilerItemModel;
+    QSortFilterProxyModel* profilerProxyModel;
+
+    void updateProfiler();
+    void bla();
 
     QImage qImage;
 

@@ -1,4 +1,4 @@
-#ifndef DENSE_KITCHEN_H
+ #ifndef DENSE_KITCHEN_H
 #define DENSE_KITCHEN_H
 
 #include "Utilities/utilities.hpp"

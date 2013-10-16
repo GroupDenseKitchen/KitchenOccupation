@@ -88,6 +88,7 @@ void MainDebugWindow::init()
 
 
     logProxyModel = new QSortFilterProxyModel;
+    logProxyModel->setDynamicSortFilter(true);
     logProxyModel->setSourceModel(logItemModel);
 
     logTree = ui->logTreeView;
@@ -96,6 +97,8 @@ void MainDebugWindow::init()
     logTree->setModel(logProxyModel);
 
     adaptLogColumnsToContent();
+
+    // Log filter layout
 
     // ------ Timer -------------------------------------
     timer = new QTimer;
@@ -140,55 +143,17 @@ void MainDebugWindow::updateDebugViews()
 
 void MainDebugWindow::readConfig(std::string filePath)
 {
-    qDebug("Reading Config");
-
-    //configFile.open(filePath, cv::FileStorage::READ);
-
-    if(configFile.open("filePath.yml", cv::FileStorage::READ)){
-        // TODO: Read config
-        qDebug("Seccesfull reading");
+    if(configFile.open(filePath, cv::FileStorage::READ)){
+        qDebug("reading");
+        configFile["timerDelay"] >> timerDelay;
         configFile["isRunning"] >> isRunning;
-
     } else {
-        // TODO: Generate default config
+        qDebug("Generate");
+        configFile.open(filePath, cv::FileStorage::WRITE);
+        configFile << "timerDelay" << 20;
+        configFile << "isRunning" << false;
+        configFile.release();
     }
-
-    /*
-    configFile.open("filePath", cv::FileStorage::WRITE);
-    configFile << "timerDelay" << 20;
-    configFile << "isRunning" << false;
-    configFile.release();
-    */
-}
-
-void MainDebugWindow::on_runButton_clicked()
-{
-    isRunning = true;
-}
-
-void MainDebugWindow::on_pauseButton_clicked()
-{
-    isRunning = false;
-}
-
-void MainDebugWindow::on_stepForwardButton_clicked()
-{
-    isRunning = false;
-    if(program.singleIteration()){
-        updateDebugViews();
-    }
-}
-
-void MainDebugWindow::on_stepBackwardButton_clicked()
-{
-    isRunning = false;
-    // TODO
-}
-
-void MainDebugWindow::on_tagFilterLineEdit_textEdited(const QString &arg1)
-{
-    logProxyModel->setFilterRegExp(QRegExp(arg1, Qt::CaseInsensitive, QRegExp::FixedString));
-    logProxyModel->setFilterKeyColumn(1);
 }
 
 void MainDebugWindow::adaptLogColumnsToContent()
@@ -218,4 +183,63 @@ void MainDebugWindow::updateLog()
     }
 
     debugging::logObject.clear();
+}
+
+void MainDebugWindow::updateProfiler()
+{
+    // TODO
+}
+
+void MainDebugWindow::on_timeFilterLineEdit_textEdited(const QString &arg1)
+{
+    logProxyModel->setFilterRegExp(QRegExp(arg1, Qt::CaseInsensitive, QRegExp::FixedString));
+    logProxyModel->setFilterKeyColumn(0);
+}
+
+void MainDebugWindow::on_tagFilterLineEdit_textEdited(const QString &arg1)
+{
+    logProxyModel->setFilterRegExp(QRegExp(arg1, Qt::CaseInsensitive, QRegExp::FixedString));
+    logProxyModel->setFilterKeyColumn(1);
+}
+
+void MainDebugWindow::on_messageFilterLineEdit_textEdited(const QString &arg1)
+{
+    logProxyModel->setFilterRegExp(QRegExp(arg1, Qt::CaseInsensitive, QRegExp::FixedString));
+    logProxyModel->setFilterKeyColumn(2);
+}
+
+void MainDebugWindow::on_callingFuncFilterLineEdit_textEdited(const QString &arg1)
+{
+    logProxyModel->setFilterRegExp(QRegExp(arg1, Qt::CaseInsensitive, QRegExp::FixedString));
+    logProxyModel->setFilterKeyColumn(3);
+}
+
+void MainDebugWindow::on_lineNumberFilterLineEdit_textEdited(const QString &arg1)
+{
+    logProxyModel->setFilterRegExp(QRegExp(arg1, Qt::CaseInsensitive, QRegExp::FixedString));
+    logProxyModel->setFilterKeyColumn(4);
+}
+
+void MainDebugWindow::on_runButton_clicked()
+{
+    isRunning = true;
+}
+
+void MainDebugWindow::on_pauseButton_clicked()
+{
+    isRunning = false;
+}
+
+void MainDebugWindow::on_stepForwardButton_clicked()
+{
+    isRunning = false;
+    if(program.singleIteration()){
+        updateDebugViews();
+    }
+}
+
+void MainDebugWindow::on_stepBackwardButton_clicked()
+{
+    isRunning = false;
+    // TODO
 }
