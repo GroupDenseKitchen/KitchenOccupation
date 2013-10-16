@@ -23,9 +23,19 @@ public:
     ~Object();
 
     /*!
-       \brief   Destructor.
+       \brief   Merge current state of an object with the previous.
     */
-    void merge(Object & previousState);
+    void merge(Object* previousState);
+
+    /*!
+       \brief   Called when an object has entered the view.
+    */
+    void enter();
+
+    /*!
+       \brief   Called when an object has exited the view.
+    */
+    void exit();
 
 
 public:

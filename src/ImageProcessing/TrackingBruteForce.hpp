@@ -47,7 +47,7 @@ private:
     double maximumDistance;
 
     void populate(std::list<Object*> & candidates, std::vector<Object> & objects);
-    double mapClosestCandidatePair(std::list<Object*> & candidatePrev, std::list<Object*> & candidateCurr, std::vector<Object> & prev, std::vector<Object> & curr);
+    double mapClosestCandidatePair(std::list<Object*> & candidatePrev, std::list<Object*> & candidateCurr);
     int getUniqueID();
     double distance(Object* previous, Object* current);
 };

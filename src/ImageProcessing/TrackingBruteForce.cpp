@@ -31,7 +31,7 @@ namespace image_processing
 
             // Pair closest points and remove from temp lists
             while(lastDistance <= maximumDistance && !candidatePrev.empty() && !candidateCurr.empty())
-                lastDistance = mapClosestCandidatePair(candidatePrev, candidateCurr, cameraPrev.objects, cameraCurr.objects);
+                lastDistance = mapClosestCandidatePair(candidatePrev, candidateCurr);
 
             // Detected lost objects
             if(!candidatePrev.empty())
@@ -39,8 +39,7 @@ namespace image_processing
                 while(!candidatePrev.empty())
                 {
                     //releaseID();
-                    candidatePrev.back()->exitPoint = candidatePrev.back()->center;
-                    candidatePrev.back()->lost = true;
+                    candidatePrev.back()->exit();
                     cameraCurr.objects.push_back(*candidatePrev.back());
                     candidatePrev.pop_back();
                     lost++;
@@ -53,7 +52,7 @@ namespace image_processing
                 while(!candidateCurr.empty())
                 {
                     candidateCurr.back()->id = getUniqueID();
-                    candidateCurr.back()->entryPoint = candidatePrev.back()->center;
+                    candidatePrev.back()->enter();
                     candidateCurr.pop_back();
                     found++;
                 }
@@ -72,10 +71,10 @@ namespace image_processing
         }
     }
 
-    double TrackingBruteForce::mapClosestCandidatePair(std::list<Object*> & candidatePrev, std::list<Object*> & candidateCurr, std::vector<Object> & prev, std::vector<Object> & curr)
+    double TrackingBruteForce::mapClosestCandidatePair(std::list<Object*> & candidatePrev, std::list<Object*> & candidateCurr)
     {
         std::list<Object*>::iterator bestPrev, bestCurr;
-        double shortestDistance = 1e10;
+        double shortestDistance = 1e99;
 
         for(std::list<Object*>::iterator prevCandidate = candidatePrev.begin(); prevCandidate != candidatePrev.end(); prevCandidate++)
         {
@@ -90,7 +89,7 @@ namespace image_processing
             }
         }
         if(shortestDistance <= maximumDistance) {
-            (*bestCurr)->merge(**bestPrev);
+            (*bestCurr)->merge(*bestPrev);
             candidatePrev.erase(bestPrev);
             candidateCurr.erase(bestCurr);
         }
@@ -111,13 +110,12 @@ namespace image_processing
         return nextUniequeID++;
     }
 
-    void TrackingBruteForce::populate(std::list<Object*>& candidates, std::vector<Object> & objects)
+    void TrackingBruteForce::populate(std::list<Object*> & candidates, std::vector<Object> & objects)
     {
         candidates.clear();
-        int n = 0;
         for(int n = 0; n < objects.size(); n++)
         {
-            candidates.push_back(&objects[n]);
+            candidates.push_back(&(objects[n]));
         }
     }
 
