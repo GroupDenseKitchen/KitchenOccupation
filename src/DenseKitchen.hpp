@@ -5,6 +5,7 @@
 #include "Network/Network.hpp"
 #include "ImageProcessing/ImageProcessor.hpp"
 #include "Analytics/Analytics.hpp"
+#include "Analytics/Evaluation.hpp"
 #include "Configuration/ConfigurationManager.hpp"
 #include "Debugging/Debug.hpp"
 
@@ -17,6 +18,7 @@
  *  \version   0.1
  *  \date      2013-10-07
  */
+
 class DenseKitchen
 {
 public:
@@ -52,13 +54,15 @@ public:
     bool singleIteration();
     FrameList frames;
 private:
+    //statistics::Evaluation asdf;
     network::Network network;
     image_processing::ImageProcessor imageProcessing;
     statistics::Analytics statistics;
     configuration::ConfigurationManager settings;
-
+    evaluation::Evaluation evaluation;
     //FrameList frames;
     std::string configPath;
+
 };
 
 #endif

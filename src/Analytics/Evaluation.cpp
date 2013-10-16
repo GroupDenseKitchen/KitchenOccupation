@@ -2,8 +2,17 @@
 
 using namespace rapidxml;
 
-Evaluation::Evaluation(FrameList* _frameList, int threshold)
+namespace evaluation
 {
+
+Evaluation::Evaluation() {}
+
+Evaluation::~Evaluation() {}
+
+bool Evaluation::initialize(configuration::ConfigurationManager &settings, FrameList* _frameList, int threshold)
+{
+    bool initSuccess = false;
+
     T = threshold;
     frameCounter = 0;
     frameList = _frameList;
@@ -17,18 +26,30 @@ Evaluation::Evaluation(FrameList* _frameList, int threshold)
     sumMismatches = 0;
     sumNumberOfObjects = 0;
 
-    infoDisplayMatrix = Mat(480,720, CV_8UC3);
+    bool GtExists = settings.hasString("groundTruthPath");
+    if (!GtExists) {
+        LOG("Evaluation Error", "No ground truth file specified")
+    } else {
+        initSuccess = readXML2FrameList(settings.getString("groundTruthPath").c_str());
+    }
+    return initSuccess;
 }
 
-void Evaluation::readXML2FrameList(char* fileName)
+std::string Evaluation::printStats()
 {
-    cout << "Reading ground truth from " << fileName << endl;
+    std::cerr << "Dis mah MOTA: " << this->motaValue << std::endl;
+    std::cerr << "Dis mah MOTP: " << this->motpValue << std::endl;
+}
+
+bool Evaluation::readXML2FrameList(const char* fileName)
+{
+    //cout << "Reading ground truth from " << fileName << endl;
     ifstream myfile(fileName);
 
     if(!myfile.is_open())
     {
-        cout << "Could not open xml file!\n";
-        return;
+        LOG("Evaluation Error", "Could not open groundTruth file at: " << fileName << ".");
+        return false;
     }
     xml_document<> doc;
 
@@ -90,7 +111,7 @@ void Evaluation::readXML2FrameList(char* fileName)
         numberOfObjects.push_back( (int)i->size() );
     }
 
-    cout << "Done!" << endl;
+    return true;
 }
 
 void Evaluation::currentFrame()
@@ -98,6 +119,10 @@ void Evaluation::currentFrame()
     // in case there is more movie than groundtruth
     if (frameCounter < numberOfFrames)
     {
+        std::cerr << "Got into first if statement\n";
+        std::cerr << "Framecounter was: " << frameCounter << "\n";
+        std::cerr << "numberOfFrames was: " << numberOfFrames << "\n";
+        //return;
         // Init variables
         frameDistance = 0;
         frameMismatches = 0;
@@ -152,6 +177,8 @@ void Evaluation::currentFrame()
                 }
             }
         }
+
+        std::cerr << "Got past first if statement\n";
 
         // Objects without correspondance
         // Find matching hypothesis, allowing only 1-1 match
@@ -231,7 +258,7 @@ void Evaluation::currentFrame()
         distance.push_back(frameDistance);
 
 
-        cout << "FrameCounter:\t" << frameCounter << endl << endl;;
+        //cout << "FrameCounter:\t" << frameCounter << endl << endl;;
 
         //cout << "Matches:\t" << matches.back() << endl;
         //cout << "Misses:\t\t" << misses.back() << endl;
@@ -247,7 +274,7 @@ void Evaluation::currentFrame()
     }
     else
     {
-        cout << "FrameCounter:\t" << frameCounter << endl;
+        //cout << "FrameCounter:\t" << frameCounter << endl;
         frameCounter++;
     }
 }
@@ -343,3 +370,5 @@ bool Evaluation::isCorr(int truID, int hypID)
     }
     return false;
 }
+
+} // namespace evaluation

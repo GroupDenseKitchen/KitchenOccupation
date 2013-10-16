@@ -8,6 +8,10 @@
 
 int main(int argc, char *argv[])
 {
+    std::cerr << "LOL I R DEBUG" << std::endl;
+    bool probably = false;
+    bool fail = probably;
+
     QApplication a(argc, argv);
     MainDebugWindow debugProgram;
     debugProgram.init();

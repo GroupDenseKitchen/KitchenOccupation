@@ -5,10 +5,12 @@ bool DenseKitchen::init() {
     bool networkSuccess = network.initialize(settings);
     bool imageProcessingSuccess = imageProcessing.initialize(settings);
     bool statisticsSuccess = statistics.initialize(settings);
+    bool evaluationSuccess = evaluation.initialize(settings, &frames);
     // LOG this...
     std::cout << networkSuccess << "\n";
     std::cout << imageProcessingSuccess << "\n";
     std::cout << statisticsSuccess << "\n";
+    std::cout << evaluationSuccess << "\n";
     PROFILER_ITERATION_END();
 
     if(networkSuccess == false){
@@ -37,7 +39,12 @@ bool DenseKitchen::singleIteration() {
             frames.append(*currentFrame);
             delete currentFrame;
             imageProcessing.process(frames);
+
             statistics.process(frames);
+            std::cerr << "Here be evaluation code\n";
+            evaluation.frameList = &frames;
+            evaluation.currentFrame();
+            std::cerr << evaluation.printStats();
         }else{
             iterationSuccess = false;
         }

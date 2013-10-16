@@ -50,10 +50,11 @@ public:
        \brief   Get the number of frames in history.
     */
     int size() { return frames.size(); }
+    int frameCounter;
 private:
     std::deque<Frame> frames;
     int framesToKeep;
-    int frameCounter;
+
 };
 
 #endif

@@ -54,7 +54,7 @@ TARGET_LINK_LIBRARIES (dense_kitchen
     Debugging 
     ImageProcessing 
     Network 
-    Statistics 
+    Statistics
     Utilities
     ${OpenCV_LIBS}
 )

@@ -6,6 +6,8 @@
 #include "../Utilities/Object.hpp"
 #include "../Utilities/rapidxml.hpp"
 
+#include "../Configuration/ConfigurationManager.hpp"
+
 using namespace std;
 using namespace cv;
 
@@ -16,15 +18,23 @@ using namespace cv;
  *  \date      2013-10-10
  */
 
+namespace evaluation
+{
+
 class Evaluation
 {
 public:
-    Evaluation(FrameList* frameList, int threshold = 2);
+    Evaluation();
+    ~Evaluation();
 
-    void readXML2FrameList(char* fileName);
+    bool initialize(configuration::ConfigurationManager& settings, FrameList* frameList, int threshold = 20);
+
+    bool readXML2FrameList(const char *fileName);
     void currentFrame();
     void MOTP();
     void MOTA();
+
+    std::string printStats();
 
     // GroundTruth
     vector<vector<Object>> groundTruth;
@@ -49,5 +59,7 @@ private:
 
     Mat infoDisplayMatrix;
 };
+
+} // namespace evaluation
 
 #endif // EVALUATION_H
