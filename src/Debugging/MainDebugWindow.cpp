@@ -236,11 +236,12 @@ void MainDebugWindow::on_stepBackwardButton_clicked()
 
 void MainDebugWindow::on_popWindowButton_clicked()
 {
-    // TODOING
-    /*
-    DebugView* debugView = new DebugView(this);
+    DebugViewWidget* debugView = new DebugViewWidget;
     debugView->init(currentKey,currentCameraIndex);
+
+    connect(this, SIGNAL(updateDebugViews(Frame)),
+            debugView, SLOT(updateView(Frame)));
+
     debugView->show();
     debugViews.push_back(debugView);
-    */
 }

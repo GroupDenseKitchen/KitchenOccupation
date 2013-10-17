@@ -16,6 +16,7 @@
 
 #include "../DenseKitchen.hpp"
 #include "DebugView.hpp"
+#include "DebugViewWidget.hpp"
 
 #include <opencv2/core/core.hpp>
 
@@ -61,7 +62,7 @@ signals:
 private:
     Ui::MainDebugWindow *ui;
     DenseKitchen program;
-    std::vector<DebugView*> debugViews;
+    std::vector<DebugViewWidget*> debugViews;
     /* --- use the debugView like this each time new window wanted
     debugView = new DebugView(this);
     debugView->init(currentKey,currentCameraIndex);

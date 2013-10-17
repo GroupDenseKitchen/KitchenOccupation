@@ -10,6 +10,7 @@ DebugView::DebugView(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setAttribute(Qt::WA_DeleteOnClose, true);
+
     connect( parentWidget(), SIGNAL(updateDebugViews(Frame)),
              this, SLOT(updateView(Frame)) );
 }
