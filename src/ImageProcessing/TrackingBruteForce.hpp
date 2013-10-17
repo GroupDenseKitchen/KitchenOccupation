@@ -13,7 +13,7 @@ namespace image_processing
 {
 
 /*!
- *  \brief     TODO...
+ *  \brief   Process step which tracks bounding boxes between frames.
  */
 class TrackingBruteForce : public Algorithm
 {
@@ -30,12 +30,12 @@ public:
     ~TrackingBruteForce();
 
     /*!
-       \brief   Initializer.
+       \brief   Initializer, always returns true.
     */
     bool initialize(configuration::ConfigurationManager &settings) override;
 
     /*!
-       \brief   TODO...
+       \brief   Performs the tracking.
     */
     void process(FrameList &frames) override;
 

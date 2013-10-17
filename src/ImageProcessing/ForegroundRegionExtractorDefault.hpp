@@ -12,7 +12,7 @@
 namespace image_processing
 {
 /*!
- *  \brief     TODO...
+ *  \brief     Process step which does foreground modulation, creates bounding boxes.
  */
 class ForegroundRegionExtractorDefault : public Algorithm
 {
@@ -29,12 +29,12 @@ public:
     ~ForegroundRegionExtractorDefault();
 
     /*!
-       \brief   Initializer.
+       \brief   Initializer, always returns true.
     */
     bool initialize(configuration::ConfigurationManager &settings) override;
 
     /*!
-       \brief   TODO...
+       \brief   Performs the foreground modulation.
     */
     void process(FrameList &frames) override;
 

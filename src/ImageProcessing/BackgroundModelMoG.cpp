@@ -27,17 +27,6 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
     CONFIG(settings, erotions,          "erotions",             3);
     CONFIG(settings, dilations,         "dilations",            3);
     CONFIG(settings, history,           "history",              500);
-    //fVarMin = ;
-    //fVarMax = ;
-    //fTau = ;
-
-    bg.set("history",history);
-    bg.set("varThreshold",varThresholdGen);
-    //bg.setBool("shadowDetection",isShadowDetection);
-    bg.set("nmixtures",nmixtures);
-    bg.set("backgroundRatio",backgroundRatio);
-
-    //TODO: more parameters should be set, see above and clean it up, function should get inparameters...
 
     return isInitialized;
 }
@@ -56,6 +45,7 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
      cv::Mat rawImage = camera.getImage("rawImage");
      cv::Mat foregroundMask;    // From frames (current)
 
+     //TODO this value 0.001 should be a configurable variable
      bg(rawImage,foregroundMask,0.001);
      cv::erode(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), erotions);
      cv::dilate(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), dilations);
