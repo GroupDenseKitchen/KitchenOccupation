@@ -55,6 +55,8 @@ private slots:
     void on_lineNumberFilterLineEdit_textEdited(const QString &arg1);
 
     void on_popWindowButton_clicked();
+public slots:
+    void removeDebugViewWidget(std::string identifier);
 
 signals:
     void updateDebugViews( Frame currentFrame);
@@ -62,12 +64,7 @@ signals:
 private:
     Ui::MainDebugWindow *ui;
     DenseKitchen program;
-    std::vector<DebugViewWidget*> debugViews;
-    /* --- use the debugView like this each time new window wanted
-    debugView = new DebugView(this);
-    debugView->init(currentKey,currentCameraIndex);
-    debugView->show();
-    */
+    std::map<std::string,DebugViewWidget*> debugViews;
     bool isRunning;
 
     QTreeView* cameraTree;
@@ -100,6 +97,8 @@ private:
     void configureGUI();
     void readConfig(std::string filePath);
     void updateGuiComponents();
+
+    void closeEvent(QCloseEvent *);
 };
 
 #endif // MAINDEBUGWINDOW_HPP

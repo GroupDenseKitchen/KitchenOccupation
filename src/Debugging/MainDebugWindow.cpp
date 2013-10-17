@@ -5,6 +5,8 @@
 #include <opencv2/core/core.hpp>
 #include "../Utilities/Frame.hpp"
 
+#include <QString>
+
 
 MainDebugWindow::MainDebugWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -245,10 +247,31 @@ void MainDebugWindow::on_popWindowButton_clicked()
     connect(this, SIGNAL(updateDebugViews(Frame)),
             debugView, SLOT(updateView(Frame)));
 
-    connect(this, SIGNAL(destroyed()),
-            debugView, SLOT(close()));
+    connect(debugView, SIGNAL(aboutToClose(std::string)),
+            this, SLOT(removeDebugViewWidget(std::string)));
 
     debugView->show();
 
-    //debugViews.push_back(debugView);
+    //Keep track of the debug views
+    std::map<std::string, DebugViewWidget *>::iterator debugViewsIter;
+    debugViewsIter = debugViews.find(debugView->getIdentifier());
+    if (debugViewsIter != debugViews.end() ) {
+        debugViewsIter->second->close(); //TODO:Check what happens if this is already closed/deleted
+    } else {
+        debugViews[debugView->getIdentifier()] = debugView;
+    }
+}
+
+void MainDebugWindow::closeEvent(QCloseEvent * event)
+{
+    std::map<std::string,DebugViewWidget*>::iterator it;
+    for (it = debugViews.begin() ; it != debugViews.end();++it) {
+            delete it->second;
+        }
+    event->accept();
+}
+
+void MainDebugWindow::removeDebugViewWidget(std::string identifier)
+{
+    debugViews.erase(identifier);
 }

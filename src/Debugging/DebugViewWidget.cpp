@@ -1,6 +1,8 @@
 #include "DebugViewWidget.hpp"
 #include "ui_DebugViewWidget.h"
 #include <QDebug>
+#include <QCloseEvent>
+#include "../Utilities/Algorithm.hpp"
 
 DebugViewWidget::DebugViewWidget(QWidget *parent) :
     QWidget(parent),
@@ -21,14 +23,13 @@ void DebugViewWidget:: init(const std::string processStepName, int camNumber)
     QString processStepNameQ = processStep.c_str();
     setWindowTitle("Camera: " + QString::number(cameraNumber) +
                    " Process Step: " + processStepNameQ);
-
-    //debugImageWidget = new CvImageWidget(this);
-    //ui->verticalLayout->addWidget(debugImageWidget);
 }
 
 void DebugViewWidget::showImage(const cv::Mat& image)
 {
-    //debugImageWidget->showImage(image);
+    if (!image.isContinuous()) {
+        LOG("DebugViewWidget Error", "cv::Mat is not continuous");
+    }
 
     switch (image.type()) {
     case CV_8UC1:
@@ -48,7 +49,7 @@ void DebugViewWidget::showImage(const cv::Mat& image)
                          QImage::Format_RGB888);
         break;
     default :
-        qDebug() << "Unexpected CV image format";
+        LOG("DebugViewWidget Error", "Unexpected CV image format");
         break;
     }
 
@@ -60,13 +61,22 @@ void DebugViewWidget::updateView( Frame currentFrame)
     if ( cameraNumber < currentFrame.getCameras().size() ) {
         CameraObject cam = currentFrame.getCameras()[cameraNumber];
         if (cam.hasImage(processStep)) {
-            //debugImageWidget->showImage(cam.getImage(processStep));
             showImage(cam.getImage(processStep));
         } else {
-            //TODO: use LOG here instead?
-            qDebug() << "Process step doesn't exist in DebugView::updateView";
+             LOG("DebugViewWidget Error", "Process step doesn't exist in DebugView::updateView");
         }
     } else {
-        qDebug() << "Camera doesn't exist in DebugView::updateView";
+         LOG("DebugViewWidget Error", "Camera doesn't exist in DebugView::updateView");
     }
+}
+
+std::string DebugViewWidget::getIdentifier( )
+{
+     return std::to_string(cameraNumber) + processStep;
+}
+
+void DebugViewWidget::closeEvent(QCloseEvent * event)
+{
+    emit aboutToClose(this->getIdentifier());
+    event->accept();
 }
