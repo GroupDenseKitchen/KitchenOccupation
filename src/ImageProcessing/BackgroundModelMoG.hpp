@@ -8,15 +8,26 @@
 namespace image_processing
 {
 /*!
- *  \brief     TODO:...
- *  \details   TODO:...
+ *  \brief   Process step which creates binary image using OpenCV function BackgroundModelMoG2.
  */
 class BackgroundModelMoG : public Algorithm
 {
 public:
+    /*!
+       \brief   Constructor.
+    */
     BackgroundModelMoG();
+    /*!
+       \brief   Destructor.
+    */
     ~BackgroundModelMoG();
+    /*!
+       \brief   Performs the background modulation.
+    */
     void process(FrameList &frames) override;
+    /*!
+       \brief   Initializer, always return true.
+    */
     bool initialize(configuration::ConfigurationManager &conf) override;
 
 private:
