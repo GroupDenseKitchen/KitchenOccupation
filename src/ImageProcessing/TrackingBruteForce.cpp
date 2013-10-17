@@ -11,7 +11,7 @@ namespace image_processing
     bool TrackingBruteForce::initialize(configuration::ConfigurationManager& settings) {
         isInitialized = true;
 
-        CONFIG(settings, maximumDistance, "maximumDistance", 500);
+        CONFIG(settings, maximumDistance, "maximumDistance", 25000);
 
         return isInitialized;
     }
