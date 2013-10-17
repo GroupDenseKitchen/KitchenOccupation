@@ -26,7 +26,7 @@ public:
     */
     void process(FrameList &frames) override;
     /*!
-       \brief   Initializer, always return true.
+       \brief   Initializer, always returns true.
     */
     bool initialize(configuration::ConfigurationManager &conf) override;
 
