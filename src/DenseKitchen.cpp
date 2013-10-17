@@ -22,10 +22,22 @@ bool DenseKitchen::initialize(std::string path) {
         LOG("DenseKitchen initialize error", "Network module could not be initialized!");
         isInitialized = false;
     }
-    imageProcessor.populateSubAlgorithms(settings, "ImageProcessor", algorithmFactory);
-    statistics.populateSubAlgorithms(settings, "Statistics", algorithmFactory);
-    imageProcessor.initialize(settings);
-    statistics.initialize(settings);
+    if(!imageProcessor.populateSubAlgorithms(settings, "ImageProcessor", algorithmFactory)) {
+        LOG("DenseKitchen initialize error", "Image processor failed when populating sub algorighms");
+        isInitialized = false;
+    }
+    if(!statistics.populateSubAlgorithms(settings, "Statistics", algorithmFactory)) {
+        LOG("DenseKitchen initialize error", "Satisitics failed when populating sub algorighms");
+        isInitialized = false;
+    }
+    if(!imageProcessor.initialize(settings)) {
+        LOG("DenseKitchen initialize error", "ImageProcessor could not be initialized!");
+        isInitialized = false;
+    }
+    if(!statistics.initialize(settings)) {
+        LOG("DenseKitchen initialize error", "Satisitics could not be initialized!");
+        isInitialized = false;
+    }
     PROFILER_ITERATION_END();
 
     return isInitialized;

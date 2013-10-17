@@ -24,6 +24,7 @@ namespace image_processing
             CameraObject &cameraCurr = frames.getCurrent().getCameras().back();
             int lost = 0, found = 0;
             double lastDistance = 0;
+            additionalObjects.clear();
 
             // Copy object lists to temp lists
             populate(candidatePrev, cameraPrev.objects);
@@ -40,7 +41,7 @@ namespace image_processing
                 {
                     //releaseID();
                     candidatePrev.back()->exit();
-                    cameraCurr.objects.push_back(*candidatePrev.back());
+                    additionalObjects.push_back(*candidatePrev.back());
                     candidatePrev.pop_back();
                     lost++;
                 }
@@ -52,10 +53,15 @@ namespace image_processing
                 while(!candidateCurr.empty())
                 {
                     candidateCurr.back()->id = getUniqueID();
-                    candidatePrev.back()->enter();
+                    candidateCurr.back()->enter();
                     candidateCurr.pop_back();
                     found++;
                 }
+            }
+
+            std::list<Object>::iterator additionalObject = additionalObjects.begin();
+            for(; additionalObject != additionalObjects.end(); additionalObject++) {
+                cameraCurr.objects.push_back(*additionalObject);
             }
 
             cv::Mat raw = cameraCurr.getImage("rawImage");  // Debug

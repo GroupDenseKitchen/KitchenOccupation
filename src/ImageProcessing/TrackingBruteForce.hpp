@@ -42,6 +42,7 @@ public:
 private:
     std::list<Object*> candidatePrev;
     std::list<Object*> candidateCurr;
+    std::list<Object> additionalObjects;
     int nextUniequeID;
 
     double maximumDistance;
