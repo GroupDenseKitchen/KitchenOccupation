@@ -260,6 +260,8 @@ void MainDebugWindow::on_popWindowButton_clicked()
     } else {
         debugViews[debugView->getIdentifier()] = debugView;
     }
+
+    emit updateDebugViews(program.frames.getCurrent());
 }
 
 void MainDebugWindow::closeEvent(QCloseEvent * event)
