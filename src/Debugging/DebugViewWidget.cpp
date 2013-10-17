@@ -30,8 +30,6 @@ void DebugViewWidget::showImage(const cv::Mat& image)
 {
     //debugImageWidget->showImage(image);
 
-    bool useNewCvMat = false;
-
     switch (image.type()) {
     case CV_8UC1:
         cv::cvtColor(image, matImage, CV_GRAY2RGB );
@@ -39,8 +37,7 @@ void DebugViewWidget::showImage(const cv::Mat& image)
                          matImage.cols,
                          matImage.rows,
                          matImage.step,
-                         QImage::Format_RGB888);
-        useNewCvMat = true;
+                         QImage::Format_Indexed8);
         break;
     case CV_8UC3:
         cv::cvtColor(image, matImage, CV_BGR2RGB );
@@ -48,18 +45,14 @@ void DebugViewWidget::showImage(const cv::Mat& image)
                          matImage.cols,
                          matImage.rows,
                          matImage.step,
-                         QImage::Format_Indexed8);
-        useNewCvMat = true;
+                         QImage::Format_RGB888);
         break;
     default :
         qDebug() << "Unexpected CV image format";
         break;
     }
 
-    if (!qImage.isNull()){
-        ui->imageLabel->setPixmap(QPixmap::fromImage(qImage));
-    }
-
+    ui->imageLabel->setPixmap(QPixmap::fromImage(qImage));
 }
 
 void DebugViewWidget::updateView( Frame currentFrame)
