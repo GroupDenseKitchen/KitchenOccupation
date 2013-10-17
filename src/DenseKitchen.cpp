@@ -44,8 +44,7 @@ bool DenseKitchen::singleIteration() {
             std::cerr << "Here be evaluation code\n";
             evaluation.frameList = &frames;
             evaluation.currentFrame();
-            std::cerr << evaluation.printStats();
-            bool walla = false;
+            evaluation.printStats();
         }else{
             iterationSuccess = false;
         }

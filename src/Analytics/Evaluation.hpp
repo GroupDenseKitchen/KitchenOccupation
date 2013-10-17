@@ -34,7 +34,7 @@ public:
     void MOTP();
     void MOTA();
 
-    std::string printStats();
+    void printStats();
 
     // GroundTruth
     vector<vector<Object>> groundTruth;

@@ -35,11 +35,10 @@ bool Evaluation::initialize(configuration::ConfigurationManager &settings, Frame
     return initSuccess;
 }
 
-std::string Evaluation::printStats()
+void Evaluation::printStats()
 {
-    std::string errormsg = "Dis mah MOTA: " + to_string(this->motaValue) +
-                         + "\nDis mah MOTP: " + to_string(this->motpValue) + "\n";
-    return errormsg;
+    std::cerr << "Dis mah MOTA: " << to_string(this->motaValue) << std::endl;
+    std::cerr << "Dis mah MOTP: " << to_string(this->motpValue) << std::endl;
 }
 
 bool Evaluation::readXML2FrameList(const char* fileName)
