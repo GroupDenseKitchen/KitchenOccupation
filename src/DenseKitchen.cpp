@@ -45,7 +45,6 @@ bool DenseKitchen::singleIteration() {
             evaluation.frameList = &frames;
             evaluation.currentFrame();
             evaluation.printStats();
-            bool asfdf;
         }else{
             iterationSuccess = false;
         }
