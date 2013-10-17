@@ -99,6 +99,7 @@ private:
     cv::FileStorage configFile;
     void configureGUI();
     void readConfig(std::string filePath);
+    void updateGuiComponents();
 };
 
 #endif // MAINDEBUGWINDOW_HPP

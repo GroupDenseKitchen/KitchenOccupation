@@ -11,13 +11,10 @@ MainDebugWindow::MainDebugWindow(QWidget *parent) :
     ui(new Ui::MainDebugWindow)
 {
     ui->setupUi(this);
-
-
 }
 
 MainDebugWindow::~MainDebugWindow()
 {
-    // TODO: Close child windows
     delete ui;
 }
 
@@ -110,11 +107,17 @@ void MainDebugWindow::updateGUI()
 {
     // Update GUI
     if (isRunning && program.singleIteration()){
-        emit updateDebugViews(program.frames.getCurrent());
-        updateLog();
+        updateGuiComponents();
+        //emit updateDebugViews(program.frames.getCurrent());
+        //updateLog();
     } else {
         isRunning = false;
     }
+}
+
+void MainDebugWindow::updateGuiComponents(){
+    emit updateDebugViews(program.frames.getCurrent());
+    updateLog();
 }
 
 void MainDebugWindow::cameraSelctionUpdate(QModelIndex current, QModelIndex previous)
@@ -223,7 +226,7 @@ void MainDebugWindow::on_stepForwardButton_clicked()
 {
     isRunning = false;
     if(program.singleIteration()){
-        //updateDebugViews();
+        updateGuiComponents();
     }
 }
 
@@ -236,11 +239,16 @@ void MainDebugWindow::on_stepBackwardButton_clicked()
 void MainDebugWindow::on_popWindowButton_clicked()
 {
     DebugViewWidget* debugView = new DebugViewWidget;
+    debugView->setAttribute(Qt::WA_DeleteOnClose);
     debugView->init(currentKey,currentCameraIndex);
 
     connect(this, SIGNAL(updateDebugViews(Frame)),
             debugView, SLOT(updateView(Frame)));
 
+    connect(this, SIGNAL(destroyed()),
+            debugView, SLOT(close()));
+
     debugView->show();
-    debugViews.push_back(debugView);
+
+    //debugViews.push_back(debugView);
 }
