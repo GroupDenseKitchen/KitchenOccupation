@@ -256,7 +256,8 @@ void MainDebugWindow::on_popWindowButton_clicked()
     std::map<std::string, DebugViewWidget *>::iterator debugViewsIter;
     debugViewsIter = debugViews.find(debugView->getIdentifier());
     if (debugViewsIter != debugViews.end() ) {
-        debugViewsIter->second->close(); //TODO:Check what happens if this is already closed/deleted
+        debugViewsIter->second->close();
+        debugViews[debugView->getIdentifier()] = debugView;
     } else {
         debugViews[debugView->getIdentifier()] = debugView;
     }
