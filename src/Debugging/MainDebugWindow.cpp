@@ -17,12 +17,12 @@ MainDebugWindow::MainDebugWindow(QWidget *parent) :
 
 MainDebugWindow::~MainDebugWindow()
 {
+    // TODO: Close child windows
     delete ui;
 }
 
 void MainDebugWindow::configureGUI()
 {
-    // TODO
     readConfig("guiConfig.yml");
 
     isRunning = false;
@@ -223,7 +223,6 @@ void MainDebugWindow::on_stepForwardButton_clicked()
 {
     isRunning = false;
     if(program.singleIteration()){
-        // TODO again..
         //updateDebugViews();
     }
 }
