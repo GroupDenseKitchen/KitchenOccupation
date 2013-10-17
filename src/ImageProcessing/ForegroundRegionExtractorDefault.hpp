@@ -29,7 +29,7 @@ public:
     ~ForegroundRegionExtractorDefault();
 
     /*!
-       \brief   Initializer, always return true.
+       \brief   Initializer, always returns true.
     */
     bool initialize(configuration::ConfigurationManager &settings) override;
 
