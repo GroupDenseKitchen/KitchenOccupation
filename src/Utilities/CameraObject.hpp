@@ -28,8 +28,6 @@ struct ProcessHistoryEntry
 /*!
  *  \brief     TODO...
  *  \details   TODO...
- *  \version   0.1
- *  \date      2013-10-10
  */
 class CameraObject
 {

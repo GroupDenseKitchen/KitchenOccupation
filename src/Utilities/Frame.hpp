@@ -15,8 +15,6 @@
  *  \details   Contain raw images from all camreas taken at the same time.
  *             Contain persons seen.
  *             Contain all intermediate debuging data.
- *  \version   0.1
- *  \date      2013-10-10
  */
 class Frame
 {

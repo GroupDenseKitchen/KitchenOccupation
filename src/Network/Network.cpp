@@ -40,7 +40,7 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
     } else {
         //TODO (read from network)
     }
-    
+
     //if we reach this point, something went wrong
     return false;
 }
@@ -52,7 +52,7 @@ Frame* Network::dequeFrame()
     bool success = true;
 
     if (isTesting) { // Loading from file
-        for (int i = 0; i != streams.size(); i++) {
+        for (unsigned int i = 0; i != streams.size(); i++) {
             CameraObject cam;
             cv::Mat rawImage;
             // Grab and retrieve image
@@ -69,11 +69,11 @@ Frame* Network::dequeFrame()
         }
     } else { // Using network cameras
         // Grab all images
-        for (int i = 0; i != streams.size(); i++) {
+        for (unsigned int i = 0; i != streams.size(); i++) {
             streams[i].grab();
         }
         // Retrieve all images
-        for (int i = 0; i != streams.size(); i++) {
+        for (unsigned int i = 0; i != streams.size(); i++) {
             CameraObject cam;
             cv::Mat rawImage;
             success = streams[i].retrieve(rawImage);

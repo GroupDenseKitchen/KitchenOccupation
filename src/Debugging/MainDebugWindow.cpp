@@ -40,14 +40,13 @@ MainDebugWindow::~MainDebugWindow()
 }
 
 void MainDebugWindow:: init()
-{ 
-    program.readConfig("dense_conf.yml");
-    program.init();
+{
+    program.initialize("dense_conf.yml");
 
     // Init camera and frame selector treeView
     Frame currentFrame;
     // Needed to get frames
-    program.singleIteration();
+    program.singleIteration();  // WARNING: returns false if it fails!!! TODO: handle error!
     currentFrame = program.frames.getCurrent();
 
     std::vector<CameraObject> cameras = currentFrame.getCameras();

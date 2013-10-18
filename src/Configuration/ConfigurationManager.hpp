@@ -10,7 +10,7 @@ namespace configuration
 {
 /*!
  * \brief Manages application settings.
- * \details This class reads the config file and stores all settings
+ * \details This class reads the settings file and stores all settings
  * as local variables.
  *
  */
@@ -49,18 +49,25 @@ class ConfigurationManager
         bool hasInt(std::string name);
 
         /*!
-         * \brief       Checks availability of a string-type property
+         * \brief       Checks availability of a double-type property
          * \param name  Name of requested property
          * \return      Returns true if specified property exists
          */
         bool hasDouble(std::string name);
 
         /*!
-         * \brief       Checks availability of a double-type property
+         * \brief       Checks availability of a string-type property
          * \param item  Name of requested property
          * \return      Returns true if specified property exists
          */
         bool hasString(std::string name);
+
+        /*!
+         * \brief       Checks availability of a vector<string>-type property
+         * \param item  Name of requested property
+         * \return      Returns true if specified property exists
+         */
+        bool hasStringSeq(std::string name);
 
         /*!
          * \brief       Gets value of bool with key "name".
@@ -89,6 +96,13 @@ class ConfigurationManager
          * \return      Value of requested string.
          */
         std::string getString(std::string name);
+
+        /*!
+         * \brief       Gets the string sequence with key "name".
+         * \param name  Name of the string sequence in question.
+         * \return      Requesed string vector.
+         */
+        std::vector<std::string> getStringSeq(std::string name);
 		
         /*!
          * \brief       Sets value of bool with key "name".
@@ -119,6 +133,13 @@ class ConfigurationManager
         void setString(std::string name, std::string value);
 
         /*!
+         * \brief       Sets value of string sequence with key "name".
+         * \param name  Name of the string sequence variable in question.
+         * \param value New value of the string sequence in question.
+         */
+        void setStringSeq(std::string name, std::vector<std::string> value);
+
+        /*!
          * \brief       Sets variable if it exists otherwise return false.
          */
         bool configure(std::string name, bool &variable);
@@ -137,6 +158,13 @@ class ConfigurationManager
          * \brief       Sets variable if it exists otherwise return false.
          */
         bool configure(std::string name, std::string &variable);
+
+        /*!
+         * \brief       Writes all stored settings in the configuration manager to file.
+         * \param file  Location and name of output file.
+         * \return      Returns true if successful.
+         */
+        bool writeToFile(std::string filePath);
 
     private:
         // Reading functions. (Templates won't work because OpenCV is not super awesome)
@@ -159,6 +187,7 @@ class ConfigurationManager
         std::map<std::string, int> intBoolMap;
         std::map<std::string, double> doubleMap;
         std::map<std::string, std::string> stringMap;
+        std::map<std::string, std::vector<std::string>> stringSeqMap;
 
 
 
