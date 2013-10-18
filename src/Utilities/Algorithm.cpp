@@ -32,6 +32,9 @@ bool Algorithm::populateSubAlgorithms(configuration::ConfigurationManager& setti
             if(algorithmFactory.has(*algorithmName)) {
                 addAlgorithm(*algorithmName, algorithmFactory.get(*algorithmName));
             } else {
+                /* If the expected algorithm is no actual algorithm (that is registerd in the factory atleast),
+                 * then it might be an alias for another list of algorithms. If this is the case (the if below),
+                 * then a dummy algorithm is created to hold this algorithm list, and added as a sub-algorithm. */
                 if(settings.hasStringSeq(*algorithmName)) {
                     addAlgorithm(*algorithmName+" [empty]", new Algorithm());
                 } else {

@@ -33,6 +33,9 @@ public:
 
     /*!
        \brief   Adds sub algorithms from settings, then calls this function for every sub algorithm.
+       \details A sub algorithm is another Algorithm that is a part in this algorithms pipeline,
+                meaning that it is initialized when this algorithm is initialized and it is executed
+                when this algorithm is executed, both in the order specified in settings.
     */
     bool populateSubAlgorithms(configuration::ConfigurationManager &settings, std::string algorithmName, AlgorithmFactory &algorithmFactory);
 
