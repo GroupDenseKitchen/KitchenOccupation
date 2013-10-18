@@ -17,16 +17,20 @@ public:
        \brief   Constructor.
     */
     BackgroundModelMoG();
+
     /*!
        \brief   Destructor.
     */
     ~BackgroundModelMoG();
+
     /*!
        \brief   Performs the background modulation.
     */
     void process(FrameList &frames) override;
+
     /*!
-       \brief   Initialize the algorithm... (returns true?)
+       \brief   Initialize the algorithm.
+       \details Returns false if initialization fails, e.g. if a required variable
     */
     bool initialize(configuration::ConfigurationManager &conf) override;
 
