@@ -8,6 +8,8 @@
 
 #include <QString>
 
+#include <QString>
+
 
 MainDebugWindow::MainDebugWindow(QWidget *parent) :
     QMainWindow(parent),
