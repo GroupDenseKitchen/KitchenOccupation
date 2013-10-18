@@ -47,8 +47,12 @@ private:
     std::list<Object> additionalObjects;
     int nextUniequeID;
 
-    double maximumDistance;
+    double maximumDistance; // Euclidian distance squared, in pixels
+    int minimumLifeSpan;    // # Frames
+    int maximumTimeLost;    // # Frames
 
+    void transferLongLivedObjects(std::vector<Object> & potentialObjects, std::vector<Object> & objects);
+    void mergeClosestPairs(std::vector<Object> & previousObjects, std::vector<Object> & currentObjects);
     void populate(std::list<Object*> & candidates, std::vector<Object> & objects);
     double mapClosestCandidatePair(std::list<Object*> & candidatePrev, std::list<Object*> & candidateCurr);
     int getUniqueID();

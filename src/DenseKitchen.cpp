@@ -66,7 +66,5 @@ bool DenseKitchen::singleIteration() {
         iterationSuccess = false;
     }
 
-    PROFILER_DUMP();
-
     return iterationSuccess;
 }

@@ -20,7 +20,7 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
     //---------------------------------------------------------------
     CONFIG(settings, nmixtures,         "nmixtures",            5);
     CONFIG(settings, backgroundRatio,   "backgroundRatio",      0.9);
-    CONFIG(settings, varThresholdGen,   "varThresholdGen",      19);
+    CONFIG(settings, varThresholdGen,   "varThresholdGen",      30);
     CONFIG(settings, fVarInit,          "fVarInit",             15);
     CONFIG(settings, fCT,               "fCT",                  0.05);
     CONFIG(settings, isShadowDetection, "isShadowDetection",    false);

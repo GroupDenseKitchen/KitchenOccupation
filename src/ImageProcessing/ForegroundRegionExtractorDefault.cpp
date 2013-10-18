@@ -14,7 +14,7 @@ namespace image_processing
     {
         isInitialized = true;
 
-        CONFIG(settings, minimalArea, "minimalArea", 2000);
+        CONFIG(settings, minimalArea, "minimalArea", 2500);
 
         return isInitialized;
     }
@@ -43,6 +43,9 @@ namespace image_processing
             {
                 camera.objects.push_back(Object(rectangle));
                 cv::rectangle(raw, camera.objects.back().boundingBox, cv::Scalar(0,0,255), 2);     // Debug
+
+                //camera.potentialObjects.push_back(Object(rectangle));
+                //cv::rectangle(raw, camera.potentialObjects.back().boundingBox, cv::Scalar(0,0,255), 2);     // Debug
             }
         }
         cv::imshow("boundingboxes", raw);     // Debug

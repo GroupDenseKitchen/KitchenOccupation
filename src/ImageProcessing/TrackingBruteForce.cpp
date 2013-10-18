@@ -12,6 +12,8 @@ namespace image_processing
         isInitialized = true;
 
         CONFIG(settings, maximumDistance, "maximumDistance", 25000);
+        CONFIG(settings, minimumLifeSpan, "minimumLifeSpan", 30);   //Currently # Frames, should be in ms...
+        CONFIG(settings, maximumTimeLost, "maximumTimeLost", 30);   //Currently # Frames, should be in ms...
 
         return isInitialized;
     }
@@ -22,58 +24,82 @@ namespace image_processing
         {
             CameraObject &cameraPrev = frames.getPrevious().getCameras().back();
             CameraObject &cameraCurr = frames.getCurrent().getCameras().back();
-            int lost = 0, found = 0;
-            double lastDistance = 0;
-            additionalObjects.clear();
 
-            // Copy object lists to temp lists
-            populate(candidatePrev, cameraPrev.objects);
-            populate(candidateCurr, cameraCurr.objects);
+            mergeClosestPairs(cameraPrev.objects, cameraCurr.objects);
 
-            // Pair closest points and remove from temp lists
-            while(lastDistance <= maximumDistance && !candidatePrev.empty() && !candidateCurr.empty())
-                lastDistance = mapClosestCandidatePair(candidatePrev, candidateCurr);
-
-            // Detected lost objects
-            if(!candidatePrev.empty())
-            {
-                while(!candidatePrev.empty())
-                {
-                    //releaseID();
-                    candidatePrev.back()->exit();
-                    additionalObjects.push_back(*candidatePrev.back());
-                    candidatePrev.pop_back();
-                    lost++;
-                }
-            }
-
-            // Found new objects
-            if(!candidateCurr.empty())
-            {
-                while(!candidateCurr.empty())
-                {
-                    candidateCurr.back()->id = getUniqueID();
-                    candidateCurr.back()->enter();
-                    candidateCurr.pop_back();
-                    found++;
-                }
-            }
-
-            std::list<Object>::iterator additionalObject = additionalObjects.begin();
-            for(; additionalObject != additionalObjects.end(); additionalObject++) {
-                cameraCurr.objects.push_back(*additionalObject);
-            }
-
-            cv::Mat raw = cameraCurr.getImage("rawImage");  // Debug
+            // Debug
+            cv::Mat raw = cameraCurr.getImage("rawImage");
             std::string text = "";
             int fontFace = cv::FONT_HERSHEY_PLAIN;
             double fontScale = 1;
             int thickness = 1;
+            for(std::vector<Object>::iterator object = cameraCurr.potentialObjects.begin(); object != cameraCurr.potentialObjects.end(); object++) {
+                cv::Point2d pos = object->center;
+                text = "lifespan: " + std::to_string(object->lifeSpan);
+                putText(raw, text, pos, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
+            }
             for(std::vector<Object>::iterator object = cameraCurr.objects.begin(); object != cameraCurr.objects.end(); object++) {
                 cv::Point2d pos = object->center;
                 text = "id: "+std::to_string(object->id);
                 putText(raw, text, pos, fontFace, fontScale, cv::Scalar::all(255), thickness, 8);
             }
+        }
+    }
+
+    void TrackingBruteForce::transferLongLivedObjects(std::vector<Object> & potentialObjects, std::vector<Object> & objects) {
+        std::vector<Object>::iterator potentialObject = potentialObjects.begin();
+        while(potentialObject != potentialObjects.end()) {
+            if(potentialObject->lifeSpan >= minimumLifeSpan) {
+                objects.push_back(*potentialObject);
+                potentialObjects.erase(potentialObject);
+            } else {
+                potentialObject++;
+            }
+        }
+    }
+
+    void TrackingBruteForce::mergeClosestPairs(std::vector<Object> & previousObjects, std::vector<Object> & currentObjects) {
+        int lost = 0, found = 0;
+        double lastDistance = 0;
+        additionalObjects.clear();
+
+        // Copy object lists to temp lists
+        populate(candidatePrev, previousObjects);
+        populate(candidateCurr, currentObjects);
+
+        // Pair closest points and remove from temp lists
+        while(lastDistance <= maximumDistance && !candidatePrev.empty() && !candidateCurr.empty())
+            lastDistance = mapClosestCandidatePair(candidatePrev, candidateCurr);
+
+        // Detected lost objects
+        if(!candidatePrev.empty())
+        {
+            while(!candidatePrev.empty())
+            {
+                //releaseID();
+                candidatePrev.back()->exit();
+                if(candidatePrev.back()->lifeSpan >= minimumLifeSpan)
+                    additionalObjects.push_back(*candidatePrev.back());
+                candidatePrev.pop_back();
+                lost++;
+            }
+        }
+
+        // Found new objects
+        if(!candidateCurr.empty())
+        {
+            while(!candidateCurr.empty())
+            {
+                candidateCurr.back()->id = getUniqueID();
+                candidateCurr.back()->enter();
+                candidateCurr.pop_back();
+                found++;
+            }
+        }
+
+        std::list<Object>::iterator additionalObject = additionalObjects.begin();
+        for(; additionalObject != additionalObjects.end(); additionalObject++) {
+            currentObjects.push_back(*additionalObject);
         }
     }
 

@@ -2,6 +2,7 @@
 #define OBJECT_HPP
 
 #include "../Utilities/utilities.hpp"
+#include "../Utilities/Timer.hpp"
 
 /*!
  *  \brief     A movable object seen (candidate for human)
@@ -48,6 +49,7 @@ public:
 
     // Status
     bool lost;
+    int lifeSpan;
 };
 
 #endif // OBJECT_HPP
