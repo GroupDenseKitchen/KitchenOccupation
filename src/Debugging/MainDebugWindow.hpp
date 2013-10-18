@@ -56,6 +56,12 @@ private slots:
     void on_lineNumberFilterLineEdit_textEdited(const QString &arg1);
 
     void on_popWindowButton_clicked();
+    void on_autoAdaptProfilerCheckBox_clicked(bool checked);
+
+    void on_autoAdaptLogCheckBox_clicked(bool checked);
+
+    void on_expandDepthSpinBox_valueChanged(int arg1);
+
 public slots:
     void removeDebugViewWidget(std::string identifier);
 
@@ -67,6 +73,7 @@ private:
     DenseKitchen program;
     std::map<std::string,DebugViewWidget*> debugViews;
     bool isRunning;
+    std::string configPath;
 
     QTreeView* cameraTree;
     QStandardItemModel* cameraItemModel;
@@ -74,20 +81,24 @@ private:
 
     int currentCameraIndex;
     std::string currentKey;
+    bool popAllWindows;
 
     QTreeView* logTree;
     QStandardItemModel* logItemModel;
     QSortFilterProxyModel* logProxyModel;
 
     void updateLog();
-    void adaptLogColumnsToContent();
+    bool autoAdaptLog;
 
     QTreeView* profilerTree;
     QStandardItemModel* profilerItemModel;
     QSortFilterProxyModel* profilerProxyModel;
 
     void updateProfiler();
-    void adaptProfilerColumnsToContent();
+    bool autoAdaptProfiler;
+    int profilerExpandDepth;
+
+    void adaptColumnsToContent(QTreeView* tree, QStandardItemModel* model);
 
     QImage qImage;
 
@@ -96,10 +107,12 @@ private:
 
     cv::FileStorage configFile;
     void configureGUI();
-    void readConfig(std::string filePath);
+    bool readConfig(std::string filePath);
+    void generateConfig(std::string filePath);
     void updateGuiComponents();
     void clearLogObject();
     void updateProfilerChildren(QStandardItem *parentItem, std::list<debugging::ProfilerEntry> children);
+    void popWindow(std::string stepKey, int cameraIndex);
 
     void closeEvent(QCloseEvent *);
 };

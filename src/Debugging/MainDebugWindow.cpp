@@ -26,10 +26,10 @@ MainDebugWindow::~MainDebugWindow()
 
 void MainDebugWindow::configureGUI()
 {
-    readConfig("guiConfig.yml");
-
-    isRunning = false;
-    timerDelay = 10;
+    configPath = "guiConfig0_3.yml";
+    if(!readConfig(configPath)){
+        generateConfig(configPath);
+    }
 }
 
 void MainDebugWindow::init()
@@ -66,8 +66,6 @@ void MainDebugWindow::init()
     std::vector<CameraObject> cameras = currentFrame.getCameras();
     int nCameras = cameras.size();
 
-    qDebug(QByteArray::number(nCameras));
-
     for (int i = 0; i < nCameras; i++){
         QStandardItem* item = new QStandardItem(QString::number(i));
         item->setSelectable(false);
@@ -80,10 +78,18 @@ void MainDebugWindow::init()
             child->setSelectable(true);
             item->setChild(rowCounter, 1, child);
             rowCounter++;
+            /*
+            if (popAllWindows){
+                std::string childKey = child->data().toString().toStdString();
+                int childCameraIndex = i;
+                popWindow(childKey, childCameraIndex);
+            }
+            */
         }
         cameraItemModel->appendRow(item);
     }
     cameraTree->expandAll();
+    cameraTree->setColumnWidth(0, 50);
 
     // ------ Log ---------------------------------------
 
@@ -102,7 +108,11 @@ void MainDebugWindow::init()
     logTree->setSortingEnabled(true);
     logTree->setModel(logProxyModel);
 
-    adaptLogColumnsToContent();
+    logTree->setColumnWidth(0, 80);
+    logTree->setColumnWidth(1, 100);
+    logTree->setColumnWidth(2, 450);
+    logTree->setColumnWidth(3, 100);
+    logTree->setColumnWidth(4, 50);
 
     // ------ Profiler ----------------------------------
 
@@ -119,6 +129,10 @@ void MainDebugWindow::init()
     profilerTree->setRootIsDecorated(false);
     profilerTree->setSortingEnabled(true);
     profilerTree->setModel(profilerProxyModel);
+
+    profilerTree->setColumnWidth(0, 150);
+    profilerTree->setColumnWidth(1, 80);
+    profilerTree->setColumnWidth(2, 80);
 
     // ------ Timer -------------------------------------
     timer = new QTimer;
@@ -147,10 +161,6 @@ void MainDebugWindow::updateGuiComponents(){
 
 void MainDebugWindow::cameraSelctionUpdate(QModelIndex current, QModelIndex previous)
 {
-    qDebug(QByteArray::number(current.column()));
-    qDebug(QByteArray::number(current.row()));
-    qDebug(current.data().toByteArray());
-
     if (current.column() == 1){
         currentKey = current.data().toString().toStdString();
         currentCameraIndex = current.parent().row();
@@ -158,30 +168,34 @@ void MainDebugWindow::cameraSelctionUpdate(QModelIndex current, QModelIndex prev
    emit updateDebugViews(program.frames.getCurrent());
 }
 
-void MainDebugWindow::readConfig(std::string filePath)
+bool MainDebugWindow::readConfig(std::string filePath)
 {
     if(configFile.open(filePath, cv::FileStorage::READ)){
         qDebug("reading");
         configFile["timerDelay"] >> timerDelay;
         configFile["isRunning"] >> isRunning;
+        configFile["autoAdaptLog"] >> autoAdaptLog;
+        configFile["autoAdaptProfiler"] >> autoAdaptProfiler;
+        configFile["profilerExpandDepth"] >> profilerExpandDepth;
+        configFile["popAllWindows"] >> popAllWindows;
+        return true;
     } else {
-        qDebug("Generate");
-        configFile.open(filePath, cv::FileStorage::WRITE);
-        configFile << "timerDelay" << 20;
-        configFile << "isRunning" << false;
-        configFile.release();
+        return false;
     }
 }
 
-void MainDebugWindow::adaptLogColumnsToContent()
-{
-    int currentColumn = 0;
-    int nColumns = logItemModel->columnCount();
+void MainDebugWindow::generateConfig(std::string filePath){
+    qDebug("Generating");
+    configFile.open(filePath, cv::FileStorage::WRITE);
+    configFile << "timerDelay" << 10;
+    configFile << "isRunning" << false;
+    configFile << "autoAdaptLog" << false;
+    configFile << "autoAdaptProfiler" << false;
+    configFile << "profilerExpandDepth" << 0;
+    configFile << "popAllWindows" << true;
+    configFile.release();
 
-    while(currentColumn < nColumns){
-        logTree->resizeColumnToContents(currentColumn);
-        currentColumn++;
-    }
+    readConfig(filePath);
 }
 
 void MainDebugWindow::updateLog()
@@ -198,8 +212,9 @@ void MainDebugWindow::updateLog()
         row << new QStandardItem(QString::fromStdString(logEntry->lineNumber));
         logItemModel->appendRow(row);
     }
-
-    adaptLogColumnsToContent();
+    if(autoAdaptLog){
+        adaptColumnsToContent(logTree, logItemModel);
+    }
 }
 
 void MainDebugWindow::updateProfiler()
@@ -218,8 +233,10 @@ void MainDebugWindow::updateProfiler()
 
         profilerItemModel->removeRow(0);
         profilerItemModel->appendRow(parentItem);
-        //profilerTree->expandToDepth(2);
-        profilerTree->expandAll();
+        profilerTree->expandToDepth(profilerExpandDepth);
+    }
+    if(autoAdaptProfiler){
+        adaptColumnsToContent(profilerTree, profilerItemModel);
     }
 }
 
@@ -245,6 +262,17 @@ void MainDebugWindow::updateProfilerChildren(QStandardItem* parentItem, std::lis
 void MainDebugWindow::clearLogObject()
 {
     debugging::logObject.clear();
+}
+
+void MainDebugWindow::adaptColumnsToContent(QTreeView *tree, QStandardItemModel *model)
+{
+    int currentColumn = 0;
+    int nColumns = model->columnCount();
+
+    while(currentColumn < nColumns){
+        tree->resizeColumnToContents(currentColumn);
+        currentColumn++;
+    }
 }
 
 void MainDebugWindow::on_timeFilterLineEdit_textEdited(const QString &arg1)
@@ -303,6 +331,10 @@ void MainDebugWindow::on_stepBackwardButton_clicked()
 
 void MainDebugWindow::on_popWindowButton_clicked()
 {
+    popWindow(currentKey, currentCameraIndex);
+}
+
+void MainDebugWindow::popWindow(std::string stepKey, int cameraIndex){
     DebugViewWidget* debugView = new DebugViewWidget;
     debugView->setAttribute(Qt::WA_DeleteOnClose);
     debugView->init(currentKey,currentCameraIndex);
@@ -330,9 +362,9 @@ void MainDebugWindow::on_popWindowButton_clicked()
 
 void MainDebugWindow::closeEvent(QCloseEvent * event)
 {
-    std::map<std::string,DebugViewWidget*>::iterator it;
-    for (it = debugViews.begin() ; it != debugViews.end();++it) {
-            delete it->second;
+    std::map<std::string,DebugViewWidget*>::iterator debugView;
+    for (debugView = debugViews.begin() ; debugView != debugViews.end();++debugView) {
+            delete debugView->second;
         }
     event->accept();
 }
@@ -340,4 +372,22 @@ void MainDebugWindow::closeEvent(QCloseEvent * event)
 void MainDebugWindow::removeDebugViewWidget(std::string identifier)
 {
     debugViews.erase(identifier);
+}
+
+void MainDebugWindow::on_autoAdaptLogCheckBox_clicked(bool checked)
+{
+    autoAdaptLog = checked;
+    adaptColumnsToContent(logTree, logItemModel);
+}
+
+void MainDebugWindow::on_autoAdaptProfilerCheckBox_clicked(bool checked)
+{
+    autoAdaptProfiler = checked;
+    adaptColumnsToContent(profilerTree, profilerItemModel);
+}
+
+void MainDebugWindow::on_expandDepthSpinBox_valueChanged(int arg1)
+{
+    profilerExpandDepth = arg1;
+    profilerTree->expandToDepth(profilerExpandDepth);
 }
