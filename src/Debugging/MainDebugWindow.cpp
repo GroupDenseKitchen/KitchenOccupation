@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <opencv2/core/core.hpp>
 #include "../Utilities/Frame.hpp"
+#include <iostream>
 
 
 MainDebugWindow::MainDebugWindow(QWidget *parent) :
@@ -11,6 +12,7 @@ MainDebugWindow::MainDebugWindow(QWidget *parent) :
     ui(new Ui::MainDebugWindow)
 {
     ui->setupUi(this);
+    setWindowTitle("DenseDebugger");
 }
 
 MainDebugWindow::~MainDebugWindow()
@@ -67,14 +69,17 @@ void MainDebugWindow::init()
         item->setSelectable(false);
 
         CameraObject c = cameras[i];
+        int rowCounter = 0;
         std::map<std::string,cv::Mat>::iterator stepImage = c.images.begin();
         for(; stepImage != c.images.end(); ++stepImage){
             QStandardItem* child = new QStandardItem(QString::fromStdString(stepImage->first));
             child->setSelectable(true);
-            item->setChild(0, 1, child);
+            item->setChild(rowCounter, 1, child);
+            rowCounter++;
         }
         cameraItemModel->appendRow(item);
     }
+    cameraTree->expandAll();
 
     // ------ Log ---------------------------------------
 
@@ -95,7 +100,21 @@ void MainDebugWindow::init()
 
     adaptLogColumnsToContent();
 
-    // Log filter layout
+    // ------ Profiler ----------------------------------
+
+    profilerItemModel = new QStandardItemModel;
+    headerLabels.clear();
+    headerLabels << "Step" << "Time Consumption" << "Average";
+    profilerItemModel->setHorizontalHeaderLabels(headerLabels);
+
+    profilerProxyModel = new QSortFilterProxyModel;
+    profilerProxyModel->setDynamicSortFilter(true);
+    profilerProxyModel->setSourceModel(profilerItemModel);
+
+    profilerTree = ui->profilerTreeView;
+    profilerTree->setRootIsDecorated(false);
+    profilerTree->setSortingEnabled(true);
+    profilerTree->setModel(profilerProxyModel);
 
     // ------ Timer -------------------------------------
     timer = new QTimer;
@@ -118,6 +137,8 @@ void MainDebugWindow::updateGUI()
 void MainDebugWindow::updateGuiComponents(){
     emit updateDebugViews(program.frames.getCurrent());
     updateLog();
+    updateProfiler();
+    clearLogObject();
 }
 
 void MainDebugWindow::cameraSelctionUpdate(QModelIndex current, QModelIndex previous)
@@ -174,12 +195,52 @@ void MainDebugWindow::updateLog()
         logItemModel->appendRow(row);
     }
 
-    debugging::logObject.clear();
+    adaptLogColumnsToContent();
 }
 
 void MainDebugWindow::updateProfiler()
 {
-    // TODO
+    if (debugging::logObject.profilerSize() > 0){
+        debugging::ProfilerEntry profilerEntry = debugging::logObject.popProfiler();
+        QStandardItem* parentItem = new QStandardItem(QString::fromStdString(profilerEntry.tag));
+        QStandardItem* totalTime  = new QStandardItem(QString::number(profilerEntry.milliseconds));
+
+        if(!profilerEntry.children.empty()){
+            updateProfilerChildren(parentItem, profilerEntry.children);
+        }
+
+        QList<QStandardItem*> row;
+        row << parentItem << totalTime;
+
+        profilerItemModel->removeRow(0);
+        profilerItemModel->appendRow(parentItem);
+        //profilerTree->expandToDepth(2);
+        profilerTree->expandAll();
+    }
+}
+
+void MainDebugWindow::updateProfilerChildren(QStandardItem* parentItem, std::list<debugging::ProfilerEntry> children){
+    std::list<debugging::ProfilerEntry>::iterator child = children.begin();
+
+    int rowCounter = 0;
+
+    for( ; child != children.end(); child++){
+        QStandardItem* childTag = new QStandardItem(QString::fromStdString(child->tag));
+        QStandardItem* childTime = new QStandardItem(QString::number(child->milliseconds));
+
+        if(!child->children.empty()){
+            updateProfilerChildren(childTag, child->children);
+        }
+
+        parentItem->setChild(rowCounter, 0, childTag);
+        parentItem->setChild(rowCounter, 1, childTime);
+        rowCounter++;
+    }
+}
+
+void MainDebugWindow::clearLogObject()
+{
+    debugging::logObject.clear();
 }
 
 void MainDebugWindow::on_timeFilterLineEdit_textEdited(const QString &arg1)

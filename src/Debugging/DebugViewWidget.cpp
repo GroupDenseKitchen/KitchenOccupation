@@ -37,7 +37,7 @@ void DebugViewWidget::showImage(const cv::Mat& image)
                          matImage.cols,
                          matImage.rows,
                          matImage.step,
-                         QImage::Format_Indexed8);
+                         QImage::Format_RGB888);
         break;
     case CV_8UC3:
         cv::cvtColor(image, matImage, CV_BGR2RGB );

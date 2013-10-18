@@ -41,6 +41,7 @@ public:
 
 private slots:
     void updateGUI();
+
     void cameraSelctionUpdate(QModelIndex,QModelIndex);
 
     void on_runButton_clicked();
@@ -81,15 +82,15 @@ private:
     QStandardItemModel* logItemModel;
     QSortFilterProxyModel* logProxyModel;
 
-    void adaptLogColumnsToContent();
     void updateLog();
+    void adaptLogColumnsToContent();
 
     QTreeView* profilerTree;
     QStandardItemModel* profilerItemModel;
     QSortFilterProxyModel* profilerProxyModel;
 
     void updateProfiler();
-    void bla();
+    void adaptProfilerColumnsToContent();
 
     QImage qImage;
 
@@ -100,6 +101,8 @@ private:
     void configureGUI();
     void readConfig(std::string filePath);
     void updateGuiComponents();
+    void clearLogObject();
+    void updateProfilerChildren(QStandardItem *parentItem, std::list<debugging::ProfilerEntry> children);
 };
 
 #endif // MAINDEBUGWINDOW_HPP
