@@ -20,9 +20,13 @@ public:
 
     void init(const std::string processStepName, int camNumber);
     void showImage(const cv::Mat& image);
+    std::string getIdentifier();
 
 public slots:
     void updateView( Frame );
+
+signals:
+    void aboutToClose(std::string);
 
 private:
     Ui::DebugViewWidget *ui;
@@ -32,7 +36,7 @@ private:
     cv::Mat matImage;
     QImage qImage;
 
-    CvImageWidget * debugImageWidget;
+    void closeEvent(QCloseEvent *);
 };
 
 #endif // DEBUGVIEWWIDGET_HPP
