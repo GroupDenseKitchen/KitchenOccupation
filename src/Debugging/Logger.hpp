@@ -1,17 +1,6 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
-#include <time.h>
-#include <stdio.h>
-#include <string>
-#include <sstream>
-#include <vector>
-#include <list>
-#include <deque>
-#include <map>
-#include <stdio.h>
-#include <iostream>
-
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/StringUtilities.hpp"
 
@@ -27,6 +16,19 @@ namespace debugging
  */
 struct LogEntry
 {
+    /*!
+       \brief   Constructor.
+    */
+    LogEntry(std::string tag, std::string message, std::string callingFunction, std::string fileName,
+             std::string lineNumber) :
+            tag(tag), message(message), callingFunction(callingFunction), fileName(fileName), lineNumber(lineNumber)
+            {}
+
+    /*!
+       \brief   Get a string with default format or with specified formating.
+    */
+    std::string toString(std::string format = "[%tag]%message(%file::%function@%line)[%time]");
+
     std::string tag;
     std::string message;
     std::string callingFunction;
@@ -34,19 +36,6 @@ struct LogEntry
     std::string lineNumber;
     std::string time;
     std::string date;
-
-    /*!
-       \brief   Constructor.
-    */
-    LogEntry(std::string tag, std::string message, std::string callingFunction, std::string fileName,
-             std::string lineNumber) :
-            message(message), callingFunction(callingFunction), tag(tag), fileName(fileName), lineNumber(lineNumber)
-            {}
-
-    /*!
-       \brief   Get a string with default format or with specified formating.
-    */
-    std::string toString(std::string format = "[%tag]%message(%file::%function@%line)[%time]");
 };
 
 /*!
@@ -198,7 +187,7 @@ private:
     std::deque<ProfilerEntry> loopIterations;
     ProfilerEntry * parent;
     int iteration;
-    int historyLength;
+    unsigned int historyLength;
 };
 
 // Global Logger
@@ -208,11 +197,11 @@ extern Logger logObject;
 /*!
    \brief   MACRO used for logging anywhere in the project.
    \param   TAG is a string useful for filtering.
-                Use "Config" for config,
-                    "Config error" for config errors,
-                    "Config defails" for additional details...
+                Use "settings" for settings,
+                    "settings error" for settings errors,
+                    "settings defails" for additional details...
    \param   message is a stream, so about enything can be piped using <<.
-                Example: LOG("Config", "Successfully loaded " << nSuccess << " configurations!")
+                Example: LOG("settings", "Successfully loaded " << nSuccess << " configurations!")
 */
 #define LOG(TAG, message) {                             \
     std::stringstream ss;                               \

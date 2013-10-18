@@ -2,14 +2,19 @@
 #define INCLUDE_H
 
 #include <string>
-#include <list>
-#include <vector>
-#include <map>
-
+#include <sstream>
 #include <iostream>
 #include <fstream>
 
+#include <time.h>
+#include <stdio.h>
 #include <assert.h>
+
+#include <list>
+#include <vector>
+#include <queue>
+#include <deque>
+#include <map>
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>

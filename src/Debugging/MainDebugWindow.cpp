@@ -58,9 +58,10 @@ void MainDebugWindow::init()
     currentCameraIndex = -1;
     currentKey = "";
 
+    // Init camera and frame selector treeView
     Frame currentFrame;
     // Needed to get frames
-    program.singleIteration();
+    program.singleIteration();  // WARNING: returns false if it fails!!! TODO: handle error!
     currentFrame = program.frames.getCurrent();
 
     std::vector<CameraObject> cameras = currentFrame.getCameras();

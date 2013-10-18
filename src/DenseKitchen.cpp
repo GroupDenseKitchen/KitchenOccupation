@@ -1,47 +1,72 @@
 #include "DenseKitchen.hpp"
 
-bool DenseKitchen::init() {
+bool DenseKitchen::initialize(std::string path) {
+    isInitialized = true;
+
     PROFILER_ITERATION_START();
-    bool networkSuccess = network.initialize(settings);
-    bool imageProcessingSuccess = imageProcessing.initialize(settings);
-    bool statisticsSuccess = statistics.initialize(settings);
-    // LOG this...
-    std::cout << networkSuccess << "\n";
-    std::cout << imageProcessingSuccess << "\n";
-    std::cout << statisticsSuccess << "\n";
+    algorithmFactory.clear();
+    /*
+     *  REGISTER ALGORITHMS HERE
+     */
+    algorithmFactory.add("ImageProcessor",                   new image_processing::ImageProcessor());
+    algorithmFactory.add("BackgroundModelMoG",               new image_processing::BackgroundModelMoG());
+    algorithmFactory.add("ForegroundRegionExtractorDefault", new image_processing::ForegroundRegionExtractorDefault());
+    algorithmFactory.add("TrackingBruteForce",               new image_processing::TrackingBruteForce());
+    algorithmFactory.add("Analytics",                        new statistics::Analytics());
+
+    if(!settings.readConfig(path)) {
+        LOG("DenseKitchen initialization error", "settings file read error! path: \"" << path << "\"");
+        isInitialized = false;
+    }
+    if(!network.initialize(settings)) {
+        LOG("DenseKitchen initialize error", "Network module could not be initialized!");
+        isInitialized = false;
+    }
+    if(!imageProcessor.populateSubAlgorithms(settings, "ImageProcessor", algorithmFactory)) {
+        LOG("DenseKitchen initialize error", "Image processor failed when populating sub algorighms");
+        isInitialized = false;
+    }
+    if(!statistics.populateSubAlgorithms(settings, "Statistics", algorithmFactory)) {
+        LOG("DenseKitchen initialize error", "Satisitics failed when populating sub algorighms");
+        isInitialized = false;
+    }
+    if(!imageProcessor.initialize(settings)) {
+        LOG("DenseKitchen initialize error", "ImageProcessor could not be initialized!");
+        isInitialized = false;
+    }
+    if(!statistics.initialize(settings)) {
+        LOG("DenseKitchen initialize error", "Satisitics could not be initialized!");
+        isInitialized = false;
+    }
     PROFILER_ITERATION_END();
 
-    if(networkSuccess == false){
-        std::cout << "Network init failed, is the video file path correct?" << std::endl;
-        exit(-1);
-    }
-
-    return networkSuccess && imageProcessingSuccess && statisticsSuccess;
-}
-
-bool DenseKitchen::readConfig(std::string path) {
-    
-    configPath = path;
-    return settings.readConfig(path);
+    return isInitialized;
 }
 
 bool DenseKitchen::singleIteration() {
-    
+
     bool iterationSuccess = true;
 
-    PROFILER_ITERATION_START();
-        PROFILER_START("Network deque");
-        Frame* currentFrame = network.dequeFrame();
-        PROFILER_END();
-        if(currentFrame){
-            frames.append(*currentFrame);
-            delete currentFrame;
-            imageProcessing.process(frames);
-            statistics.process(frames);
-        }else{
-            iterationSuccess = false;
-        }
-    PROFILER_ITERATION_END();
+    if(isInitialized) {
+        PROFILER_ITERATION_START();
+            PROFILER_START("Network deque");
+            Frame* currentFrame = network.dequeFrame();
+            PROFILER_END();
+            if(currentFrame){
+                frames.append(*currentFrame);
+                delete currentFrame;
+                imageProcessor.process(frames);
+                statistics.process(frames);
+            }else{
+                iterationSuccess = false;
+            }
+        PROFILER_ITERATION_END();
+    } else {
+        LOG("DenseKitchen singleIteration error", "DenseKitchen not initialized properly, initialize!");
+        iterationSuccess = false;
+    }
+
+    PROFILER_DUMP();
 
     return iterationSuccess;
 }
