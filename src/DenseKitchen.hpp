@@ -37,7 +37,7 @@ public:
 
     /*!
        \brief     Initialize the program using a settings file specified.
-       \return    False if it fails, otherwise True.
+       \return    Return false if any of its modules fail.
     */
     bool initialize(std::string path);
 

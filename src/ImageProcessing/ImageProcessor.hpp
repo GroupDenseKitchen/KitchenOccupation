@@ -30,6 +30,7 @@ public:
 
     /*!
        \brief   Initialize all image processing algorithms.
+       \details Returns false if any of the sub algorithms fail during their initialization.
     */
     bool initialize(configuration::ConfigurationManager & settings) override;
 

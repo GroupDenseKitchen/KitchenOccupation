@@ -28,8 +28,11 @@ public:
     */
     ~ForegroundRegionExtractorDefault();
 
+
     /*!
-       \brief   Initializer, always returns true.
+       \brief   Initialize the algorithm.
+       \details Returns false if initialization fails,
+                e.g. if a required variable is not set in the config file.
     */
     bool initialize(configuration::ConfigurationManager &settings) override;
 
