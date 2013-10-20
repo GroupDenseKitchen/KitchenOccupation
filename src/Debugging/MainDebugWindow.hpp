@@ -12,7 +12,6 @@
 #include <QSortFilterProxyModel>
 
 #include <map>
-#include <atomic>
 
 #include "../DenseKitchen.hpp"
 #include "DebugView.hpp"
@@ -24,20 +23,38 @@ namespace Ui {
 class MainDebugWindow;
 }
 
+/*!
+ * \brief       The MainDebugWindow class is a debug interface to speed-up development
+ *              and testing of image processing algorithms.
+ * \version     0.1
+ * \date        2013-10-18
+ */
 class MainDebugWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
+    /*!
+     * \brief MainDebugWindow
+     * \param parent
+     */
     explicit MainDebugWindow(QWidget *parent = 0);
+
+    /*!
+     * \brief Destructor
+     */
     ~MainDebugWindow();
 
+    /*!
+     * \brief Initializes the GUI with values specified in
+     *  guiConfig.yml
+     */
     void init();
 
+    /*!
+     * \brief The GUI needs full access to DenseKitchen.
+     */
     friend class DenseKitchen;
-
-    int getCurrentCameraIndex() const;
-    void setCurrentCameraIndex(int value);
 
 private slots:
     void updateGUI();
@@ -57,9 +74,7 @@ private slots:
 
     void on_popWindowButton_clicked();
     void on_autoAdaptProfilerCheckBox_clicked(bool checked);
-
     void on_autoAdaptLogCheckBox_clicked(bool checked);
-
     void on_expandDepthSpinBox_valueChanged(int arg1);
 
 public slots:

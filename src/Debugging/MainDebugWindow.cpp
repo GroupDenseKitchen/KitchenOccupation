@@ -1,15 +1,14 @@
-#include "MainDebugWindow.hpp"
-#include "ui_MainDebugWindow.h"
 #include <QtWidgets>
+#include <QString>
 #include <QDebug>
+
 #include <opencv2/core/core.hpp>
-#include "../Utilities/Frame.hpp"
+
 #include <iostream>
 
-#include <QString>
-
-#include <QString>
-
+#include "MainDebugWindow.hpp"
+#include "ui_MainDebugWindow.h"
+#include "../Utilities/Frame.hpp"
 
 MainDebugWindow::MainDebugWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -38,8 +37,9 @@ void MainDebugWindow::init()
     configureGUI();
 
     // -------- Instanciate Main Program ----------------
-    program.readConfig("dense_conf.yml");
-    program.init();
+    if(!program.initialize("dense_conf.yml")){
+        // TODO Fix that shit
+    }
 
     // -------- Camera/Step Selector Init ---------------
     cameraItemModel = new QStandardItemModel;
