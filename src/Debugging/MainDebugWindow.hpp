@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QtGui>
+#include <QKeyEvent>
 #include <QString>
 #include <QTimer>
 #include <QImage>
@@ -16,6 +17,7 @@
 #include "../DenseKitchen.hpp"
 #include "DebugView.hpp"
 #include "DebugViewWidget.hpp"
+#include "DebugViewGrid.hpp"
 
 #include <opencv2/core/core.hpp>
 
@@ -85,15 +87,20 @@ signals:
 
 private:
     Ui::MainDebugWindow *ui;
-    DenseKitchen program;
+    DenseKitchen* program;
     std::map<std::string,DebugViewWidget*> debugViews;
     bool isRunning;
-    std::string configPath;
+    std::string guiConfigPath, mainConfigPath;
+
+    DebugViewGrid* debugViewGrid;
+    std::vector<int> presetCameraNumber;
+    std::vector<std::string> presetStepName;
 
     QTreeView* cameraTree;
     QStandardItemModel* cameraItemModel;
     QItemSelectionModel* cameraSelection;
 
+    void updateCameraSelector();
     int currentCameraIndex;
     std::string currentKey;
     bool popAllWindows;
@@ -129,6 +136,7 @@ private:
     void updateProfilerChildren(QStandardItem *parentItem, std::list<debugging::ProfilerEntry> children);
     void popWindow(std::string stepKey, int cameraIndex);
 
+    void keyPressEvent(QKeyEvent *);
     void closeEvent(QCloseEvent *);
 };
 

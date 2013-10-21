@@ -59,6 +59,20 @@ LogEntry Logger::pop()
     return front;
 }
 
+void Logger::clear()
+{
+    logFile.clear();
+    loopIterations.clear();
+}
+
+void Logger::reset()
+{
+    logFile.clear();
+    loopIterations.clear();
+    iteration = 0;
+    historyLength = 0;
+}
+
 void Logger::dumpToConsole(void)
 {
     for(std::deque<LogEntry>::iterator it = logFile.begin(); it != logFile.end(); ++it) {

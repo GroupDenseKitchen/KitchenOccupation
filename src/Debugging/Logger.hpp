@@ -110,7 +110,9 @@ public:
     /*!
        \brief   Remove all log entries.
     */
-    void clear()            { logFile.clear();        }
+    void clear();
+
+    void reset();
 
     /*!
        \brief   Get the begin iterator for the log entries.

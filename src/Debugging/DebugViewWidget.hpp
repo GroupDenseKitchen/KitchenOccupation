@@ -19,7 +19,7 @@ public:
     ~DebugViewWidget();
 
     void init(const std::string processStepName, int camNumber);
-    void showImage(const cv::Mat& image);
+    void showImage();
     std::string getIdentifier();
 
 public slots:
@@ -30,13 +30,24 @@ signals:
 
 private:
     Ui::DebugViewWidget *ui;
+    std::string TAG;
     std::string processStep;
-    int cameraNumber;
+    uint cameraNumber;
 
-    cv::Mat matImage;
+    cv::Mat matImage, resizedImage;
     QImage qImage;
 
+    void storeImage(const cv::Mat& image);
+    void adpatToWidgetSize();
+    void adaptImageToWidget();
+
+    int windowWidth;
+    int windowHeight;
+    float windowRatio;
+
+    void keyPressEvent(QKeyEvent *);
     void closeEvent(QCloseEvent *);
+    void resizeEvent(QResizeEvent *);
 };
 
 #endif // DEBUGVIEWWIDGET_HPP

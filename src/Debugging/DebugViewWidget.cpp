@@ -9,6 +9,11 @@ DebugViewWidget::DebugViewWidget(QWidget *parent) :
     ui(new Ui::DebugViewWidget)
 {
     ui->setupUi(this);
+    windowWidth = ui->imageLabel->width();
+    windowHeight = ui->imageLabel->height();
+    windowRatio = (float)windowWidth/windowHeight;
+
+    TAG = "debugGUI";
 }
 
 DebugViewWidget::~DebugViewWidget()
@@ -23,9 +28,27 @@ void DebugViewWidget:: init(const std::string processStepName, int camNumber)
     QString processStepNameQ = processStep.c_str();
     setWindowTitle("Camera: " + QString::number(cameraNumber) +
                    " Process Step: " + processStepNameQ);
+    ui->label->setText("Camera: " + QString::number(cameraNumber) +
+                       " Process Step: " + processStepNameQ);
 }
 
-void DebugViewWidget::showImage(const cv::Mat& image)
+void DebugViewWidget::updateView( Frame currentFrame)
+{
+    if ( cameraNumber < currentFrame.getCameras().size() ) {
+        CameraObject cam = currentFrame.getCameras()[cameraNumber];
+        if (cam.hasImage(processStep)) {
+            storeImage(cam.getImage(processStep));
+            adaptImageToWidget();
+            showImage();
+        } else {
+             LOG("DebugViewWidget Error", "Process step doesn't exist in DebugView::updateView");
+        }
+    } else {
+         LOG("DebugViewWidget Error", "Camera doesn't exist in DebugView::updateView");
+    }
+}
+
+void DebugViewWidget::storeImage(const cv::Mat &image)
 {
     if (!image.isContinuous()) {
         LOG("DebugViewWidget Error", "cv::Mat is not continuous");
@@ -34,39 +57,48 @@ void DebugViewWidget::showImage(const cv::Mat& image)
     switch (image.type()) {
     case CV_8UC1:
         cv::cvtColor(image, matImage, CV_GRAY2RGB );
-        qImage = QImage( matImage.data,
-                         matImage.cols,
-                         matImage.rows,
-                         matImage.step,
-                         QImage::Format_RGB888);
         break;
     case CV_8UC3:
         cv::cvtColor(image, matImage, CV_BGR2RGB );
-        qImage = QImage( matImage.data,
-                         matImage.cols,
-                         matImage.rows,
-                         matImage.step,
-                         QImage::Format_RGB888);
         break;
     default :
         LOG("DebugViewWidget Error", "Unexpected CV image format");
         break;
     }
-
-    ui->imageLabel->setPixmap(QPixmap::fromImage(qImage));
 }
 
-void DebugViewWidget::updateView( Frame currentFrame)
+void DebugViewWidget::adaptImageToWidget()
 {
-    if ( cameraNumber < currentFrame.getCameras().size() ) {
-        CameraObject cam = currentFrame.getCameras()[cameraNumber];
-        if (cam.hasImage(processStep)) {
-            showImage(cam.getImage(processStep));
+        if(!matImage.empty()){
+        float trueRatio = (float) matImage.cols/matImage.rows;
+
+        if(windowRatio > trueRatio){
+            // Window is too wide
+            int correctedWidth = (int)ceil( trueRatio * windowHeight );
+            cv::resize(matImage, resizedImage, cv::Size(correctedWidth, windowHeight));
         } else {
-             LOG("DebugViewWidget Error", "Process step doesn't exist in DebugView::updateView");
+            // Window is too heigh
+            int correctedHeight = (int)ceil( (float)windowWidth / trueRatio );
+            cv::resize(matImage, resizedImage, cv::Size(windowWidth, correctedHeight));
         }
-    } else {
-         LOG("DebugViewWidget Error", "Camera doesn't exist in DebugView::updateView");
+        }
+}
+
+void DebugViewWidget::keyPressEvent(QKeyEvent *e)
+{
+    e->ignore();
+}
+
+void DebugViewWidget::showImage()
+{
+    if(!resizedImage.empty()){
+        qImage = QImage( resizedImage.data,
+                         resizedImage.cols,
+                         resizedImage.rows,
+                         resizedImage.step,
+                         QImage::Format_RGB888);
+
+        ui->imageLabel->setPixmap(QPixmap::fromImage(qImage));
     }
 }
 
@@ -79,4 +111,15 @@ void DebugViewWidget::closeEvent(QCloseEvent * event)
 {
     emit aboutToClose(this->getIdentifier());
     event->accept();
+}
+
+void DebugViewWidget::resizeEvent(QResizeEvent *e){
+    windowWidth = e->size().width();
+    windowHeight = e->size().height();
+    windowRatio = (float) windowWidth/windowHeight;
+
+    adaptImageToWidget();
+    showImage();
+
+    e->accept();
 }

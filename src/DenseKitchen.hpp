@@ -42,6 +42,11 @@ public:
     bool initialize(std::string path);
 
     /*!
+        \brief    Reset program completely.
+    */
+    void reset();
+
+    /*!
        \brief     Run one iteration of the program.
        \details   Deque one frame and perform person tracking and update the statistics.
        \return    False if the program want to terminate, otherwise True.
