@@ -10,6 +10,12 @@ namespace image_processing
         return Algorithm::initialize(settings);   // Initialize all algorithms
     }
 
+    void ImageProcessor::reset()
+    {
+        algorithms.clear();
+        algorithmTag.clear();
+    }
+
     void ImageProcessor::process(FrameList& frames) {
         PROFILER_START("Image Processing");
         Algorithm::process(frames);

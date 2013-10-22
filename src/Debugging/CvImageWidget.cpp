@@ -22,27 +22,33 @@ QSize CvImageWidget:: minimumSizeHint() const
 void CvImageWidget:: showImage(const cv::Mat image)
 {
     cv::Mat temporaryCvImage;
+    bool useNewCvMat = false;
+
     switch (image.type()) {
     case CV_8UC1:
         cv::cvtColor(image, temporaryCvImage, CV_GRAY2RGB );
+        useNewCvMat = true;
         break;
     case CV_8UC3:
         cv::cvtColor(image, temporaryCvImage, CV_BGR2RGB );
+        useNewCvMat = true;
         break;
     default :
         qDebug() << "Unexpected CV image format";
         break;
     }
 
-    assert(temporaryCvImage.isContinuous());
+    if (useNewCvMat) {
+        assert(temporaryCvImage.isContinuous());
 
-    qtImage = QImage(temporaryCvImage.data,
-                     temporaryCvImage.cols,
-                     temporaryCvImage.rows,
-                     temporaryCvImage.cols*3,
-                     QImage::Format_RGB888);
+        qtImage = QImage(temporaryCvImage.data,
+                         temporaryCvImage.cols,
+                         temporaryCvImage.rows,
+                         temporaryCvImage.cols*3,
+                         QImage::Format_RGB888);
 
-    this->setFixedSize(image.cols,image.rows);
+        this->setFixedSize(image.cols,image.rows);
+    }
 
     repaint();
 }

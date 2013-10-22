@@ -110,7 +110,9 @@ public:
     /*!
        \brief   Remove all log entries.
     */
-    void clear()            { logFile.clear();        }
+    void clear();
+
+    void reset();
 
     /*!
        \brief   Get the begin iterator for the log entries.
@@ -203,7 +205,13 @@ extern Logger logObject;
    \param   message is a stream, so about enything can be piped using <<.
                 Example: LOG("settings", "Successfully loaded " << nSuccess << " configurations!")
 */
-#define LOG(TAG, message) {std::stringstream ss; ss << message; debugging::logObject.append(debugging::LogEntry(TAG, ss.str(), __FUNCTION__, __FILE__, std::to_string(__LINE__))); }
+#define LOG(TAG, message) {                             \
+    std::stringstream ss;                               \
+    ss << message;                                      \
+    debugging::logObject.append(debugging::LogEntry(    \
+        TAG, ss.str(), __FUNCTION__, __FILE__, std::to_string(__LINE__)) \
+    );                                                  \
+}
 
 #define PROFILER_ITERATION_START() debugging::logObject.profilerBeginIteration();
 #define PROFILER_ITERATION_END()   debugging::logObject.profilerEndIteration();

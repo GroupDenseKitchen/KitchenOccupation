@@ -16,6 +16,11 @@ namespace statistics
         return Algorithm::initialize(settings);   // Initialize all algorithms
     }
 
+    void Analytics::reset()
+    {
+        // TO maybe DO if there is something to reset
+    }
+
     void Analytics::process(FrameList &frames)
     {
         PROFILER_START("Statistics Processing");

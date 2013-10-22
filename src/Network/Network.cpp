@@ -45,6 +45,11 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
     return false;
 }
 
+void Network::reset()
+{
+    streams.clear();
+}
+
 Frame* Network::dequeFrame()
 {
 

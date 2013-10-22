@@ -2,8 +2,9 @@
 #define DEBUGVIEW_HPP
 
 #include <QDialog>
-#include <QString>
+#include <string>
 #include "CvImageWidget.hpp"
+#include "../Utilities/Frame.hpp"
 
 namespace Ui {
 class DebugView;
@@ -17,12 +18,16 @@ public:
     explicit DebugView(QWidget *parent = 0);
     ~DebugView();
 
-    void init(const QString);
+    void init(const std::string processStepName, int camNumber);
     void showImage(const cv::Mat& image);
+
+public slots:
+    void updateView( Frame );
 
 private:
     Ui::DebugView *ui;
-    QString name;
+    std::string processStep;
+    int cameraNumber;
     CvImageWidget * debugImageWidget;
 };
 
