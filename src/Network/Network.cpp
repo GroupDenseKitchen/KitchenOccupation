@@ -62,8 +62,6 @@ Frame* Network::dequeFrame()
             cv::Mat rawImage;
             // Grab and retrieve image
             success = streams[i].read(rawImage);
-            success = streams[i].read(rawImage);
-            success = streams[i].read(rawImage);
             std::cerr << "Dis mah frame count: " << streams[i].get(CV_CAP_PROP_FRAME_COUNT) << std::endl;
             std::cerr << "Dis mah eff pee ess: " << streams[i].get(CV_CAP_PROP_FPS) << std::endl;
             std::cerr << "Dis mah frame index: " << streams[i].get(CV_CAP_PROP_POS_FRAMES) << std::endl;
