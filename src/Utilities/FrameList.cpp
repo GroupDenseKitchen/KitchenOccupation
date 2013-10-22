@@ -14,7 +14,7 @@ Frame &FrameList::getCurrent(){
 }
 
 Frame &FrameList::getPrevious(){
-    return frames[frames.size()-1];
+    return frames[frames.size()-2];
 }
 
 bool FrameList::hasPrevious()

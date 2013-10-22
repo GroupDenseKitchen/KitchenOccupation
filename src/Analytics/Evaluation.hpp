@@ -29,18 +29,13 @@ public:
 
     bool initialize(configuration::ConfigurationManager& settings, FrameList* frameList, int threshold = 20);
 
-    bool readXML2FrameList(const char *fileName);
     void currentFrame();
-    void MOTP();
-    void MOTA();
 
     void printStats();
 
-    // GroundTruth
-    vector<vector<Object>> groundTruth;
     // Reference to global framelist
     FrameList* frameList;
-    vector<Object> hypothesisList;
+
 
 private:
     int frameCounter, numberOfFrames, frameMismatches;
@@ -48,14 +43,23 @@ private:
     float frameDistance, motpValue, motaValue;
     float sumDistance;
     int sumMisses, sumMatches, sumFalsePositive, sumMismatches, sumNumberOfObjects;
+
     vector<int> numberOfObjects, matches, misses, falsePositive, mismatches;
     vector<float> distance;
     vector<map<int, int>> correspondance;
+    vector<vector<Object>> groundTruth;
+    vector<Object> hypothesisList;
     Object *ob, *hyp;
 
     Object* getObj(vector<Object>* objVec, int ID);
     void deleteObj(vector<Object>* objVec, int ID);
     bool isCorr(int truID, int hypID);
+
+    void MOTP();
+    void MOTA();
+
+    bool readXML2FrameList(const char *fileName);
+
 
     Mat infoDisplayMatrix;
 };

@@ -40,7 +40,7 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
     } else {
         //TODO (read from network)
     }
-    
+
     //if we reach this point, something went wrong
     return false;
 }
@@ -52,11 +52,16 @@ Frame* Network::dequeFrame()
     bool success = true;
 
     if (isTesting) { // Loading from file
-        for (int i = 0; i != streams.size(); i++) {
+        for (unsigned int i = 0; i != streams.size(); i++) {
             CameraObject cam;
             cv::Mat rawImage;
             // Grab and retrieve image
-            success = streams[i].grab() && streams[i].retrieve(rawImage);
+            success = streams[i].read(rawImage);
+            success = streams[i].read(rawImage);
+            success = streams[i].read(rawImage);
+            std::cerr << "Dis mah frame count: " << streams[i].get(CV_CAP_PROP_FRAME_COUNT) << std::endl;
+            std::cerr << "Dis mah eff pee ess: " << streams[i].get(CV_CAP_PROP_FPS) << std::endl;
+            std::cerr << "Dis mah frame index: " << streams[i].get(CV_CAP_PROP_POS_FRAMES) << std::endl;
             if (success)
             {
                 cam.roomID = std::to_string(i);
@@ -69,11 +74,11 @@ Frame* Network::dequeFrame()
         }
     } else { // Using network cameras
         // Grab all images
-        for (int i = 0; i != streams.size(); i++) {
+        for (unsigned int i = 0; i != streams.size(); i++) {
             streams[i].grab();
         }
         // Retrieve all images
-        for (int i = 0; i != streams.size(); i++) {
+        for (unsigned int i = 0; i != streams.size(); i++) {
             CameraObject cam;
             cv::Mat rawImage;
             success = streams[i].retrieve(rawImage);

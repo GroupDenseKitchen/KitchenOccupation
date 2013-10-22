@@ -1,16 +1,14 @@
-#ifndef FRAME_LIST_H
-#define FRAME_LIST_H
+#ifndef FRAME_LIST_HPP
+#define FRAME_LIST_HPP
+
+#include <deque>
 
 #include "utilities.hpp"
 #include "Frame.hpp"
 
-#include <deque>
-
 /*!
  *  \brief     A container of cronoligicaly ordered Frames.
  *  \details   Keeps infinitly or a configurable number of Frames as history apart from the current Frame.
- *  \version   0.1
- *  \date      2013-10-07
  */
 class FrameList
 {
@@ -24,7 +22,7 @@ public:
     /*!
        \brief   Destructor.
     */
-	~FrameList();
+    ~FrameList();
 
     /*!
        \brief   Get the current (latest) Frame.
@@ -44,17 +42,17 @@ public:
     /*!
        \brief   Append the FrameList with the latest Frame.
     */
-	void append(Frame newFrame);
+    void append(Frame newFrame);
 
     /*!
        \brief   Get the number of frames in history.
     */
     int size() { return frames.size(); }
-    int frameCounter;
 private:
     std::deque<Frame> frames;
-    int framesToKeep;
 
+    unsigned int framesToKeep;
+    unsigned int frameCounter;
 };
 
 #endif

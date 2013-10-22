@@ -19,37 +19,37 @@ std::string LogEntry::toString(std::string format)
 
 Logger::Logger()
 {
-	buildDate = __DATE__;
-	buildTime = __TIME__;
+    buildDate = __DATE__;
+    buildTime = __TIME__;
     iteration = 0;
     historyLength = 500;
 }
 
 void Logger::append(LogEntry entry)
 {
-	time(&rawTime);
+    time(&rawTime);
     struct tm * timeInfo = localtime(&rawTime);
     entry.time = std::to_string(timeInfo->tm_hour)+":"+std::to_string(timeInfo->tm_min)+":"+std::to_string(timeInfo->tm_sec);
     entry.date = std::to_string(timeInfo->tm_mday)+":"+std::to_string(timeInfo->tm_mon)+":"+std::to_string(timeInfo->tm_year);
-	logFile.push_back(entry);
+    logFile.push_back(entry);
 }
 
 std::string Logger::getLastEntry( std::string format )
 {
     if(!logFile.empty()) {
         return logFile.front().toString(format);
-	}
-	return std::string("Error: No log (empty)!");
+    }
+    return std::string("Error: No log (empty)!");
 }
 
 std::vector<std::string> Logger::flushLog()
 {
-	std::vector<std::string> v;
+    std::vector<std::string> v;
     while(!logFile.empty()) {
-		v.push_back(getLastEntry());
+        v.push_back(getLastEntry());
         logFile.pop_front();
     }
-	return v;
+    return v;
 }
 
 LogEntry Logger::pop()
@@ -108,9 +108,10 @@ void Logger::profilerEndSection()
 
 void Logger::profilerDumpSectionToConsole(ProfilerEntry * pe, int depth)
 {
+    std::string spaces;
     for(int n = 0; n < depth; n++)
-        std::cout << " ";
-    std::cout << pe->tag << " [" << pe->milliseconds << "]\n";
+        spaces += " ";
+    std::cerr << spaces + pe->tag + " [" + std::to_string(pe->milliseconds) + "]\n";
     depth++;
     for(std::list<ProfilerEntry>::iterator entry = pe->children.begin(); entry != pe->children.end(); entry++)
         profilerDumpSectionToConsole(&*entry, depth);
