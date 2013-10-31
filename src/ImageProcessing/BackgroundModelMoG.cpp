@@ -49,28 +49,11 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
          cv::erode(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), erotions);
          cv::dilate(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), dilations);
          cv::threshold(foregroundMask,foregroundMask,230,255,CV_THRESH_BINARY);
-         cv::namedWindow("binary");
-         cv::imshow("binary", foregroundMask);
+         //cv::namedWindow("binary");
+         //cv::imshow("binary", foregroundMask);
 
          camera.addImage("foregroundMask", foregroundMask);
      }
-<<<<<<< HEAD
-=======
-
-     cv::Mat rawImage = camera.getImage("rawImage");
-     cv::Mat foregroundMask;    // From frames (current)
-
-     //TODO this value 0.001 should be a configurable variable
-     bg(rawImage,foregroundMask,0.001);
-     cv::erode(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), erotions);
-     cv::dilate(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), dilations);
-     cv::threshold(foregroundMask,foregroundMask,230,255,CV_THRESH_BINARY);
-     //cv::namedWindow("binary");
-     //cv::imshow("binary", foregroundMask);
-
-
-     camera.addImage("foregroundMask", foregroundMask);
->>>>>>> origin/master
  }
 
 }
