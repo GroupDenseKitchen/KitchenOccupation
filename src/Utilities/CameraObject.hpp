@@ -63,7 +63,7 @@ public:
 public:
     std::string roomID;
     std::map<std::string,cv::Mat> images;
-    std::vector<Object> objects;  // Moving things...
+    std::vector<Object> objects;           // Moving things...
     std::vector<Object> potentialObjects;  // Potentially moving things..
 
     //debug information

@@ -9,3 +9,6 @@ ImageProcessor:
    - BackgroundModelMoG
    - ForegroundRegionExtractorDefault
    - TrackingBruteForce
+TrackingMaximumDistance: 2500
+TrackingMinimumLifeSpan: 10
+TrackingMaximumTimeLost: 10
