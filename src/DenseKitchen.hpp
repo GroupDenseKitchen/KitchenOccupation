@@ -1,4 +1,4 @@
-#ifndef DENSE_KITCHEN_H
+ #ifndef DENSE_KITCHEN_H
 #define DENSE_KITCHEN_H
 
 #include "Utilities/utilities.hpp"
@@ -40,6 +40,11 @@ public:
        \return    Return false if any of its modules fail.
     */
     bool initialize(std::string path);
+
+    /*!
+        \brief    Reset program completely.
+    */
+    void reset();
 
     /*!
        \brief     Run one iteration of the program.

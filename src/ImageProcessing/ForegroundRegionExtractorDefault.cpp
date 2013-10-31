@@ -29,8 +29,13 @@ namespace image_processing
                 return;
             }
 
+<<<<<<< HEAD
             cv::namedWindow("boundingboxes");           // Debug
             cv::Mat raw = camera.getImage("rawImage");  // Debug
+=======
+        //cv::namedWindow("boundingboxes");           // Debug
+        cv::Mat raw = camera.getImage("rawImage");  // Debug
+>>>>>>> origin/master
 
             foregroundMask = camera.getImage("foregroundMask");
             contours.clear();
@@ -47,5 +52,11 @@ namespace image_processing
             }
             cv::imshow("boundingboxes", raw);     // Debug
         }
+<<<<<<< HEAD
+=======
+        //cv::imshow("boundingboxes", raw);     // Debug
+
+
+>>>>>>> origin/master
     }
 }

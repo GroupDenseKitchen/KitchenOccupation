@@ -43,6 +43,18 @@ bool DenseKitchen::initialize(std::string path) {
     return isInitialized;
 }
 
+void DenseKitchen::reset()
+{
+    network.reset();
+    imageProcessor.reset();
+    statistics.reset();
+
+    debugging::logObject.clear();
+
+    // Reset global variables
+
+}
+
 bool DenseKitchen::singleIteration() {
 
     bool iterationSuccess = true;
