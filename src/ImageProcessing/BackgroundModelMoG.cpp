@@ -50,8 +50,8 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
      cv::erode(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), erotions);
      cv::dilate(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), dilations);
      cv::threshold(foregroundMask,foregroundMask,230,255,CV_THRESH_BINARY);
-     cv::namedWindow("binary");
-     cv::imshow("binary", foregroundMask);
+     //cv::namedWindow("binary");
+     //cv::imshow("binary", foregroundMask);
 
 
      camera.addImage("foregroundMask", foregroundMask);

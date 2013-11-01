@@ -34,6 +34,8 @@ public:
     */
     bool initialize(configuration::ConfigurationManager & settings) override;
 
+    void reset();
+
     /*!
        \brief   Perform all image processing algorithms in order.
     */

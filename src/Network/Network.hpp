@@ -34,6 +34,8 @@ public:
      */
     bool initialize(configuration::ConfigurationManager& settings);
 
+    void reset();
+
     /*!
      * \brief dequeFrame returns a pointer to the latest frame.
      * \return Returns zero if no frame is available.
