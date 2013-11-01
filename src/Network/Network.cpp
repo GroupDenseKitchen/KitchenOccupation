@@ -64,7 +64,7 @@ Frame* Network::dequeFrame()
             success = streams[i].grab() && streams[i].retrieve(rawImage);
             if (success)
             {
-                cam.roomID = std::to_string(i);
+                cam.setRoomID(std::to_string(i));
                 cam.addImage("rawImage", rawImage);
                 frame->addCamera(cam);
             } else {
@@ -83,7 +83,7 @@ Frame* Network::dequeFrame()
             cv::Mat rawImage;
             success = streams[i].retrieve(rawImage);
             if(success) {
-                cam.roomID = std::to_string(i);
+                cam.setRoomID(std::to_string(i));
                 cam.addImage("rawImage", rawImage);
                 frame->addCamera(cam);
             } else {

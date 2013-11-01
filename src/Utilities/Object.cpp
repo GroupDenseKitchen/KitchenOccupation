@@ -11,6 +11,7 @@ Object::Object(cv::Rect boundingBox)
     exitPoint = cv::Point2d(-1, -1);
 
     lost = false;
+    lifeSpan = 1;
 }
 
 Object::~Object()
@@ -22,6 +23,7 @@ void Object::merge(Object * previousState) {
     id = previousState->id;
     lost = previousState->lost;
     entryPoint = previousState->entryPoint;
+    lifeSpan = previousState->lifeSpan+1;
 }
 
 void Object::enter() {
