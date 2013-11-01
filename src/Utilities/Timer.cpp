@@ -7,7 +7,7 @@ double Timer::getSeconds() {
 
 double Timer::getMilliseconds() {
     last = cv::getTickCount();
-    return double(last - begun)*TICKS_PER_MILISECOND;
+    return double(last - begun)*TICKS_PER_MILLISECOND;
 }
 
 double Timer::getMicroseconds() {

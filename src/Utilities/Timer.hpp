@@ -4,7 +4,7 @@
 #include "../Utilities/utilities.hpp"
 
 #define TICKS_PER_SECOND        1.0/cv::getTickFrequency();
-#define TICKS_PER_MILISECOND    1e3*1.0/cv::getTickFrequency();
+#define TICKS_PER_MILLISECOND   1e3*1.0/cv::getTickFrequency();
 #define TICKS_PER_MICROSECOND   1e6*1.0/cv::getTickFrequency();
 #define TICKS_PER_NANOSECOND    1e9*1.0/cv::getTickFrequency();
 
