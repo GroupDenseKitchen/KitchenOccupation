@@ -15,7 +15,7 @@ using namespace cv;
  *  \brief     Evaluates system performance.
  *  \details   Compares system output to ground truth.
  *  \version   0.1
- *  \date      2013-10-10
+ *  \date      2013-11-01
  */
 
 namespace evaluation
@@ -24,18 +24,37 @@ namespace evaluation
 class Evaluation
 {
 public:
+
+    /*!
+     * \brief Empty constructor
+     */
     Evaluation();
+
+    /*!
+     * \brief Destructor
+     */
     ~Evaluation();
 
     bool initialize(configuration::ConfigurationManager& settings, FrameList* frameList, int threshold = 20);
 
+    /*!
+     * \brief Evaluates the MOTA & MOTP values for each frame
+     * \details Is called upon after each iteration in order to calculate MOTA and MOTP
+     *          values in order to evaluate tracker performance.
+     */
     void currentFrame();
 
-    void printStats();
+    /*!
+     * \brief Show stats in debug log.
+     */
+    void printToLog();
 
-    // Reference to global framelist
-    FrameList* frameList;
-
+    /*!
+     * \brief Sets the frameList variable.
+     * \details Necessary if program is restarted or a new file is loaded.
+     * \param frameList     Global framelist
+     */
+    void setFrameList(FrameList* frameList);
 
 private:
     int frameCounter, numberOfFrames, frameMismatches;
@@ -49,9 +68,12 @@ private:
     vector<map<int, int>> correspondance;
     vector<vector<Object>> groundTruth;
     vector<Object> hypothesisList;
-    Object *ob, *hyp;
 
+    FrameList* frameList;
+
+    Object *ob, *hyp;
     Object* getObj(vector<Object>* objVec, int ID);
+
     void deleteObj(vector<Object>* objVec, int ID);
     bool isCorr(int truID, int hypID);
 
@@ -60,8 +82,6 @@ private:
 
     bool readXML2FrameList(const char *fileName);
 
-
-    Mat infoDisplayMatrix;
 };
 
 } // namespace evaluation

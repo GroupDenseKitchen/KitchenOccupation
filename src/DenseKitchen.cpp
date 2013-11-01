@@ -68,17 +68,15 @@ bool DenseKitchen::singleIteration() {
         PROFILER_ITERATION_START();
             PROFILER_START("Network deque");
             Frame* currentFrame = network.dequeFrame();
-            std::cerr << currentFrame->cameras[0].getImage("rawImage").size() << "FrameSize\n";
-            std::cerr << evaluation.frameList->size() << " It's bigger than yours! \n";
             PROFILER_END();
             if(currentFrame){
                 frames.append(*currentFrame);
                 delete currentFrame;
                 imageProcessor.process(frames);
                 statistics.process(frames);
-                //evaluation.frameList = &frames;
+                evaluation.setFrameList(&frames); // Now you're thinking with pointers -.-
                 evaluation.currentFrame();
-                evaluation.printStats();
+                //evaluation.printToLog();
 
             }else{
                 iterationSuccess = false;

@@ -35,15 +35,19 @@ bool Evaluation::initialize(configuration::ConfigurationManager &settings, Frame
     return initSuccess;
 }
 
-void Evaluation::printStats()
+void Evaluation::printToLog()
 {
-    std::cerr << "Dis mah MOTA: " << to_string(this->motaValue) << std::endl;
-    std::cerr << "Dis mah MOTP: " << to_string(this->motpValue) << std::endl;
+    LOG("Evaluation", "MOTA values is: " + to_string(this->motaValue));
+    LOG("Evaluation", "MOTP values is: " + to_string(this->motpValue));
+}
+
+void Evaluation::setFrameList(FrameList *frameList)
+{
+    this->frameList = frameList;
 }
 
 bool Evaluation::readXML2FrameList(const char* fileName)
 {
-    //cout << "Reading ground truth from " << fileName << endl;
     ifstream myfile(fileName);
 
     if(!myfile.is_open())
@@ -119,10 +123,6 @@ void Evaluation::currentFrame()
     // in case there is more movie than groundtruth
     if (frameCounter < numberOfFrames)
     {
-        std::cerr << "Got into first if statement\n";
-        std::cerr << "Framecounter was: " << frameCounter << "\n";
-        std::cerr << "numberOfFrames was: " << numberOfFrames << "\n";
-        //return;
         // Init variables
         frameDistance = 0;
         frameMismatches = 0;
@@ -133,66 +133,59 @@ void Evaluation::currentFrame()
         // The first frame desn't have any previous frame
         if (frameCounter > 0)
         {
-            //cout << "Alg part 1.1" << endl;
+            // Alg part 1.1
             hypothesisList = frameList->getCurrent().getCameras().back().objects;
             // Check if old correspondances, in previous frame, are still valid
-                // Use dist < T
+            // Use dist < T
 
-            //cout << "Alg part 1.2" << endl;
+            // Alg part 1.2
             for (map<int,int>::iterator i = correspondance.at(frameCounter - 1).begin(); i != correspondance.at(frameCounter - 1).end(); i)
             {
-                //cout << "Alg part 1.3.1" << endl;
+                // Alg part 1.3.1
                 // Get Object position from GroundTruthFrameList
-                // correspondance.at(frameCounter)[i->first] // Returns Object ID
 
                 // Object id
-                //cout << "Alg part 1.3.2" << endl;
+                // Alg part 1.3.2
                 obID = i->first;
                 // Hypothesis id
-                //cout << "Alg part 1.3.3" << endl;
+                // Alg part 1.3.3
                 hypID = i->second;
 
-                //isCorr also adds the distance between frames to the
-                //total distance, and removes found correspondences from both vectors
+                // isCorr also adds the distance between frames to the
+                // total distance, and removes found correspondences from both vectors
                 if( isCorr(obID, hypID) )
                 {
-                    //cout << "Alg part 1.4.1" << endl;
+
                     correspondance.at(frameCounter).insert(pair<int,int>(obID, hypID));
                     // Remove correctly classified objects from the list and previous frame map.
-                    //cout << "Alg part 1.4.2" << endl;
                     deleteObj(&groundTruth.at(frameCounter), obID);
-                    //cout << "Alg part 1.4.3" << endl;
                     deleteObj(&hypothesisList, hypID);
-                    // remove matched correspondances from the previous map.
-                    //cout << "Alg part 1.4.4" << endl;
-
+                    // Remove matched correspondances from the previous map.
                     map<int,int>::iterator iTemp = i;
                     i++;
                     correspondance.at(frameCounter - 1).erase(iTemp);
                 }
                 else
                 {
-                    //cout << "Alg part 1.4.5" << endl;
+                    // Alg part 1.4.5
                     i++;
                 }
             }
         }
 
-        std::cerr << "Got past first if statement\n";
-
         // Objects without correspondance
         // Find matching hypothesis, allowing only 1-1 match
-        //cout << "Alg part 2.1" << endl;
+        // Alg part 2.1"
         multimap<double, pair<int, int>> distMap;
-        //cout << "Alg part 2.2" << endl;
+        // Alg part 2.2"
         // Create map with the distance from all objects to all hypothesis
         for( vector<Object>::iterator truObj = groundTruth.at(frameCounter).begin(); truObj != groundTruth.at(frameCounter).end(); truObj++)
         {
-            //cout << "Alg part 2.3" << endl;
+            // Alg part 2.3
 
             for( vector<Object>::iterator hypObj = hypothesisList.begin(); hypObj != hypothesisList.end(); hypObj++)
             {
-                //cout << "Alg part 2.3" << endl;
+                // Alg part 2.3
                 double distance = sqrt(std::pow(truObj->boundingBox.x - hypObj->boundingBox.x, 2) +
                                        std::pow(truObj->boundingBox.y - hypObj->boundingBox.y, 2));
                     if (distance < T)
@@ -206,35 +199,35 @@ void Evaluation::currentFrame()
         // while only allowing 1-1 matching
         while (!distMap.empty())
         {
-            //cout << "Alg part 3.1" << endl;
+            // Alg part 3.1
             obID = distMap.begin()->second.first;
             hypID = distMap.begin()->second.second;
 
-            //cout << "Alg part 3.2" << endl;
+            // Alg part 3.2
             if (correspondance.at(frameCounter - 1).size() > 0)
             {
                 if (correspondance.at(frameCounter - 1)[obID] != hypID)
                 {
-                    //cout << "Alg part 3.3" << endl;
+                    // Alg part 3.3
                     frameMismatches += 1;
                 }
             }
 
-            //cout << "Alg part 3.4.1" << endl;
+            // Alg part 3.4.1
             correspondance.at(frameCounter).insert(pair<int,int>(obID, hypID));
-            //cout << "Alg part 3.4.2" << endl;
+            // Alg part 3.4.2
             deleteObj(&groundTruth.at(frameCounter), obID);
-            //cout << "Alg part 3.4.3" << endl;
+            // Alg part 3.4.3
             deleteObj(&hypothesisList, hypID);
-            //cout << "Alg part 3.4.4" << endl;
+            // Alg part 3.4.4
             frameDistance += (float)distMap.begin()->first;
-            //cout << "Alg part 3.4.5" << endl;
+            // Alg part 3.4.5
             for ( multimap<double, pair<int, int>>::iterator it = distMap.begin(); it != distMap.end(); it)
             {
-                //cout << "Alg part 3.5" << endl;
+                // Alg part 3.5
                 if ( it->second.first == obID)
                 {
-                    //cout << "Alg part 3.6" << endl;
+                    // Alg part 3.6
                     // It is not allowed to remove the object that the iterator is pointing at
                     multimap<double, pair<int, int>>::iterator itTemp = it;
                     it++;
@@ -245,26 +238,17 @@ void Evaluation::currentFrame()
                     it++;
                 }
             }
-            //cout << "Alg part 3.7" << endl;
+            // Alg part 3.7
             mismatches.push_back(frameMismatches);
         }
 
-        //cout << "Alg part 4" << endl;
+        // Alg part 4
         // Push frame variables to corresponding vector
         matches.push_back((int)correspondance.at(frameCounter).size());
         misses.push_back((int)groundTruth.at(frameCounter).size());
         falsePositive.push_back((int)hypothesisList.size());
         mismatches.push_back(frameMismatches);
         distance.push_back(frameDistance);
-
-
-        //cout << "FrameCounter:\t" << frameCounter << endl << endl;;
-
-        //cout << "Matches:\t" << matches.back() << endl;
-        //cout << "Misses:\t\t" << misses.back() << endl;
-        //cout << "False Positive:\t" << falsePositive.back() << endl;
-        //cout << "Mismatches:\t" << mismatches.back() << endl;
-        //cout << "Distance:\t" << distance.back()	<< endl;
 
         frameCounter++;
 
@@ -274,7 +258,6 @@ void Evaluation::currentFrame()
     }
     else
     {
-        //cout << "FrameCounter:\t" << frameCounter << endl;
         frameCounter++;
     }
 }
@@ -282,7 +265,6 @@ void Evaluation::currentFrame()
 void Evaluation::MOTP()
 {
     // Sum distance
-    //sumDistance = (float)accumulate(distance.begin(), distance.end(), 0);
     sumDistance = 0;
     for  (vector<float>::iterator i = distance.begin(); i != distance.end(); i++)
     {
@@ -291,7 +273,7 @@ void Evaluation::MOTP()
 
     // Sum number of matches
     sumMatches = accumulate(matches.begin(), matches.end(), 0);
-    // Calculate quote
+    // Calculate quotient
     if (sumMatches > 0)
     {
         motpValue = (float)sumDistance/sumMatches;
@@ -309,7 +291,7 @@ void Evaluation::MOTA()
     sumMismatches = accumulate(mismatches.begin(), mismatches.end(), 0);
     // Sum total number of objets
     sumNumberOfObjects = accumulate(numberOfObjects.begin(), numberOfObjects.end(), 0);
-    // Calculate quote
+    // Calculate quotient
     if (sumNumberOfObjects > 0)
     {
         motaValue = 1 - (float)(sumMisses + sumFalsePositive + sumMismatches)/sumNumberOfObjects;
