@@ -41,8 +41,8 @@ namespace image_processing
                 cv::Rect rectangle = cv::boundingRect(contours[c]);
                 if(rectangle.height * rectangle.width >= minimalArea)
                 {
-                    camera.objects.push_back(Object(rectangle));
-                    cv::rectangle(raw, camera.objects.back().boundingBox, cv::Scalar(0,0,255), 2);               // Debug
+                    camera.getObjects().push_back(Object(rectangle));
+                    cv::rectangle(raw, camera.getObjects().back().boundingBox, cv::Scalar(0,0,255), 2);               // Debug
                 }
             }
             //cv::imshow("boundingboxes", raw);     // Debug

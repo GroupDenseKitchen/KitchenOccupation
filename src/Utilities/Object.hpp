@@ -6,13 +6,9 @@
 
 /*!
  *  \brief     A movable object seen (candidate for human)
- *  \version   0.1
- *  \date      2013-10-10
  */
-class Object
+struct Object
 {
-public:
-
     /*!
        \brief   Constructor.
     */

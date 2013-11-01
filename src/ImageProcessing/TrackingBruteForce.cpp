@@ -28,32 +28,32 @@ namespace image_processing
                 CameraObject & cameraPrev = frames.getPrevious().getCameras()[n];
 
                 // Containers that will be reduced in size when manipulated below
-                std::list<Object> prevPotentialObjects(cameraPrev.potentialObjects.begin(), cameraPrev.potentialObjects.end());
-                std::list<Object> prevObjects(cameraPrev.objects.begin(), cameraPrev.objects.end());
-                std::list<Object> currCandidates(cameraCurr.objects.begin(), cameraCurr.objects.end());
-                cameraCurr.objects.clear();
+                std::list<Object> prevPotentialObjects(cameraPrev.getPotentialObjects().begin(), cameraPrev.getPotentialObjects().end());
+                std::list<Object> prevObjects(cameraPrev.getObjects().begin(), cameraPrev.getObjects().end());
+                std::list<Object> currCandidates(cameraCurr.getObjects().begin(), cameraCurr.getObjects().end());
+                cameraCurr.getObjects().clear();
 
                 // The purpose here is to fill cameraCurr.objects with new or old actual objects
                 // and cameraCurr.potentialObjects with candidates that may be considered objects in the future
 
                 // 1) Previous objects are paired with current candidate objects and moved to current object list.
-                pairAndPopulate(prevObjects, currCandidates, cameraCurr.objects);
+                pairAndPopulate(prevObjects, currCandidates, cameraCurr.getObjects());
 
                 // 2) Previous potential objects are paired with the remaining current candidate objects
                 //    and moved to current potential object list.
-                pairAndPopulate(prevPotentialObjects, currCandidates, cameraCurr.potentialObjects);
+                pairAndPopulate(prevPotentialObjects, currCandidates, cameraCurr.getPotentialObjects());
 
                 // 3) Any remaining current candidate list is added as (new) current potential object.
-                addNew(currCandidates, cameraCurr.potentialObjects);
+                addNew(currCandidates, cameraCurr.getPotentialObjects());
 
                 // 4) Any remaining previous objects are flagged as lost and added to current objects.
-                addLost(prevObjects, cameraCurr.objects);
+                addLost(prevObjects, cameraCurr.getObjects());
 
                 // 5) Elevate pervious candidate objects to real objects if they have lived long enough.
-                elevatePotentialObjects(cameraCurr.potentialObjects, cameraCurr.objects);
+                elevatePotentialObjects(cameraCurr.getPotentialObjects(), cameraCurr.getObjects());
 
                 // 6) Remove lost objects that have been lost for too long.
-                removeLostObjects(cameraCurr.objects);
+                removeLostObjects(cameraCurr.getObjects());
 
                 // Debug
                 cv::Mat raw = cameraCurr.getImage("rawImage");
@@ -61,13 +61,13 @@ namespace image_processing
                 int fontFace = cv::FONT_HERSHEY_PLAIN;
                 double fontScale = 1;
                 int thickness = 1;
-                for(std::vector<Object>::iterator object = cameraCurr.potentialObjects.begin(); object != cameraCurr.potentialObjects.end(); object++) {
+                for(std::vector<Object>::iterator object = cameraCurr.getPotentialObjects().begin(); object != cameraCurr.getPotentialObjects().end(); object++) {
                     cv::Point2d pos = object->center;
                     text = "lifespan: " + std::to_string(object->lifeSpan);
                     putText(raw, text, pos, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
-                    cv::rectangle(raw, cameraCurr.potentialObjects.back().boundingBox, cv::Scalar(255,0,0), 2);     // Debug
+                    cv::rectangle(raw, cameraCurr.getPotentialObjects().back().boundingBox, cv::Scalar(255,0,0), 2);     // Debug
                 }
-                for(std::vector<Object>::iterator object = cameraCurr.objects.begin(); object != cameraCurr.objects.end(); object++) {
+                for(std::vector<Object>::iterator object = cameraCurr.getObjects().begin(); object != cameraCurr.getObjects().end(); object++) {
                     cv::Point2d pos = object->center;
                     text = "id: "+std::to_string(object->id);
                     if(object->lost)
