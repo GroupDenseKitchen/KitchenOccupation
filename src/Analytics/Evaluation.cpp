@@ -72,13 +72,13 @@ bool Evaluation::readXML2FrameList(const char* fileName)
     char* frameAttribute = doc.first_node()->last_node()->first_attribute()->value();
     numberOfFrames = atoi(frameAttribute);
 
-    int frameNumber, objectID;
+    int objectID;
     int x, y, h, w;
 
     // Loop untill no frames are left
     while(framePointer != 0)
     {
-        frameNumber = atoi(framePointer->first_attribute()->value());
+        //frameNumber = atoi(framePointer->first_attribute()->value());
         groundTruth.push_back(vector<Object>());
 
         objectListPointer = framePointer->first_node();
@@ -118,6 +118,9 @@ bool Evaluation::readXML2FrameList(const char* fileName)
     return true;
 }
 
+
+// This is magic in it's purest form, and also proof that
+// the madman and the genius have much in common.
 void Evaluation::currentFrame()
 {
     // in case there is more movie than groundtruth
@@ -134,12 +137,12 @@ void Evaluation::currentFrame()
         if (frameCounter > 0)
         {
             // Alg part 1.1
-            hypothesisList = frameList->getCurrent().getCameras().back().objects;
+            hypothesisList = frameList->getCurrent().getCameras().back().getObjects();
             // Check if old correspondances, in previous frame, are still valid
             // Use dist < T
 
             // Alg part 1.2
-            for (map<int,int>::iterator i = correspondance.at(frameCounter - 1).begin(); i != correspondance.at(frameCounter - 1).end(); i)
+            for (map<int,int>::iterator i = correspondance.at(frameCounter - 1).begin(); i != correspondance.at(frameCounter - 1).end();)
             {
                 // Alg part 1.3.1
                 // Get Object position from GroundTruthFrameList
@@ -156,6 +159,7 @@ void Evaluation::currentFrame()
                 if( isCorr(obID, hypID) )
                 {
 
+                    // Alg part 1.4.1 - 1.4.4
                     correspondance.at(frameCounter).insert(pair<int,int>(obID, hypID));
                     // Remove correctly classified objects from the list and previous frame map.
                     deleteObj(&groundTruth.at(frameCounter), obID);
@@ -222,7 +226,7 @@ void Evaluation::currentFrame()
             // Alg part 3.4.4
             frameDistance += (float)distMap.begin()->first;
             // Alg part 3.4.5
-            for ( multimap<double, pair<int, int>>::iterator it = distMap.begin(); it != distMap.end(); it)
+            for ( multimap<double, pair<int, int>>::iterator it = distMap.begin(); it != distMap.end();)
             {
                 // Alg part 3.5
                 if ( it->second.first == obID)
@@ -311,7 +315,7 @@ Object* Evaluation::getObj(vector<Object>* objVec, int ID)
 
 void Evaluation::deleteObj(vector<Object>* objVec, int ID)
 {
-    for (vector<Object>::iterator it = objVec->begin(); it != objVec->end(); it)
+    for (vector<Object>::iterator it = objVec->begin(); it != objVec->end();)
     {
         if (it->id == ID)
         {

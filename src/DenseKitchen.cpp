@@ -74,11 +74,14 @@ bool DenseKitchen::singleIteration() {
                 delete currentFrame;
                 imageProcessor.process(frames);
                 statistics.process(frames);
-                evaluation.setFrameList(&frames); // Now you're thinking with pointers -.-
+                PROFILER_START("Evaluating tracker")
+                evaluation.setFrameList(&frames);
                 evaluation.currentFrame();
+                PROFILER_END();
                 //evaluation.printToLog();
 
             }else{
+                evaluation.printToLog();
                 iterationSuccess = false;
             }
         PROFILER_ITERATION_END();
