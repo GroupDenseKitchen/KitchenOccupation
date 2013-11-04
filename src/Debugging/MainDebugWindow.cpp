@@ -196,10 +196,10 @@ void MainDebugWindow::updateCameraSelector()
         item->setSelectable(false);
 
         CameraObject c = cameras[i];
-        qDebug() << c.images.size();
+        qDebug() << c.getImages().size();
         int rowCounter = 0;
-        std::map<std::string,cv::Mat>::iterator stepImage = c.images.begin();
-        for(; stepImage != c.images.end(); ++stepImage){
+        std::map<std::string,cv::Mat>::iterator stepImage = c.getImages().begin();
+        for(; stepImage != c.getImages().end(); ++stepImage){
             QStandardItem* child = new QStandardItem(QString::fromStdString(stepImage->first));
             child->setSelectable(true);
             item->setChild(rowCounter, 1, child);

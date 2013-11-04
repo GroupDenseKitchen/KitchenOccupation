@@ -59,11 +59,36 @@ public:
     */
     cv::Mat getImage(std::string tag);
 
+    /*!
+       \brief   Get a vector of the known objects.
+    */
+    std::vector<Object> & getObjects()          { return objects; }
 
-public:
+    /*!
+       \brief   Get a vector of potential objects.
+    */
+    std::vector<Object> & getPotentialObjects() { return potentialObjects; }
+
+    /*!
+       \brief   Get a map of all images.
+    */
+    std::map<std::string, cv::Mat> & getImages()  { return images; }
+
+    /*!
+       \brief   Set room ID.
+    */
+    void setRoomID(std::string roomID)          { this->roomID = roomID; }
+
+    /*!
+       \brief   Get room ID.
+    */
+    std::string & getRoomID()                   { return roomID; }
+
+private:
     std::string roomID;
     std::map<std::string,cv::Mat> images;
-    std::vector<Object> objects;  // Moving things...
+    std::vector<Object> objects;           // Moving things...
+    std::vector<Object> potentialObjects;  // Potentially moving things..
 
     //debug information
     std::list<ProcessHistoryEntry> processHistory;

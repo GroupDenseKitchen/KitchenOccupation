@@ -3,8 +3,11 @@ hasGroundTruth: 0
 isDebug: 0
 isTesting: 1
 nCameras: 1
-groundTruthPath: "../data/seq5/seq5GT.xml"
-videoFilePath: "../data/seq5/seq5.mp4"
+groundTruthPath: "../data/seq3/seq3GT.xml"
+videoFilePath: "../data/seq3/seq3.mp4"
+TrackingMaximumDistance: 2500.0
+TrackingMinimumLifeSpan: 10
+TrackingMaximumTimeLost: 10
 ImageProcessor:
    - BackgroundModelMoG
    - ForegroundRegionExtractorDefault

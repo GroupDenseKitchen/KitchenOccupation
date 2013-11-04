@@ -2,16 +2,13 @@
 #define OBJECT_HPP
 
 #include "../Utilities/utilities.hpp"
+#include "../Utilities/Timer.hpp"
 
 /*!
  *  \brief     A movable object seen (candidate for human)
- *  \version   0.1
- *  \date      2013-10-10
  */
-class Object
+struct Object
 {
-public:
-
     /*!
        \brief   Empty constructor.
     */
@@ -53,6 +50,7 @@ public:
 
     // Status
     bool lost;
+    int lifeSpan;
 };
 
 #endif // OBJECT_HPP
