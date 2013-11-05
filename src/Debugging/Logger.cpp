@@ -29,7 +29,20 @@ void Logger::append(LogEntry entry)
 {
     time(&rawTime);
     struct tm * timeInfo = localtime(&rawTime);
-    entry.time = std::to_string(timeInfo->tm_hour)+":"+std::to_string(timeInfo->tm_min)+":"+std::to_string(timeInfo->tm_sec);
+    std::string hour, minute, second;
+
+    hour = std::to_string(timeInfo->tm_hour);
+    minute = std::to_string(timeInfo->tm_min);
+    second = std::to_string(timeInfo->tm_sec);
+
+    if (hour.length() < 2)
+        hour = "0" + hour;
+    if (minute.length() < 2)
+        minute = "0" + minute;
+    if (second.length() < 2)
+        second = "0" + second;
+
+    entry.time = hour + ":" + minute + ":" + second;
     entry.date = std::to_string(timeInfo->tm_mday)+":"+std::to_string(timeInfo->tm_mon)+":"+std::to_string(timeInfo->tm_year);
     logFile.push_back(entry);
 }

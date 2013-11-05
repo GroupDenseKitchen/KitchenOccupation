@@ -1,0 +1,47 @@
+\section{Review of Sprint 2}
+\label{sec:sprint2}
+\large Period: 2013-11-04 -- 2013-11-18 \\ 
+\large Est. time: 295 hours. (Roughly 42 hours per person, meetings (6 hours per person) not included.)
+
+\subsection{Sprint backlog}
+The main focus of this sprint is to get a minimal case implementation that meet all requirements in the specification of requirements. The initials of the person responsible for each specific sprint item is shown in boldface in the rightmost column of the table.
+\newpage
+
+\itemtable
+{
+	\additem{Explain and visualize the system design and how to continue building on it. The explanation is to be published on the group Github pages.}{12}{\textbf{NW}, MT}
+	\additem{Installation/Configuration GUI. Than image regions should be excluded from the image processing, where do people leave/enter the image plane.}{20}{\textbf{AS}, MT}
+	\additem{Gather test data from realistic environments (e.g. CYD-poolen) and label these.}{10}{\textbf{EF}, AS}
+	\additem{Add net flor estimation to the statistics module.}{4}{\textbf{EF}, MR}
+	\additem{Make the system more robust against illumination. OpenCV settings? Better background model. Shut down dynamic exposure/gain in camera=? normalized pixels? (make the system entirely intensity independent.)}{32}{\textbf{MT}, MS}
+	\additem{Handle people standing still. (Worst case: rewrite background model. Best case: feed OpenCV with a bit mask.)}{32}{\textbf{EF}, AS}
+	\additem{Add queue detection (Requires \textbf{6})}{32}{\textbf{NW}, GH}
+	\additem{Gather more information about methods from different computer vision papers.}{4 each}{All}
+	\additem{Simple classifier of humans from above.}{32}{\textbf{NW}, GH}
+	\additem{Improve foreground segmentation, allowing more precise people detection, especially when people are close together.}{24}{\textbf{GH}, MR}
+	\additem{More sophisticated error measurement for how probable it is that a previous object and a current one are the same.}{10}{\textbf{NW}, MT}
+	\additem{Use a video stream that is in real time from a cemra as input to the system}{20}{\textbf{MS}, AS}
+	\additem{Update and "renegotiate" requirement specification (Power over ethernet camera no longer an option.)}{5}{\textbf{MR}, MS}
+	\additem{Handle one camera over each door to the same room and keep a consistent count of hte number of people in the room (Net flow estimation upgrade, making \textbf{4} work using several cameras.)}{6}{\textbf{EF}, MR}
+	\additem{Handle multiple video files as separate cameras.}{4}{\textbf{MS}}
+	\additem{Collect 3D data set. Ont set viewing a room with people moving and another with one camera above the door and an other looking towards the door.}{8}{\textbf{EF}, MR}
+	\additem{Create system for labeling and readin ground truth of people count. (in/out)}{24}{\textbf{MR}, MS}
+	\additem{Finalize the sprint review of sprint 1 and plan of sprint 2 (this docuemnt and submit these to the supervisor.)}{4}{\textbf{MS}}
+
+		
+}
+\newpage
+
+\subsection{Result}
+General comments about the result go here
+
+\resulttable
+{
+	\addresult{Results regarding this specific item}{hours}{Involved members}
+}
+
+\subsection{New Backlog Items}
+General info about new backlog items created as a result of this sprint go here.
+
+\subsubsection{New backlog Item 1}
+More detailed info about this specific item and why it was added to the backlog.

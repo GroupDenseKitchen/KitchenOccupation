@@ -35,7 +35,12 @@ bool DenseKitchen::initialize(std::string path) {
         isInitialized = false;
     }
     if(!statistics.initialize(settings)) {
-        LOG("DenseKitchen initialize error", "Satisitics could not be initialized!");
+        LOG("DenseKitchen initialize error", "Statisitics could not be initialized!");
+        isInitialized = false;
+    }
+
+    if(!evaluation.initialize(settings)) {
+        LOG("DenseKitchen initialize error", "Evaluation could not be initialized!");
         isInitialized = false;
     }
     PROFILER_ITERATION_END();
@@ -67,9 +72,23 @@ bool DenseKitchen::singleIteration() {
             if(currentFrame){
                 frames.append(*currentFrame);
                 delete currentFrame;
+
+                PROFILER_START("Image Processing");
                 imageProcessor.process(frames);
+                PROFILER_END();
+
+                PROFILER_START("Statistics Processing");
                 statistics.process(frames);
+                PROFILER_END();
+
+                PROFILER_START("Evaluation")
+                evaluation.process(frames);
+                PROFILER_END();
+
+                //evaluation.printToLog(); // Prints MOTA & MOTP for every frame.
+
             }else{
+                evaluation.printToLog();
                 iterationSuccess = false;
             }
         PROFILER_ITERATION_END();
