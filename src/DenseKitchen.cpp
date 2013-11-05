@@ -12,6 +12,7 @@ bool DenseKitchen::initialize(std::string path) {
     algorithmFactory.add("BackgroundModelMoG",               new image_processing::BackgroundModelMoG());
     algorithmFactory.add("ForegroundRegionExtractorDefault", new image_processing::ForegroundRegionExtractorDefault());
     algorithmFactory.add("TrackingBruteForce",               new image_processing::TrackingBruteForce());
+    algorithmFactory.add("EntryExitCounter",                 new image_processing::EntryExitCounter());
     algorithmFactory.add("Analytics",                        new statistics::Analytics());
 
     if(!settings.readConfig(path)) {

@@ -59,7 +59,7 @@ private:
     */
 
     void pairAndPopulate(std::list<Object> & candidatePrev, std::list<Object> & candidateCurr, std::vector<Object> & destination);
-    void elevatePotentialObjects(std::vector<Object> & candidates, std::vector<Object> & destination);
+    void elevatePotentialObjects(std::vector<Object> & candidates, std::vector<Object> & destination, std::vector<Object> & newlyFoundObjects);
     void removeLostObjects(std::vector<Object> & objects,std::vector<Object> & transitionary_Objects);
     void addNew(std::list<Object> & newObjects, std::vector<Object> & destination);
     void addLost(std::list<Object> & lostObjects, std::vector<Object> & destination);

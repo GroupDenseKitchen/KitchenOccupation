@@ -70,6 +70,11 @@ public:
     std::vector<Object> & getTransitionaryObjects()         { return transitionaryObjects; }
 
     /*!
+       \brief   Get a vector of the newly found elevated objects.
+    */
+    std::vector<Object> & getNewlyFoundObjects()         { return newlyFoundObjects; }
+
+    /*!
        \brief   Get a vector of potential objects.
     */
     std::vector<Object> & getPotentialObjects() { return potentialObjects; }
@@ -95,6 +100,7 @@ private:
     std::vector<Object> objects;           // Moving things...
     std::vector<Object> potentialObjects;  // Potentially moving things..
     std::vector<Object> transitionaryObjects; //objects that mabey should be counted as entered or left room
+    std::vector<Object> newlyFoundObjects; //elevated objects that has entered the scene
 
     //debug information
     std::list<ProcessHistoryEntry> processHistory;
