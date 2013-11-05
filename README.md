@@ -24,7 +24,9 @@ The Network module is responsible for reading images the involved cameras and co
 The ImageProcessor class is derived from Algorithm and is responsible for the image processing part of the pipeline. It holds an ordered collection of the objects responsible for each image processing step (also derived from Algorithm).
 
 ### Statistics
+The statistics class has the same structure as the ImageProcessor but is responsible for aggregation and analysis of the output from the image processing part of the pipeline.
 
 ### Evaluator
+The Evaluator evaluates the whole system by looking at the MOTA and MOTP metrics of tracking performance.
 
 ![Overview](https://doc-0s-8o-docs.googleusercontent.com/docs/securesc/5btq9f7huc8bqtncm8qh0s5eefd7hgmg/eoaigplsae5m486ulbr76qr2ok2d7b6h/1383652800000/06151035857182574422/06151035857182574422/0B53Hlj6c__71RjhrMzktdG1aWm8?h=12494863305412751534&e=view)
