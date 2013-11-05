@@ -65,6 +65,11 @@ public:
     std::vector<Object> & getObjects()          { return objects; }
 
     /*!
+       \brief   Get a vector of the transitionary objects.
+    */
+    std::vector<Object> & getTransitionaryObjects()         { return transitionaryObjects; }
+
+    /*!
        \brief   Get a vector of potential objects.
     */
     std::vector<Object> & getPotentialObjects() { return potentialObjects; }
@@ -89,6 +94,7 @@ private:
     std::map<std::string,cv::Mat> images;
     std::vector<Object> objects;           // Moving things...
     std::vector<Object> potentialObjects;  // Potentially moving things..
+    std::vector<Object> transitionaryObjects; //objects that mabey should be counted as entered or left room
 
     //debug information
     std::list<ProcessHistoryEntry> processHistory;
