@@ -40,6 +40,7 @@ void EntryExitCounter::process(FrameList &frames)
                 }
             }
             cameraCurr.getTransitionaryObjects().clear();
+
             for(std::vector<Object>::iterator object = cameraCurr.getNewlyFoundObjects().begin(); object != cameraCurr.getNewlyFoundObjects().end(); object++)
             {
                 cv::Point2d pos = object->entryPoint;
