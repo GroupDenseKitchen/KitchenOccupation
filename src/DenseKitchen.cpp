@@ -39,7 +39,7 @@ bool DenseKitchen::initialize(std::string path) {
         isInitialized = false;
     }
 
-    if(!evaluation.initialize(settings, &frames)) {
+    if(!evaluation.initialize(settings)) {
         LOG("DenseKitchen initialize error", "Evaluation could not be initialized!");
         isInitialized = false;
     }
@@ -72,13 +72,19 @@ bool DenseKitchen::singleIteration() {
             if(currentFrame){
                 frames.append(*currentFrame);
                 delete currentFrame;
+
+                PROFILER_START("Image Processing");
                 imageProcessor.process(frames);
-                statistics.process(frames);
-                PROFILER_START("Evaluating tracker")
-                evaluation.setFrameList(&frames);
-                evaluation.currentFrame();
                 PROFILER_END();
-                //evaluation.printToLog();
+
+                PROFILER_START("Statistics Processing");
+                statistics.process(frames);
+                PROFILER_END();
+
+                PROFILER_START("Evaluation")
+                evaluation.process(frames);
+                PROFILER_END();
+                evaluation.printToLog();
 
             }else{
                 evaluation.printToLog();

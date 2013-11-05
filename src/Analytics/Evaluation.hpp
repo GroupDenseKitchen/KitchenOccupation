@@ -35,26 +35,25 @@ public:
      */
     ~Evaluation();
 
-    bool initialize(configuration::ConfigurationManager& settings, FrameList* frameList, int threshold = 20);
+    /*!
+     * \brief           Initializes the evaluation module
+     * \param settings  Configuration-object containing the location of the ground truth file and other settings.
+     * \return
+     */
+    bool initialize(configuration::ConfigurationManager& settings);
 
     /*!
-     * \brief Evaluates the MOTA & MOTP values for each frame
+     * \brief Evaluates the MOTA & MOTP values for the latest frame.
+     * \param frameList The FrameList to be evaluated.
      * \details Is called upon after each iteration in order to calculate MOTA and MOTP
-     *          values in order to evaluate tracker performance.
+     *          values in order to evaluate the system by comparing the tracker output ground truth.
      */
-    void currentFrame();
+    void process(FrameList& frames);
 
     /*!
      * \brief Show stats in debug log.
      */
     void printToLog();
-
-    /*!
-     * \brief Sets the frameList variable.
-     * \details Necessary if program is restarted or a new file is loaded.
-     * \param frameList     Global framelist
-     */
-    void setFrameList(FrameList* frameList);
 
 private:
     int frameCounter, numberOfFrames, frameMismatches;

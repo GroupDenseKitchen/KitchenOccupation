@@ -9,13 +9,12 @@ Evaluation::Evaluation() {}
 
 Evaluation::~Evaluation() {}
 
-bool Evaluation::initialize(configuration::ConfigurationManager &settings, FrameList* _frameList, int threshold)
+bool Evaluation::initialize(configuration::ConfigurationManager &settings)
 {
     bool initSuccess = false;
 
-    T = threshold;
     frameCounter = 0;
-    frameList = _frameList;
+    frameList = 0;
 
     motpValue = 0;
     motaValue = 1;
@@ -32,6 +31,14 @@ bool Evaluation::initialize(configuration::ConfigurationManager &settings, Frame
     } else {
         initSuccess = readXML2FrameList(settings.getString("groundTruthPath").c_str());
     }
+    bool threshValExists = settings.hasInt("evalPrecisionThreshold");
+    if (!threshValExists) {
+        LOG("Evaluation Warning", "No MOTA threshold found, using default");
+        T = 50;
+    } else {
+        T = settings.getInt("evalPrecisionThreshold");
+    }
+
     return initSuccess;
 }
 
@@ -39,11 +46,6 @@ void Evaluation::printToLog()
 {
     LOG("Evaluation", "MOTA values is: " + to_string(this->motaValue));
     LOG("Evaluation", "MOTP values is: " + to_string(this->motpValue));
-}
-
-void Evaluation::setFrameList(FrameList *frameList)
-{
-    this->frameList = frameList;
 }
 
 bool Evaluation::readXML2FrameList(const char* fileName)
@@ -121,8 +123,10 @@ bool Evaluation::readXML2FrameList(const char* fileName)
 
 // This is magic in it's purest form, and also proof that
 // the madman and the genius have much in common.
-void Evaluation::currentFrame()
+void Evaluation::process(FrameList& frames)
 {
+    this->frameList = &frames;
+
     // in case there is more movie than groundtruth
     if (frameCounter < numberOfFrames)
     {
