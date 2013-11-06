@@ -42,9 +42,6 @@ private:
     double yMin;
     double xMin;  //should mabey be done in some other way, some mask or something but at "debug mode"
     double xMax; //needs to be camera specific
-    double peopleEntered = 0; //needs to be cameraspecific...
-    double peopleExited = 0; //needs to be cameraspecific...
-    std::vector<Object*> CurrTransObjects;
 
 };
 }

@@ -2,7 +2,8 @@
 
 CameraObject::CameraObject()
 {
-
+entered = 0;
+exited = 0;
 }
 
 CameraObject::~CameraObject()
@@ -27,3 +28,5 @@ cv::Mat CameraObject::getImage(std::string tag)
         LOG("Frame CameraObject Error", "No image tagged \"" << tag << "\" exist!");
     return images[tag];
 }
+
+

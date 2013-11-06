@@ -93,6 +93,22 @@ public:
        \brief   Get room ID.
     */
     std::string & getRoomID()                   { return roomID; }
+    /*!
+       \brief   Set total entered peopple.
+    */
+    void setEntered(int newEntered) {this->entered = newEntered; }
+    /*!
+       \brief   Set total exited peopple.
+    */
+    void setExited(int newExited) {this->exited = newExited; }
+    /*!
+       \brief   Get exited people.
+    */
+    int & getExited() {return exited;}
+    /*!
+       \brief   Get entered people.
+    */
+    int & getEntered() {return entered;}
 
 private:
     std::string roomID;
@@ -101,6 +117,9 @@ private:
     std::vector<Object> potentialObjects;  // Potentially moving things..
     std::vector<Object> transitionaryObjects; //objects that mabey should be counted as entered or left room
     std::vector<Object> newlyFoundObjects; //elevated objects that has entered the scene
+    int entered;
+    int exited;
+
 
     //debug information
     std::list<ProcessHistoryEntry> processHistory;
