@@ -14,7 +14,7 @@ EntryExitCounter::~EntryExitCounter() {
 bool EntryExitCounter::initialize(configuration::ConfigurationManager& settings) {
     isInitialized = true;
 
-    CONFIG(settings, yMax, "yMax", 480/2);
+    CONFIG(settings, yMax, "yMax", 2*480/3);
     CONFIG(settings, yMin, "yMin", 480/5);
     CONFIG(settings, xMax, "xMax", 640);
     CONFIG(settings, xMin, "xMin", 0);
@@ -39,7 +39,7 @@ void EntryExitCounter::process(FrameList &frames)
                 cv::Point2d pos = object->exitPoint;
                 if(pos.x<xMax && pos.x >xMin && pos.y < yMax && pos.y > yMin) //the intervals here needs to be camera specific
                 {
-                    cameraCurr->setEntered(cameraCurr->getEntered()+1);             
+                    cameraCurr->setEntered(cameraCurr->getEntered()+1);
                 }
             }
             cameraCurr->getTransitionaryObjects().clear();
@@ -54,7 +54,7 @@ void EntryExitCounter::process(FrameList &frames)
             }
             cameraCurr->getNewlyFoundObjects().clear();
 
-            // Debug
+            // Debug writes nr of people that enters/exits into raw image
             cv::Mat raw = cameraCurr->getImage("rawImage");
             std::string text = "";
             std::string text2 = "";
@@ -63,14 +63,12 @@ void EntryExitCounter::process(FrameList &frames)
             int thickness = 1;
             cv::Point2d pos1 = {10,20};
             cv::Point2d pos2 = {10,35};
-            text = "People Entered: " + std::to_string(cameraCurr->getEntered());
+            text = "Entered: " + std::to_string(cameraCurr->getEntered());
             putText(raw, text, pos1, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
-            text2 = "People Exited: " + std::to_string(cameraCurr->getExited());
-
+            text2 = "Exited: " + std::to_string(cameraCurr->getExited());
             putText(raw, text2, pos2, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
         }
     }
-
 
 }
 
