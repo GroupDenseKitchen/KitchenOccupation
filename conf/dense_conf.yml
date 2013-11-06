@@ -13,3 +13,9 @@ ImageProcessor:
    - BackgroundModelMoG
    - ForegroundRegionExtractorDefault
    - TrackingBruteForce
+videoFilePaths:
+   - ../data/seq3/seq3.mp4
+   - ../data/seq4/seq4.mp4
+groundTruthPaths:
+   - ../data/seq3/seq3GT.xml
+   - ../data/seq4/seq4GT.xml

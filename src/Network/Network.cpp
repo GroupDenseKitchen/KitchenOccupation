@@ -18,14 +18,35 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
     // Check if the necessary variables are available
     bool hasSettings = settings.hasBool("isTesting") &&
                        settings.hasInt("nCameras") &&
-                       settings.hasString("videoFilePath");
+                       settings.hasStringSeq("videoFilePaths");
     if(!hasSettings) {
         LOG("Network Error", "One ore more properties undefined");
         return false;
     }
 
     nCameras = settings.getInt("nCameras");
-    isTesting = settings.getBool("isTesting");
+    runFromFile = settings.getBool("isTesting");
+    std::vector<std::string> filePaths = settings.getStringSeq("videoFilePaths");
+
+    if (runFromFile) {
+        for (unsigned int i = 0; i < filePaths.size(); i++) {
+            cv::VideoCapture cam(filePaths[i]);
+            if (cam.isOpened()) {
+                streams.push_back(cam);
+            } else {
+                LOG("Network Warning", "Error reading video file: " << filePaths[i]);
+            }
+        }
+        if (streams.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    } else {
+        //TODO (read from network)
+    }
+/*
     // If read from file
     if(isTesting) {
         std::string filePath = settings.getString("videoFilePath");
@@ -40,7 +61,7 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
     } else {
         //TODO (read from network)
     }
-
+*/
     //if we reach this point, something went wrong
     return false;
 }
@@ -56,7 +77,7 @@ Frame* Network::dequeFrame()
     Frame* frame = new Frame();
     bool success = true;
 
-    if (isTesting) { // Loading from file
+    if (runFromFile) { // Loading from file
         for (unsigned int i = 0; i != streams.size(); i++) {
             CameraObject cam;
             cv::Mat rawImage;
