@@ -14,14 +14,20 @@
 #include "ImageProcessing/BackgroundModelMoG.hpp"
 #include "ImageProcessing/ForegroundRegionExtractorDefault.hpp"
 #include "ImageProcessing/TrackingBruteForce.hpp"
+<<<<<<< HEAD
 #include "ImageProcessing/EntryExitCounter.hpp"
+=======
+
+>>>>>>> master
 #include "Analytics/Analytics.hpp"
+#include "Analytics/Evaluation.hpp"
 
 /*!
  *  \brief     Main program class.
  *  \details   It provides the interface for people detection and counting engine.
  *             Run in order: Init() once, readConfig(...) once, singleIteration() as many times as wished.
  */
+
 class DenseKitchen
 {
 public:
@@ -56,15 +62,19 @@ public:
 
     FrameList frames;   //TODO: make private and provide interface (?)
 private:
+
     bool isInitialized;
 
     network::Network network;
     configuration::ConfigurationManager settings;
+    evaluation::Evaluation evaluation;
+
     AlgorithmFactory algorithmFactory;
     image_processing::ImageProcessor imageProcessor;
     statistics::Analytics statistics;
 
     std::string configPath;
+
 };
 
 #endif
