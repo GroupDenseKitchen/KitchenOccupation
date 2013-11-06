@@ -55,6 +55,11 @@ void MainDebugWindow::init()
         // TODO Fix that shit
     }
 
+    // -------- Configure Main Program ------------------
+    configWindow = new MainConfigurationWindow;
+    configWindow->show();
+    //configWindow.show();
+
     // -------- Camera/Step Selector Init ---------------
     cameraItemModel = new QStandardItemModel;
     cameraTree = ui->camerasTreeView;
@@ -418,6 +423,7 @@ void MainDebugWindow::closeEvent(QCloseEvent * event)
             delete debugView->second;
         }
     delete debugViewGrid;
+    delete configWindow;
     event->accept();
 }
 

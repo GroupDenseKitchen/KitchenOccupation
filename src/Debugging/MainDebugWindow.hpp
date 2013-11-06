@@ -15,6 +15,7 @@
 #include <map>
 
 #include "../DenseKitchen.hpp"
+#include "MainConfigurationWindow.hpp"
 #include "DebugView.hpp"
 #include "DebugViewWidget.hpp"
 #include "DebugViewGrid.hpp"
@@ -88,6 +89,8 @@ signals:
 private:
     Ui::MainDebugWindow *ui;
     DenseKitchen* program;
+    MainConfigurationWindow* configWindow;
+
     std::map<std::string,DebugViewWidget*> debugViews;
     bool isRunning;
     std::string guiConfigPath, mainConfigPath;
