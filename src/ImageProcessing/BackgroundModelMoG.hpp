@@ -36,19 +36,22 @@ public:
     bool initialize(configuration::ConfigurationManager &conf) override;
 
 private:
-    cv::BackgroundSubtractorMOG2 bg;
+    cv::BackgroundSubtractorMOG2 *bg;
     int nmixtures;
     int dilations;
     int erotions;
     int history;
     double backgroundRatio;
     double varThresholdGen;
+    double varThreshold;
     double fVarInit;
     double fVarMin;
     double fVarMax;
     double fCT;
     double fTau;
+    double learningRate;
     bool isShadowDetection;
+
 
 };
 

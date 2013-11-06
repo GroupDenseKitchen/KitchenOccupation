@@ -16,9 +16,8 @@ namespace image_processing
         algorithmTag.clear();
     }
 
-    void ImageProcessor::process(FrameList& frames) {
-        PROFILER_START("Image Processing");
+    void ImageProcessor::process(FrameList& frames)
+    {
         Algorithm::process(frames);
-        PROFILER_END();
     }
 }
