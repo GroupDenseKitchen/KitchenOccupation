@@ -65,6 +65,16 @@ public:
     std::vector<Object> & getObjects()          { return objects; }
 
     /*!
+       \brief   Get a vector of the transitionary objects.
+    */
+    std::vector<Object> & getTransitionaryObjects()         { return transitionaryObjects; }
+
+    /*!
+       \brief   Get a vector of the newly found elevated objects.
+    */
+    std::vector<Object> & getNewlyFoundObjects()         { return newlyFoundObjects; }
+
+    /*!
        \brief   Get a vector of potential objects.
     */
     std::vector<Object> & getPotentialObjects() { return potentialObjects; }
@@ -83,12 +93,33 @@ public:
        \brief   Get room ID.
     */
     std::string & getRoomID()                   { return roomID; }
+    /*!
+       \brief   Set total entered peopple.
+    */
+    void setEntered(int newEntered) {this->enteredTotal = newEntered; }
+    /*!
+       \brief   Set total exited peopple.
+    */
+    void setExited(int newExited) {this->exitedTotal = newExited; }
+    /*!
+       \brief   Get exited people.
+    */
+    int & getExited() {return exitedTotal;}
+    /*!
+       \brief   Get entered people.
+    */
+    int & getEntered() {return enteredTotal;}
 
 private:
     std::string roomID;
     std::map<std::string,cv::Mat> images;
     std::vector<Object> objects;           // Moving things...
     std::vector<Object> potentialObjects;  // Potentially moving things..
+    std::vector<Object> transitionaryObjects; //objects that mabey should be counted as entered or left room
+    std::vector<Object> newlyFoundObjects; //elevated objects that has entered the scene
+    int enteredTotal;
+    int exitedTotal;
+
 
     //debug information
     std::list<ProcessHistoryEntry> processHistory;

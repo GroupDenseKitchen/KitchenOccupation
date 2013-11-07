@@ -5,7 +5,7 @@
 #include "../Utilities/FrameList.hpp"
 #include "../Utilities/Object.hpp"
 #include "../Utilities/rapidxml.hpp"
-
+#include <numeric>
 #include "../Configuration/ConfigurationManager.hpp"
 
 using namespace std;
