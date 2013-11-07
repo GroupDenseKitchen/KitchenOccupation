@@ -22,10 +22,8 @@ namespace statistics
     }
 
     void Analytics::process(FrameList &frames)
-    {
-        PROFILER_START("Statistics Processing");
+    {        
         Algorithm::process(frames);
-        PROFILER_END();
     }
 
 }

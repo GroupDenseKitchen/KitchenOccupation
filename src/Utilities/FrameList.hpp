@@ -50,6 +50,7 @@ public:
     int size() { return frames.size(); }
 private:
     std::deque<Frame> frames;
+
     unsigned int framesToKeep;
     unsigned int frameCounter;
 };

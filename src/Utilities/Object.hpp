@@ -10,7 +10,12 @@
 struct Object
 {
     /*!
-       \brief   Constructor.
+       \brief   Empty constructor.
+    */
+    Object();
+
+    /*!
+       \brief   Constructor ising a cv::Rect for initialization.
     */
     Object(cv::Rect boundingBox);
 

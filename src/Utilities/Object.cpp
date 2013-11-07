@@ -1,5 +1,10 @@
 #include "Object.hpp"
 
+Object::Object()
+{
+
+}
+
 Object::Object(cv::Rect boundingBox)
 {
     id = -1;

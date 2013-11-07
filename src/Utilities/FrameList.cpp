@@ -28,4 +28,5 @@ void FrameList::append(Frame f){
         frames.pop_front();
     }
     frames.push_back(f);
+    frameCounter++;
 }

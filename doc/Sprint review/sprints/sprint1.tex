@@ -1,10 +1,10 @@
-\section{Review of Sprint 1}
-\label{sec:sprint0}
-\large Period: 2013-09-30 -- 2013-10-14 \\ 
+\section{Review of Sprint \sprintnum}
+\label{sec:sprint1}
+\large Period: 2013-09-30 -- 2013-11-04 \\ 
 \large Est. time: No estimate was made
 
 \subsection{Sprint backlog}
-The main focus of this sprint is to get the simplest possible system up and running on pre-recorded test data. Unfortunately no time was available on hte planning meeting to perform time estimations, which is why no time estimates are available for the different sprint items.
+The main focus of this sprint is to get the simplest possible system up and running on pre-recorded test data. Unfortunately no time was available on the planning meeting to perform time estimations, which is why no time estimates are available for the different sprint items. The ending date of this sprint was postponed 2 weeks due to exam periods, since not enough work would be made during these two weeks in order to justify an entire sprint.
 
 
 \itemtable
@@ -30,15 +30,41 @@ The main focus of this sprint is to get the simplest possible system up and runn
 \newpage
 
 \subsection{Result}
-General comments about the result go here
+The result from this sprint is good, as all of the items except for one was finished, providing a great framework for more advances algorithms to be added. The most notable thing not finished is the net flow estimation and the fact that the system still does not run in real-time on a camera. The total amount of hours spent on specific sprint items adds up to 126 hours with meetings excluded. With meetings and technical support hours the total number of hours amount to around 200 hours.
+
+\subsubsection{Solutions we ended up using}
+Currently a mixture-of-Gaussian background model is used together with morphological erode/dilate to identify foreground regions. These regions are then tracked using a local greedy tracking algorithm. The tracking algorithm features candidate object that have to fit certain criteria (currently lifetime) in order to be considered real objects.
+
+\subsubsection{What did we do well?}
+Most of the project work was done well, especially the short meetings, which were short and effective, resulting in new problems being solved efficiently. The most important achievement completed during this sprint is the debug and algorithm platforms. The debugging program allows easy visibility and profiling of each intermediate algorithm step, together with an easy interface for implementing new algorithms in a rapid fashion. Group members have also developed their skills and are able to use the tools (mainly Github) much more efficiently than in the previous sprint, hopefully reducing the technical support hours spent by group members.
+
+\subsubsection{What improvements are necessary?}
+The most important improvement needed in the next sprint is how group members communicate when making design decision. Some unnecessary parallel work was made due to bad communication. Persons in the group with less hours worked need to spend more time working on the project. Because of this the time reporting has to improve significantly in the future.
+\newpage
 
 \resulttable
 {
-	\addresult{Results regarding this specific item}{hours}{Involved members}
+	\addresult{Done, multiple data sets with different difficulties were collected.}{8}{AS, EF}
+	\addresult{Done, labeled with ground truth data for tracker performance evaluation.}{8}{AS}
+	\addresult{Done, code skeleton is completely finished.}{10}{GH, MT}
+	\addresult{Done, except for Object.hpp, because of dependency issues. Backlog item was created.}{4}{MT}
+	\addresult{Done, still only tested for reading from one single file.}{6}{MS}
+	\addresult{Done, however, the algorithm is much too slow and needs improvements.}{5}{EF, MT}
+	\addresult{Done.}{6}{EF, MT, MS}
+	\addresult{Done, with the exception of net flow estimation.}{15}{EF, MT}
+	\addresult{Done.}{20}{AS, NW}
+	\addresult{Done. (forward only)}{10}{AS, NW}
+	\addresult{Done.}{3}{AS, NW}
+	\addresult{Dismissed, deemed unnecessary at the moment }{0}{--}
+	\addresult{Done.}{14}{MR, MS}
+	\addresult{Done.}{8}{MS, MT}
 }
 
 \subsection{New Backlog Items}
-General info about new backlog items created as a result of this sprint go here.
+This sprint resulted in a few new backlog items being created during the sprint, these items are listed below.
 
-\subsubsection{New backlog Item 1}
-More detailed info about this specific item and why it was added to the backlog.
+\subsubsection{Select video files and/or cameras from Debug GUI.}
+In order to make testing easier and faster, by not having to restart the program to load a new file and/or view a new camera.
+
+\subsubsection{Object class}
+Make sure the Object class meets the code standard.
