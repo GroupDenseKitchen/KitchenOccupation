@@ -60,6 +60,7 @@ public:
 private:
 
     bool isInitialized;
+    bool isEvalInitialized;
 
     network::Network network;
     configuration::ConfigurationManager settings;

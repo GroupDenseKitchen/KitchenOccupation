@@ -1,2 +1,2 @@
 #Statistics module
-add_library(Statistics Analytics.cpp Evaluation.cpp)
+add_library(Statistics Analytics.cpp Evaluation.cpp TrackerEvaluator.cpp)

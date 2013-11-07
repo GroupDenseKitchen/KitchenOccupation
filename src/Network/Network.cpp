@@ -16,7 +16,7 @@ Network::~Network()
 bool Network::initialize(configuration::ConfigurationManager& settings)
 {
     // Check if the necessary variables are available
-    bool hasSettings = settings.hasBool("isTesting") &&
+    bool hasSettings = settings.hasBool("runFromFile") &&
                        settings.hasInt("nCameras") &&
                        settings.hasStringSeq("videoFilePaths");
     if(!hasSettings) {
@@ -25,7 +25,7 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
     }
 
     nCameras = settings.getInt("nCameras");
-    runFromFile = settings.getBool("isTesting");
+    runFromFile = settings.getBool("runFromFile");
     std::vector<std::string> filePaths = settings.getStringSeq("videoFilePaths");
 
     if (runFromFile) {
@@ -38,6 +38,7 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
             }
         }
         if (streams.size() > 0) {
+            settings.setInt("nCameras", (int)streams.size());
             return true;
         } else {
             return false;
