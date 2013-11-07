@@ -13,3 +13,4 @@ ImageProcessor:
    - BackgroundModelMoG
    - ForegroundRegionExtractorDefault
    - TrackingBruteForce
+   - QueDetector

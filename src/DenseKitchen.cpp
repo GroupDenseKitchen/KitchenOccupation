@@ -13,6 +13,7 @@ bool DenseKitchen::initialize(std::string path) {
     algorithmFactory.add("ForegroundRegionExtractorDefault", new image_processing::ForegroundRegionExtractorDefault());
     algorithmFactory.add("TrackingBruteForce",               new image_processing::TrackingBruteForce());
     algorithmFactory.add("Analytics",                        new statistics::Analytics());
+    algorithmFactory.add("QueDetector",                      new image_processing::QueDetector());
 
     if(!settings.readConfig(path)) {
         LOG("DenseKitchen initialization error", "settings file read error! path: \"" << path << "\"");

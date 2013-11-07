@@ -14,6 +14,7 @@
 #include "ImageProcessing/BackgroundModelMoG.hpp"
 #include "ImageProcessing/ForegroundRegionExtractorDefault.hpp"
 #include "ImageProcessing/TrackingBruteForce.hpp"
+#include "ImageProcessing/QueDetector.hpp"
 
 #include "Analytics/Analytics.hpp"
 #include "Analytics/Evaluation.hpp"
