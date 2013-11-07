@@ -14,16 +14,16 @@ Evaluation::~Evaluation()
 
 bool Evaluation::initialize(configuration::ConfigurationManager &settings)
 {
-    bool manyGtExists = settings.hasStringSeq("groundTruthPaths");
-    std::vector<std::string> gtPaths;
+    bool gtExists = settings.hasStringSeq("trackerGroundTruthPaths");
+    std::vector<std::string> trackerGtPaths;
 
-    if(manyGtExists) {
-        gtPaths = settings.getStringSeq("groundTruthPaths");
+    if(gtExists) {
+        trackerGtPaths = settings.getStringSeq("trackerGroundTruthPaths");
     } else {
         return false;
     }
 
-    if (gtPaths.empty()) {
+    if (trackerGtPaths.empty()) {
         return false;
     }
 
@@ -35,13 +35,12 @@ bool Evaluation::initialize(configuration::ConfigurationManager &settings)
         trackEvalThreshold = settings.getInt("evalPrecisionThreshold");
     }
 
-    bool isTrackEvalInitialized;
-    for (unsigned int i = 0; i < gtPaths.size(); i++) {
+    for (unsigned int i = 0; i < trackerGtPaths.size(); i++) {
         TrackerEvaluator* TE = new TrackerEvaluator();
-        isTrackEvalInitialized = TE->initialize(gtPaths[i], trackEvalThreshold);
+        bool isTrackEvalInitialized = TE->initialize(trackerGtPaths[i], trackEvalThreshold);
 
         if (!isTrackEvalInitialized) {
-            return false;
+            trackingEvaluators.push_back(0);
         } else {
             trackingEvaluators.push_back(TE);
         }
@@ -51,17 +50,20 @@ bool Evaluation::initialize(configuration::ConfigurationManager &settings)
 }
 
 void Evaluation::printToLog()
-{
+{    
     for (unsigned int i = 0; i < trackingEvaluators.size(); i++) {
-        trackingEvaluators[i]->printToLog(i);
+        if(trackingEvaluators[i]) {
+            trackingEvaluators[i]->printToLog(i);
+        }
     }
 }
 
 void Evaluation::process(FrameList& frames)
 {
-    //this->frameList = &frames;
     for (unsigned int i = 0; i < frames.getCurrent().getCameras().size(); i++) {
-        trackingEvaluators[i]->process(frames.getCurrent().getCameras()[i]);
+        if(trackingEvaluators[i]) {
+            trackingEvaluators[i]->process(frames.getCurrent().getCameras()[i]);
+        }
     }
 }
 

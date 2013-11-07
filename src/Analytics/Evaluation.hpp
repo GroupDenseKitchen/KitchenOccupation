@@ -3,8 +3,6 @@
 
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/FrameList.hpp"
-#include "../Utilities/Object.hpp"
-#include "../Utilities/rapidxml.hpp"
 
 #include "../Configuration/ConfigurationManager.hpp"
 #include "TrackerEvaluator.hpp"
@@ -14,9 +12,8 @@ using namespace cv;
 
 /*!
  *  \brief     Evaluates system performance.
- *  \details   Compares system output to ground truth.
- *  \version   0.1
- *  \date      2013-11-01
+ *  \details   Evaluates system performance by comparing system output and some intermediate steps
+ *             in the pipeline to pre-labeled ground truth.
  */
 
 namespace evaluation

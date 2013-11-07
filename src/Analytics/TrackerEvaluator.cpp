@@ -36,7 +36,8 @@ bool TrackerEvaluator::initialize(std::string groundTruthPath, int precisionThre
 
 
     initSuccess = readXML2FrameList(groundTruthPath.c_str());
-
+    if(!initSuccess)
+        LOG("Tracking Evaluation Error", "Failed to read ground truth file at: " << groundTruthPath)
     return initSuccess;
 }
 
@@ -44,9 +45,7 @@ bool TrackerEvaluator::readXML2FrameList(const char* fileName)
 {
     ifstream myfile(fileName);
 
-    if(!myfile.is_open())
-    {
-        LOG("Evaluation Error", "Could not open groundTruth file at: " << fileName << ".");
+    if(!myfile.is_open()) {
         return false;
     }
     xml_document<> doc;
@@ -114,8 +113,8 @@ bool TrackerEvaluator::readXML2FrameList(const char* fileName)
 
 void TrackerEvaluator::printToLog(unsigned int cameraIndex)
 {
-    LOG("Evaluation", "MOTA value of camera " + to_string(cameraIndex) + " is: " + to_string(motaValue));
-    LOG("Evaluation", "MOTP value of camera " + to_string(cameraIndex) + " is: " + to_string(motpValue));
+    LOG("Evaluation Tracking", "MOTA value of camera " + to_string(cameraIndex) + " is: " + to_string(motaValue));
+    LOG("Evaluation Tracking", "MOTP value of camera " + to_string(cameraIndex) + " is: " + to_string(motpValue));
 }
 
 // This is magic in it's purest form, and also proof that
@@ -283,7 +282,6 @@ void TrackerEvaluator::MOTP()
     {
         motpValue = (float)sumDistance/sumMatches;
     }
-    //cout << "MOTP:\t\t" << motpValue << endl;
 }
 
 void TrackerEvaluator::MOTA()
@@ -301,7 +299,6 @@ void TrackerEvaluator::MOTA()
     {
         motaValue = 1 - (float)(sumMisses + sumFalsePositive + sumMismatches)/sumNumberOfObjects;
     }
-    //cout << "MOTA:\t\t" << motaValue << endl;
 }
 
 Object* TrackerEvaluator::getObj(vector<Object>* objVec, int ID)
@@ -330,7 +327,6 @@ void TrackerEvaluator::deleteObj(vector<Object>* objVec, int ID)
             it++;
         }
     }
-    cerr << "object not found" << endl;
 }
 
 bool TrackerEvaluator::isCorr(int truID, int hypID)
