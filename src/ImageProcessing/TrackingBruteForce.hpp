@@ -42,9 +42,6 @@ public:
     void process(FrameList &frames) override;
 
 private:
-    std::list<Object*> candidatePrev;
-    std::list<Object*> candidateCurr;
-    std::list<Object> additionalObjects;
     int nextUniequeID;
 
     double maximumDistance; // Euclidian distance squared, in pixels
