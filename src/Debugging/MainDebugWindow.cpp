@@ -41,6 +41,11 @@ void MainDebugWindow::configureGUI()
     for(int i = 0; i < presetCameraNumber.size(); i++){
         popWindow(presetStepName[i], presetCameraNumber[i]);
     }
+
+    configWindow = new MainConfigurationWindow;
+    connect(this, SIGNAL(updateDebugViews(Frame)),
+            configWindow, SLOT(updateWindow(Frame)));
+    configWindow->show();
 }
 
 void MainDebugWindow::init()
@@ -54,11 +59,6 @@ void MainDebugWindow::init()
     if(!program->initialize(mainConfigPath)){
         // TODO Fix that shit
     }
-
-    // -------- Configure Main Program ------------------
-    configWindow = new MainConfigurationWindow;
-    configWindow->show();
-    //configWindow.show();
 
     // -------- Camera/Step Selector Init ---------------
     cameraItemModel = new QStandardItemModel;
