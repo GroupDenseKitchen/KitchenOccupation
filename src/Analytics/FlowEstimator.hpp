@@ -6,8 +6,19 @@
 #include "../Utilities/Algorithm.hpp"
 
 
-namespace statistics  // ??? vad ska det stå här
+namespace statistics
 {
+
+/*!
+ *  \brief     Stuct which is used for a vector with pair values.
+ */
+struct flowVectorPair {
+    flowVectorPair(int _flow,unsigned int _frameCount);
+    int flow;
+    unsigned int frameCount;
+};
+
+
 /*!
  *  \brief     Process step which calculates the flow in  and out through the door.
  */
@@ -36,11 +47,13 @@ public:
 
 private:
 
-     double inFlow;
-     double outflow;
-    //some vectors dependent on how many rooms...?
-     //where do/should we set roomID?
 
+     std::deque<Frame> frames;
+
+     unsigned int framesToKeep;
+     unsigned int frameCounter;
+     std::vector<flowVectorPair> inFlow;
+     std::vector<flowVectorPair> outFlow;
 };
 }
 #endif

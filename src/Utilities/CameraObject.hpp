@@ -96,19 +96,19 @@ public:
     /*!
        \brief   Set total entered peopple.
     */
-    void setEntered(int newEntered) {this->entered = newEntered; }
+    void setEntered(int newEntered) {this->enteredTotal = newEntered; }
     /*!
        \brief   Set total exited peopple.
     */
-    void setExited(int newExited) {this->exited = newExited; }
+    void setExited(int newExited) {this->exitedTotal = newExited; }
     /*!
        \brief   Get exited people.
     */
-    int & getExited() {return exited;}
+    int & getExited() {return exitedTotal;}
     /*!
        \brief   Get entered people.
     */
-    int & getEntered() {return entered;}
+    int & getEntered() {return enteredTotal;}
 
 private:
     std::string roomID;
@@ -117,8 +117,8 @@ private:
     std::vector<Object> potentialObjects;  // Potentially moving things..
     std::vector<Object> transitionaryObjects; //objects that mabey should be counted as entered or left room
     std::vector<Object> newlyFoundObjects; //elevated objects that has entered the scene
-    int entered;
-    int exited;
+    int enteredTotal;
+    int exitedTotal;
 
 
     //debug information

@@ -2,8 +2,8 @@
 
 CameraObject::CameraObject()
 {
-entered = 0;
-exited = 0;
+enteredTotal = 0;
+exitedTotal = 0;
 }
 
 CameraObject::~CameraObject()

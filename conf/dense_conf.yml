@@ -15,3 +15,5 @@ ImageProcessor:
    - ForegroundRegionExtractorDefault
    - TrackingBruteForce
    - EntryExitCounter
+Analytics:
+   - FlowEstimator
