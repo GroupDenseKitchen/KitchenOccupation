@@ -36,7 +36,8 @@ public:
     bool initialize(configuration::ConfigurationManager &conf) override;
 
 private:
-    cv::BackgroundSubtractorMOG2 *bg;
+    int cameraAmount;
+    std::vector<cv::BackgroundSubtractorMOG2*> backgroundModels;
     int nmixtures;
     int dilations;
     int erotions;
@@ -53,6 +54,7 @@ private:
     double downSamplingFactor;
     bool isShadowDetection;
 
+    void initializeBackgroundModels(int cameraAmount);
 
 };
 
