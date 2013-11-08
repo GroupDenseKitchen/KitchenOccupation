@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>903</width>
-    <height>480</height>
+    <width>800</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -92,6 +92,38 @@
    </property>
    <property name="text">
     <string>Load masks</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="doorMaskLabel">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>480</y>
+     <width>320</width>
+     <height>240</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="exclusionMaskLabel">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>480</y>
+     <width>320</width>
+     <height>240</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
  </widget>

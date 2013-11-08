@@ -53,6 +53,28 @@ void MainConfigurationWindow::showImage()
 
         ui->imageLabel->setPixmap(QPixmap::fromImage(qImage));
     }
+    if(!doorMask.empty()){
+        cv::Mat resizedImage;
+        cv::resize(doorMask, resizedImage, cv::Size(320, 240));
+        qImage = QImage( resizedImage.data,
+                         resizedImage.cols,
+                         resizedImage.rows,
+                         resizedImage.step,
+                         QImage::Format_RGB888);
+
+        ui->doorMaskLabel->setPixmap(QPixmap::fromImage(qImage));
+    }
+    if(!exclusionMask.empty()){
+        cv::Mat resizedImage;
+        cv::resize(exclusionMask, resizedImage, cv::Size(320, 240));
+        qImage = QImage( resizedImage.data,
+                         resizedImage.cols,
+                         resizedImage.rows,
+                         resizedImage.step,
+                         QImage::Format_RGB888);
+
+        ui->exclusionMaskLabel->setPixmap(QPixmap::fromImage(qImage));
+    }
 }
 
 void MainConfigurationWindow::storeImage(const cv::Mat &image)
@@ -77,10 +99,12 @@ void MainConfigurationWindow::storeImage(const cv::Mat &image)
 void MainConfigurationWindow::overlayMask()
 {
     imageWithMask = matImage.clone();
-    doorMask = cv::Mat(640, 480, CV_8UC1);
-    exclusionMask = cv::Mat(640, 480, CV_8UC1);
-    drawPolygons("doorPolygons", doorPolygons, cv::Scalar(63,232,41));
+    doorMask.create(480, 640, CV_8UC3);
+    doorMask.zeros(480, 640, CV_8UC3);
+    exclusionMask.create(480, 640, CV_8UC3);
+    exclusionMask.zeros(480, 640, CV_8UC3);
     drawPolygons("exclusionPolygons", exclusionPolygons, cv::Scalar(255,45,70));
+    drawPolygons("doorPolygons", doorPolygons, cv::Scalar(63,232,41));
     drawPolygon(polygon, cv::Scalar(255,218,56));
 }
 
@@ -96,7 +120,7 @@ void MainConfigurationWindow::drawPolygons(std::string maskType, QVector<QVector
 
         if(maskType == "doorPolygons"){
             polygonDrawer(doorMask, polygonPtrPtr, numberOfPoints, cv::Scalar(255,255,255));
-        } else if(maskType == "exclusionPolygons"){
+        } else if(maskType == "exclusionPolygons") {
             polygonDrawer(exclusionMask, polygonPtrPtr, numberOfPoints, cv::Scalar(255,255,255));
         }
     }
@@ -140,8 +164,10 @@ void MainConfigurationWindow::keyPressEvent(QKeyEvent *e)
     switch (e->key()) {
     case Qt::Key_Z:
         if(e->modifiers() == Qt::ControlModifier){
-            polygon.pop_back();
-            showImage();
+            if(!polygon.empty()){
+                polygon.pop_back();
+                showImage();
+            }
         }
         break;
     default:
