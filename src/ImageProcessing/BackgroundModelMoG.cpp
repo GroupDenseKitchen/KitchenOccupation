@@ -16,19 +16,19 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
 
     // Initialize variables
     //
-    //           |VARIABLE          |NAME                  |DEFAULT
+    //               |VARIABLE          |NAME                  |DEFAULT
     //---------------------------------------------------------------
     CONFIG(settings, nmixtures,         "nmixtures",            5);
     CONFIG(settings, backgroundRatio,   "backgroundRatio",      0.9);
     CONFIG(settings, varThresholdGen,   "varThresholdGen",      30);
-    CONFIG(settings, varThreshold,      "varThreshold",          16);
+    CONFIG(settings, varThreshold,      "varThreshold",         16);
     CONFIG(settings, fVarInit,          "fVarInit",             15);
     CONFIG(settings, fCT,               "fCT",                  0.05);
     CONFIG(settings, isShadowDetection, "isShadowDetection",    false);
     CONFIG(settings, erotions,          "erotions",             3);
     CONFIG(settings, dilations,         "dilations",            3);
     CONFIG(settings, history,           "history",              500);
-    CONFIG(settings, learningRate,      "learningRate",        0.001);
+    CONFIG(settings, learningRate,      "learningRate",         0.001);
 
     if(bg)
     {
