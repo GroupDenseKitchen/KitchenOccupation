@@ -25,7 +25,7 @@ MainDebugWindow::~MainDebugWindow()
 
 void MainDebugWindow::configureGUI()
 {
-    guiConfigPath = "guiConfig0_4.yml";
+    guiConfigPath = "guiConfig.yml";
     if(!readConfig(guiConfigPath)){
         generateConfig(guiConfigPath);
     }
@@ -34,10 +34,7 @@ void MainDebugWindow::configureGUI()
     debugViewGrid->init(2);
     debugViewGrid->showMaximized();
 
-    // -----------
-    //presetCameraNumber.push_back(0);
-    //presetStepName.push_back("rawImage");
-
+    // Display preset processingsteps
     for(int i = 0; i < presetCameraNumber.size(); i++){
         popWindow(presetStepName[i], presetCameraNumber[i]);
     }
