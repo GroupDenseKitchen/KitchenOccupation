@@ -16,17 +16,32 @@ Network::~Network()
 bool Network::initialize(configuration::ConfigurationManager& settings)
 {
     // Check if the necessary variables are available
-    bool hasSettings = settings.hasBool("runFromFile") &&
-                       settings.hasInt("nCameras") &&
-                       settings.hasStringSeq("videoFilePaths");
-    if(!hasSettings) {
-        LOG("Network Error", "One ore more properties undefined");
+    bool hasSelector  = settings.hasBool("runFromFile");
+    if (!hasSelector) {
+        LOG("Network Error", "Boolean \"runFromFile\" undefined in config file.");
+        return false;
+    } else {
+        runFromFile = settings.getBool("runFromFile");
+    }
+
+    bool hasFilePaths = settings.hasStringSeq("videoFilePaths");
+    bool hasCamPaths  = settings.hasStringSeq("cameraPaths");
+
+    bool hasValidSettings = (runFromFile && hasFilePaths) || (!runFromFile && hasCamPaths);
+
+    if(!hasValidSettings) {
+        LOG("Network Error", "std::vector<std::string> \"videoFilePaths\" or \"cameraPaths\" undefined in config file.");
         return false;
     }
 
-    nCameras = settings.getInt("nCameras");
-    runFromFile = settings.getBool("runFromFile");
-    std::vector<std::string> filePaths = settings.getStringSeq("videoFilePaths");
+
+    std::vector<std::string> filePaths, cameraPaths;
+    filePaths = settings.getStringSeq("videoFilePaths");
+    if (runFromFile) {
+        filePaths = settings.getStringSeq("videoFilePaths");
+    } else {
+        cameraPaths = settings.getStringSeq("cameraPaths");
+    }
 
     if (runFromFile) {
         for (unsigned int i = 0; i < filePaths.size(); i++) {
@@ -43,26 +58,25 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
         } else {
             return false;
         }
-
     } else {
-        //TODO (read from network)
-    }
-/*
-    // If read from file
-    if(isTesting) {
-        std::string filePath = settings.getString("videoFilePath");
-        cv::VideoCapture cam(filePath);
-        if (cam.isOpened()) {
-            streams.push_back(cam);
+        for (unsigned int i = 0; i < cameraPaths.size(); i++) {
+            std::cerr << cameraPaths[i];
+            cv::VideoCapture cam("http://root:pass@169.254.192.68/axis-cgi/mjpg/video.cgi?resolution=640x480&.mjpg");
+            //cv::VideoCapture (cameraPaths[i]);
+            if (cam.isOpened()) {
+                streams.push_back(cam);
+            } else {
+            LOG("Network Warning", "Error opening camera stream at: " << cameraPaths[i]);
+            }
+        }
+        if (streams.size() > 0) {
+            settings.setInt("nCameras", (int)streams.size());
             return true;
         } else {
-            LOG("Network Error", "Error reading video file " << filePath);
             return false;
         }
-    } else {
-        //TODO (read from network)
     }
-*/
+
     //if we reach this point, something went wrong
     return false;
 }
@@ -96,6 +110,28 @@ Frame* Network::dequeFrame()
         }
     } else { // Using network cameras
         // Grab all images
+        CameraObject cam;
+        cv::Mat rawImage;
+        success = false;
+        do {
+
+            success = streams[0].read(rawImage);
+
+
+        } while (!success);
+        cam.setRoomID(std::to_string(0));
+        cam.addImage("rawImage", rawImage);
+        frame->addCamera(cam);
+
+/*
+        CameraObject cam;
+        cv::Mat rawImage;
+        success = streams[0].read(rawImage);
+
+        cam.setRoomID(std::to_string(0));
+        cam.addImage("rawImage", rawImage);
+        frame->addCamera(cam);
+  */      /*
         for (unsigned int i = 0; i != streams.size(); i++) {
             streams[i].grab();
         }
@@ -113,6 +149,7 @@ Frame* Network::dequeFrame()
                 return 0;
             }
         }
+        */
     }
 
     return frame;
