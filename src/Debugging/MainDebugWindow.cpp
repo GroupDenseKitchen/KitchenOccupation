@@ -64,7 +64,7 @@ void MainDebugWindow::init()
     cameraSelection = cameraTree->selectionModel();
 
     connect(cameraSelection, SIGNAL(currentChanged(QModelIndex,QModelIndex)),
-            this, SLOT(cameraSelctionUpdate(QModelIndex,QModelIndex)));
+            this, SLOT(cameraSelectionUpdate(QModelIndex,QModelIndex)));
 
     currentCameraIndex = -1;
     currentKey = "";
@@ -148,7 +148,7 @@ void MainDebugWindow::cameraSelectionUpdate(QModelIndex current, QModelIndex pre
 bool MainDebugWindow::readConfig(std::string filePath)
 {
     if(configFile.open(filePath, cv::FileStorage::READ)){
-        qDebug("reading");
+        qDebug("Reading guiConfig file");
         configFile["timerDelay"] >> timerDelay;
         configFile["isRunning"] >> isRunning;
         configFile["autoAdaptLog"] >> autoAdaptLog;
@@ -165,7 +165,7 @@ bool MainDebugWindow::readConfig(std::string filePath)
 }
 
 void MainDebugWindow::generateConfig(std::string filePath){
-    qDebug("Generating");
+    qDebug("Generating guiConfig file");
     configFile.open(filePath, cv::FileStorage::WRITE);
     configFile << "timerDelay" << 10;
     configFile << "isRunning" << false;
@@ -190,13 +190,11 @@ void MainDebugWindow::updateCameraSelector()
 
     std::vector<CameraObject> cameras = currentFrame.getCameras();
     int nCameras = cameras.size();
-    qDebug() << "Number of cameras: " << cameras.size();
     for (int i = 0; i < nCameras; i++){
         QStandardItem* item = new QStandardItem(QString::number(i));
         item->setSelectable(false);
 
         CameraObject c = cameras[i];
-        qDebug() << c.getImages().size();
         int rowCounter = 0;
         std::map<std::string,cv::Mat>::iterator stepImage = c.getImages().begin();
         for(; stepImage != c.getImages().end(); ++stepImage){
@@ -376,7 +374,6 @@ void MainDebugWindow::popWindow(std::string stepKey, int cameraIndex){
 
 void MainDebugWindow::keyPressEvent(QKeyEvent * e)
 {
-    qDebug() << e->text();
     switch(e->key()){
     case Qt::Key_Return:
         if(isRunning){
@@ -386,8 +383,6 @@ void MainDebugWindow::keyPressEvent(QKeyEvent * e)
         }
         break;
     case Qt::Key_F5:
-        //program.reset();
-        //program.initialize(mainConfigPath);
         delete program;
         debugging::logObject.reset();
 
