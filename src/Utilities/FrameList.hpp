@@ -48,6 +48,10 @@ public:
        \brief   Get the number of frames in history.
     */
     int size() { return frames.size(); }
+    /*!
+       \brief   Get the current frame counter.
+    */
+    int getFrameCount() { return frameCounter; }
 
     /*!
      * \brief getExclusionMask

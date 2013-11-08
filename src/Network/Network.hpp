@@ -44,7 +44,7 @@ public:
 
 private:
     bool firstFrame;    // Is this the first frame?
-    bool isTesting;     // True if reading from file
+    bool runFromFile;     // True if reading from file
 
     int nCameras;       // Number of cameras
 
