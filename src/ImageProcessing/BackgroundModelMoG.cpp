@@ -4,7 +4,7 @@ namespace image_processing
 {
 
 BackgroundModelMoG::BackgroundModelMoG(){
-    bg = 0;
+
 }
 BackgroundModelMoG::~BackgroundModelMoG(){
 
@@ -16,38 +16,30 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
 
     // Initialize variables
     //
-    //           |VARIABLE          |NAME                  |DEFAULT
+    //               |VARIABLE          |NAME                  |DEFAULT
     //---------------------------------------------------------------
-    CONFIG(settings, nmixtures,         "nmixtures",            5);
+    CONFIG(settings, nmixtures,         "nmixtures",            8);
     CONFIG(settings, backgroundRatio,   "backgroundRatio",      0.9);
-    CONFIG(settings, varThresholdGen,   "varThresholdGen",      30);
+    CONFIG(settings, varThresholdGen,   "varThresholdGen",      15);
     CONFIG(settings, varThreshold,      "varThreshold",          16);
     CONFIG(settings, fVarInit,          "fVarInit",             15);
     CONFIG(settings, fCT,               "fCT",                  0.05);
-    CONFIG(settings, isShadowDetection, "isShadowDetection",    false);
-    CONFIG(settings, erotions,          "erotions",             3);
-    CONFIG(settings, dilations,         "dilations",            3);
+    CONFIG(settings, isShadowDetection, "isShadowDetection",    true);
+    CONFIG(settings, erotions,          "erotions",             1);
+    CONFIG(settings, dilations,         "dilations",            1);
     CONFIG(settings, history,           "history",              500);
-    CONFIG(settings, learningRate,      "learningRate",        0.001);
+    CONFIG(settings, learningRate,      "learningRate",         0.01);
+    CONFIG(settings, downSamplingFactor,"downSamplingFactor",   4.0);
+    REQUIRE(settings, cameraAmount,     "nCameras");
 
-    if(bg)
-    {
-        delete bg;
-    }
-    bg = new cv::BackgroundSubtractorMOG2(history,varThreshold,isShadowDetection);
-
-
-    bg->set("nmixtures",nmixtures);
-    bg->set("backgroundRatio",backgroundRatio);
-    bg->set("varThresholdGen",varThresholdGen);
-    bg->set("fVarInit",fVarInit);
-    bg->set("fCT",fCT);
+    if(isInitialized)
+        initializeBackgroundModels(cameraAmount);
 
     return isInitialized;
 }
-
- void BackgroundModelMoG::process(FrameList &frames)
+void BackgroundModelMoG::process(FrameList &frames)
  {
+     int n = 0;
      for(CameraObject & camera : frames.getCurrent().getCameras())
      {
          if(!camera.hasImage("rawImage"))
@@ -57,17 +49,38 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
          }
 
          cv::Mat rawImage = camera.getImage("rawImage");
+         cv::Mat rawImageSmall;
+         cv::Mat foregroundMaskSmall;
+         cv::resize(rawImage, rawImageSmall,cv::Size(0,0), 1/downSamplingFactor,1/downSamplingFactor, CV_INTER_AREA);
          cv::Mat foregroundMask;    // From frames (current)
 
-         bg->operator()(rawImage,foregroundMask,learningRate);
-         cv::erode(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), erotions);
-         cv::dilate(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), dilations);
-         cv::threshold(foregroundMask,foregroundMask,230,255,CV_THRESH_BINARY);
-         //cv::namedWindow("binary");
-         //cv::imshow("binary", foregroundMask);
+         backgroundModels[n]->operator()(rawImageSmall,foregroundMaskSmall,learningRate);
+         cv::erode(foregroundMaskSmall,foregroundMaskSmall,cv::Mat(),cv::Point(-1,-1), erotions);
+         cv::dilate(foregroundMaskSmall,foregroundMaskSmall,cv::Mat(),cv::Point(-1,-1), dilations);
+         cv::threshold(foregroundMaskSmall,foregroundMaskSmall,230,255,CV_THRESH_BINARY);
+         cv::resize(foregroundMaskSmall, foregroundMask, cv::Size(0,0), downSamplingFactor,downSamplingFactor, CV_INTER_NN);
 
          camera.addImage("foregroundMask", foregroundMask);
+         n++;
      }
  }
 
-}
+ void BackgroundModelMoG::initializeBackgroundModels(int cameraAmount) {
+     if(backgroundModels.size() > 0) {
+         std::vector<cv::BackgroundSubtractorMOG2*>::iterator background = backgroundModels.begin();
+         while(background != backgroundModels.end()) {
+             backgroundModels.erase(background);
+         }
+     }
+     for(int n = 0; n < cameraAmount; n++) {
+         backgroundModels.push_back(new cv::BackgroundSubtractorMOG2(history,varThreshold,isShadowDetection));
+
+         backgroundModels[n]->set("nmixtures",nmixtures);
+         backgroundModels[n]->set("backgroundRatio",backgroundRatio);
+         backgroundModels[n]->set("varThresholdGen",varThresholdGen);
+         backgroundModels[n]->set("fVarInit",fVarInit);
+         backgroundModels[n]->set("fCT",fCT);
+     }
+ }
+
+} // namespace image_processing

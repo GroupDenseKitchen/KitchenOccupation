@@ -190,7 +190,7 @@ void MainDebugWindow::updateCameraSelector()
 
     std::vector<CameraObject> cameras = currentFrame.getCameras();
     int nCameras = cameras.size();
-
+    qDebug() << "Number of cameras: " << cameras.size();
     for (int i = 0; i < nCameras; i++){
         QStandardItem* item = new QStandardItem(QString::number(i));
         item->setSelectable(false);
@@ -205,7 +205,7 @@ void MainDebugWindow::updateCameraSelector()
             item->setChild(rowCounter, 1, child);
             rowCounter++;
         }
-        cameraItemModel->removeRow(0);
+        //cameraItemModel->removeRow(0);
         cameraItemModel->appendRow(item);
     }
     cameraTree->expandAll();

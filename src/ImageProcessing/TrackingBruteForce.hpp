@@ -42,9 +42,6 @@ public:
     void process(FrameList &frames) override;
 
 private:
-    std::list<Object*> candidatePrev;
-    std::list<Object*> candidateCurr;
-    std::list<Object> additionalObjects;
     int nextUniequeID;
 
     double maximumDistance; // Euclidian distance squared, in pixels
@@ -59,8 +56,8 @@ private:
     */
 
     void pairAndPopulate(std::list<Object> & candidatePrev, std::list<Object> & candidateCurr, std::vector<Object> & destination);
-    void elevatePotentialObjects(std::vector<Object> & candidates, std::vector<Object> & destination);
-    void removeLostObjects(std::vector<Object> & objects);
+    void elevatePotentialObjects(std::vector<Object> & candidates, std::vector<Object> & destination, std::vector<Object> & newlyFoundObjects);
+    void removeLostObjects(std::vector<Object> & objects,std::vector<Object> & transitionary_Objects);
     void addNew(std::list<Object> & newObjects, std::vector<Object> & destination);
     void addLost(std::list<Object> & lostObjects, std::vector<Object> & destination);
 
