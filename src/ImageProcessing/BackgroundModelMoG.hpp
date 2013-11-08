@@ -51,6 +51,7 @@ private:
     double fCT;
     double fTau;
     double learningRate;
+    double downSamplingFactor;
     bool isShadowDetection;
 
     void initializeBackgroundModels(int cameraAmount);
