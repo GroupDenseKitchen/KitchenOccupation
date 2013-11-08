@@ -13,7 +13,9 @@ bool DenseKitchen::initialize(std::string path) {
     algorithmFactory.add("BackgroundModelMoG",               new image_processing::BackgroundModelMoG());
     algorithmFactory.add("ForegroundRegionExtractorDefault", new image_processing::ForegroundRegionExtractorDefault());
     algorithmFactory.add("TrackingBruteForce",               new image_processing::TrackingBruteForce());
+    algorithmFactory.add("EntryExitCounter",                 new image_processing::EntryExitCounter());
     algorithmFactory.add("Analytics",                        new statistics::Analytics());
+    algorithmFactory.add("FlowEstimator",                   new statistics::FlowEstimator());
 
     if(!settings.readConfig(path)) {
         LOG("DenseKitchen initialization error", "settings file read error! path: \"" << path << "\"");
@@ -27,7 +29,7 @@ bool DenseKitchen::initialize(std::string path) {
         LOG("DenseKitchen initialize error", "Image processor failed when populating sub algorighms");
         isInitialized = false;
     }
-    if(!statistics.populateSubAlgorithms(settings, "Statistics", algorithmFactory)) {
+    if(!statistics.populateSubAlgorithms(settings, "Analytics", algorithmFactory)) {
         LOG("DenseKitchen initialize error", "Satisitics failed when populating sub algorighms");
         isInitialized = false;
     }

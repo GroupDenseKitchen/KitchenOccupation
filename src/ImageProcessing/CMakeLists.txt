@@ -1,3 +1,3 @@
 #image processing module
 
-add_library(ImageProcessing ImageProcessor.cpp BackgroundModelMoG.cpp ForegroundRegionExtractorDefault.cpp TrackingBruteForce.cpp)
+add_library(ImageProcessing ImageProcessor.cpp BackgroundModelMoG.cpp ForegroundRegionExtractorDefault.cpp TrackingBruteForce.cpp EntryExitCounter.cpp)

@@ -50,10 +50,10 @@ namespace image_processing
                 addLost(prevObjects, cameraCurr.getObjects());
 
                 // 5) Elevate pervious candidate objects to real objects if they have lived long enough.
-                elevatePotentialObjects(cameraCurr.getPotentialObjects(), cameraCurr.getObjects());
+                elevatePotentialObjects(cameraCurr.getPotentialObjects(), cameraCurr.getObjects(),cameraCurr.getNewlyFoundObjects());
 
                 // 6) Remove lost objects that have been lost for too long.
-                removeLostObjects(cameraCurr.getObjects());
+                removeLostObjects(cameraCurr.getObjects(),cameraCurr.getTransitionaryObjects());
 
                 // Debug
                 cv::Mat raw = cameraCurr.getImage("rawImage");
@@ -107,11 +107,12 @@ namespace image_processing
         }
     }
 
-    void TrackingBruteForce::elevatePotentialObjects(std::vector<Object> & candidates, std::vector<Object> & destination) {
+    void TrackingBruteForce::elevatePotentialObjects(std::vector<Object> & candidates, std::vector<Object> & destination, std::vector<Object> & newlyFoundObjects) {
         std::vector<Object>::iterator candidate = candidates.begin();
         while(candidate != candidates.end()) {
             if(candidate->lifeSpan >= minimumLifeSpan) {
                 candidate->id = getUniqueID();
+                newlyFoundObjects.push_back(*candidate);//for counting exiting objects
                 destination.push_back(*candidate);
                 candidates.erase(candidate);
             } else {
@@ -120,10 +121,11 @@ namespace image_processing
         }
     }
 
-    void TrackingBruteForce::removeLostObjects(std::vector<Object> & objects) {
+    void TrackingBruteForce::removeLostObjects(std::vector<Object> & objects,std::vector<Object> & transitionary_Objects) {
         std::vector<Object>::iterator object = objects.begin();
         while(object != objects.end()) {
             if(object->lost && object->lifeSpan > maximumTimeLost) {
+                transitionary_Objects.push_back(*object);
                 objects.erase(object);
             } else {
                 object++;

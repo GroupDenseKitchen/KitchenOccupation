@@ -13,6 +13,9 @@ ImageProcessor:
    - BackgroundModelMoG
    - ForegroundRegionExtractorDefault
    - TrackingBruteForce
+   - EntryExitCounter
+Analytics:
+   - FlowEstimator
 videoFilePaths:
    - ../data/seq3/seq3.mp4
    - ../data/seq7/seq7.mp4

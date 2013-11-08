@@ -14,9 +14,11 @@
 #include "ImageProcessing/BackgroundModelMoG.hpp"
 #include "ImageProcessing/ForegroundRegionExtractorDefault.hpp"
 #include "ImageProcessing/TrackingBruteForce.hpp"
-
+#include "ImageProcessing/EntryExitCounter.hpp"
 #include "Analytics/Analytics.hpp"
+#include "Analytics/FlowEstimator.hpp"
 #include "Analytics/Evaluation.hpp"
+
 
 /*!
  *  \brief     Main program class.

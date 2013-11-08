@@ -4,6 +4,8 @@
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/FrameList.hpp"
 
+#include <numeric>
+
 #include "../Configuration/ConfigurationManager.hpp"
 #include "TrackerEvaluator.hpp"
 
