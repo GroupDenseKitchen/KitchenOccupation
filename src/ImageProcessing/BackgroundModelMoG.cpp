@@ -49,6 +49,12 @@ void BackgroundModelMoG::process(FrameList &frames)
          }
 
          cv::Mat rawImage = camera.getImage("rawImage");
+         cv::Mat maskedImage;
+
+         if(frames.hasInclusionMask()){
+            cv::bitwise_and(rawImage, frames.getInclusionMask(), rawImage);
+         }
+
          cv::Mat rawImageSmall;
          cv::Mat foregroundMaskSmall;
          cv::resize(rawImage, rawImageSmall,cv::Size(0,0), 1/downSamplingFactor,1/downSamplingFactor, CV_INTER_AREA);
@@ -59,12 +65,6 @@ void BackgroundModelMoG::process(FrameList &frames)
          cv::dilate(foregroundMaskSmall,foregroundMaskSmall,cv::Mat(),cv::Point(-1,-1), dilations);
          cv::threshold(foregroundMaskSmall,foregroundMaskSmall,230,255,CV_THRESH_BINARY);
          cv::resize(foregroundMaskSmall, foregroundMask, cv::Size(0,0), downSamplingFactor,downSamplingFactor, CV_INTER_NN);
-        if(frames.hasExclusionMask()){
-            cv::Mat temp = frames.getExclusionMask();
-            cv::imshow("", temp);
-            cv::waitKey(0);
-            cv::bitwise_and(maskedImage, frames.getExclusionMask(), maskedImage);
-        }
 
          camera.addImage("foregroundMask", foregroundMask);
          n++;

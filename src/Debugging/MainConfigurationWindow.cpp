@@ -26,11 +26,18 @@ void MainConfigurationWindow::init(DenseKitchen* _mainProgram ,std::string _file
 
 void MainConfigurationWindow::applyChanges()
 {
-    //cv::imshow("Sender", doorMask);
-    //cv::waitKey();
-    //mainProgram->frames.doorMask = doorMask.clone();
-    mainProgram->frames.setDoorMask(doorMask.clone());
-    mainProgram->frames.setExclusionMask(exclusionMask.clone());
+    mainProgram->frames.setDoorMask(doorMask);
+    mainProgram->frames.setExclusionMask(exclusionMask);
+
+    cv::Mat inclusionMask;
+    inclusionMask.create(exclusionMask.rows, exclusionMask.cols, exclusionMask.type());
+    inclusionMask.zeros(exclusionMask.rows, exclusionMask.cols, exclusionMask.type());
+    cv::bitwise_not(exclusionMask, inclusionMask);
+
+    cv::imshow("", inclusionMask);
+
+    mainProgram->frames.setInclusionMask(inclusionMask);
+
     close();
 }
 

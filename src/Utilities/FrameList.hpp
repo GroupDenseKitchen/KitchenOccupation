@@ -83,9 +83,24 @@ public:
      */
     bool hasDoorMask();
 
+    /*!
+     * \brief getInclusionMask
+     */
+    cv::Mat getInclusionMask() const;
+
+    /*!
+     * \brief setInclusionMask
+     */
+    void setInclusionMask(const cv::Mat &value);
+
+    /*!
+     * \brief hasInclusionMask
+     */
+    bool hasInclusionMask();
+
 private:
     std::deque<Frame> frames;
-    cv::Mat doorMask, exclusionMask;
+    cv::Mat doorMask, exclusionMask, inclusionMask;
     bool initiatedDoorMask, initiatedExclusionMask;
 
     unsigned int framesToKeep;

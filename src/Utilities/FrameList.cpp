@@ -62,5 +62,20 @@ bool FrameList::hasDoorMask()
 {
     return !doorMask.empty();
 }
+cv::Mat FrameList::getInclusionMask() const
+{
+    return inclusionMask;
+}
+
+void FrameList::setInclusionMask(const cv::Mat &value)
+{
+    inclusionMask = value.clone();
+}
+
+bool FrameList::hasInclusionMask()
+{
+    return !inclusionMask.empty();
+}
+
 
 
