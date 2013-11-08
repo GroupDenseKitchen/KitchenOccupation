@@ -18,17 +18,18 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
     //
     //               |VARIABLE          |NAME                  |DEFAULT
     //---------------------------------------------------------------
-    CONFIG(settings, nmixtures,         "nmixtures",            5);
+    CONFIG(settings, nmixtures,         "nmixtures",            8);
     CONFIG(settings, backgroundRatio,   "backgroundRatio",      0.9);
-    CONFIG(settings, varThresholdGen,   "varThresholdGen",      9);
+    CONFIG(settings, varThresholdGen,   "varThresholdGen",      15);
     CONFIG(settings, varThreshold,      "varThreshold",          16);
     CONFIG(settings, fVarInit,          "fVarInit",             15);
     CONFIG(settings, fCT,               "fCT",                  0.05);
     CONFIG(settings, isShadowDetection, "isShadowDetection",    true);
-    CONFIG(settings, erotions,          "erotions",             3);
-    CONFIG(settings, dilations,         "dilations",            3);
+    CONFIG(settings, erotions,          "erotions",             1);
+    CONFIG(settings, dilations,         "dilations",            1);
     CONFIG(settings, history,           "history",              500);
-    CONFIG(settings, learningRate,      "learningRate",         0.001);
+    CONFIG(settings, learningRate,      "learningRate",         0.01);
+    CONFIG(settings, downSamplingFactor,"downSamplingFactor",   4.0);
 
     if(bg)
     {
@@ -45,8 +46,7 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
 
     return isInitialized;
 }
-
- void BackgroundModelMoG::process(FrameList &frames)
+void BackgroundModelMoG::process(FrameList &frames)
  {
      for(CameraObject & camera : frames.getCurrent().getCameras())
      {
@@ -57,14 +57,19 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
          }
 
          cv::Mat rawImage = camera.getImage("rawImage");
+         cv::Mat rawImageSmall;
+         cv::Mat foregroundMaskSmall;
+         cv::resize(rawImage, rawImageSmall,cv::Size(0,0), 1/downSamplingFactor,1/downSamplingFactor, CV_INTER_AREA);
          cv::Mat foregroundMask;    // From frames (current)
 
-         bg->operator()(rawImage,foregroundMask,learningRate);
-         cv::erode(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), erotions);
-         cv::dilate(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), dilations);
-         cv::threshold(foregroundMask,foregroundMask,230,255,CV_THRESH_BINARY);
+         bg->operator()(rawImageSmall,foregroundMaskSmall,learningRate);
+         cv::erode(foregroundMaskSmall,foregroundMaskSmall,cv::Mat(),cv::Point(-1,-1), erotions);
+         cv::dilate(foregroundMaskSmall,foregroundMaskSmall,cv::Mat(),cv::Point(-1,-1), dilations);
+         cv::threshold(foregroundMaskSmall,foregroundMaskSmall,230,255,CV_THRESH_BINARY);
+         cv::resize(foregroundMaskSmall, foregroundMask, cv::Size(0,0), downSamplingFactor,downSamplingFactor, CV_INTER_NN);
+
          camera.addImage("foregroundMask", foregroundMask);
      }
  }
 
-}
+} // namespace image_processing
