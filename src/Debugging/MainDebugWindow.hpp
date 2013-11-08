@@ -61,7 +61,7 @@ public:
 private slots:
     void updateGUI();
 
-    void cameraSelctionUpdate(QModelIndex,QModelIndex);
+    void cameraSelectionUpdate(QModelIndex,QModelIndex);
 
     void on_runButton_clicked();
     void on_pauseButton_clicked();

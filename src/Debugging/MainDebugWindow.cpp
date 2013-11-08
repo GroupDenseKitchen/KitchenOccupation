@@ -139,7 +139,7 @@ void MainDebugWindow::updateGuiComponents(){
     clearLogObject();
 }
 
-void MainDebugWindow::cameraSelctionUpdate(QModelIndex current, QModelIndex previous)
+void MainDebugWindow::cameraSelectionUpdate(QModelIndex current, QModelIndex previous)
 {
     if (current.column() == 1){
         currentKey = current.data().toString().toStdString();
@@ -188,6 +188,9 @@ void MainDebugWindow::updateCameraSelector()
     // Init camera and frame selector treeView
     Frame& currentFrame = program->frames.getCurrent();
 
+    // Remove old tree
+    cameraItemModel->removeRows(0, cameraItemModel->rowCount());
+
     std::vector<CameraObject> cameras = currentFrame.getCameras();
     int nCameras = cameras.size();
     qDebug() << "Number of cameras: " << cameras.size();
@@ -205,7 +208,6 @@ void MainDebugWindow::updateCameraSelector()
             item->setChild(rowCounter, 1, child);
             rowCounter++;
         }
-        //cameraItemModel->removeRow(0);
         cameraItemModel->appendRow(item);
     }
     cameraTree->expandAll();
