@@ -20,11 +20,11 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
     //---------------------------------------------------------------
     CONFIG(settings, nmixtures,         "nmixtures",            5);
     CONFIG(settings, backgroundRatio,   "backgroundRatio",      0.9);
-    CONFIG(settings, varThresholdGen,   "varThresholdGen",      30);
-    CONFIG(settings, varThreshold,      "varThreshold",         16);
+    CONFIG(settings, varThresholdGen,   "varThresholdGen",      9);
+    CONFIG(settings, varThreshold,      "varThreshold",          16);
     CONFIG(settings, fVarInit,          "fVarInit",             15);
     CONFIG(settings, fCT,               "fCT",                  0.05);
-    CONFIG(settings, isShadowDetection, "isShadowDetection",    false);
+    CONFIG(settings, isShadowDetection, "isShadowDetection",    true);
     CONFIG(settings, erotions,          "erotions",             3);
     CONFIG(settings, dilations,         "dilations",            3);
     CONFIG(settings, history,           "history",              500);
@@ -63,9 +63,6 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
          cv::erode(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), erotions);
          cv::dilate(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), dilations);
          cv::threshold(foregroundMask,foregroundMask,230,255,CV_THRESH_BINARY);
-         //cv::namedWindow("binary");
-         //cv::imshow("binary", foregroundMask);
-
          camera.addImage("foregroundMask", foregroundMask);
      }
  }
