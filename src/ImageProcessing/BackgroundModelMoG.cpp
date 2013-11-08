@@ -16,7 +16,7 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
 
     // Initialize variables
     //
-    //           |VARIABLE          |NAME                  |DEFAULT
+    //               |VARIABLE          |NAME                  |DEFAULT
     //---------------------------------------------------------------
     CONFIG(settings, nmixtures,         "nmixtures",            5);
     CONFIG(settings, backgroundRatio,   "backgroundRatio",      0.9);
@@ -28,7 +28,7 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
     CONFIG(settings, erotions,          "erotions",             3);
     CONFIG(settings, dilations,         "dilations",            3);
     CONFIG(settings, history,           "history",              500);
-    CONFIG(settings, learningRate,      "learningRate",        0.001);
+    CONFIG(settings, learningRate,      "learningRate",         0.001);
 
     if(bg)
     {
