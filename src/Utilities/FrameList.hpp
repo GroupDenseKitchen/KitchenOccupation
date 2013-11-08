@@ -48,8 +48,41 @@ public:
        \brief   Get the number of frames in history.
     */
     int size() { return frames.size(); }
+
+    /*!
+     * \brief getExclusionMask
+     */
+    cv::Mat getExclusionMask() const;
+
+    /*!
+     * \brief setExclusionMask
+     */
+    void setExclusionMask(const cv::Mat &value);
+
+    /*!
+     * \brief hasExclusionMask
+     */
+    bool hasExclusionMask();
+
+    /*!
+     * \brief getDoorMask
+     */
+    cv::Mat getDoorMask() const;
+
+    /*!
+     * \brief setDoorMask
+     */
+    void setDoorMask(const cv::Mat &value);
+
+    /*!
+     * \brief hasDoorMask
+     */
+    bool hasDoorMask();
+
 private:
     std::deque<Frame> frames;
+    cv::Mat doorMask, exclusionMask;
+    bool initiatedDoorMask, initiatedExclusionMask;
 
     unsigned int framesToKeep;
     unsigned int frameCounter;

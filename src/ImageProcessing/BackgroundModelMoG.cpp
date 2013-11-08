@@ -46,28 +46,37 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
     return isInitialized;
 }
 
- void BackgroundModelMoG::process(FrameList &frames)
- {
-     for(CameraObject & camera : frames.getCurrent().getCameras())
-     {
-         if(!camera.hasImage("rawImage"))
-         {
-             LOG("ImageProcessing Error", "Image \"rawImage\" not set in current frame!");
-             return;
-         }
+void BackgroundModelMoG::process(FrameList &frames)
+{
+    for(CameraObject & camera : frames.getCurrent().getCameras())
+    {
+        if(!camera.hasImage("rawImage"))
+        {
+            LOG("ImageProcessing Error", "Image \"rawImage\" not set in current frame!");
+            return;
+        }
 
-         cv::Mat rawImage = camera.getImage("rawImage");
-         cv::Mat foregroundMask;    // From frames (current)
+        cv::Mat rawImage = camera.getImage("rawImage");
+        cv::Mat maskedImage = rawImage.clone();
+        cv::Mat foregroundMask;    // From frames (current)
 
-         bg->operator()(rawImage,foregroundMask,learningRate);
-         cv::erode(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), erotions);
-         cv::dilate(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), dilations);
-         cv::threshold(foregroundMask,foregroundMask,230,255,CV_THRESH_BINARY);
-         //cv::namedWindow("binary");
-         //cv::imshow("binary", foregroundMask);
+        if(frames.hasExclusionMask()){
+            cv::Mat temp = frames.getExclusionMask();
+            cv::imshow("", temp);
+            cv::waitKey(0);
+            cv::bitwise_and(maskedImage, frames.getExclusionMask(), maskedImage);
+        }
 
-         camera.addImage("foregroundMask", foregroundMask);
-     }
- }
+        //bg->operator()(rawImage,foregroundMask,learningRate);
+        bg->operator()(maskedImage,foregroundMask,learningRate);
+        cv::erode(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), erotions);
+        cv::dilate(foregroundMask,foregroundMask,cv::Mat(),cv::Point(-1,-1), dilations);
+        cv::threshold(foregroundMask,foregroundMask,230,255,CV_THRESH_BINARY);
+        //cv::namedWindow("binary");
+        //cv::imshow("binary", foregroundMask);
+
+        camera.addImage("foregroundMask", foregroundMask);
+    }
+}
 
 }

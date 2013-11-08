@@ -80,6 +80,8 @@ private slots:
     void on_autoAdaptLogCheckBox_clicked(bool checked);
     void on_expandDepthSpinBox_valueChanged(int arg1);
 
+    void on_configureButton_clicked();
+
 public slots:
     void removeDebugViewWidget(std::string identifier);
 

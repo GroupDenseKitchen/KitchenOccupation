@@ -3,6 +3,9 @@
 FrameList::FrameList(int framesToKeep) : framesToKeep(framesToKeep){
     frameCounter = 0;
     assert(framesToKeep >= 2 || framesToKeep == -1);
+
+    //doorMask.zeros(640,480,CV_8UC3);
+    //exclusionMask.zeros(640,480,CV_8UC3);
 }
 
 FrameList::~FrameList(){
@@ -30,3 +33,34 @@ void FrameList::append(Frame f){
     frames.push_back(f);
     frameCounter++;
 }
+
+cv::Mat FrameList::getExclusionMask() const
+{
+    return exclusionMask;
+}
+
+void FrameList::setExclusionMask(const cv::Mat &value)
+{
+    exclusionMask = value.clone();
+}
+
+bool FrameList::hasExclusionMask()
+{
+    return !exclusionMask.empty();
+}
+cv::Mat FrameList::getDoorMask() const
+{
+    return doorMask;
+}
+
+void FrameList::setDoorMask(const cv::Mat &value)
+{
+    doorMask = value.clone();
+}
+
+bool FrameList::hasDoorMask()
+{
+    return !doorMask.empty();
+}
+
+

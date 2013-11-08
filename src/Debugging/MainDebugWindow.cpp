@@ -41,11 +41,6 @@ void MainDebugWindow::configureGUI()
     for(int i = 0; i < presetCameraNumber.size(); i++){
         popWindow(presetStepName[i], presetCameraNumber[i]);
     }
-
-    configWindow = new MainConfigurationWindow;
-    connect(this, SIGNAL(updateDebugViews(Frame)),
-            configWindow, SLOT(updateWindow(Frame)));
-    configWindow->show();
 }
 
 void MainDebugWindow::init()
@@ -59,6 +54,12 @@ void MainDebugWindow::init()
     if(!program->initialize(mainConfigPath)){
         // TODO Fix that shit
     }
+
+    // -------- Instanciate Main Program ----------------
+    configWindow = new MainConfigurationWindow;
+    configWindow->init(program, "masks.yml");
+    connect(this, SIGNAL(updateDebugViews(Frame)),
+            configWindow, SLOT(updateWindow(Frame)));
 
     // -------- Camera/Step Selector Init ---------------
     cameraItemModel = new QStandardItemModel;
@@ -448,4 +449,9 @@ void MainDebugWindow::on_expandDepthSpinBox_valueChanged(int arg1)
 {
     profilerExpandDepth = arg1;
     profilerTree->expandToDepth(profilerExpandDepth);
+}
+
+void MainDebugWindow::on_configureButton_clicked()
+{
+    configWindow->show();
 }

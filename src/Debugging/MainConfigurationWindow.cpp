@@ -1,5 +1,6 @@
 #include "MainConfigurationWindow.hpp"
 #include "ui_MainConfigurationWindow.h"
+
 #include <QDebug>
 
 MainConfigurationWindow::MainConfigurationWindow(QWidget *parent) :
@@ -9,7 +10,6 @@ MainConfigurationWindow::MainConfigurationWindow(QWidget *parent) :
     ui->setupUi(this);
     //setWindowModality(Qt::ApplicationModal);
     //setWindowFlags( Qt::WindowStaysOnTopHint );
-    init();
 }
 
 MainConfigurationWindow::~MainConfigurationWindow()
@@ -17,9 +17,21 @@ MainConfigurationWindow::~MainConfigurationWindow()
     delete ui;
 }
 
-void MainConfigurationWindow::init()
+void MainConfigurationWindow::init(DenseKitchen* _mainProgram ,std::string _filepath)
 {
-    filePath = "masks.yml";
+    mainProgram = _mainProgram;
+    filePath = _filepath;
+    loadMaskFromFile();
+}
+
+void MainConfigurationWindow::applyChanges()
+{
+    //cv::imshow("Sender", doorMask);
+    //cv::waitKey();
+    //mainProgram->frames.doorMask = doorMask.clone();
+    mainProgram->frames.setDoorMask(doorMask.clone());
+    mainProgram->frames.setExclusionMask(exclusionMask.clone());
+    close();
 }
 
 void MainConfigurationWindow::updateWindow(Frame currentFrame)
@@ -54,7 +66,7 @@ void MainConfigurationWindow::showImage()
         ui->imageLabel->setPixmap(QPixmap::fromImage(qImage));
     }
     if(!doorMask.empty()){
-        cv::Mat resizedImage;
+        resizedImage.zeros(320, 240, CV_8UC3);
         cv::resize(doorMask, resizedImage, cv::Size(320, 240));
         qImage = QImage( resizedImage.data,
                          resizedImage.cols,
@@ -65,7 +77,7 @@ void MainConfigurationWindow::showImage()
         ui->doorMaskLabel->setPixmap(QPixmap::fromImage(qImage));
     }
     if(!exclusionMask.empty()){
-        cv::Mat resizedImage;
+        resizedImage.zeros(320, 240, CV_8UC3);
         cv::resize(exclusionMask, resizedImage, cv::Size(320, 240));
         qImage = QImage( resizedImage.data,
                          resizedImage.cols,
@@ -146,6 +158,16 @@ void MainConfigurationWindow::polygonDrawer(cv::Mat targetMat, const cv::Point *
               8 );
 }
 
+void MainConfigurationWindow::loadMaskFromFile()
+{
+    if(configFile.open(filePath, cv::FileStorage::READ)){
+        readMasks(doorPolygons, "doorPolygons");
+        readMasks(exclusionPolygons, "exclusionPolygons");
+    }
+    configFile.release();
+    showImage();
+}
+
 void MainConfigurationWindow::closeEvent(QCloseEvent * e)
 {
     e->accept();
@@ -153,8 +175,26 @@ void MainConfigurationWindow::closeEvent(QCloseEvent * e)
 
 void MainConfigurationWindow::mousePressEvent(QMouseEvent *e)
 {
-    qDebug() << e->pos().x() << " " << e->pos().y();
-    polygon.push_back(cv::Point(e->pos().x(), e->pos().y()));
+    int x = e->pos().x();
+    int y = e->pos().y();
+
+    int xBoundary = matImage.cols - 1;
+    int yBoundary = matImage.rows - 1;
+
+    if(x < 0){
+        x = 0;
+    }
+    if(x > xBoundary){
+        x = xBoundary;
+    }
+    if(y < 0){
+        y = 0;
+    }
+    if(y > yBoundary){
+        y = yBoundary;
+    }
+
+    polygon.push_back(cv::Point(x, y));
 
     showImage();
 }
@@ -170,11 +210,16 @@ void MainConfigurationWindow::keyPressEvent(QKeyEvent *e)
             }
         }
         break;
+    case Qt::Key_Escape:
+        close();
+        break;
+    case Qt::Key_Return:
+    case Qt::Key_Enter:
+
     default:
         break;
     }
 }
-
 
 void MainConfigurationWindow::on_newPolygonButton_clicked()
 {
@@ -227,12 +272,15 @@ void MainConfigurationWindow::storeMask(QVector<QVector<cv::Point>> polygons, st
 
 void MainConfigurationWindow::on_loadMasksButton_clicked()
 {
+    /*
     if(configFile.open(filePath, cv::FileStorage::READ)){
         readMasks(doorPolygons, "doorPolygons");
         readMasks(exclusionPolygons, "exclusionPolygons");
     }
     configFile.release();
     showImage();
+    */
+    loadMaskFromFile();
 }
 
 bool MainConfigurationWindow::readMasks(QVector<QVector<cv::Point>> &polygons, std::string nodeName)
@@ -262,4 +310,26 @@ bool MainConfigurationWindow::readMasks(QVector<QVector<cv::Point>> &polygons, s
         polygons.push_back(polygon);
         polygon.clear();
     }
+}
+
+void MainConfigurationWindow::on_clearAllButton_clicked()
+{
+    doorPolygons.clear();
+    doorMask.create(640, 480, CV_8UC3);
+    doorMask.zeros(640, 480, CV_8UC3);
+    exclusionPolygons.clear();
+    exclusionMask.create(640, 480, CV_8UC3);
+    exclusionMask.zeros(640, 480, CV_8UC3);
+    polygon.clear();
+    showImage();
+}
+
+void MainConfigurationWindow::on_cancelButton_clicked()
+{
+    close();
+}
+
+void MainConfigurationWindow::on_applyButton_clicked()
+{
+    applyChanges();
 }
