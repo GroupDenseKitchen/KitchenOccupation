@@ -44,6 +44,8 @@ public:
     int id;
     cv::Rect boundingBox;
     cv::Point2d center;
+    cv::Point2d centerOfMass;
+    cv::Point2d velocity;
 
     cv::Point2d entryPoint;
     cv::Point2d exitPoint;

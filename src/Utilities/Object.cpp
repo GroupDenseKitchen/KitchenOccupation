@@ -2,7 +2,7 @@
 
 Object::Object()
 {
-
+    id = -1;
 }
 
 Object::Object(cv::Rect boundingBox)
