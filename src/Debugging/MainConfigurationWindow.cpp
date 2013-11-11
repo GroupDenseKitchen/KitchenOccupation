@@ -170,6 +170,7 @@ void MainConfigurationWindow::loadMaskFromFile()
     if(configFile.open(filePath, cv::FileStorage::READ)){
         readMasks(doorPolygons, "doorPolygons");
         readMasks(exclusionPolygons, "exclusionPolygons");
+        applyChanges();
     }
     configFile.release();
     showImage();
