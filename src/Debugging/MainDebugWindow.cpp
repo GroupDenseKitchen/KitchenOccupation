@@ -52,6 +52,12 @@ void MainDebugWindow::init()
         // TODO Fix that shit
     }
 
+    // -------- Instanciate Main Program ----------------
+    configWindow = new MainConfigurationWindow;
+    configWindow->init(program, "masks.yml");
+    connect(this, SIGNAL(updateDebugViews(Frame)),
+            configWindow, SLOT(updateWindow(Frame)));
+
     // -------- Camera/Step Selector Init ---------------
     cameraItemModel = new QStandardItemModel;
     cameraTree = ui->camerasTreeView;
@@ -412,6 +418,7 @@ void MainDebugWindow::closeEvent(QCloseEvent * event)
             delete debugView->second;
         }
     delete debugViewGrid;
+    delete configWindow;
     event->accept();
 }
 
@@ -436,4 +443,9 @@ void MainDebugWindow::on_expandDepthSpinBox_valueChanged(int arg1)
 {
     profilerExpandDepth = arg1;
     profilerTree->expandToDepth(profilerExpandDepth);
+}
+
+void MainDebugWindow::on_configureButton_clicked()
+{
+    configWindow->show();
 }
