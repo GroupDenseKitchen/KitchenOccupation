@@ -34,7 +34,7 @@ void MainConfigurationWindow::applyChanges()
     inclusionMask.zeros(exclusionMask.rows, exclusionMask.cols, exclusionMask.type());
     cv::bitwise_not(exclusionMask, inclusionMask);
 
-    cv::imshow("", inclusionMask);
+    //cv::imshow("", inclusionMask);
 
     mainProgram->frames.setInclusionMask(inclusionMask);
 
