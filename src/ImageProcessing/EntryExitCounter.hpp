@@ -11,7 +11,6 @@ namespace image_processing
 /*!
  *  \brief     Process step which determines if objects are lost in an entry area, creates bounding boxes.
  */
-
 class EntryExitCounter : public Algorithm
 {
 public:
@@ -38,11 +37,7 @@ public:
      bool initialize(configuration::ConfigurationManager &conf) override;
 
 private:
-    double yMax;
-    double yMin;
-    double xMin;  //should mabey be done in some other way, some mask or something but at "debug mode"
-    double xMax; //needs to be camera specific
-
+    bool isInsidePolygon(cv::Mat mask, cv::Point2d point);
 };
 }
 #endif
