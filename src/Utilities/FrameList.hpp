@@ -17,7 +17,7 @@ public:
     /*!
        \brief   Constructor.
     */
-    FrameList(int framesToKeep = -1);
+    FrameList(int framesToKeep = 10);
 
     /*!
        \brief   Destructor.
@@ -54,6 +54,8 @@ public:
     int getFrameCount() { return frameCounter; }
 private:
     std::deque<Frame> frames;
+
+    double smoothFps; // FPS estimate
 
     unsigned int framesToKeep;
     unsigned int frameCounter;

@@ -17,8 +17,6 @@ std::vector<CameraObject> &Frame::getCameras(){
     return cameras;
 }
 
-
-//TODO nontrivialish, verify it works...
 std::vector<std::string> Frame::getRoomIDs(){
 
     std::vector<std::string> roomIDs;
@@ -33,10 +31,21 @@ std::vector<std::string> Frame::getRoomIDs(){
     return roomIDs;
 }
 
+double Frame::getMomentaryFps() const
+{
+    return momentaryFps;
+}
+
+void Frame::setMomentaryFps(double value)
+{
+    momentaryFps = value;
+}
+
+
 std::vector<cv::Mat> Frame::getRoomImages(std::string roomID){
-
+    
     std::vector<cv::Mat> roomImages;
-
+    
     for(std::vector<CameraObject>::iterator camera = cameras.begin(); camera != cameras.end(); ++camera) {
         if(roomID.compare(camera->getRoomID())){
             roomImages.push_back(camera->getImage("raw"));

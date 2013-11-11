@@ -15,6 +15,8 @@ Network::~Network()
 
 bool Network::initialize(configuration::ConfigurationManager& settings)
 {
+
+    firstFrame = true;
     // Check if the necessary variables are available
     bool hasSelector  = settings.hasBool("runFromFile");
     if (!hasSelector) {
@@ -60,15 +62,15 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
         }
     } else {
         for (unsigned int i = 0; i < cameraPaths.size(); i++) {
-            std::cerr << cameraPaths[i];
-            cv::VideoCapture cam("http://root:pass@169.254.192.68/axis-cgi/mjpg/video.cgi?resolution=640x480&.mjpg");
-            //cv::VideoCapture (cameraPaths[i]);
+
+            cv::VideoCapture cam(cameraPaths[i]);
             if (cam.isOpened()) {
                 streams.push_back(cam);
             } else {
             LOG("Network Warning", "Error opening camera stream at: " << cameraPaths[i]);
             }
         }
+
         if (streams.size() > 0) {
             settings.setInt("nCameras", (int)streams.size());
             return true;
@@ -88,7 +90,6 @@ void Network::reset()
 
 Frame* Network::dequeFrame()
 {
-
     Frame* frame = new Frame();
     bool success = true;
 
@@ -103,6 +104,7 @@ Frame* Network::dequeFrame()
                 cam.setRoomID(std::to_string(i));
                 cam.addImage("rawImage", rawImage);
                 frame->addCamera(cam);
+                frame->setMomentaryFps(streams[i].get(CV_CAP_PROP_FPS));
             } else {
                 LOG("Network Error", "Error retrieving frame from video file " << std::to_string(i) << ".");
                 return 0;
@@ -110,28 +112,6 @@ Frame* Network::dequeFrame()
         }
     } else { // Using network cameras
         // Grab all images
-        CameraObject cam;
-        cv::Mat rawImage;
-        success = false;
-        do {
-
-            success = streams[0].read(rawImage);
-
-
-        } while (!success);
-        cam.setRoomID(std::to_string(0));
-        cam.addImage("rawImage", rawImage);
-        frame->addCamera(cam);
-
-/*
-        CameraObject cam;
-        cv::Mat rawImage;
-        success = streams[0].read(rawImage);
-
-        cam.setRoomID(std::to_string(0));
-        cam.addImage("rawImage", rawImage);
-        frame->addCamera(cam);
-  */      /*
         for (unsigned int i = 0; i != streams.size(); i++) {
             streams[i].grab();
         }
@@ -144,12 +124,18 @@ Frame* Network::dequeFrame()
                 cam.setRoomID(std::to_string(i));
                 cam.addImage("rawImage", rawImage);
                 frame->addCamera(cam);
+                if (firstFrame) {
+                    frame->setMomentaryFps(0);
+                    firstFrame = false;
+                } else {
+                    frame->setMomentaryFps(1.0/timer.getSeconds());
+                }
+                timer.reset();
             } else {
                 LOG("Network Error", "Error retrieving frame from camera " << std::to_string(i) << ".");
                 return 0;
             }
         }
-        */
     }
 
     return frame;
