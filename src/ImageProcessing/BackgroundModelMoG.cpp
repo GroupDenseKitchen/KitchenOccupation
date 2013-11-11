@@ -49,6 +49,12 @@ void BackgroundModelMoG::process(FrameList &frames)
          }
 
          cv::Mat rawImage = camera.getImage("rawImage");
+         cv::Mat maskedImage;
+
+         if(frames.hasInclusionMask()){
+            cv::bitwise_and(rawImage, frames.getInclusionMask(), rawImage);
+         }
+
          cv::Mat rawImageSmall;
          cv::Mat foregroundMaskSmall;
          cv::resize(rawImage, rawImageSmall,cv::Size(0,0), 1/downSamplingFactor,1/downSamplingFactor, CV_INTER_AREA);
