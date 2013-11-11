@@ -22,6 +22,7 @@ void MainConfigurationWindow::init(DenseKitchen* _mainProgram ,std::string _file
     mainProgram = _mainProgram;
     filePath = _filepath;
     loadMaskFromFile();
+    applyChanges();
 }
 
 void MainConfigurationWindow::applyChanges()
