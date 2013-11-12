@@ -28,7 +28,7 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
     CONFIG(settings, erotions,          "erotions",             1);
     CONFIG(settings, dilations,         "dilations",            1);
     CONFIG(settings, history,           "history",              500);
-    CONFIG(settings, learningRate,      "learningRate",         0.01);
+    CONFIG(settings, learningRate,      "learningRate",         0.0015);
     CONFIG(settings, downSamplingFactor,"downSamplingFactor",   4.0);
     REQUIRE(settings, cameraAmount,     "nCameras");
 

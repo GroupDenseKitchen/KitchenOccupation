@@ -17,7 +17,7 @@ public:
     /*!
        \brief   Constructor.
     */
-    FrameList(int framesToKeep = -1);
+    FrameList(int framesToKeep = 10);
 
     /*!
        \brief   Destructor.
@@ -102,6 +102,8 @@ private:
     std::deque<Frame> frames;
     cv::Mat doorMask, exclusionMask, inclusionMask;
     bool initiatedDoorMask, initiatedExclusionMask;
+
+    double smoothFps; // FPS estimate
 
     unsigned int framesToKeep;
     unsigned int frameCounter;
