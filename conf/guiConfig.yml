@@ -7,7 +7,7 @@ profilerExpandDepth: 0
 popAllWindows: 1
 presetCameraNumber: [0, 0, 1, 1]
 presetStepName:
-   -rawImage
-   -foregroundMask
-   -rawImage
-   -foregroundMask
+   -meanShift
+   -flooded
+   -meanShift
+   -flooded

@@ -3,6 +3,8 @@
 
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/Algorithm.hpp"
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/core/core.hpp>
 
 
 namespace image_processing
@@ -24,6 +26,13 @@ public:
        \brief   Performs the foreground modulation.
     */
 	void process(FrameList &frames) override;
+
+private:
+	//do the mean shift segmentation
+    cv::Mat meanShiftSegmentation(cv::Mat raw);
+	cv::Mat floodFill(cv::Mat img);
+
+	cv::Mat betterSegmented;
 };
 }
 

@@ -9,7 +9,7 @@ MESSAGE( STATUS "MINGW: " ${MINGW} )
 
 IF(APPLE)
     # Apple specific
-    SET (CMAKE_CXX_FLAGS "-stdlib=libc++ -std=c++11 -ot")
+    SET (CMAKE_CXX_FLAGS "-stdlib=libc++ -std=c++11 -ox")
 ENDIF()
 
 IF(WIN32)
