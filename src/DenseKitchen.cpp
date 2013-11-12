@@ -88,7 +88,7 @@ bool DenseKitchen::singleIteration() {
                     PROFILER_START("Evaluation")
                     evaluation.process(frames);
                     PROFILER_END();
-                    evaluation.printToLog(); // Prints MOTA & MOTP for every frame.
+                    //evaluation.printToLog(); // Prints MOTA & MOTP for every frame.
                 }
 
             } else {

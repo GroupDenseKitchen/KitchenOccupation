@@ -25,7 +25,13 @@ CamRecWindow::CamRecWindow(QWidget *parent) :
     }
 
     writePath = "videoStream.avi";
-    fps = 5;
+    fps = 30;
+    camera->set(CV_CAP_PROP_AUTO_EXPOSURE, 0);
+    camera->set(CV_CAP_PROP_GAIN, 2);
+    camera->set(CV_CAP_PROP_RECTIFICATION, 1);
+    camera->set(CV_CAP_PROP_MONOCROME, 1);
+
+    camera->set(CV_CAP_PROP_EXPOSURE, 20);
     isRecording = false;
 
 

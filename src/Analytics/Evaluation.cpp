@@ -14,6 +14,11 @@ Evaluation::~Evaluation()
 
 bool Evaluation::initialize(configuration::ConfigurationManager &settings)
 {
+    if (!settings.hasBool("runFromFile") || !settings.getBool("runFromFile")) {
+        LOG("Evaluation", "Running from live stream, evaluation unavailable.");
+        return false;
+    }
+
     bool gtExists = settings.hasStringSeq("trackerGroundTruthPaths");
     std::vector<std::string> trackerGtPaths;
 
