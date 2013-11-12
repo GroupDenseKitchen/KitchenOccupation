@@ -82,6 +82,8 @@ private slots:
 
     void on_configureButton_clicked();
 
+    void on_actionClear_triggered();
+
 public slots:
     void removeDebugViewWidget(std::string identifier);
 

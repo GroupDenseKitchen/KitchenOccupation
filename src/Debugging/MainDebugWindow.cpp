@@ -449,3 +449,9 @@ void MainDebugWindow::on_configureButton_clicked()
 {
     configWindow->show();
 }
+
+void MainDebugWindow::on_actionClear_triggered()
+{
+    debugViewGrid->clearGrid();
+    debugViews.clear();
+}

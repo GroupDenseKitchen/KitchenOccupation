@@ -19,12 +19,16 @@ public:
 
     void init(int columns);
     void addWidget(DebugViewWidget* widget);
+    void clearGrid();
 
 private:
     Ui::DebugViewGrid *ui;
 
     int maxColumns;
     int row, column;
+
+    std::vector<DebugViewWidget*> gridWidgets;
+
     void keyPressEvent(QKeyEvent *);
     void closeEvent(QCloseEvent *e);
     //void resizeEvent(QResizeEvent *e);

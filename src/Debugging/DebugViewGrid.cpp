@@ -24,11 +24,26 @@ void DebugViewGrid::init(int columns)
 void DebugViewGrid::addWidget(DebugViewWidget* widget)
 {
     ui->gridLayout->addWidget(widget, row, column);
+    gridWidgets.push_back(widget);
+
     column++;
     if(column > maxColumns){
         column = 0;
         row++;
     }
+}
+
+void DebugViewGrid::clearGrid()
+{
+    for(unsigned int i = 0; i < gridWidgets.size(); i++){
+        gridWidgets[i]->deleteLater();
+        ui->gridLayout->removeWidget(gridWidgets[i]);
+    }
+
+    gridWidgets.clear();
+
+    row = 0;
+    column = 0;
 }
 
 void DebugViewGrid::keyPressEvent(QKeyEvent *e)
