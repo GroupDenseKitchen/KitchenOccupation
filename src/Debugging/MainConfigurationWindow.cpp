@@ -44,7 +44,7 @@ void MainConfigurationWindow::applyChanges()
 
 void MainConfigurationWindow::updateWindow(Frame currentFrame)
 {
-    int cameraNumber = 0;
+    unsigned int cameraNumber = 0;
     std::string processStep = "rawImage";
 
     if ( cameraNumber < currentFrame.getCameras().size() ) {
@@ -301,7 +301,7 @@ bool MainConfigurationWindow::readMasks(QVector<QVector<cv::Point>> &polygons, s
     std::vector<int> node;
     cv::Point point;
 
-    for(int i = 0; i < numberOfPolygons.size(); i++){
+    for(unsigned int i = 0; i < numberOfPolygons.size(); i++){
         polygon.clear();
 
         for(int j = 0; j < numberOfPolygons[i]; j++){
@@ -319,6 +319,8 @@ bool MainConfigurationWindow::readMasks(QVector<QVector<cv::Point>> &polygons, s
         polygons.push_back(polygon);
         polygon.clear();
     }
+
+    return true;
 }
 
 void MainConfigurationWindow::on_clearAllButton_clicked()

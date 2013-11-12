@@ -35,7 +35,7 @@ void MainDebugWindow::configureGUI()
     debugViewGrid->showMaximized();
 
     // Display preset processingsteps
-    for(int i = 0; i < presetCameraNumber.size(); i++){
+    for(unsigned int i = 0; i < presetCameraNumber.size(); i++){
         popWindow(presetStepName[i], presetCameraNumber[i]);
     }
 }

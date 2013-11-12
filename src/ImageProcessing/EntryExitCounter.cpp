@@ -22,7 +22,7 @@ void EntryExitCounter::process(FrameList &frames)
     if(frames.hasPrevious())
     {
 
-        for(int n = 0; n < frames.getCurrent().getCameras().size(); n++)
+        for(unsigned int n = 0; n < frames.getCurrent().getCameras().size(); n++)
         {
             if(frames.hasDoorMask()){
 
@@ -77,9 +77,9 @@ bool EntryExitCounter::isInsidePolygon(cv::Mat mask, cv::Point2d point){
         if(mask.at<cv::Vec3b>(point)[0] == 255){
             return true;
         }
-    } else {
-        return false;
     }
+
+    return false;
 }
 
 }
