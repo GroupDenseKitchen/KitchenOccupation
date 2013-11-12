@@ -13,6 +13,7 @@
 #include "ImageProcessing/ImageProcessor.hpp"
 #include "ImageProcessing/BackgroundModelMoG.hpp"
 #include "ImageProcessing/ForegroundRegionExtractorDefault.hpp"
+#include "ImageProcessing/ForegroundRegionExtractorTwo.hpp"
 #include "ImageProcessing/TrackingBruteForce.hpp"
 #include "ImageProcessing/EntryExitCounter.hpp"
 #include "Analytics/Analytics.hpp"
