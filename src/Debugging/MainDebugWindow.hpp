@@ -81,8 +81,8 @@ private slots:
     void on_expandDepthSpinBox_valueChanged(int arg1);
 
     void on_configureButton_clicked();
-
     void on_actionClear_triggered();
+    void on_actionSave_grid_configuration_triggered();
 
 public slots:
     void removeDebugViewWidget(std::string identifier);

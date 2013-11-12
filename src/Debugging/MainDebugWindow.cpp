@@ -38,6 +38,8 @@ void MainDebugWindow::configureGUI()
     for(unsigned int i = 0; i < presetCameraNumber.size(); i++){
         popWindow(presetStepName[i], presetCameraNumber[i]);
     }
+    presetStepName.clear();
+    presetCameraNumber.clear();
 }
 
 void MainDebugWindow::init()
@@ -153,6 +155,7 @@ void MainDebugWindow::cameraSelectionUpdate(QModelIndex current, QModelIndex pre
 
 bool MainDebugWindow::readConfig(std::string filePath)
 {
+
     if(configFile.open(filePath, cv::FileStorage::READ)){
         qDebug("Reading guiConfig file");
         configFile["timerDelay"] >> timerDelay;
@@ -349,6 +352,8 @@ void MainDebugWindow::on_stepBackwardButton_clicked()
 void MainDebugWindow::on_popWindowButton_clicked()
 {
     popWindow(currentKey, currentCameraIndex);
+    presetStepName.push_back(currentKey);
+    presetCameraNumber.push_back(currentCameraIndex);
 }
 
 void MainDebugWindow::popWindow(std::string stepKey, int cameraIndex){
@@ -362,16 +367,15 @@ void MainDebugWindow::popWindow(std::string stepKey, int cameraIndex){
     connect(debugView, SIGNAL(aboutToClose(std::string)),
             this, SLOT(removeDebugViewWidget(std::string)));
 
-    //debugView->show();
-    debugViewGrid->addWidget(debugView);
-
     //Keep track of the debug views
     std::map<std::string, DebugViewWidget *>::iterator debugViewsIter;
     debugViewsIter = debugViews.find(debugView->getIdentifier());
     if (debugViewsIter != debugViews.end() ) {
-        debugViewsIter->second->close();
-        debugViews[debugView->getIdentifier()] = debugView;
+        // If the widget allready exists, do nothing
+        //debugViewsIter->second->close();
+        //debugViews[debugView->getIdentifier()] = debugView;
     } else {
+        debugViewGrid->addWidget(debugView);
         debugViews[debugView->getIdentifier()] = debugView;
     }
 
@@ -454,4 +458,13 @@ void MainDebugWindow::on_actionClear_triggered()
 {
     debugViewGrid->clearGrid();
     debugViews.clear();
+}
+
+void MainDebugWindow::on_actionSave_grid_configuration_triggered()
+{
+    qDebug("Generating guiConfig file");
+    configFile.open(guiConfigPath, cv::FileStorage::WRITE);
+    configFile << "presetCameraNumber" << presetCameraNumber;
+    configFile << "presetStepName" << presetStepName;
+    configFile.release();
 }

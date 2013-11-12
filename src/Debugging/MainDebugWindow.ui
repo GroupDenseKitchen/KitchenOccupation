@@ -276,6 +276,7 @@
      <string>Grid</string>
     </property>
     <addaction name="actionClear"/>
+    <addaction name="actionSave_grid_configuration"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -285,6 +286,11 @@
   <action name="actionClear">
    <property name="text">
     <string>Clear</string>
+   </property>
+  </action>
+  <action name="actionSave_grid_configuration">
+   <property name="text">
+    <string>Save grid configuration</string>
    </property>
   </action>
  </widget>
