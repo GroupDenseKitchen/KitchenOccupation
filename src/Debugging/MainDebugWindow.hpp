@@ -84,6 +84,14 @@ private slots:
     void on_actionClear_triggered();
     void on_actionSave_grid_configuration_triggered();
 
+    void on_actionRun_triggered();
+
+    void on_actionPause_triggered();
+
+    void on_actionRestart_triggered();
+
+    void on_actionConfigure_triggered();
+
 public slots:
     void removeDebugViewWidget(std::string identifier);
 
@@ -142,6 +150,7 @@ private:
     void clearLogObject();
     void updateProfilerChildren(QStandardItem *parentItem, std::list<debugging::ProfilerEntry> children);
     void popWindow(std::string stepKey, int cameraIndex);
+    void restart();
 
     void keyPressEvent(QKeyEvent *);
     void closeEvent(QCloseEvent *);

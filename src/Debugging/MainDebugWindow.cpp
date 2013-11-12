@@ -382,6 +382,20 @@ void MainDebugWindow::popWindow(std::string stepKey, int cameraIndex){
     //emit updateDebugViews(program.frames.getCurrent());
 }
 
+void MainDebugWindow::restart()
+{
+    delete program;
+    debugging::logObject.reset();
+
+    logItemModel->removeRows(0, logItemModel->rowCount());
+
+    program = new DenseKitchen;
+    program->initialize(mainConfigPath);
+    if(program->singleIteration()){
+        updateGuiComponents();
+    }
+}
+
 void MainDebugWindow::keyPressEvent(QKeyEvent * e)
 {
     switch(e->key()){
@@ -393,16 +407,7 @@ void MainDebugWindow::keyPressEvent(QKeyEvent * e)
         }
         break;
     case Qt::Key_F5:
-        delete program;
-        debugging::logObject.reset();
-
-        logItemModel->removeRows(0, logItemModel->rowCount());
-
-        program = new DenseKitchen;
-        program->initialize(mainConfigPath);
-        if(program->singleIteration()){
-            updateGuiComponents();
-        }
+        restart();
         break;
     case Qt::Key_Escape:
         qDebug() << "Escaping";
@@ -467,4 +472,24 @@ void MainDebugWindow::on_actionSave_grid_configuration_triggered()
     configFile << "presetCameraNumber" << presetCameraNumber;
     configFile << "presetStepName" << presetStepName;
     configFile.release();
+}
+
+void MainDebugWindow::on_actionRun_triggered()
+{
+    isRunning = true;
+}
+
+void MainDebugWindow::on_actionPause_triggered()
+{
+    isRunning = false;
+}
+
+void MainDebugWindow::on_actionRestart_triggered()
+{
+    restart();
+}
+
+void MainDebugWindow::on_actionConfigure_triggered()
+{
+    configWindow->show();
 }
