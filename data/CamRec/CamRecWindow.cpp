@@ -25,7 +25,7 @@ CamRecWindow::CamRecWindow(QWidget *parent) :
     }
 
     writePath = "videoStream.avi";
-    fps = 5;
+    fps = 10;
     isRecording = false;
 
 
@@ -43,6 +43,22 @@ CamRecWindow::~CamRecWindow()
     videoWriter.release();
 }
 
+void CamRecWindow::keyPressEvent(QKeyEvent *e)
+{
+    switch(e->key()){
+    case Qt::Key_Escape:
+        close();
+        break;
+    default:
+        break;
+    }
+}
+
+void CamRecWindow::closeEvent(QCloseEvent *e)
+{
+    e->accept();
+}
+
 void CamRecWindow::cameraUpdate(){
     elapsedTimer->start();
     // Fetch image
@@ -51,6 +67,9 @@ void CamRecWindow::cameraUpdate(){
     // Get out if no image exists
     if(matImage.empty()) return;
 
+    cv::imshow("", matImage);
+
+    /*
     if(isRecording){
         videoWriter.write(matImage);
     } else {
@@ -68,6 +87,7 @@ void CamRecWindow::cameraUpdate(){
     } else {
         timer->start(timerDelay - uppdateTime);
     }
+    */
 }
 
 void CamRecWindow::on_recordButton_clicked()
