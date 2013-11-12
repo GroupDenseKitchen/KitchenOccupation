@@ -4,6 +4,7 @@
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/FrameList.hpp"
 #include "../ExtLib/rapidxml.hpp"
+#include <numeric>
 
 using namespace std;
 
