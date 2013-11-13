@@ -3,19 +3,19 @@
 
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/FrameList.hpp"
-#include "../Utilities/Object.hpp"
-#include "../Utilities/rapidxml.hpp"
+
+#include <numeric>
 
 #include "../Configuration/ConfigurationManager.hpp"
+#include "TrackerEvaluator.hpp"
 
 using namespace std;
 using namespace cv;
 
 /*!
  *  \brief     Evaluates system performance.
- *  \details   Compares system output to ground truth.
- *  \version   0.1
- *  \date      2013-11-01
+ *  \details   Evaluates system performance by comparing system output and some intermediate steps
+ *             in the pipeline to pre-labeled ground truth.
  */
 
 namespace evaluation
@@ -37,16 +37,16 @@ public:
 
     /*!
      * \brief           Initializes the evaluation module
-     * \param settings  Configuration-object containing the location of the ground truth file and other settings.
-     * \return
+     * \param settings  Configuration-object containing the location of the ground truth files and other relevant settings.
+     * \return          Returns true if successful.
      */
     bool initialize(configuration::ConfigurationManager& settings);
 
     /*!
-     * \brief Evaluates the MOTA & MOTP values for the latest frame.
+     * \brief Evaluates and updates the results for the system.
      * \param frameList The FrameList to be evaluated.
-     * \details Is called upon after each iteration in order to calculate MOTA and MOTP
-     *          values in order to evaluate the system by comparing the tracker output ground truth.
+     * \details Is called upon after each iteration in order to calculate the different performance metrics
+     *          by comparing the tracker system output to ground truth.
      */
     void process(FrameList& frames);
 
@@ -56,30 +56,10 @@ public:
     void printToLog();
 
 private:
-    int frameCounter, numberOfFrames, frameMismatches;
-    int T, obID, hypID, obX, obY, hypX, hypY;
-    float frameDistance, motpValue, motaValue;
-    float sumDistance;
-    int sumMisses, sumMatches, sumFalsePositive, sumMismatches, sumNumberOfObjects;
 
-    vector<int> numberOfObjects, matches, misses, falsePositive, mismatches;
-    vector<float> distance;
-    vector<map<int, int>> correspondance;
-    vector<vector<Object>> groundTruth;
-    vector<Object> hypothesisList;
+    std::vector<TrackerEvaluator*> trackingEvaluators;
 
-    FrameList* frameList;
-
-    Object *ob, *hyp;
-    Object* getObj(vector<Object>* objVec, int ID);
-
-    void deleteObj(vector<Object>* objVec, int ID);
-    bool isCorr(int truID, int hypID);
-
-    void MOTP();
-    void MOTA();
-
-    bool readXML2FrameList(const char *fileName);
+    int trackEvalThreshold;
 
 };
 

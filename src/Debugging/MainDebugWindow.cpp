@@ -25,7 +25,7 @@ MainDebugWindow::~MainDebugWindow()
 
 void MainDebugWindow::configureGUI()
 {
-    guiConfigPath = "guiConfig0_4.yml";
+    guiConfigPath = "guiConfig.yml";
     if(!readConfig(guiConfigPath)){
         generateConfig(guiConfigPath);
     }
@@ -34,13 +34,12 @@ void MainDebugWindow::configureGUI()
     debugViewGrid->init(2);
     debugViewGrid->showMaximized();
 
-    // -----------
-    //presetCameraNumber.push_back(0);
-    //presetStepName.push_back("rawImage");
-
-    for(int i = 0; i < presetCameraNumber.size(); i++){
+    // Display preset processingsteps
+    for(unsigned int i = 0; i < presetCameraNumber.size(); i++){
         popWindow(presetStepName[i], presetCameraNumber[i]);
     }
+    presetStepName.clear();
+    presetCameraNumber.clear();
 }
 
 void MainDebugWindow::init()
@@ -55,6 +54,12 @@ void MainDebugWindow::init()
         // TODO Fix that shit
     }
 
+    // -------- Instanciate Main Program ----------------
+    configWindow = new MainConfigurationWindow;
+    configWindow->init(program, "masks.yml");
+    connect(this, SIGNAL(updateDebugViews(Frame)),
+            configWindow, SLOT(updateWindow(Frame)));
+
     // -------- Camera/Step Selector Init ---------------
     cameraItemModel = new QStandardItemModel;
     cameraTree = ui->camerasTreeView;
@@ -67,7 +72,7 @@ void MainDebugWindow::init()
     cameraSelection = cameraTree->selectionModel();
 
     connect(cameraSelection, SIGNAL(currentChanged(QModelIndex,QModelIndex)),
-            this, SLOT(cameraSelctionUpdate(QModelIndex,QModelIndex)));
+            this, SLOT(cameraSelectionUpdate(QModelIndex,QModelIndex)));
 
     currentCameraIndex = -1;
     currentKey = "";
@@ -139,7 +144,7 @@ void MainDebugWindow::updateGuiComponents(){
     clearLogObject();
 }
 
-void MainDebugWindow::cameraSelctionUpdate(QModelIndex current, QModelIndex previous)
+void MainDebugWindow::cameraSelectionUpdate(QModelIndex current, QModelIndex previous)
 {
     if (current.column() == 1){
         currentKey = current.data().toString().toStdString();
@@ -150,8 +155,9 @@ void MainDebugWindow::cameraSelctionUpdate(QModelIndex current, QModelIndex prev
 
 bool MainDebugWindow::readConfig(std::string filePath)
 {
+
     if(configFile.open(filePath, cv::FileStorage::READ)){
-        qDebug("reading");
+        qDebug("Reading guiConfig file");
         configFile["timerDelay"] >> timerDelay;
         configFile["isRunning"] >> isRunning;
         configFile["autoAdaptLog"] >> autoAdaptLog;
@@ -168,7 +174,7 @@ bool MainDebugWindow::readConfig(std::string filePath)
 }
 
 void MainDebugWindow::generateConfig(std::string filePath){
-    qDebug("Generating");
+    qDebug("Generating guiConfig file");
     configFile.open(filePath, cv::FileStorage::WRITE);
     configFile << "timerDelay" << 10;
     configFile << "isRunning" << false;
@@ -188,15 +194,16 @@ void MainDebugWindow::updateCameraSelector()
     // Init camera and frame selector treeView
     Frame& currentFrame = program->frames.getCurrent();
 
+    // Remove old tree
+    cameraItemModel->removeRows(0, cameraItemModel->rowCount());
+
     std::vector<CameraObject> cameras = currentFrame.getCameras();
     int nCameras = cameras.size();
-
     for (int i = 0; i < nCameras; i++){
         QStandardItem* item = new QStandardItem(QString::number(i));
         item->setSelectable(false);
 
         CameraObject c = cameras[i];
-        qDebug() << c.getImages().size();
         int rowCounter = 0;
         std::map<std::string,cv::Mat>::iterator stepImage = c.getImages().begin();
         for(; stepImage != c.getImages().end(); ++stepImage){
@@ -205,7 +212,6 @@ void MainDebugWindow::updateCameraSelector()
             item->setChild(rowCounter, 1, child);
             rowCounter++;
         }
-        cameraItemModel->removeRow(0);
         cameraItemModel->appendRow(item);
     }
     cameraTree->expandAll();
@@ -346,6 +352,8 @@ void MainDebugWindow::on_stepBackwardButton_clicked()
 void MainDebugWindow::on_popWindowButton_clicked()
 {
     popWindow(currentKey, currentCameraIndex);
+    presetStepName.push_back(currentKey);
+    presetCameraNumber.push_back(currentCameraIndex);
 }
 
 void MainDebugWindow::popWindow(std::string stepKey, int cameraIndex){
@@ -359,25 +367,37 @@ void MainDebugWindow::popWindow(std::string stepKey, int cameraIndex){
     connect(debugView, SIGNAL(aboutToClose(std::string)),
             this, SLOT(removeDebugViewWidget(std::string)));
 
-    //debugView->show();
-    debugViewGrid->addWidget(debugView);
-
     //Keep track of the debug views
     std::map<std::string, DebugViewWidget *>::iterator debugViewsIter;
     debugViewsIter = debugViews.find(debugView->getIdentifier());
     if (debugViewsIter != debugViews.end() ) {
-        debugViewsIter->second->close();
-        debugViews[debugView->getIdentifier()] = debugView;
+        // If the widget allready exists, do nothing
+        //debugViewsIter->second->close();
+        //debugViews[debugView->getIdentifier()] = debugView;
     } else {
+        debugViewGrid->addWidget(debugView);
         debugViews[debugView->getIdentifier()] = debugView;
     }
 
     //emit updateDebugViews(program.frames.getCurrent());
 }
 
+void MainDebugWindow::restart()
+{
+    delete program;
+    debugging::logObject.reset();
+
+    logItemModel->removeRows(0, logItemModel->rowCount());
+
+    program = new DenseKitchen;
+    program->initialize(mainConfigPath);
+    if(program->singleIteration()){
+        updateGuiComponents();
+    }
+}
+
 void MainDebugWindow::keyPressEvent(QKeyEvent * e)
 {
-    qDebug() << e->text();
     switch(e->key()){
     case Qt::Key_Return:
         if(isRunning){
@@ -387,18 +407,7 @@ void MainDebugWindow::keyPressEvent(QKeyEvent * e)
         }
         break;
     case Qt::Key_F5:
-        //program.reset();
-        //program.initialize(mainConfigPath);
-        delete program;
-        debugging::logObject.reset();
-
-        logItemModel->removeRows(0, logItemModel->rowCount());
-
-        program = new DenseKitchen;
-        program->initialize(mainConfigPath);
-        if(program->singleIteration()){
-            updateGuiComponents();
-        }
+        restart();
         break;
     case Qt::Key_Escape:
         qDebug() << "Escaping";
@@ -418,6 +427,7 @@ void MainDebugWindow::closeEvent(QCloseEvent * event)
             delete debugView->second;
         }
     delete debugViewGrid;
+    delete configWindow;
     event->accept();
 }
 
@@ -442,4 +452,44 @@ void MainDebugWindow::on_expandDepthSpinBox_valueChanged(int arg1)
 {
     profilerExpandDepth = arg1;
     profilerTree->expandToDepth(profilerExpandDepth);
+}
+
+void MainDebugWindow::on_configureButton_clicked()
+{
+    configWindow->show();
+}
+
+void MainDebugWindow::on_actionClear_triggered()
+{
+    debugViewGrid->clearGrid();
+    debugViews.clear();
+}
+
+void MainDebugWindow::on_actionSave_grid_configuration_triggered()
+{
+    qDebug("Generating guiConfig file");
+    configFile.open(guiConfigPath, cv::FileStorage::WRITE);
+    configFile << "presetCameraNumber" << presetCameraNumber;
+    configFile << "presetStepName" << presetStepName;
+    configFile.release();
+}
+
+void MainDebugWindow::on_actionRun_triggered()
+{
+    isRunning = true;
+}
+
+void MainDebugWindow::on_actionPause_triggered()
+{
+    isRunning = false;
+}
+
+void MainDebugWindow::on_actionRestart_triggered()
+{
+    restart();
+}
+
+void MainDebugWindow::on_actionConfigure_triggered()
+{
+    configWindow->show();
 }

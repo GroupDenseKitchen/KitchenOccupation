@@ -1,8 +1,11 @@
 #ifndef NETWORK_MODULE_H
 #define NETWORK_MODULE_H
 
-#include "../utilities/utilities.hpp"
-#include "../utilities/Frame.hpp"
+
+
+#include "../Utilities/utilities.hpp"
+#include "../Utilities/Frame.hpp"
+#include "../Utilities/Timer.hpp"
 #include "../Configuration/ConfigurationManager.hpp"
 
 /*!
@@ -44,9 +47,11 @@ public:
 
 private:
     bool firstFrame;    // Is this the first frame?
-    bool isTesting;     // True if reading from file
+    bool runFromFile;     // True if reading from file
 
     int nCameras;       // Number of cameras
+
+    Timer timer;
 
     Frame nextFrame;
 

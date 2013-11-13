@@ -19,15 +19,16 @@ namespace image_processing
 
     void QueDetector::process(FrameList &frames)
     {
-        for (CameraObject camera: frames.getCurrent().getCameras()) {
+        for (CameraObject & camera: frames.getCurrent().getCameras()) {
             std::vector<Object> objects = camera.getObjects();
+            if(!camera.hasImage("rawImage"))
+            {
+                LOG("ImageProcessing Error", "Image \"rawImage\" not set in current frame!");
+                return;
+            }
+            cv::Mat debugImage = camera.getImage("rawImage").clone();
             if( objects.size() > 1) {
-                if(!camera.hasImage("rawImage"))
-                {
-                    LOG("ImageProcessing Error", "Image \"rawImage\" not set in current frame!");
-                    return;
-                }
-                cv::Mat debugImage = camera.getImage("rawImage").clone();
+
 
                 //TODO:make sure center of mass and velocity is calculated somewhere else
                 //Simulate center of mass and velocity
@@ -43,16 +44,11 @@ namespace image_processing
                 std::vector<Que> ques;
                 detectQues( objects, ques );
 
-                for (Que que: ques) {
+                for (Que & que: ques) {
                     drawQue( debugImage,que );
                 }
-                camera.addImage("Splines",debugImage);
-
-                cv::namedWindow("Spline debug window");
-                cv::imshow("Spline debug window",debugImage);
             }
-
-
+            camera.addImage("Splines",debugImage);
         }
 
         /*

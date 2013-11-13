@@ -17,7 +17,7 @@ public:
     /*!
        \brief   Constructor.
     */
-    FrameList(int framesToKeep = -1);
+    FrameList(int framesToKeep = 10);
 
     /*!
        \brief   Destructor.
@@ -48,8 +48,62 @@ public:
        \brief   Get the number of frames in history.
     */
     int size() { return frames.size(); }
+    /*!
+       \brief   Get the current frame counter.
+    */
+    int getFrameCount() { return frameCounter; }
+
+    /*!
+     * \brief getExclusionMask
+     */
+    cv::Mat getExclusionMask() const;
+
+    /*!
+     * \brief setExclusionMask
+     */
+    void setExclusionMask(const cv::Mat &value);
+
+    /*!
+     * \brief hasExclusionMask
+     */
+    bool hasExclusionMask();
+
+    /*!
+     * \brief getDoorMask
+     */
+    cv::Mat getDoorMask() const;
+
+    /*!
+     * \brief setDoorMask
+     */
+    void setDoorMask(const cv::Mat &value);
+
+    /*!
+     * \brief hasDoorMask
+     */
+    bool hasDoorMask();
+
+    /*!
+     * \brief getInclusionMask
+     */
+    cv::Mat getInclusionMask() const;
+
+    /*!
+     * \brief setInclusionMask
+     */
+    void setInclusionMask(const cv::Mat &value);
+
+    /*!
+     * \brief hasInclusionMask
+     */
+    bool hasInclusionMask();
+
 private:
     std::deque<Frame> frames;
+    cv::Mat doorMask, exclusionMask, inclusionMask;
+    bool initiatedDoorMask, initiatedExclusionMask;
+
+    double smoothFps; // FPS estimate
 
     unsigned int framesToKeep;
     unsigned int frameCounter;

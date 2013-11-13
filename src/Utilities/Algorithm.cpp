@@ -24,9 +24,10 @@ bool Algorithm::initialize(configuration::ConfigurationManager & settings) {
 bool Algorithm::populateSubAlgorithms(configuration::ConfigurationManager& settings,
                                       std::string algorithmName,
                                       AlgorithmFactory &algorithmFactory) {
+
     bool isSuccessful = true;
     if(settings.hasStringSeq(algorithmName)) {
-        std::vector<std::string> algorithmNames = settings.getStringSeq("ImageProcessor");
+        std::vector<std::string> algorithmNames = settings.getStringSeq(algorithmName);
         std::vector<std::string>::iterator algorithmName = algorithmNames.begin();
         for(; algorithmName != algorithmNames.end(); algorithmName++) {
             if(algorithmFactory.has(*algorithmName)) {

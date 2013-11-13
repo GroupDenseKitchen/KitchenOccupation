@@ -14,10 +14,13 @@
 #include "ImageProcessing/BackgroundModelMoG.hpp"
 #include "ImageProcessing/ForegroundRegionExtractorDefault.hpp"
 #include "ImageProcessing/TrackingBruteForce.hpp"
+#include "ImageProcessing/EntryExitCounter.hpp"
 #include "ImageProcessing/QueDetector.hpp"
 
 #include "Analytics/Analytics.hpp"
+#include "Analytics/FlowEstimator.hpp"
 #include "Analytics/Evaluation.hpp"
+
 
 /*!
  *  \brief     Main program class.
@@ -61,6 +64,7 @@ public:
 private:
 
     bool isInitialized;
+    bool isEvalInitialized;
 
     network::Network network;
     configuration::ConfigurationManager settings;
