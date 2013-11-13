@@ -4,7 +4,7 @@ isDebug: 0
 isTesting: 1
 nCameras: 1
 groundTruthPath: "/Users/Niko/Code/TSBB11/project/data/seq3/seq3GT.xml"
-videoFilePath: "/Users/Niko/Code/TSBB11/project/data/seq3/seq3.mp4"
+videoFilePath: "/Users/Niko/Dropbox/Liu/TSBB11/Dense Kitchen/seq8.mp4"
 evalPrecisionThreshold: 50
 TrackingMaximumDistance: 2500.0
 TrackingMinimumLifeSpan: 10
