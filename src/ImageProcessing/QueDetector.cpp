@@ -11,14 +11,51 @@ namespace image_processing
         isInitialized = true;
 
         CONFIG(settings, maxSplineSegmentLength, "maxSplineSegmentLength", 3);
-        CONFIG(settings, splineLengthThreshold, "splineLengthThreshold", 200); //This value is meaningless and needs to be determined in some way
+        CONFIG(settings, velocityScaleFactor, "velocityScaleFactor", 1)
+        CONFIG(settings, splineLengthThreshold, "splineLengthThreshold", DBL_MAX); //This value is meaningless and needs to be determined in some way
 
         return isInitialized;
     }
 
     void QueDetector::process(FrameList &frames)
     {
-        //TODO: FIX ME
+        for (CameraObject camera: frames.getCurrent().getCameras()) {
+            std::vector<Object> objects = camera.getObjects();
+            if( objects.size() > 1) {
+                if(!camera.hasImage("rawImage"))
+                {
+                    LOG("ImageProcessing Error", "Image \"rawImage\" not set in current frame!");
+                    return;
+                }
+                cv::Mat debugImage = camera.getImage("rawImage").clone();
+
+                //TODO:make sure center of mass and velocity is calculated somewhere else
+                //Simulate center of mass and velocity
+                int width = debugImage.cols;
+                int height = debugImage.rows;
+                unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+                std::default_random_engine generator (seed);
+                std::uniform_int_distribution<int> vDist(-100,100);
+                for (Object & obj: objects) {
+                    obj.centerOfMass = obj.center;
+                    obj.velocity = cv::Point2d(vDist(generator), vDist(generator));
+                }
+                std::vector<Que> ques;
+                detectQues( objects, ques );
+
+                for (Que que: ques) {
+                    drawQue( debugImage,que );
+                }
+                camera.addImage("Splines",debugImage);
+
+                cv::namedWindow("Spline debug window");
+                cv::imshow("Spline debug window",debugImage);
+            }
+
+
+        }
+
+        /*
         std::vector<CameraObject> cameras = frames.getCurrent().getCameras();
 
         if(!cameras[0].hasImage("rawImage"))
@@ -26,29 +63,41 @@ namespace image_processing
             LOG("ImageProcessing Error", "Image \"rawImage\" not set in current frame!");
             return;
         }
+        cv::Mat debugImage = cameras[0].getImage("rawImage").clone();
 
-        //TODO: remove this stupid stuff
-        //Dumb initializations
-        Que dumbQue;
+        //TODO: remove this test code and get objects from cameras instead
         std::vector<Object> objects;
-        Object obj1,obj2,obj3;
-        obj1 = Object(); obj1.id =1; obj1.centerOfMass = cv::Point2d(0,0); obj1.velocity = cv::Point2d(10,30); objects.push_back(obj1);
-        obj2 = Object(); obj2.id =2; obj2.centerOfMass = cv::Point2d(100,50); obj2.velocity = cv::Point2d(80,10); objects.push_back(obj2);
-        obj3 = Object(); obj2.id =3; obj3.centerOfMass = cv::Point2d(300,300); obj3.velocity = cv::Point2d(70,90); objects.push_back(obj3);
+        {
+        int numTestObjects = 10;
+        int width = debugImage.cols;
+        int height = debugImage.rows;
+        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+        std::default_random_engine generator (seed);
+        std::uniform_int_distribution<int> xDist(0,width -1);
+        std::uniform_int_distribution<int> yDist(0,height -1);
+        std::uniform_int_distribution<int> vDist(-100,100);
 
-        splineFromObjects(objects, dumbQue.splineStrips, maxSplineSegmentLength );
-        dumbQue.queObjects.insert( {obj1.id,obj1} );
-        dumbQue.queObjects.insert( {obj2.id,obj2} );
-        dumbQue.queObjects.insert( {obj3.id,obj3} );
 
+        for (int i = 0; i < numTestObjects; ++i) {
+            Object obj;
+            obj.id = i;
+            obj.centerOfMass = cv::Point2d(xDist(generator),yDist(generator));
+            obj.velocity = cv::Point2d(vDist(generator), vDist(generator));
+            objects.push_back(obj);
+        }
+        }
 
-        cv::Mat image = cameras[0].getImage("rawImage").clone();
-        drawQue(image,dumbQue);
-        cameras[0].addImage("Splines",image);
+        std::vector<Que> ques;
+        detectQues( objects, ques );
+
+        for (Que que: ques) {
+            drawQue( debugImage,que );
+        }
+        cameras[0].addImage("Splines",debugImage);
 
         //TODO:Figure out why addImage("Splines",image); doesn't work and replave viewing below
         cv::namedWindow("Spline debug window");
-        cv::imshow("Spline debug window",image);
+        cv::imshow("Spline debug window",debugImage);*/
 
     }
 
@@ -57,11 +106,11 @@ namespace image_processing
         spline.clear();
 
         Object previousObject;
-        for(Object nextObject: objects) {
-            if ( nextObject.id != begin(objects)->id ) { //TODO: Fix this
+        for(Object & nextObject: objects) {
+            if ( nextObject.id != begin(objects)->id ) {
                 SplineStrip strip(previousObject.centerOfMass,
-                                  previousObject.centerOfMass + 3*previousObject.velocity,
-                                  nextObject.centerOfMass - 3*nextObject.velocity,
+                                  previousObject.centerOfMass + 3*velocityScaleFactor*previousObject.velocity,
+                                  nextObject.centerOfMass - 3*velocityScaleFactor*nextObject.velocity,
                                   nextObject.centerOfMass);
                 subdivideSpline(strip, spline, maxSegmentLength);
             }
@@ -144,11 +193,11 @@ namespace image_processing
     {
         //Find good pairs of objects in que (closest close-enough destination for each object)
         std::vector<DirectedQueEdge> edges;
-        for (Object obj: objects) {
+        for (Object & obj: objects) {
             std::vector<Object> feasibleDestinations;
             extractFeasibleDestinations( obj, objects, feasibleDestinations );
 
-            DirectedQueEdge queEdge( obj );
+            DirectedQueEdge queEdge( obj ); //Initialize to point to itself
             findBestDestination( obj, feasibleDestinations, queEdge );
             if ( obj.id != queEdge.to.id ) { //Good destination found
                 edges.push_back( queEdge );
@@ -164,7 +213,7 @@ namespace image_processing
                                                   std::vector<Object> &destObjects)
     {
         destObjects.clear();
-        for (Object obj: allObjects) {
+        for (Object & obj: allObjects) {
             if ( obj.id != fromObject.id ) {
                 destObjects.push_back( obj ); //TODO: Use better filtering for feasible destinations.
             }
@@ -173,7 +222,7 @@ namespace image_processing
 
     void QueDetector::findBestDestination(Object &fromObject, std::vector<Object> &destObjects, DirectedQueEdge &destEdge)
     {
-        for (Object destObj: destObjects) {
+        for (Object & destObj: destObjects) {
             std::vector<SplineStrip> tmpSpline;
             std::vector<Object> tmpPair( {fromObject, destObj} );
             splineFromObjects(tmpPair, tmpSpline, maxSplineSegmentLength ); //TODO: Use different constant
@@ -188,22 +237,27 @@ namespace image_processing
 
     void QueDetector::quesFromEdges(std::vector<DirectedQueEdge> &queEdges, std::vector<Que> &ques)
     {
-        //TODO: Do something smarter (make sure each que is disjoint from all other ques)
+        //TODO: Do something smarter than (make sure each que is disjoint from all other ques)
+        //Right now all edges/objects in que are put into one single que
+        //Also, remove loops
         ques.clear();
         Que theQue;
-        for (DirectedQueEdge queEdge: queEdges) {
-            for (SplineStrip strip: queEdge.spline) {
+        for (DirectedQueEdge & queEdge: queEdges) {
+            for (SplineStrip & strip: queEdge.spline) {
                 theQue.splineStrips.push_back( strip );
             }
-
             theQue.queEdges.push_back(queEdge);
-            if ( theQue.queObjects.find(queEdge.from.id) != theQue.queObjects.end() ) {
+
+            //Insert any objects into the que if they are either a source or destination
+            //of a que edge.
+            if ( theQue.queObjects.find(queEdge.from.id) == theQue.queObjects.end() ) {
                 theQue.queObjects.insert( {queEdge.from.id, queEdge.from} );
             }
-            if ( theQue.queObjects.find(queEdge.to.id) != theQue.queObjects.end() ) {
+            if ( theQue.queObjects.find(queEdge.to.id) == theQue.queObjects.end() ) {
                 theQue.queObjects.insert( {queEdge.to.id, queEdge.to} );
             }
         }
+        ques.push_back( theQue );
     }
 
 }

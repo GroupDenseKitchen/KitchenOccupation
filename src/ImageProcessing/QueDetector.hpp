@@ -24,9 +24,9 @@ public:
     bool initialize( configuration::ConfigurationManager &settings ) override;
 
 private:
-    double drawStepSize;
     double maxSplineSegmentLength;
     double splineLengthThreshold;
+    double velocityScaleFactor;
 
     void drawQue( cv::Mat & dstImage, const Que & que );
     void splineFromObjects( std::vector<Object> & objects , std::vector<SplineStrip>& spline, double maxSegmentLength );
