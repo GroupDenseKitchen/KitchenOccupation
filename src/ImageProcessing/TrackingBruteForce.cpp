@@ -14,6 +14,7 @@ namespace image_processing
         CONFIG(settings, maximumDistance, "TrackingMaximumDistance", 4000);
         CONFIG(settings, minimumLifeSpan, "TrackingMinimumLifeSpan", 10);   //Currently # Frames, should be in ms...
         CONFIG(settings, maximumTimeLost, "TrackingMaximumTimeLost", 10);   //Currently # Frames, should be in ms...
+        CONFIG(settings, maximumTimeLostStill, "TrackingMaximumTimeLostStill", 300);
 
         return isInitialized;
     }
@@ -144,7 +145,7 @@ namespace image_processing
             }
             int height = image.size().height;
             int width = image.size().width;
-            if(!isInsideRemovalArea(object,mask,height,width) && object.lifeSpan < 300) { // check is if lost for too long (1000 frames) ...
+            if(!isInsideRemovalArea(object,mask,height,width) && object.lifeSpan < maximumTimeLostStill) { // check is if lost for too long (1000 frames) ...
                 destination.push_back(object);
             }
             else if(object.lifeSpan >= 1){

@@ -48,6 +48,7 @@ private:
     double maximumDistance; // Euclidian distance squared, in pixels
     int minimumLifeSpan;    // # Frames
     int maximumTimeLost;    // # Frames
+    int maximumTimeLostStill;
 
     /*
     void transferLongLivedObjects(std::vector<Object> & potentialObjects, std::vector<Object> & objects);
