@@ -17,8 +17,7 @@ Analytics:
 cameraPaths:
    - "http://root:pass@169.254.192.68/axis-cgi/mjpg/video.cgi?resolution=640x480&.mjpg"
 videoFilePaths:
-   - "../data/seq3/seq3.mp4"
-   - "../data/seq7/seq7.mp4"
+   - "/Users/erikfall/Desktop/seq8.mp4"
 trackerGroundTruthPaths:
-   - "../data/seq3/seq3GT.xml"
-   - "../data/seq7/seq7GT.xml"
+   - "/Users/erikfall/Desktop/KitchenOccupation//data/seq3/seq3GT.xml"
+

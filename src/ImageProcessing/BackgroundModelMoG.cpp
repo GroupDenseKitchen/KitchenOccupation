@@ -18,18 +18,18 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
     //
     //               |VARIABLE          |NAME                  |DEFAULT
     //---------------------------------------------------------------
-    CONFIG(settings, nmixtures,         "nmixtures",            8);
-    CONFIG(settings, backgroundRatio,   "backgroundRatio",      0.9);
-    CONFIG(settings, varThresholdGen,   "varThresholdGen",      15);
+    CONFIG(settings, nmixtures,         "nmixtures",            5);
+    CONFIG(settings, backgroundRatio,   "backgroundRatio",      0.95);
+    CONFIG(settings, varThresholdGen,   "varThresholdGen",      16);
     CONFIG(settings, varThreshold,      "varThreshold",          16);
     CONFIG(settings, fVarInit,          "fVarInit",             15);
     CONFIG(settings, fCT,               "fCT",                  0.05);
     CONFIG(settings, isShadowDetection, "isShadowDetection",    true);
-    CONFIG(settings, erotions,          "erotions",             1);
-    CONFIG(settings, dilations,         "dilations",            1);
+    CONFIG(settings, erotions,          "erotions",             3);
+    CONFIG(settings, dilations,         "dilations",            3);
     CONFIG(settings, history,           "history",              500);
-    CONFIG(settings, learningRate,      "learningRate",         0.0015);
-    CONFIG(settings, downSamplingFactor,"downSamplingFactor",   4.0);
+    CONFIG(settings, learningRate,      "learningRate",         0.0005);
+    CONFIG(settings, downSamplingFactor,"downSamplingFactor",   3.0);
     REQUIRE(settings, cameraAmount,     "nCameras");
 
     if(isInitialized)

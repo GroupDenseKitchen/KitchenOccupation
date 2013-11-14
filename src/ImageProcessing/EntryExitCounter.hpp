@@ -36,8 +36,25 @@ public:
     */
      bool initialize(configuration::ConfigurationManager &conf) override;
 
+     /*!
+        \brief   Checks if point is inside a polygon.
+     */
+
+     /*!
+        \brief   Checks if a 2D-point is inside a polygon.
+     */
+     static bool isInsidePolygon(cv::Mat mask, cv::Point2d point){
+         if(point.x >= 0 && point.y >= 0){
+             if(mask.at<cv::Vec3b>(point)[0] == 255){
+                 return true;
+             }
+         }
+
+         return false;
+     }
+
 private:
-    bool isInsidePolygon(cv::Mat mask, cv::Point2d point);
+
 };
 }
 #endif
