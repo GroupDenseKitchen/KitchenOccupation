@@ -50,13 +50,6 @@ private:
     int maximumTimeLost;    // # Frames
     int maximumTimeLostStill;
 
-    /*
-    void transferLongLivedObjects(std::vector<Object> & potentialObjects, std::vector<Object> & objects);
-    void mergeClosestPairs(std::vector<Object> & previousObjects, std::vector<Object> & currentObjects);
-    void populate(std::list<Object*> & candidates, std::vector<Object> & objects);
-    double mapClosestCandidatePair(std::list<Object*> & candidatePrev, std::list<Object*> & candidateCurr);
-    */
-
     void pairAndPopulate(std::list<Object> & candidatePrev, std::list<Object> & candidateCurr, std::vector<Object> & destination);
     void elevatePotentialObjects(std::vector<Object> & candidates, std::vector<Object> & destination, std::vector<Object> & newlyFoundObjects);
     void removeLostObjects(std::vector<Object> & objects,std::vector<Object> & transitionary_Objects);

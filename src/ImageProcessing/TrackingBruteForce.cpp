@@ -12,9 +12,9 @@ namespace image_processing
         isInitialized = true;
 
         CONFIG(settings, maximumDistance, "TrackingMaximumDistance", 4000);
-        CONFIG(settings, minimumLifeSpan, "TrackingMinimumLifeSpan", 10);   //Currently # Frames, should be in ms...
+        CONFIG(settings, minimumLifeSpan, "TrackingMinimumLifeSpan", 20);   //Currently # Frames, should be in ms...
         CONFIG(settings, maximumTimeLost, "TrackingMaximumTimeLost", 10);   //Currently # Frames, should be in ms...
-        CONFIG(settings, maximumTimeLostStill, "TrackingMaximumTimeLostStill", 300);
+        CONFIG(settings, maximumTimeLostStill, "TrackingMaximumTimeLostStill", 200);
 
         return isInitialized;
     }
