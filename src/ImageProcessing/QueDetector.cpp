@@ -23,7 +23,7 @@ namespace image_processing
             std::vector<Object> objects = camera.getObjects();
             if(!camera.hasImage("rawImage"))
             {
-                LOG("ImageProcessing Error", "Image \"rawImage\" not set in current frame!");
+                LOG("QueDetector Error", "Image \"rawImage\" not set in current frame!");
                 return;
             }
             cv::Mat debugImage = camera.getImage("rawImage").clone();

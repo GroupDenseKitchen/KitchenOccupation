@@ -17,6 +17,7 @@ bool DenseKitchen::initialize(std::string path) {
     algorithmFactory.add("Analytics",                        new statistics::Analytics());
     algorithmFactory.add("QueDetector",                      new image_processing::QueDetector());
     algorithmFactory.add("FlowEstimator",                   new statistics::FlowEstimator());
+    algorithmFactory.add("PersonDetection",                   new image_processing::PersonDetection());
 
 
     if(!settings.readConfig(path)) {

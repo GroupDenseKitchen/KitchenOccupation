@@ -8,11 +8,12 @@ TrackingMaximumDistance: 2500.0
 TrackingMinimumLifeSpan: 10
 TrackingMaximumTimeLost: 10
 ImageProcessor:
-   - BackgroundModelMoG
-   - ForegroundRegionExtractorDefault
-   - TrackingBruteForce
-   - EntryExitCounter
-   - QueDetector
+  # - BackgroundModelMoG
+  # - ForegroundRegionExtractorDefault
+  # - TrackingBruteForce
+  # - EntryExitCounter
+  # - QueDetector
+   - PersonDetection
 Analytics:
    - FlowEstimator
 cameraPaths:
