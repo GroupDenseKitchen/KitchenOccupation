@@ -1,5 +1,6 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/opencv.hpp>
+#include <opencv2/core/core.hpp>
 
 #include <vector>
 #include <iostream>
@@ -62,8 +63,27 @@ int main()
     if (videoFile.isOpened()) {
         // While we have frames left
         while (videoFile.read(frame)) {
-            cv::imshow("MahVidyaWindow",frame);
             int actualFrame = videoFile.get(CV_CAP_PROP_POS_FRAMES);
+
+            std::string text = "", text1 = "", text2 = "";
+            std::stringstream s, s1, s2;
+            s << actualFrame;
+            s1 << entryFrame;
+            s2 << exitFrame;
+            text = "Frame number: " + s.str();
+            text1 = "Entries: " + s1.str();
+            text2 = "Exits: " + s2.str();
+            cv::Point2d pos(10,25);
+            cv::Point2d pos1(10,45);
+            cv::Point2d pos2(10,65);
+            int fontFace = cv::FONT_HERSHEY_PLAIN;
+            double fontScale = 1;
+            int thickness = 1;
+            cv::putText(frame, text, pos, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
+            cv::putText(frame, text1, pos1, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
+            cv::putText(frame, text2, pos2, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
+
+            cv::imshow("MahVidyaWindow",frame);
 
             c = cv::waitKey(0); // Wait for any key to be pressed
 
@@ -72,13 +92,13 @@ int main()
                 entries.push_back(entryFrame);
                 exits.push_back(exitFrame);
 
-                std::cout << "Entry vector: ";
-                for(std::vector<int>::const_iterator i=entries.begin(); i!=entries.end(); ++i)
-                    std::cout << (*i) << " ";
-                std::cout << "\n" << "Exit vector: ";
-                for(std::vector<int>::const_iterator i=exits.begin(); i!=exits.end(); ++i)
-                    std::cout << (*i) << " ";
-                std::cout << "\n";
+                //std::cout << "Entry vector: ";
+                //for(std::vector<int>::const_iterator i=entries.begin(); i!=entries.end(); ++i)
+                //    std::cout << (*i) << " ";
+                //std::cout << "\n" << "Exit vector: ";
+                //for(std::vector<int>::const_iterator i=exits.begin(); i!=exits.end(); ++i)
+                //    std::cout << (*i) << " ";
+                //std::cout << "\n";
                 break;
             }
             // To back one step, using z
@@ -109,6 +129,7 @@ int main()
             // To ignore all other keys
             else
                 actualFrame = videoFile.set(CV_CAP_PROP_POS_FRAMES, actualFrame-1);
+
         }
         // Save vectors to file
         cv::FileStorage textFile("groundTruth.yml",cv::FileStorage::WRITE);
