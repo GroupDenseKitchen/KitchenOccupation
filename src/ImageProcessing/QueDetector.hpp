@@ -7,6 +7,8 @@
 #include "../Utilities/Que.hpp"
 #include "../Utilities/CameraObject.hpp"
 
+#include <chrono>
+
 /*!
  *  \brief   Image processing contains functionality for the different
  *           states of image processing required for human detection and tracking.
