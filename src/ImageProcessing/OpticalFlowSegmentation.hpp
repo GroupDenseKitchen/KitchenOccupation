@@ -30,7 +30,8 @@ private:
     std::vector<FlowVector> lastFlowVectors;
     std::vector<cv::Point2f> lastTrackedPoints;
 
-    std::vector<cv::Point2f> initialTrackCoordinates;
+    std::vector<cv::Point2f> keyframeCoordinates;
+    cv::Mat imageToDrawOn;
 };
 }
 #endif // OPTIALFLOWSEGMENTATION_HPP

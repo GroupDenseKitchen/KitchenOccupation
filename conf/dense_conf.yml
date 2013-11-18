@@ -14,4 +14,4 @@ Analytics:
 cameraPaths:
    - "http://root:pass@169.254.192.68/axis-cgi/mjpg/video.cgi?resolution=640x480&.mjpg"
 videoFilePaths:
-   - "/Users/gustavhager/Desktop/TSBB11/project/data/seq8/seq8.mp4"
+   - "/Users/gustavhager/Desktop/TSBB11/project/data/seq9/seq9.mov"
