@@ -8,17 +8,10 @@ TrackingMaximumDistance: 2500.0
 TrackingMinimumLifeSpan: 10
 TrackingMaximumTimeLost: 10
 ImageProcessor:
-   - BackgroundModelMoG
-   - ForegroundRegionExtractorDefault
-   - TrackingBruteForce
-   - EntryExitCounter
+   - OpticalFlowSegmentation
 Analytics:
    - FlowEstimator
 cameraPaths:
    - "http://root:pass@169.254.192.68/axis-cgi/mjpg/video.cgi?resolution=640x480&.mjpg"
 videoFilePaths:
-   - "../data/seq3/seq3.mp4"
-   - "../data/seq7/seq7.mp4"
-trackerGroundTruthPaths:
-   - "../data/seq3/seq3GT.xml"
-   - "../data/seq7/seq7GT.xml"
+   - "/Users/gustavhager/Desktop/TSBB11/project/data/seq8/seq8.mp4"

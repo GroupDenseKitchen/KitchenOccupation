@@ -103,6 +103,7 @@ Frame* Network::dequeFrame()
             {
                 cam.setRoomID(std::to_string(i));
                 cam.addImage("rawImage", rawImage);
+                cam.addImage("reallyRawImage",rawImage);
                 frame->addCamera(cam);
                 frame->setMomentaryFps(streams[i].get(CV_CAP_PROP_FPS));
             } else {
@@ -123,6 +124,7 @@ Frame* Network::dequeFrame()
             if(success) {
                 cam.setRoomID(std::to_string(i));
                 cam.addImage("rawImage", rawImage);
+                cam.addImage("reallyRawImage", rawImage);
                 frame->addCamera(cam);
                 if (firstFrame) {
                     frame->setMomentaryFps(0);
