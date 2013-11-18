@@ -16,6 +16,7 @@ bool DenseKitchen::initialize(std::string path) {
     algorithmFactory.add("EntryExitCounter",                 new image_processing::EntryExitCounter());
     algorithmFactory.add("Analytics",                        new statistics::Analytics());
     algorithmFactory.add("FlowEstimator",                   new statistics::FlowEstimator());
+    algorithmFactory.add("EntryExitEvaluation",              new evaluation::EntryExitEvaluation());
 
     if(!settings.readConfig(path)) {
         LOG("DenseKitchen initialization error", "settings file read error! path: \"" << path << "\"");

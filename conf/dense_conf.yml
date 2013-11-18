@@ -5,7 +5,7 @@ runFromFile: 1
 nCameras: 1
 evalPrecisionThreshold: 50
 TrackingMaximumDistance: 2500.0
-TrackingMinimumLifeSpan: 10
+TrackingMinimzumLifeSpan: 10
 TrackingMaximumTimeLost: 10
 ImageProcessor:
    - BackgroundModelMoG
@@ -22,3 +22,6 @@ videoFilePaths:
 trackerGroundTruthPaths:
    - "../data/seq3/seq3GT.xml"
    - "../data/seq7/seq7GT.xml"
+entryExitGroundTruthPaths:
+	- "../data/seq3/seq3GT.yml"
+	- "../data/seq7/seq7GT.yml"
