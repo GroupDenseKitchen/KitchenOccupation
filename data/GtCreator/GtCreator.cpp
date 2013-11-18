@@ -11,7 +11,7 @@ void createConfigFile(std::string cfgFile)
     cv::FileStorage textFile(cfgFile,cv::FileStorage::WRITE);
     // Add data to file
     textFile << "myString" << "Hello OpenCV text file handle";
-    textFile << "myVideoFilePath" << "../seq3/seq3.mp4";
+    textFile << "myVideoFilePath" << "../seq7/seq7.mp4";
     textFile << "myImageFilePath" << "image.png";
     //std::vector<int> integers;
     //integers.push_back(0);
@@ -132,7 +132,7 @@ int main()
 
         }
         // Save vectors to file
-        cv::FileStorage textFile("groundTruth.yml",cv::FileStorage::WRITE);
+        cv::FileStorage textFile("../seq7/seq7EntryExitGT.yml",cv::FileStorage::WRITE);
         textFile << "Entries" << entries;
         textFile << "Exits" << exits;
         textFile.release();
