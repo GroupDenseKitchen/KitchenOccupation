@@ -25,6 +25,9 @@ public:
 private:
     void getOpticalFlow(cv::Mat current, cv::Mat prev);
     void paintFlowVectors(cv::Mat image, std::vector<FlowVector> flowVectors);
+    void computeOpticalFlow(Frame current, Frame previous);
+    void removeOutliers(std::vector<FlowVector> FlowVectors);
+
     cv::FeatureDetector* detector;
 
     std::vector<FlowVector> lastFlowVectors;
@@ -32,6 +35,9 @@ private:
 
     std::vector<cv::Point2f> keyframeCoordinates;
     cv::Mat imageToDrawOn;
+
+    int maxPointsToTrack;
+    int minPointsToTrack;
 };
 }
 #endif // OPTIALFLOWSEGMENTATION_HPP

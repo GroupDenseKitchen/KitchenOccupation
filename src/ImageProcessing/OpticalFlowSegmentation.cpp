@@ -13,66 +13,33 @@ OpticalFlowSegmentation::~OpticalFlowSegmentation()
 
 void OpticalFlowSegmentation::process(FrameList &frames)
 {
-
-    static int counter = 0;
-    static cv::Mat lastFrame;
-    int numFrames = 3;
-
     if(frames.hasPrevious()){
-
         Frame current = frames.getCurrent();
         Frame previous = frames.getPrevious();
-
-        for(unsigned int i=0; i < current.getCameras().size(); ++i){
-
-            if(counter <= numFrames){
-                lastFrame = frames.getPrevious().getCameras()[i].getImage("reallyRawImage").clone();
-                imageToDrawOn = lastFrame.clone();
-            }
-
-            if(counter % numFrames == 0){
-
-            CameraObject* currentCamera = &current.getCameras()[i];
-
-            //lastFrame = frames.getPrevious().getCameras()[i].getImage("reallyRawImage");
-            //CameraObject* previousCamera = &previous.getCameras()[i];
-
-            cv::Mat currentImage; //grayscale image
-            cv::Mat prevImage;
-
-            cv::cvtColor(currentCamera->getImage("reallyRawImage"), currentImage, CV_BGR2GRAY);
-            cv::cvtColor(lastFrame, prevImage, CV_BGR2GRAY);
-
-
-            getOpticalFlow(currentImage,prevImage);
-            cv::Mat flowVectorImage = currentCamera->getImage("reallyRawImage").clone();
-            //paintFlowVectors(flowVectorImage,lastFlowVectors);
-
-            //currentCamera->addImage("flowVectors",flowVectorImage);
-            lastFrame = frames.getCurrent().getCameras()[i].getImage("reallyRawImage").clone();
-            imageToDrawOn = lastFrame.clone();
-        }
-        }
+        computeOpticalFlow(current,previous);
     }
-
-    counter = counter + 1;
 }
 
-bool OpticalFlowSegmentation::initialize(configuration::ConfigurationManager &settings)
-{
-    int nFeatures = 3000;
-    float scaleFactor = 1.2;
-    int nLevels = 2; //default 8
-    int edgeThreshold = 31;
-    int firstLevel = 0;
+bool OpticalFlowSegmentation::initialize(configuration::ConfigurationManager &settings){
 
-    detector = new cv::ORB(nFeatures,scaleFactor,nLevels,edgeThreshold,firstLevel);
+    maxPointsToTrack = 3000;
+    minPointsToTrack = 500;
+
+    int nFeatures = maxPointsToTrack;
+    float scaleFactor = 1.2;
+    int nLevels = 1; //default 8
+    int edgeThreshold = 121;
+    int firstLevel = 0;
+    int WTA_K = 2;
+    int scoreType =cv::ORB::HARRIS_SCORE;
+    int patchSize = 121;
+
+    detector = new cv::ORB(nFeatures,scaleFactor,nLevels,edgeThreshold,firstLevel,WTA_K,scoreType,patchSize);
     isInitialized = true;
     return isInitialized;
 }
 
 void OpticalFlowSegmentation::paintFlowVectors(cv::Mat image, std::vector<FlowVector> flowVectors){
-
 
     qDebug() << "got: " << flowVectors.size();
     for(FlowVector& fl : flowVectors){
@@ -83,12 +50,58 @@ void OpticalFlowSegmentation::paintFlowVectors(cv::Mat image, std::vector<FlowVe
     cv:imshow("w1n",image);
 }
 
+
+
+void OpticalFlowSegmentation::computeOpticalFlow(Frame current, Frame previous){
+
+    int numFrames = 3;
+    static int counter = -1;
+    static cv::Mat lastImage;
+
+    for(unsigned int i=0; i < current.getCameras().size(); ++i){
+
+            if(counter == -1){
+                lastImage = previous.getCameras()[i].getImage("reallyRawImage").clone();
+                imageToDrawOn = lastImage.clone();
+            }
+
+            if(counter == numFrames){
+
+                CameraObject* currentCamera = &current.getCameras()[i];
+
+                cv::Mat currentImage; //grayscale image
+                cv::Mat prevImage;
+
+                cv::cvtColor(currentCamera->getImage("reallyRawImage"), currentImage, CV_BGR2GRAY);
+                cv::cvtColor(lastImage, prevImage, CV_BGR2GRAY);
+
+                imageToDrawOn = lastImage.clone();
+
+                getOpticalFlow(currentImage,prevImage);
+
+                cv::Mat flowVectorImage = currentCamera->getImage("reallyRawImage").clone();
+                lastImage = current.getCameras()[i].getImage("reallyRawImage").clone();
+
+
+                counter = 0;
+        }
+    }
+    counter = counter + 1;
+}
+
+void OpticalFlowSegmentation::removeOutliers(std::vector<FlowVector> FlowVectors){
+    for(FlowVector& fv: FlowVectors){
+        printf("%d %d \n",fv.pos.x,fv.pos.y);
+    }
+    exit(0);
+}
+
 void OpticalFlowSegmentation::getOpticalFlow(cv::Mat current, cv::Mat prev){
 
     std::vector<cv::Point2f> trackedPoints = std::vector<cv::Point2f>();
     std::vector<FlowVector> flowVectors = std::vector<FlowVector>();
 
-    if(lastTrackedPoints.size() < 3000){
+    if(lastTrackedPoints.size() < minPointsToTrack){
         std::vector<cv::KeyPoint> currentKeyPoints = std::vector<cv::KeyPoint>();
         detector->detect(prev,currentKeyPoints);
         trackedPoints = std::vector<cv::Point2f>(currentKeyPoints.size());
@@ -101,7 +114,7 @@ void OpticalFlowSegmentation::getOpticalFlow(cv::Mat current, cv::Mat prev){
             trackedPoints[i] = currentKeyPoints[i].pt;
             keyframeCoordinates[i] = currentKeyPoints[i].pt;
         }
-        qDebug() << "found " << trackedPoints.size() << " new points";
+        LOG("OpticalFLowSegmentation","ran detector");
     }else{
         trackedPoints = lastTrackedPoints;
     }
@@ -122,8 +135,6 @@ void OpticalFlowSegmentation::getOpticalFlow(cv::Mat current, cv::Mat prev){
     //only remember the points we managed to track
     lastTrackedPoints.clear();
 
-
-
     for(int i=0; i < status.size(); ++i){
         if(status[i] == 1){
             lastTrackedPoints.push_back(nextPoints[i]);
@@ -133,21 +144,6 @@ void OpticalFlowSegmentation::getOpticalFlow(cv::Mat current, cv::Mat prev){
             flowVectors.push_back(fl);
             cv::Point2f diff = nextPoints[i] - trackedPoints[i];
             if(diff.dot(diff) > 2 && diff.dot(diff) < 5000){
-                /*
-                cv::Point2f xAxis = cv::Point2f(1,0);
-                cv::Point2f nDiff;
-                nDiff.x = diff.x / sqrt(diff.dot(diff));
-                nDiff.y = diff.y / sqrt(diff.dot(diff));
-
-                float a = acos(nDiff.dot(xAxis));
-                float r = a * 255 / (3.1415) ;
-                float g = 255 - a*255/3.1415 ;
-                int rr = (int)ceil(r);
-                int gg = (int)ceil(g);
-                printf("a is %f",a);
-                printf("rr is: %d, gg is %d \n",rr,gg);
-                */
-
                 cv::line(imageToDrawOn,trackedPoints[i],nextPoints[i],cv::Scalar(64,181,34),1);
             }
         }else{
