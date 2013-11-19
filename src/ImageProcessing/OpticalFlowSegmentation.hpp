@@ -14,6 +14,12 @@ struct FlowVector{
     cv::Point2f flow;
 };
 
+struct FlowBlock{
+    std::vector<FlowVector> flowVectors;
+    int x,y;
+    int width, height;
+};
+
 class OpticalFlowSegmentation : public Algorithm
 {
 public:
@@ -26,7 +32,9 @@ private:
     void getOpticalFlow(cv::Mat current, cv::Mat prev);
     void paintFlowVectors(cv::Mat image, std::vector<FlowVector> flowVectors);
     void computeOpticalFlow(Frame current, Frame previous);
-    void removeOutliers(std::vector<FlowVector> FlowVectors);
+    std::vector<FlowVector> filterSmallest(std::vector<FlowVector> flowVectors);
+    std::vector<FlowVector> averageFlow(std::vector<FlowVector> flowVectors, cv::Size imageSize);
+    float arcCosToXaxis(cv::Point2f _vector);
 
     cv::FeatureDetector* detector;
 
