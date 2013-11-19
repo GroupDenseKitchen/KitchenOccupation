@@ -28,6 +28,7 @@ public:
 private:
     void calculateGradientMagnitude(cv::Mat & grayImg, cv::Mat & gradientMag);
     void calculatePointMatches();
+    void makeCircleFilters(std::vector<cv::Mat> & filters, int numCircles);
 
     cv::Ptr<cv::FeatureDetector> detector;
     cv::Ptr<cv::DescriptorExtractor> descriptorExtractor;
@@ -36,7 +37,7 @@ private:
     int lowThreshold = 100;
     int highThreshold = 200;
     int minDist = 100;
-    int kernelSize = 4;
+    int kernelSize = 3;
 
 
     std::string detectorType;

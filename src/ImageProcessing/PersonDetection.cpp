@@ -28,7 +28,7 @@ namespace image_processing
         cv::createTrackbar("Min dist", "Circles", &minDist,400, [](int,void*){});
         cv::createTrackbar("Low thresh", "Circles", &lowThreshold,400, [](int,void*){});
         cv::createTrackbar("High thresh", "Circles", &highThreshold,400, [](int,void*){});
-        cv::createTrackbar("Kernel size", "Circles", &kernelSize,12, [](int,void*){});
+       // cv::createTrackbar("Kernel size", "Circles", &kernelSize,12, [](int,void*){});
 
         if( detector.empty() || descriptorExtractor.empty() || descriptorMatcher.empty()  )
             {
@@ -40,6 +40,10 @@ namespace image_processing
 
     void PersonDetection::process(FrameList &frames)
     {
+        std::vector<cv::Mat> filters;
+        makeCircleFilters( filters,1 );
+
+
         for (CameraObject & camera: frames.getCurrent().getCameras()) {
             if(!camera.hasImage("rawImage"))
             {
@@ -49,17 +53,44 @@ namespace image_processing
 
             cv::Mat gray;
             cvtColor( camera.getImage("rawImage").clone(), gray, CV_RGB2GRAY);
+
+
+            //Create foreground mask from object rectangles
+            std::vector<Object> objects = camera.getObjects();
+            cv::Mat mask = cv::Mat::zeros( gray.rows, gray.cols, CV_8U );
+            for (Object & object: objects) {
+                mask( object.boundingBox ) = 1;
+            }
+
+            cv::Mat croppedGray;
+            gray.copyTo( croppedGray,  mask );
+
             cv::Mat raw = camera.getImage("rawImage");
 
             // Reduce noise with a kernel 3x3
-            cv::blur( gray, gray, cv::Size(kernelSize, kernelSize) );
+            cv::blur( croppedGray, croppedGray, cv::Size(kernelSize, kernelSize) );
 
             // Canny detector
-            cv::Mat canny;
-            cv::Canny( gray, canny, lowThreshold, highThreshold, kernelSize );
+            cv::Mat canny, cannyGray;
+            cv::Mat red, green, blue;
+            std::vector<cv::Mat> channels = {blue, green, red};
+            cv::split( raw , channels);
+
+            cv::blur( channels[2],red, cv::Size(kernelSize, kernelSize) );
+            cv::blur( channels[1],green, cv::Size(kernelSize, kernelSize) );
+            cv::blur( channels[0],blue, cv::Size(kernelSize, kernelSize) );
+            cv::Mat cannyRed, cannyBlue, cannyGreen;
+            cv::Canny( red, cannyRed, lowThreshold, highThreshold, kernelSize );
+            cv::Canny( green, cannyBlue, lowThreshold, highThreshold, kernelSize );
+            cv::Canny( blue, cannyGreen, lowThreshold, highThreshold, kernelSize );
+            canny = cv::max (cannyRed, cv::max(cannyGreen, cannyBlue) );
+
+            cv::blur( gray, gray, cv::Size(kernelSize, kernelSize) );
+            cv::Canny( gray, cannyGray, lowThreshold, highThreshold, kernelSize );
+            /*
 
             std::vector<cv::Vec3f> circles;
-            cv::HoughCircles( gray, circles, CV_HOUGH_GRADIENT, 1, minDist,
+            cv::HoughCircles( croppedGray, circles, CV_HOUGH_GRADIENT, 1, minDist,
                               highThreshold, lowThreshold, 0, 0 );
             LOG("Number of detected circles", circles.size() );
             // Draw the circles detected
@@ -74,7 +105,12 @@ namespace image_processing
                }
 
               cv::imshow("Circles",raw);
-            camera.addImage( "Person Detection Experiments", canny );
+
+              */
+            camera.addImage( "RGB canny", canny );
+            camera.addImage( "Gray Canny" ,cannyGray );
+            camera.addImage( "Gray" ,croppedGray );
+
         }
     }
 
@@ -138,4 +174,22 @@ namespace image_processing
         addWeighted( abs_grad_x, 0.5, abs_grad_y, 0.5, 0, gradientMag );
 
     }
+
+    void PersonDetection::makeCircleFilters(std::vector<cv::Mat> & filters, int numCircles)
+    {
+        cv::namedWindow("Circle filters", CV_WINDOW_AUTOSIZE);
+        int filterSize = 41;
+        filters.clear();
+        for (int i = 0; i < numCircles; ++i) {
+            int radius = (filterSize-1)/2;
+            cv::Point center( radius, radius );
+            cv::Mat filter = cv::Mat::zeros(filterSize, filterSize, CV_8U);
+            cv::circle(filter, center, radius, cv::Scalar(100),-1);
+            cv::circle(filter, center, radius -3 , cv::Scalar(255),3);
+            cv::imshow("Circle filters", filter);
+        }
+
+
+    }
+
 }
