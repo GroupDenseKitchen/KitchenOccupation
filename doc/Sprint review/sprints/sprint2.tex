@@ -47,17 +47,44 @@ This item was created during \textbf{sprint 1} and is represented by sprint item
 \newpage
 
 \subsection{Result}
-General comments about the result go here
+The results from this sprint were not the ones we hoped for as five items are marked as not done, and several others are marked as not tested or have some small issues left. In total 7 out of 16 items are not finalized, which is not good enough.
 
-\subsection{Sprint result table}
+\subsubsection{Solutions we ended up using}
+We tried the OpenCV hough circles function with tuning, however it was not good enough for our application, meaning that we will need to implement circle detection on our own. This was also the reason item number 9 was not finished on time. The OpenCV hough circles functon was tried out on images with removed background (using the existing BackgroundModelMOG2 background subtractor.) Point descriptors for simple human classification were also evaluated without success.
+
+\subsubsection{What did we do well?}
+Several relevant papers solving the problem were found. This allowed for good re-organization of the work to both solve the new problems as well as meeting changed demands in terms of available hardware.
+
+\subsubsection{What improvements are necessary?}
+The most important improvement that needs to be made is to get better at working in parallel to try different approaches to the problem, together with prioritizing the tasks in a better way. The most important thing at the moment is to focus on the goal of the project, which is making sure it is possible to deliver a system that can count people passing under a doorway with reasonable accuracy at the time of the deadline.
+
+\newpage
 
 \resulttable
 {
-	\addresult{Results regarding this specific item}{hours}{Involved members}
+	\addresult{Done, but an overview image is missing.}{hours}{Involved members}
+	\addresult{Done.}{hours}{Involved members}
+	\addresult{Done, but better data need to be gathered as the current data set is out of focus at head level.)}{hours}{Involved members}
+	\addresult{Done. (in/out fow is estimated.)}{hours}{Involved members}
+	\addresult{Done. Exposure time is now constant and 50Hz noise is removed.}{hours}{Involved members}
+	\addresult{Done, with a naive implementation that should be improved once the segmentation improves.}{hours}{Involved members}
+	\addresult{Developed, however it is untuned, untested and not inserted into the system, as better tracking/segmentation is required to test this properly.}{hours}{Involved members}
+	\addresult{Done. Papers seem very useful, and have been studied.}{hours}{Involved members}
+	\addresult{Not done, the OpenCV function does not perform good enough.}{hours}{Involved members}
+	\addresult{Slightly better but not good enough to work alone, and will probably have to be combined with some form of human detector.}{hours}{Involved members}
+	\addresult{Not done. Partially due to the same reason as above item.}{hours}{Involved members}
+	\addresult{Done.}{hours}{Involved members}
+	\addresult{Not finalized.}{hours}{Involved members}
+	\addresult{Not done.}{hours}{Involved members}
+	\addresult{Done.}{hours}{Involved members}
+	\addresult{Not done.}{hours}{Involved members}
+	\addresult{Not done. Labeling...}{hours}{Involved members}
+	\addresult{Done.}{hours}{Involved members}	
+
 }
 
 \subsection{New Backlog Items}
-General info about new backlog items created as a result of this sprint go here.
+Several new .
 
 \subsubsection{New backlog Item 1}
 More detailed info about this specific item and why it was added to the backlog.
