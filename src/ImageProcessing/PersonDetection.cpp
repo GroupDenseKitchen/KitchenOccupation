@@ -16,6 +16,8 @@ namespace image_processing
         CONFIG(settings, descriptorType, "descriptorType", "ORB");
         CONFIG(settings, matcherType, "matcherType", "BruteForce-Hamming");
 
+
+
         detector = cv::FeatureDetector::create( detectorType );
         descriptorExtractor = cv::DescriptorExtractor::create( descriptorType );
         descriptorMatcher = cv::DescriptorMatcher::create( matcherType );
@@ -76,17 +78,28 @@ namespace image_processing
             std::vector<cv::Mat> channels = {blue, green, red};
             cv::split( raw , channels);
 
+            // Downsampling stuff
+            double downSamplingFactor = 4;
+            cv::Mat smallRed, smallBlue, smallGreen, smallGray;
+            cv::resize(channels[2],smallRed,cv::Size(0,0), 1/downSamplingFactor,1/downSamplingFactor, CV_INTER_AREA);
+            cv::resize(channels[1],smallGreen,cv::Size(0,0), 1/downSamplingFactor,1/downSamplingFactor, CV_INTER_AREA);
+            cv::resize(channels[0],smallBlue,cv::Size(0,0), 1/downSamplingFactor,1/downSamplingFactor, CV_INTER_AREA);
+
+            /*
             cv::blur( channels[2],red, cv::Size(kernelSize, kernelSize) );
             cv::blur( channels[1],green, cv::Size(kernelSize, kernelSize) );
-            cv::blur( channels[0],blue, cv::Size(kernelSize, kernelSize) );
+            cv::blur( channels[0],blue, cv::Size(kernelSize, kernelSize) );*/
             cv::Mat cannyRed, cannyBlue, cannyGreen;
-            cv::Canny( red, cannyRed, lowThreshold, highThreshold, kernelSize );
-            cv::Canny( green, cannyBlue, lowThreshold, highThreshold, kernelSize );
-            cv::Canny( blue, cannyGreen, lowThreshold, highThreshold, kernelSize );
+
+
+            cv::Canny( smallRed, cannyRed, lowThreshold, highThreshold, kernelSize );
+            cv::Canny( smallBlue, cannyBlue, lowThreshold, highThreshold, kernelSize );
+            cv::Canny( smallGreen, cannyGreen, lowThreshold, highThreshold, kernelSize );
             canny = cv::max (cannyRed, cv::max(cannyGreen, cannyBlue) );
 
-            cv::blur( gray, gray, cv::Size(kernelSize, kernelSize) );
-            cv::Canny( gray, cannyGray, lowThreshold, highThreshold, kernelSize );
+            //cv::blur( gray, gray, cv::Size(kernelSize, kernelSize) );
+            cv::resize(gray,smallGray,cv::Size(0,0), 1/downSamplingFactor,1/downSamplingFactor, CV_INTER_AREA);
+            cv::Canny( smallGray, cannyGray, lowThreshold, highThreshold, kernelSize );
             /*
 
             std::vector<cv::Vec3f> circles;
