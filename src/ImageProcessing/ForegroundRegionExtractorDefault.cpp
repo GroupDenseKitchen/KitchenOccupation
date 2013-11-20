@@ -42,7 +42,7 @@ namespace image_processing
                 if(rectangle.height * rectangle.width >= minimalArea)
                 {
                     camera.getObjects().push_back(Object(rectangle));
-                    cv::rectangle(raw, camera.getObjects().back().boundingBox, cv::Scalar(0,0,255), 2);               // Debug
+                  //  cv::rectangle(raw, camera.getObjects().back().boundingBox, cv::Scalar(0,0,255), 2);               // Debug
                 }
             }
             //cv::imshow("boundingboxes", raw);     // Debug

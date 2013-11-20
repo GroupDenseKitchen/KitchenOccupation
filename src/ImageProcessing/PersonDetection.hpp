@@ -50,6 +50,8 @@ private:
     cv::Ptr<std::vector<cv::KeyPoint> > currentKeyPoints;
     cv::Mat previousDescriptors;
     cv::Mat currentDescriptors;
+    std::vector<cv::Mat> circleFilters;
+
 };
 
 }

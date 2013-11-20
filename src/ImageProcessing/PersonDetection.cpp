@@ -25,12 +25,14 @@ namespace image_processing
         currentKeyPoints = new std::vector<cv::KeyPoint>();
         previousKeyPoints = new std::vector<cv::KeyPoint>();
 
-        cv::namedWindow("Circles", CV_WINDOW_AUTOSIZE);
+        cv::namedWindow("Sliders", CV_WINDOW_AUTOSIZE);
 
-        cv::createTrackbar("Min dist", "Circles", &minDist,400, [](int,void*){});
-        cv::createTrackbar("Low thresh", "Circles", &lowThreshold,400, [](int,void*){});
-        cv::createTrackbar("High thresh", "Circles", &highThreshold,400, [](int,void*){});
-       // cv::createTrackbar("Kernel size", "Circles", &kernelSize,12, [](int,void*){});
+        cv::createTrackbar("Min dist", "Sliders", &minDist,400, [](int,void*){});
+        cv::createTrackbar("Low thresh", "Sliders", &lowThreshold,400, [](int,void*){});
+        cv::createTrackbar("High thresh", "Sliders", &highThreshold,400, [](int,void*){});
+       // cv::createTrackbar("Kernel size", "Sliders", &kernelSize,12, [](int,void*){});
+
+        makeCircleFilters(circleFilters,1);
 
         if( detector.empty() || descriptorExtractor.empty() || descriptorMatcher.empty()  )
             {
@@ -42,10 +44,6 @@ namespace image_processing
 
     void PersonDetection::process(FrameList &frames)
     {
-        std::vector<cv::Mat> filters;
-        makeCircleFilters( filters,1 );
-
-
         for (CameraObject & camera: frames.getCurrent().getCameras()) {
             if(!camera.hasImage("rawImage"))
             {
@@ -85,10 +83,10 @@ namespace image_processing
             cv::resize(channels[1],smallGreen,cv::Size(0,0), 1/downSamplingFactor,1/downSamplingFactor, CV_INTER_AREA);
             cv::resize(channels[0],smallBlue,cv::Size(0,0), 1/downSamplingFactor,1/downSamplingFactor, CV_INTER_AREA);
 
-            /*
-            cv::blur( channels[2],red, cv::Size(kernelSize, kernelSize) );
-            cv::blur( channels[1],green, cv::Size(kernelSize, kernelSize) );
-            cv::blur( channels[0],blue, cv::Size(kernelSize, kernelSize) );*/
+
+            cv::blur( smallRed,smallRed, cv::Size(kernelSize+2, kernelSize+2) );
+            cv::blur( smallGreen,smallGreen, cv::Size(kernelSize+2, kernelSize+2) );
+            cv::blur( smallBlue,smallBlue, cv::Size(kernelSize+2, kernelSize+2) );
             cv::Mat cannyRed, cannyBlue, cannyGreen;
 
 
@@ -100,26 +98,18 @@ namespace image_processing
             //cv::blur( gray, gray, cv::Size(kernelSize, kernelSize) );
             cv::resize(gray,smallGray,cv::Size(0,0), 1/downSamplingFactor,1/downSamplingFactor, CV_INTER_AREA);
             cv::Canny( smallGray, cannyGray, lowThreshold, highThreshold, kernelSize );
-            /*
 
-            std::vector<cv::Vec3f> circles;
-            cv::HoughCircles( croppedGray, circles, CV_HOUGH_GRADIENT, 1, minDist,
-                              highThreshold, lowThreshold, 0, 0 );
-            LOG("Number of detected circles", circles.size() );
-            // Draw the circles detected
-              for( size_t i = 0; i < circles.size(); i++ )
-              {
-                  cv::Point center(cvRound(circles[i][0]), cvRound(circles[i][1]));
-                  int radius = cvRound(circles[i][2]);
-                  // circle center
-                  circle( raw, center, 3, cv::Scalar(0,255,0), -1, 8, 0 );
-                  // circle outline
-                  circle( raw, center, radius, cv::Scalar(0,0,255), 3, 8, 0 );
-               }
+            for(int i = 0; i < circleFilters.size(); ++i) {
+                cv::Mat circleMap;
+                cv::filter2D(canny, circleMap, CV_32FC1,circleFilters[i]);
+                cv::threshold(circleMap,circleMap,0,0,cv::THRESH_TOZERO);
+                cv::Mat printMap;
+                circleMap.convertTo(printMap ,CV_8UC1 );
+                std::string imageName = "Circle map ";
+                imageName.append(std::to_string(i));
+                camera.addImage( imageName, printMap*2 );
+            }
 
-              cv::imshow("Circles",raw);
-
-              */
             camera.addImage( "RGB canny", canny );
             camera.addImage( "Gray Canny" ,cannyGray );
             camera.addImage( "Gray" ,croppedGray );
@@ -190,19 +180,39 @@ namespace image_processing
 
     void PersonDetection::makeCircleFilters(std::vector<cv::Mat> & filters, int numCircles)
     {
+
+        std::vector<int> filterSizes = {35,31,29,27};
+        int deltaRadius = 4;
         cv::namedWindow("Circle filters", CV_WINDOW_AUTOSIZE);
-        int filterSize = 41;
         filters.clear();
-        for (int i = 0; i < numCircles; ++i) {
+        for (int i = 0; i < filterSizes.size(); ++i) {
+            int filterSize = filterSizes[i];
             int radius = (filterSize-1)/2;
             cv::Point center( radius, radius );
-            cv::Mat filter = cv::Mat::zeros(filterSize, filterSize, CV_8U);
-            cv::circle(filter, center, radius, cv::Scalar(100),-1);
-            cv::circle(filter, center, radius -3 , cv::Scalar(255),3);
-            cv::imshow("Circle filters", filter);
+
+            cv::Mat testNegative = cv::Mat::zeros(filterSize, filterSize, CV_32FC1);
+            cv::circle(testNegative, center, radius, -1,-1);
+            float negSum=0;
+            cv::MatConstIterator_<float> itn = testNegative.begin<float>(), itn_end = testNegative.end<float>();
+            for(; itn != itn_end; ++itn) {
+                negSum += *itn;
+            }
+            assert(negSum < 0 );
+
+            cv::Mat testPositive = cv::Mat::zeros(filterSize, filterSize, CV_32FC1);
+            cv::circle(testPositive, center, radius-deltaRadius, 1,deltaRadius);
+            float posSum=0;
+            cv::MatConstIterator_<float> itp = testPositive.begin<float>(), itp_end = testPositive.end<float>();
+            for(; itp != itp_end; ++itp) {
+                posSum += *itp;
+            }
+            float posWeight = std::abs(-posSum - negSum)/posSum;
+
+            cv::Mat filter = cv::Mat::zeros(filterSize, filterSize, CV_32FC1);
+            cv::circle(filter, center, radius, -1,-1);
+            cv::circle(filter, center, radius -deltaRadius , posWeight ,deltaRadius);
+            filters.push_back(filter);
         }
-
-
     }
 
 }
