@@ -54,10 +54,9 @@ private:
     void elevatePotentialObjects(std::vector<Object> & candidates, std::vector<Object> & destination, std::vector<Object> & newlyFoundObjects);
     void removeLostObjects(std::vector<Object> & objects,std::vector<Object> & transitionary_Objects);
     void addNew(std::list<Object> & newObjects, std::vector<Object> & destination);
-    void addLost(std::list<Object> & lostObjects, std::vector<Object> & destination,std::vector<Object> & transitionary_Objects,cv::Mat image ,cv::Mat mask);
-    bool isCloseImageBorder(cv::Point2d point, int height, int width);
-    bool isInsideRemovalArea(Object & _object, cv::Mat mask, int height, int width);
-
+    void addLost(std::list<Object> & lostObjects, std::vector<Object> & destination,std::vector<Object> & transitionaryObjects,cv::Mat image ,cv::Mat mask);
+    bool isCloseImageBorder(cv::Point2d point, int height, int width, int margin);
+    bool isInsideRemovalArea(Object & object, cv::Mat mask, int height, int width);
 
     int getUniqueID();
     double distance(Object& previous, Object& current);

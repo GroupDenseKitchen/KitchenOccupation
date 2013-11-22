@@ -49,8 +49,7 @@ namespace image_processing
                 addNew(currCandidates, cameraCurr.getPotentialObjects());
 
                 // 4) Any remaining previous objects are flagged as lost and added to current objects.
-                cv::Mat _mask = frames.getDoorMask();
-                addLost(prevObjects, cameraCurr.getObjects(), cameraCurr.getTransitionaryObjects(), cameraCurr.getImage("rawImage"),_mask);
+                addLost(prevObjects, cameraCurr.getObjects(), cameraCurr.getTransitionaryObjects(), cameraCurr.getImage("rawImage"),frames.getDoorMask());
 
                 // 5) Elevate pervious candidate objects to real objects if they have lived long enough.
                 elevatePotentialObjects(cameraCurr.getPotentialObjects(), cameraCurr.getObjects(),cameraCurr.getNewlyFoundObjects());
@@ -103,7 +102,7 @@ namespace image_processing
             }
             if(smallestError <= maximumDistance) {
                 bestCurr->merge(&*bestPrev);
-                bestCurr->lost = false; //NEW
+                bestCurr->lost = false;
                 destination.push_back(*bestCurr);
                 candidatePrev.erase(bestPrev);
                 candidateCurr.erase(bestCurr);
@@ -134,7 +133,7 @@ namespace image_processing
         }
     }
 
-    void TrackingBruteForce::addLost(std::list<Object> & lostObjects, std::vector<Object> & destination,std::vector<Object> & transitionary_Objects, cv::Mat image, cv::Mat mask) {
+    void TrackingBruteForce::addLost(std::list<Object> & lostObjects, std::vector<Object> & destination,std::vector<Object> & transitionaryObjects, cv::Mat image, cv::Mat mask) {
         for(Object & object : lostObjects) {
             if(object.lost) {
                 object.lifeSpan++;
@@ -149,22 +148,17 @@ namespace image_processing
                 destination.push_back(object);
             }
             else if(object.lifeSpan >= 1){
-                transitionary_Objects.push_back(object);
+                transitionaryObjects.push_back(object);
             }
         }
     }
-    bool TrackingBruteForce::isCloseImageBorder(cv::Point2d point, int height, int width){
-        if(point.x > (width -10) || point.x < (10) || point.y > (height -10) || point.y < 10){
-            return true;
-        }
-        else{
-            return false;
-        }
+    bool TrackingBruteForce::isCloseImageBorder(cv::Point2d point, int height, int width, int margin){
+        return point.x > (width -margin) || point.x < (margin) || point.y > (height -margin) || point.y < margin;
     }
 
-    bool TrackingBruteForce::isInsideRemovalArea(Object & _object, cv::Mat mask, int height, int width)
+    bool TrackingBruteForce::isInsideRemovalArea(Object & object, cv::Mat mask, int height, int width)
     {
-        if(EntryExitCounter::isInsidePolygon(mask,_object.exitPoint) || isCloseImageBorder(_object.exitPoint,height,width)){
+        if(isInsidePolygon(mask,object.exitPoint) || isCloseImageBorder(object.exitPoint,height,width, 10)){
             return true;
         }
         return false;
