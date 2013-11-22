@@ -56,7 +56,7 @@ namespace image_processing
 
 
                 // Debug
-                cv::Mat raw = cameraCurr.getImage("rawImage");
+                cv::Mat rawImage = cameraCurr.getImage("rawImage");
                 std::string text = "";
                 int fontFace = cv::FONT_HERSHEY_PLAIN;
                 double fontScale = 1;
@@ -64,8 +64,8 @@ namespace image_processing
                 for(std::vector<Object>::iterator object = cameraCurr.getPotentialObjects().begin(); object != cameraCurr.getPotentialObjects().end(); object++) {
                     cv::Point2d pos = object->center;
                     text = "lifespan: " + std::to_string(object->lifeSpan);
-                    putText(raw, text, pos, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
-                    cv::rectangle(raw, cameraCurr.getPotentialObjects().back().boundingBox, cv::Scalar(255,0,0), 2);     // Debug
+                    putText(rawImage, text, pos, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
+                    cv::rectangle(rawImage, cameraCurr.getPotentialObjects().back().boundingBox, cv::Scalar(255,0,0), 2);     // Debug
                 }
                 for(std::vector<Object>::iterator object = cameraCurr.getObjects().begin(); object != cameraCurr.getObjects().end(); object++) {
                     cv::Point2d pos = object->center;
@@ -73,9 +73,9 @@ namespace image_processing
                     if(object->lost){
                         text += ", LOST lifespan: " + std::to_string(object->lifeSpan);
 
-                        cv::rectangle(raw, object->boundingBox, cv::Scalar(0,255,0), 2);
+                        cv::rectangle(rawImage, object->boundingBox, cv::Scalar(0,255,0), 2);
                     }
-                    putText(raw, text, pos, fontFace, fontScale, cv::Scalar::all(255), thickness, 8);
+                    putText(rawImage, text, pos, fontFace, fontScale, cv::Scalar::all(255), thickness, 8);
                 }
             }
         }
