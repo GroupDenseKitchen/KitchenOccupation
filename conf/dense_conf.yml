@@ -19,7 +19,7 @@ Analytics:
 cameraPaths:
    - "/Users/Niko/Dropbox/Liu/TSBB11/seq9.avi"
 videoFilePaths:
-   - "C:/DenseKitchen/networkStream.avi"
+   - "/Users/Niko/Dropbox/Liu/TSBB11/Dense Kitchen/seq9-1.mp4"
 trackerGroundTruthPaths:
    - "../data/seq3/seq3GT.xml"
 
