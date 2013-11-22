@@ -39,7 +39,7 @@ bool OpticalFlowSegmentation::initialize(configuration::ConfigurationManager &se
     return isInitialized;
 }
 
-float OpticalFlowSegmentation::angleToXaxis(cv::Point2f _vector)
+float OpticalFlowSegmentation::arcCosToXaxis(cv::Point2f _vector)
 {
     cv::Point2f xAxis = cv::Point2f(1,0);
     float n = sqrt(_vector.dot(_vector));
@@ -59,13 +59,13 @@ void OpticalFlowSegmentation::paintFlowVectors(cv::Mat imageToDrawOn, std::vecto
     int bb = 0;
     for(FlowVector& fl: flowVectors){
         cv::Point2f diff = fl.flow;
-        float a = angleToXaxis(diff);
+        float a = arcCosToXaxis(diff);
         float r = a * 255 / (2*3.1415) ;
         float g = 255 - a*255/(2*3.1415) ;
         int rr = (int)ceil(r);
         int gg = (int)ceil(g);
 
-        paintFlowVectors(imageToDrawOn,flowVectors,cv::Scalar(rr,gg,0));
+        cv::line(imageToDrawOn,fl.pos,fl.pos+fl.flow,cv::Scalar(rr,gg,0),1);
         bb = bb + 1;
         if(bb == 255){
             bb = 0;
@@ -73,16 +73,9 @@ void OpticalFlowSegmentation::paintFlowVectors(cv::Mat imageToDrawOn, std::vecto
     }
 }
 
-void OpticalFlowSegmentation::paintFlowVectors(cv::Mat imageToDrawOn, std::vector<FlowVector> flowVectors, cv::Scalar color)
-{
-    for(FlowVector& fl: flowVectors){
-        cv::line(imageToDrawOn,fl.pos,fl.pos+fl.flow,color,1);
-    }
-}
-
 void OpticalFlowSegmentation::computeOpticalFlow(Frame current, Frame previous){
 
-    int numFrames = 1;
+    int numFrames = 2;
     static int counter = -1;
     static cv::Mat lastImage;
 
@@ -129,6 +122,7 @@ std::vector<FlowVector> OpticalFlowSegmentation::filterSmallest(std::vector<Flow
 
 std::vector<FlowVector> OpticalFlowSegmentation::averageFlow(std::vector<FlowVector> flowVectors, cv::Size imageSize){
     std::vector<FlowVector> averagedFlow = std::vector<FlowVector>();
+    std::vector<FlowBlock> blockData = std::vector<FlowBlock>();
 
     int blocksPerRow = 80;
 
@@ -158,42 +152,15 @@ std::vector<FlowVector> OpticalFlowSegmentation::averageFlow(std::vector<FlowVec
                 averageVector.flow = averageVector.flow + fl.flow;
             }
             int numVectorsInBlock = blockVectors.size();
-            averageVector.pos.x = averageVector.pos.x / numVectorsInBlock;
-            averageVector.flow.x = averageVector.flow.x / numVectorsInBlock;
-            averageVector.pos.y = averageVector.pos.y / numVectorsInBlock;
-            averageVector.flow.y = averageVector.flow.y / numVectorsInBlock;
+            averageVector.pos.x / numVectorsInBlock;
+            averageVector.flow.x / numVectorsInBlock;
+            averageVector.pos.y / numVectorsInBlock;
+            averageVector.flow.y / numVectorsInBlock;
             averagedFlow.push_back(averageVector);
         }
     }
 
     return averagedFlow;
-}
-
-void OpticalFlowSegmentation::clusterVectors(const std::vector<FlowVector>& flowVectors){
-    printf("in function \n");
-    /*
-    const int numElements = flowVectors.size();
-    //make a vector of angles
-    std::vector<double> angles = std::vector<double>(numElements);
-    for(int i=0; i < numElements; ++i){
-        angles[i] = angleToXaxis(flowVectors[i].flow);
-    }
-    */
-
-    cv::Mat sampleMatrix = cv::Mat(flowVectors.size(),4,CV_32FC1);
-    for(int i=0; i < flowVectors.size();++i){
-        sampleMatrix.at<float>(i,0) = flowVectors[i].pos.x;
-        sampleMatrix.at<float>(i,1) = flowVectors[i].pos.y;
-        sampleMatrix.at<float>(i,2) = flowVectors[i].flow.x;
-        sampleMatrix.at<float>(i,3) = flowVectors[i].flow.y;
-    }
-    cv::Mat bestLables;
-    int numClusters = 5;
-    cv::TermCriteria terminate = cv::KMEANS_RANDOM_CENTERS;
-    cv::Mat centers;
-    cv::kmeans(sampleMatrix,numClusters,bestLables,terminate,centers);
-
-
 }
 
 void OpticalFlowSegmentation::getOpticalFlow(cv::Mat current, cv::Mat prev){
@@ -231,7 +198,6 @@ void OpticalFlowSegmentation::getOpticalFlow(cv::Mat current, cv::Mat prev){
     //get optical flow
     cv::calcOpticalFlowPyrLK(prev,current,trackedPoints,nextPoints,status,error,windowSize,maxLevel,terminate,flags);
 
-
     //only remember the points we managed to track
     lastTrackedPoints.clear();
     flowVectors.clear();
@@ -252,44 +218,12 @@ void OpticalFlowSegmentation::getOpticalFlow(cv::Mat current, cv::Mat prev){
     flowVectors = averageFlow(flowVectors,current.size());
     flowVectors = filterSmallest(flowVectors);
 
-    clusterVectors(flowVectors);
+    qDebug() << "number of vectors! " << flowVectors.size();
 
     paintFlowVectors(imageToDrawOn,flowVectors);
 
     cv::namedWindow("w2n");
     cv:imshow("w2n",imageToDrawOn);
-}
-
-void OpticalFlowSegmentation::drawOptFlowMap(const cv::Mat& flow, cv::Mat& cflowmap, int step,
-                    double, const cv::Scalar& color)
-{
-    for(int y = 0; y < cflowmap.rows; y += step)
-        for(int x = 0; x < cflowmap.cols; x += step)
-        {
-            const cv::Point2f& fxy = flow.at<cv::Point2f>(y, x);
-            line(cflowmap, cv::Point(x,y), cv::Point(cvRound(x+fxy.x), cvRound(y+fxy.y)),
-                 color);
-            circle(cflowmap, cv::Point(x,y), 2, color, -1);
-        }
-}
-
-void OpticalFlowSegmentation::globalOpticalFlow(cv::Mat current, cv::Mat prev)
-{
-    cv::Mat flowImage(current.rows, current.cols, CV_32FC2);
-
-    float pyrScale = 0.5;
-    int levels = 3;
-    int winsize = 40;
-    int iterations = 3;
-
-    cv::calcOpticalFlowFarneback(current,prev,flowImage,pyrScale,levels,winsize,iterations,5,1.2,0);
-
-    cv::Mat cflow;
-    cvtColor(prev, cflow, cv::COLOR_GRAY2BGR);
-
-    drawOptFlowMap(flowImage,cflow,16, 1.5, cv::Scalar(0, 255, 0));
-    cv::namedWindow("w1n");
-    cv::imshow("w1n",cflow);
 }
 
 }
