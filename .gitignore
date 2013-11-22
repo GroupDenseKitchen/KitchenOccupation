@@ -26,6 +26,9 @@ lib/*
 #something QT adds
 CMakeLists.txt.user
 
+# Don't upload raw videos
+RAW*.avi
+
 # Don't upload private videos
 seq8.mp4
 seq9*.mp4
