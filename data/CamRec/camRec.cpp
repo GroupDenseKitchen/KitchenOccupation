@@ -24,7 +24,13 @@ int main()
     cv::Size size(640,480);
 
     cv::VideoCapture* camera = new cv::VideoCapture("http://root:pass@169.254.234.112/axis-cgi/mjpg/video.cgi?resolution=640x480&.mjpg");
-    cv::VideoWriter* videoWriter = new cv::VideoWriter(writePath, CV_FOURCC('D','I','V','X'), fps, size) ;
+    //cv::VideoCapture* camera = new cv::VideoCapture(CV_CAP_OPENNI);
+
+    if (!camera->isOpened()){
+        qDebug() << "Det gick inte att öppna kameran";
+        exit(-1);
+    }
+    //cv::VideoWriter* videoWriter = new cv::VideoWriter(writePath, CV_FOURCC('D','I','V','X'), fps, size) ;
 
     cv::Mat image;
     char key;
@@ -41,8 +47,8 @@ int main()
         timer.restart();
 
         camera->read(image);
-        videoWriter->write(image);
-        cv::imshow("", image);
+        //videoWriter->write(image);
+        //cv::imshow("", image);
 
         key = cv::waitKey(5);
         if(key == 'q'){
@@ -67,7 +73,7 @@ int main()
     }
 
     camera->release();
-    videoWriter->release();
+    //videoWriter->release();
 
     return 0;
 }
