@@ -7,6 +7,8 @@
 
 namespace image_processing
 {
+void findMinimas(cv::Mat & src, cv::Mat & dst, std::vector<cv::Point2i> & minimas);
+
 /*!
  *  \brief   Process step which creates binary image using OpenCV function KinectSegmentation2.
  */
