@@ -15,6 +15,7 @@
 #include "ImageProcessing/ForegroundRegionExtractorDefault.hpp"
 #include "ImageProcessing/TrackingBruteForce.hpp"
 #include "ImageProcessing/EntryExitCounter.hpp"
+#include "ImageProcessing/kinectSegmentation.hpp"
 #include "Analytics/Analytics.hpp"
 #include "Analytics/FlowEstimator.hpp"
 #include "Analytics/Evaluation.hpp"
