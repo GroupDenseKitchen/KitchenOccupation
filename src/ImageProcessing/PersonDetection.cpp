@@ -84,9 +84,9 @@ namespace image_processing
             cv::resize(channels[0],smallBlue,cv::Size(0,0), 1/downSamplingFactor,1/downSamplingFactor, CV_INTER_AREA);
 
 
-            cv::blur( smallRed,smallRed, cv::Size(kernelSize+2, kernelSize+2) );
-            cv::blur( smallGreen,smallGreen, cv::Size(kernelSize+2, kernelSize+2) );
-            cv::blur( smallBlue,smallBlue, cv::Size(kernelSize+2, kernelSize+2) );
+            cv::blur( smallRed,smallRed, cv::Size(kernelSize, kernelSize) );
+            cv::blur( smallGreen,smallGreen, cv::Size(kernelSize, kernelSize) );
+            cv::blur( smallBlue,smallBlue, cv::Size(kernelSize, kernelSize) );
             cv::Mat cannyRed, cannyBlue, cannyGreen;
 
 
@@ -96,15 +96,17 @@ namespace image_processing
             canny = cv::max (cannyRed, cv::max(cannyGreen, cannyBlue) );
 
             //cv::blur( gray, gray, cv::Size(kernelSize, kernelSize) );
-            cv::resize(gray,smallGray,cv::Size(0,0), 1/downSamplingFactor,1/downSamplingFactor, CV_INTER_AREA);
+            cv::resize(gray,smallGray,cv::Size(0,0), 1/downSamplingFactor,1/downSamplingFactor, CV_INTER_NN);
             cv::Canny( smallGray, cannyGray, lowThreshold, highThreshold, kernelSize );
 
-            for(int i = 0; i < circleFilters.size(); ++i) {
+            cv::Mat printMap;
+            for(int i = 0; i < 1; i++) {//circleFilters.size(); ++i) {
                 cv::Mat circleMap;
                 cv::filter2D(canny, circleMap, CV_32FC1,circleFilters[i]);
-                cv::threshold(circleMap,circleMap,0,0,cv::THRESH_TOZERO);
-                cv::Mat printMap;
-                circleMap.convertTo(printMap ,CV_8UC1 );
+                cv::normalize(circleMap,circleMap,255,0);
+
+                circleMap.convertTo(printMap ,CV_8UC1);
+                printMap = printMap*4;
                 std::string imageName = "Circle map ";
                 imageName.append(std::to_string(i));
                 camera.addImage( imageName, printMap*2 );
@@ -113,6 +115,14 @@ namespace image_processing
             camera.addImage( "RGB canny", canny );
             camera.addImage( "Gray Canny" ,cannyGray );
             camera.addImage( "Gray" ,croppedGray );
+            cv::namedWindow("Circle correlation");
+            cv::namedWindow("Thresholded circle correlation");
+            cv::Mat showMap;
+            cv::resize(printMap,showMap,cv::Size(0,0),downSamplingFactor,downSamplingFactor,CV_INTER_NN);
+            cv::imshow("Circle correlation", showMap*2);
+            cv::threshold(showMap*2, showMap, 59, 255, CV_THRESH_BINARY);
+            cv::imshow("Thresholded Circle correlation", showMap*2);
+            cv::waitKey(1);
 
         }
     }
@@ -181,7 +191,8 @@ namespace image_processing
     void PersonDetection::makeCircleFilters(std::vector<cv::Mat> & filters, int numCircles)
     {
 
-        std::vector<int> filterSizes = {35,31,29,27};
+        //std::vector<int> filterSizes = {43,39,35,31};
+        std::vector<int> filterSizes = {35};
         int deltaRadius = 4;
         cv::namedWindow("Circle filters", CV_WINDOW_AUTOSIZE);
         filters.clear();
