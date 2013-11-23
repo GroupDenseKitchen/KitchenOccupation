@@ -13,16 +13,21 @@ namespace image_processing
     {
         CONFIG(settings, lowThreshold, "lowThreshold", 100);
         CONFIG(settings, highThreshold, "highThreshold", 200);
+        CONFIG(settings, houghThreshold, "houghThreshold", 59);
         CONFIG(settings, kernelSize, "kernelSize", 3);
         CONFIG(settings, downSamplingFactor, "downSamplingFactor", 4);
+        CONFIG(settings, averageCircleFilterSize, "circleFilterSize", 35);
         CONFIG(settings, circleFilterRadiusDifference, "circleFilterRadiusDifference", 4);
 
-        /*  This is left here for tuning purposes
+        //  This is left here for tuning purposes
         cv::namedWindow("Sliders");
-        cv::createTrackbar("Low thresh", "Sliders", &lowThreshold,100, [](int,void*){});
-        cv::createTrackbar("High thresh", "Sliders", &highThreshold,200, [](int,void*){});
-        */
-        makeCircleFilters(circleFilters,1);
+        cv::createTrackbar("Low thresh", "Sliders", &lowThreshold,255, [](int,void*){});
+        cv::createTrackbar("High thresh", "Sliders", &highThreshold,255, [](int,void*){});
+        cv::createTrackbar("Hough thresh", "Sliders", &houghThreshold,255, [](int,void*){});
+        cv::createTrackbar("Circle size", "Sliders", &averageCircleFilterSize,101, [](int,void*){});
+        cv::createTrackbar("Circle thickness", "Sliders", &circleFilterRadiusDifference,10, [](int,void*){});
+
+        makeCircleFilters(circleFilters,circleFilterRadiusDifference,averageCircleFilterSize);
 
         return true;
     }
@@ -35,62 +40,86 @@ namespace image_processing
                 LOG("PersonDetection Error", "Image \"rawImage\" not set in current frame!");
                 return;
             }
-            cv::Mat raw = camera.getImage("rawImage");
+            // Debug stuff (Allows for changing filter size on the fly)
+            makeCircleFilters(circleFilters,circleFilterRadiusDifference,averageCircleFilterSize);
 
-            // Split channels
+            cv::Mat smallImage;
             cv::Mat red, green, blue;
             std::vector<cv::Mat> channels = {blue, green, red};
-            cv::split( raw , channels);
+            cv::resize(camera.getImage("rawImage"), smallImage, cv::Size(0,0), 1/downSamplingFactor,1/downSamplingFactor, CV_INTER_AREA);
+            cv::blur(smallImage, smallImage, cv::Size(kernelSize, kernelSize) );
 
-            // Down sample
-            cv::Mat smallRed, smallBlue, smallGreen, smallGray;
-            cv::resize(channels[2],smallRed,cv::Size(0,0), 1/downSamplingFactor,1/downSamplingFactor, CV_INTER_AREA);
-            cv::resize(channels[1],smallGreen,cv::Size(0,0), 1/downSamplingFactor,1/downSamplingFactor, CV_INTER_AREA);
-            cv::resize(channels[0],smallBlue,cv::Size(0,0), 1/downSamplingFactor,1/downSamplingFactor, CV_INTER_AREA);
+            cv::split(smallImage , channels);
 
-            //Blur
-            cv::blur( smallRed,smallRed, cv::Size(kernelSize, kernelSize) );
-            cv::blur( smallGreen,smallGreen, cv::Size(kernelSize, kernelSize) );
-            cv::blur( smallBlue,smallBlue, cv::Size(kernelSize, kernelSize) );
-            cv::Mat cannyRed, cannyBlue, cannyGreen;
+            cv::Canny( channels[0], channels[0], lowThreshold, highThreshold, kernelSize );
+            cv::Canny( channels[1], channels[1], lowThreshold, highThreshold, kernelSize );
+            cv::Canny( channels[2], channels[2], lowThreshold, highThreshold, kernelSize );
 
-            //Canny edge detection
-            cv::Mat canny;
-            cv::Canny( smallRed, cannyRed, lowThreshold, highThreshold, kernelSize );
-            cv::Canny( smallBlue, cannyBlue, lowThreshold, highThreshold, kernelSize );
-            cv::Canny( smallGreen, cannyGreen, lowThreshold, highThreshold, kernelSize );
-            canny = cv::max (cannyRed, cv::max(cannyGreen, cannyBlue) );
-
-            //Keep this debug image for now
-            camera.addImage( "RGB canny", canny );
-
-            //TODO: This needs to be made clearer. Perhaps this would be a good place
-            //to combine the results of seeveral filters.
+            cv::Mat canny = cv::max(channels[0], cv::max(channels[1], channels[2]));
             cv::Mat printMap;
-            for(int i = 0; i < 1; i++) {//circleFilters.size(); ++i) {
-                cv::Mat circleMap;
-                cv::filter2D(canny, circleMap, CV_32FC1,circleFilters[i]);
-                cv::normalize(circleMap,circleMap,255,0);
+            // Correllation accumulator variable
+            cv::Mat accCircles = cv::Mat::zeros(canny.rows, canny.cols, CV_32FC1);
 
-                circleMap.convertTo(printMap ,CV_8UC1);
-                printMap = printMap*4;
+            for(int i = 0; i < circleFilters.size(); ++i) {
+                cv::Mat circleMap;
+                cv::filter2D(canny, circleMap, CV_32FC1, circleFilters[i]);
+                accCircles += circleMap; // accumulate
+
+                // This is all debug stuff (scaling such that correlation is visible in the GUI)
+                cv::normalize(circleMap,circleMap,255,0);
+                circleMap.convertTo(circleMap ,CV_8UC1);
+                circleMap = circleMap*4; // Scale so that circle correlation is clearly visible
                 std::string imageName = "Circle map ";
                 imageName.append(std::to_string(i));
-                camera.addImage( imageName, printMap*2 );
+                camera.addImage( imageName, circleMap*2 );
             }
 
-            //Debug stuff. Keep for now
-            cv::namedWindow("Circle correlation");
-            cv::namedWindow("Thresholded circle correlation");
-            cv::Mat showMap;
-            cv::resize(printMap,showMap,cv::Size(0,0),downSamplingFactor,downSamplingFactor,CV_INTER_NN);
-            cv::imshow("Circle correlation", showMap*2);
-            cv::threshold(showMap*2, showMap, 59, 255, CV_THRESH_BINARY);
-            cv::imshow("Thresholded Circle correlation", showMap*2);
+            camera.addImage( "RGB canny", canny );
+
 
         }
     }
+    void CircleDetection::makeCircleFilters(std::vector<cv::Mat> & filters, int circleThickness, int _avgFilterSize)
+        {
+            int avgFilterSize = _avgFilterSize;
+            if (avgFilterSize % 2 != 1) {
+                LOG("PersonDetector Warning", "Average circle filter size needs to be an odd number, decreasing size by 1.");
+                avgFilterSize--;
+            }
+            if (avgFilterSize < circleThickness*4) {
+                avgFilterSize = circleThickness*4 + 1;
+            }
 
+            int deltaRadius = circleThickness;
+
+            std::vector<int> filterSizes = {avgFilterSize-deltaRadius, avgFilterSize, avgFilterSize+deltaRadius};
+            filters.clear();
+            for (unsigned int i = 0; i < filterSizes.size(); ++i) {
+                int filterSize = filterSizes[i];
+                int radius = (filterSize-1)/2;
+                cv::Point center( radius, radius );
+
+                cv::Mat testNegative = cv::Mat::zeros(filterSize, filterSize, CV_32FC1);
+                cv::Mat testPositive = cv::Mat::zeros(filterSize, filterSize, CV_32FC1);
+                cv::circle(testNegative, center, radius, -1,-1);
+                cv::circle(testPositive, center, radius-deltaRadius, 1, deltaRadius);
+                float negSum=0;
+                float posSum=0;
+                for (int i = 0; i < filterSize*filterSize; i++) {
+                    posSum += testPositive.ptr<float>()[i];
+                    negSum += testNegative.ptr<float>()[i];
+                }
+                assert(negSum < 0 );
+
+                float posWeight = std::abs(-posSum - negSum)/posSum;
+
+                cv::Mat filter = cv::Mat::zeros(filterSize, filterSize, CV_32FC1);
+                cv::circle(filter, center, radius, -1,-1);
+                cv::circle(filter, center, radius -deltaRadius , posWeight ,deltaRadius);
+                filters.push_back(filter);
+            }
+        }
+    /*
     void CircleDetection::makeCircleFilters(std::vector<cv::Mat> & filters, int numCircles)
     {
         filters.clear();
@@ -125,6 +154,6 @@ namespace image_processing
                                         posWeight ,circleFilterRadiusDifference);
             filters.push_back(filter);
         }
-    }
+    }*/
 
 }

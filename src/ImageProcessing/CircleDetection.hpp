@@ -38,11 +38,14 @@ public:
     void process(FrameList &frames) override;
 
 private:
-    void makeCircleFilters(std::vector<cv::Mat> & filters, int numCircles);
+    void makeCircleFilters(std::vector<cv::Mat> & filters, int circleThickness, int avgFilterSize);
+    //void makeCircleFilters(std::vector<cv::Mat> & filters, int numCircles);
 
     int lowThreshold; //Low threshold for canny detection
     int highThreshold; //High threshold for canny detection
+    int houghThreshold; // Threshold for when a head is detected
     int kernelSize; //Size of kernel used for bluring the image
+    int averageCircleFilterSize;
     double downSamplingFactor; //Factor for downsapling the image for processing speed
 
     std::vector<cv::Mat> circleFilters; //Container of circle filters
