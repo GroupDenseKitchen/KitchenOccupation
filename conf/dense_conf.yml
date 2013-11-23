@@ -13,7 +13,7 @@ ImageProcessor:
   # - TrackingBruteForce
   # - EntryExitCounter
   # - QueDetector
-   - PersonDetection
+   - CircleDetection
 Analytics:
    - FlowEstimator
 cameraPaths:

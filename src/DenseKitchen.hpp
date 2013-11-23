@@ -17,7 +17,7 @@
 #include "ImageProcessing/EntryExitCounter.hpp"
 #include "ImageProcessing/QueDetector.hpp"
 
-#include "ImageProcessing/PersonDetection.hpp"
+#include "ImageProcessing/CircleDetection.hpp"
 
 #include "Analytics/Analytics.hpp"
 #include "Analytics/FlowEstimator.hpp"
