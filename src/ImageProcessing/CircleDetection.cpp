@@ -156,4 +156,47 @@ namespace image_processing
         }
     }*/
 
+    void CircleDetection::gradientCircleVoting(cv::Mat &grayImage)
+        {
+            cv::Mat resultImage = cv::Mat::zeros(grayImage.rows,grayImage.cols, CV_64FC1);
+            int searchSize = 37;
+            int searchWidth = std::ceil((float)searchSize/2);
+
+            // Generate grad_x and grad_y
+            cv::Mat dx, dy;
+            Scharr( grayImage, dx, CV_64F, 1, 0);
+            Scharr( grayImage, dy, CV_64F, 0, 1);
+
+            //Not exactly an optimal loop.. =) To do it fast, first vreate a matrix of gradient points and one with displacement points
+            double maxScore = 0;
+            for (int row = 0; row < dx.rows; ++row) {
+                double * resultRow = resultImage.ptr<double>(row);
+                for (int col = 0; col < dx.cols; ++col) {
+                    double score = 0;
+                    int minSearchRow = std::max(0, row - searchWidth);
+                    int maxSearchRow = std::min(dx.rows, row + searchWidth);
+                    int minSearchCol = std::max(0, col - searchWidth);
+                    int maxSearchCol = std::min(dx.cols, col + searchWidth);
+                    for (int sRow = minSearchRow; sRow < maxSearchRow; ++sRow) {
+                        double * dxRow = dx.ptr<double>(sRow);
+                        double * dyRow = dy.ptr<double>(sRow);
+                        for (int sCol = minSearchCol; sCol < maxSearchCol; ++sCol) {
+                            if (!(sCol == col && sRow == row)) {
+                                cv::Point2d disp(sCol - col, sRow - row);
+                                disp = disp*(1/cv::norm(disp));
+                                cv::Point2d gradient(dxRow[sCol],dyRow[sCol]);
+                                score += disp.ddot(gradient);
+                            }
+                        }
+                    }
+                    maxScore = std::max(score,maxScore);
+                    resultRow[col] = score;
+                }
+            }
+            resultImage = resultImage/maxScore;
+
+            cv::namedWindow("Circle voting");
+            cv::imshow("Circle voting",resultImage);
+        }
+
 }
