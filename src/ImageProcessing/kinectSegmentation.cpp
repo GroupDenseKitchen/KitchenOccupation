@@ -64,12 +64,14 @@ void KinectSegmentation::process(FrameList &frames)
          cv::threshold(grayImage, foregroundMask, 1, 255, 0);
              // noise removal
              cv::Mat kernel = cv::Mat::ones(3,3, CV_8U);
+
                  // closening
-                 cv::erode(foregroundMask, foregroundMask, kernel, cv::Point(-1,-1), 4);
-                 cv::dilate(foregroundMask, foregroundMask, kernel, cv::Point(-1,-1), 3);
+                 cv::erode(foregroundMask, foregroundMask, kernel, cv::Point(-1,-1), 3);
+                 cv::dilate(foregroundMask, foregroundMask, kernel, cv::Point(-1,-1), 4);
                  // opening
                  cv::dilate(foregroundMask, foregroundMask, kernel, cv::Point(-1,-1), 3);
-                 cv::erode(foregroundMask, foregroundMask, kernel, cv::Point(-1,-1), 3);
+                 cv::erode(foregroundMask, foregroundMask, kernel, cv::Point(-1,-1), 4);
+
          camera.addImage("Foreground mask", foregroundMask);
 
 
@@ -79,6 +81,8 @@ void KinectSegmentation::process(FrameList &frames)
          cv::Mat sure_fg;
          cv::threshold(dist_transform, sure_fg, 0.5*cv::norm(dist_transform, cv::NORM_INF), 255, 0);
          sure_fg.convertTo(sure_fg, CV_8U);
+         cv::dilate(sure_fg, sure_fg, kernel, cv::Point(-1,-1), 3);
+         cv::erode(foregroundMask, foregroundMask, kernel, cv::Point(-1,-1), 3);
          camera.addImage("sure_fg", sure_fg);
 
 
