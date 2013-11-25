@@ -28,3 +28,7 @@ CMakeLists.txt.user
 
 # Don't upload private videos
 seq8.mp4
+
+conf/dense_conf.yml
+
+data/seq9/seq9.mov
