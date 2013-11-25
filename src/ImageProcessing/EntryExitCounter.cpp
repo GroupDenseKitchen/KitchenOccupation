@@ -72,7 +72,7 @@ void EntryExitCounter::process(FrameList &frames)
 
 }
 
-bool EntryExitCounter::isInsidePolygon(cv::Mat mask, cv::Point2d point){
+bool isInsidePolygon(cv::Mat mask, cv::Point2d point){
     if(point.x >= 0 && point.y >= 0){
         if(mask.at<cv::Vec3b>(point)[0] == 255){
             return true;
@@ -81,5 +81,7 @@ bool EntryExitCounter::isInsidePolygon(cv::Mat mask, cv::Point2d point){
 
     return false;
 }
+
+
 
 }

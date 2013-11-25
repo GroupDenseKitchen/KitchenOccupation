@@ -9,6 +9,11 @@
 namespace image_processing
 {
 /*!
+   \brief   Checks if a 2D-point is inside a polygon.
+*/
+bool isInsidePolygon(cv::Mat mask, cv::Point2d point);
+
+/*!
  *  \brief     Process step which determines if objects are lost in an entry area, creates bounding boxes.
  */
 class EntryExitCounter : public Algorithm
@@ -37,7 +42,7 @@ public:
      bool initialize(configuration::ConfigurationManager &conf) override;
 
 private:
-    bool isInsidePolygon(cv::Mat mask, cv::Point2d point);
+
 };
 }
 #endif
