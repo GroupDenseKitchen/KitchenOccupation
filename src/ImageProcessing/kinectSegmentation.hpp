@@ -40,6 +40,12 @@ public:
 private:
     float maxIntensity;
 
+    double headHeightMargin;
+    int lowestDistanceOverFloor;
+    int distanceToCameraMargin;
+    int minimalHumanArea;
+    int minimalHeadArea;
+
 };
 
 }
