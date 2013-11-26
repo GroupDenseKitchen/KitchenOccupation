@@ -39,44 +39,35 @@ bool OpticalFlowSegmentation::initialize(configuration::ConfigurationManager &se
     return isInitialized;
 }
 
-float OpticalFlowSegmentation::angleToXaxis(cv::Point2f _vector)
-{
+float OpticalFlowSegmentation::angleToXaxis(cv::Point2f vector){
     cv::Point2f xAxis = cv::Point2f(1,0);
-    float n = sqrt(_vector.dot(_vector));
-    _vector.x = _vector.x /n;//normalize
-    _vector.y = _vector.y / n;
-    if(_vector.y > 0){
-        return acos(_vector.dot(xAxis));
+    float n = sqrt(vector.dot(vector));
+    vector.x = vector.x / n; //normalize
+    vector.y = vector.y / n;
+    if(vector.y > 0){
+        return acos(vector.dot(xAxis));
     }
     else{
-        return 2*3.1415-acos(_vector.dot(xAxis));
+        return 2*3.1415-acos(vector.dot(xAxis));
     }
 }
 
 
 void OpticalFlowSegmentation::paintFlowVectors(cv::Mat imageToDrawOn, std::vector<FlowVector> flowVectors){
     for(FlowVector& fl: flowVectors){
-        cv::Point2f diff = fl.flow;
-        float a = angleToXaxis(diff);
-        float r = a * 255 / (2*3.1415) ;
-        float g = 255 - a*255/(2*3.1415) ;
-        int rr = (int)ceil(r);
-        int gg = (int)ceil(g);
-        cv::line(imageToDrawOn,fl.pos,fl.pos+fl.flow,cv::Scalar(rr,gg,0),1,CV_AA);
-
+        float angle = angleToXaxis(fl.flow);
+        float r = angle * 255 / (2*3.1415) ;
+        int colorValue = (int)ceil(r);
+        cv::line(imageToDrawOn,fl.pos,fl.pos+fl.flow,cv::Scalar(colorValue,255-colorValue,colorValue),4,CV_AA);
     }
 }
 
-void OpticalFlowSegmentation::paintFlowVectors(cv::Mat imageToDrawOn, std::vector<FlowVector> flowVectors, cv::Scalar color)
-{
-    for(FlowVector& fl: flowVectors){
-        cv::line(imageToDrawOn,fl.pos,fl.pos+fl.flow,color,1,CV_AA);
-    }
-}
+
 
 void OpticalFlowSegmentation::computeOpticalFlow(Frame current, Frame previous){
 
     int numFrames = 2; //Over how many frames the optical flow is estimated
+
     static int counter = -1;
     static cv::Mat lastImage;
 
@@ -84,7 +75,7 @@ void OpticalFlowSegmentation::computeOpticalFlow(Frame current, Frame previous){
 
             if(counter == -1){
                 lastImage = previous.getCameras()[i].getImage("reallyRawImage").clone();
-                imageToDrawOn = lastImage.clone();
+
             }
 
             if(counter == numFrames){
@@ -97,7 +88,7 @@ void OpticalFlowSegmentation::computeOpticalFlow(Frame current, Frame previous){
                 cv::cvtColor(currentCamera->getImage("reallyRawImage"), currentImage, CV_BGR2GRAY);
                 cv::cvtColor(lastImage, prevImage, CV_BGR2GRAY);
 
-                imageToDrawOn = lastImage.clone();
+
 
                 getOpticalFlow(currentImage,prevImage);
 
@@ -106,6 +97,11 @@ void OpticalFlowSegmentation::computeOpticalFlow(Frame current, Frame previous){
 
                 counter = 0;
         }
+            //Draw vectors, debug
+            imageToDrawOn = current.getCameras()[i].getImage("reallyRawImage").clone();
+            paintFlowVectors(imageToDrawOn,lastFlowVectors);
+            cv::namedWindow("DEBUG");
+            cv:imshow("DEBUG",imageToDrawOn);
     }
     counter = counter + 1;
 }
@@ -163,32 +159,7 @@ std::vector<FlowVector> OpticalFlowSegmentation::averageFlow(std::vector<FlowVec
     return averagedFlow;
 }
 
-void OpticalFlowSegmentation::clusterVectors(const std::vector<FlowVector>& flowVectors){
-/*    printf("in function \n");
-    /*
-    const int numElements = flowVectors.size();
-    //make a vector of angles
-    std::vector<double> angles = std::vector<double>(numElements);
-    for(int i=0; i < numElements; ++i){
-        angles[i] = angleToXaxis(flowVectors[i].flow);
-    }
 
-
-    cv::Mat sampleMatrix = cv::Mat(flowVectors.size(),4,CV_32FC1);
-    for(int i=0; i < flowVectors.size();++i){
-        sampleMatrix.at<float>(i,0) = flowVectors[i].pos.x;
-        sampleMatrix.at<float>(i,1) = flowVectors[i].pos.y;
-        sampleMatrix.at<float>(i,2) = flowVectors[i].flow.x;
-        sampleMatrix.at<float>(i,3) = flowVectors[i].flow.y;
-    }
-    cv::Mat bestLables;
-    int numClusters = 5;
-    cv::TermCriteria terminate = cv::KMEANS_RANDOM_CENTERS;
-    cv::Mat centers;
-    cv::kmeans(sampleMatrix,numClusters,bestLables,terminate,centers);
-
-*/
-}
 
 void OpticalFlowSegmentation::getOpticalFlow(cv::Mat current, cv::Mat prev){
 
@@ -243,19 +214,45 @@ void OpticalFlowSegmentation::getOpticalFlow(cv::Mat current, cv::Mat prev){
     }
 
     //Filter the vectors
-    flowVectors = filterSmallest(flowVectors);
-    flowVectors = averageFlow(flowVectors,current.size());
-    flowVectors = filterSmallest(flowVectors);
-
-    //Draw vectors, debug
-    paintFlowVectors(imageToDrawOn,flowVectors);
-    cv::namedWindow("DEBUG");
-    cv:imshow("DEBUG",imageToDrawOn);
+    flowVectors = filterSmallest(flowVectors); //removes too small vectors
+    flowVectors = averageFlow(flowVectors,current.size()); //averages flowvectors in blocks
+    flowVectors = filterSmallest(flowVectors);//removes too small vectors
+    lastFlowVectors.clear();
+    lastFlowVectors = flowVectors;
+    //clusterVectors(flowVectors);
 }
 
 
+//Not used
+void OpticalFlowSegmentation::clusterVectors(const std::vector<FlowVector>& flowVectors){
+/*    printf("in function \n");
+    /*
+    const int numElements = flowVectors.size();
+    //make a vector of angles
+    std::vector<double> angles = std::vector<double>(numElements);
+    for(int i=0; i < numElements; ++i){
+        angles[i] = angleToXaxis(flowVectors[i].flow);
+    }
 
-//Global flow code
+
+    cv::Mat sampleMatrix = cv::Mat(flowVectors.size(),4,CV_32FC1);
+    for(int i=0; i < flowVectors.size();++i){
+        sampleMatrix.at<float>(i,0) = flowVectors[i].pos.x;
+        sampleMatrix.at<float>(i,1) = flowVectors[i].pos.y;
+        sampleMatrix.at<float>(i,2) = flowVectors[i].flow.x;
+        sampleMatrix.at<float>(i,3) = flowVectors[i].flow.y;
+    }
+    cv::Mat bestLables;
+    int numClusters = 5;
+    cv::TermCriteria terminate = cv::KMEANS_RANDOM_CENTERS;
+    cv::Mat centers;
+    cv::kmeans(sampleMatrix,numClusters,bestLables,terminate,centers);
+
+*/
+}
+
+
+//---------------- Global flow code, not used -------------------------------//
 void OpticalFlowSegmentation::drawOptFlowMap(const cv::Mat& flow, cv::Mat& cflowmap, int step,
                     double, const cv::Scalar& color)
 {
