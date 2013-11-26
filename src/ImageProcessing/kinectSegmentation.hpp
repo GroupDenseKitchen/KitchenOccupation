@@ -7,7 +7,6 @@
 
 namespace image_processing
 {
-void findMinimas(cv::Mat & src, cv::Mat & dst, std::vector<cv::Point2i> & minimas);
 
 /*!
  *  \brief   Process step which creates binary image using OpenCV function KinectSegmentation2.
@@ -46,6 +45,7 @@ private:
     int minimalHumanArea;
     int minimalHeadArea;
 
+    void generateMaxRegionMask(cv::Mat & maxRegionMask, cv::Mat & grayImage, std::vector<std::vector<cv::Point>> & contours, int minimalArea, cv::Mat & debugImage);
 };
 
 }
