@@ -13,7 +13,7 @@ EntryExitCounter::~EntryExitCounter() {
 
 bool EntryExitCounter::initialize(configuration::ConfigurationManager& settings) {
     isInitialized = true;
-    // check that the vector with masks is the size n-cameras.
+    //check that the vector with masks is the size n-cameras.
     return isInitialized;
 }
 
