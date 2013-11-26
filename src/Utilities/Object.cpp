@@ -5,12 +5,13 @@ Object::Object()
 
 }
 
-Object::Object(cv::Rect boundingBox)
+Object::Object(std::vector<cv::Point>& contour, cv::Rect& boundingBox, cv::Point2f& centerOfMass, double area)
 {
     id = -1;
     this->boundingBox = boundingBox;
-    center.x = boundingBox.x + boundingBox.width/2.0;
-    center.y = boundingBox.y + boundingBox.height/2.0;
+    this->contour = contour;
+    this->centerOfMass = centerOfMass;
+    this->area = area;
 
     entryPoint = cv::Point2d(-1, -1);
     exitPoint = cv::Point2d(-1, -1);
@@ -32,11 +33,11 @@ void Object::merge(Object * previousState) {
 }
 
 void Object::enter() {
-    entryPoint = center;
+    entryPoint = centerOfMass;
 }
 
 void Object::exit() {
-    exitPoint = center;
+    exitPoint = centerOfMass;
     lost = true;
 }
 

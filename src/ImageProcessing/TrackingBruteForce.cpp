@@ -56,23 +56,33 @@ namespace image_processing
                 removeLostObjects(cameraCurr.getObjects(),cameraCurr.getTransitionaryObjects());
 
                 // Debug
-                cv::Mat raw = cameraCurr.getImage("rawImage");
+                if(!cameraCurr.hasImage("debugImage"))
+                    cameraCurr.addImage("debugImage", cameraCurr.getImage("rawImage").clone());
+                cv::Mat debugImage = cameraCurr.getImage("debugImage");
                 std::string text = "";
                 int fontFace = cv::FONT_HERSHEY_PLAIN;
                 double fontScale = 1;
                 int thickness = 1;
                 for(std::vector<Object>::iterator object = cameraCurr.getPotentialObjects().begin(); object != cameraCurr.getPotentialObjects().end(); object++) {
-                    cv::Point2d pos = object->center;
+                    cv::Point2d pos = object->centerOfMass;
                     text = "lifespan: " + std::to_string(object->lifeSpan);
-                    putText(raw, text, pos, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
-                    cv::rectangle(raw, cameraCurr.getPotentialObjects().back().boundingBox, cv::Scalar(255,0,0), 2);     // Debug
+                    putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(0,0,255), thickness, 8);
+                    cv::rectangle(debugImage, object->boundingBox, cv::Scalar(0,0,255), 2);     // Debug
+                    cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(0,0,100), -1);
                 }
                 for(std::vector<Object>::iterator object = cameraCurr.getObjects().begin(); object != cameraCurr.getObjects().end(); object++) {
-                    cv::Point2d pos = object->center;
+                    cv::Point2d pos = object->centerOfMass;
                     text = "id: "+std::to_string(object->id);
-                    if(object->lost)
+                    if(object->lost) {
                         text += ", LOST lifespan: " + std::to_string(object->lifeSpan);
-                    putText(raw, text, pos, fontFace, fontScale, cv::Scalar::all(255), thickness, 8);
+                        cv::rectangle(debugImage, object->boundingBox, cv::Scalar(255,0,0), 2);     // Debug
+                        cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(100,0,0), -1);
+                        putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(255, 0, 0), thickness, 8);
+                    } else {
+                        cv::rectangle(debugImage, object->boundingBox, cv::Scalar(0,255,0), 2);     // Debug
+                        cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(0,100,0), -1);
+                        putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(0, 255, 0), thickness, 8);
+                    }
                 }
             }
         }
@@ -161,10 +171,10 @@ namespace image_processing
 
     double TrackingBruteForce::distance(Object & previous, Object & current)
     {
-        double x1 = previous.center.x;
-        double y1 = previous.center.y;
-        double x2 = current.center.x;
-        double y2 = current.center.y;
+        double x1 = previous.centerOfMass.x;
+        double y1 = previous.centerOfMass.y;
+        double x2 = current.centerOfMass.x;
+        double y2 = current.centerOfMass.y;
         return (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2);
     }
 }

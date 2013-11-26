@@ -9,8 +9,10 @@ TrackingMinimumLifeSpan: 10
 TrackingMaximumTimeLost: 10
 ImageProcessor:
    - KinectSegmentation
+   - TrackingBruteForce
 Analytics:
    - FlowEstimator
+   - EntryExitCounter
 cameraPaths:
    - "http://root:pass@169.254.192.68/axis-cgi/mjpg/video.cgi?resolution=640x480&.mjpg"
 videoFilePaths:

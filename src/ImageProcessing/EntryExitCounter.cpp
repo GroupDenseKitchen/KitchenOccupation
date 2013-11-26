@@ -54,7 +54,9 @@ void EntryExitCounter::process(FrameList &frames)
                 cameraCurr->getNewlyFoundObjects().clear();
 
                 // Debug writes nr of people that enters/exits into raw image
-                cv::Mat raw = cameraCurr->getImage("rawImage");
+                if(!cameraCurr->hasImage("debugImage"))
+                    cameraCurr->addImage("debugImage", cameraCurr->getImage("rawImage").clone());
+                cv::Mat debugImage = cameraCurr->getImage("debugImage");
                 std::string text = "";
                 std::string text2 = "";
                 int fontFace = cv::FONT_HERSHEY_PLAIN;
@@ -63,9 +65,9 @@ void EntryExitCounter::process(FrameList &frames)
                 cv::Point2d pos1 = {10,15};
                 cv::Point2d pos2 = {10,35};
                 text = "Entered: " + std::to_string(cameraCurr->getEntered());
-                putText(raw, text, pos1, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
+                putText(debugImage, text, pos1, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
                 text2 = "Exited: " + std::to_string(cameraCurr->getExited());
-                putText(raw, text2, pos2, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
+                putText(debugImage, text2, pos2, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
             }
         }
     }
