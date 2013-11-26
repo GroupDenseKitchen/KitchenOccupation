@@ -13,8 +13,6 @@ ImageProcessor:
 Analytics:
    - FlowEstimator
    - EntryExitCounter
-cameraPaths:
-   - "http://root:pass@169.254.192.68/axis-cgi/mjpg/video.cgi?resolution=640x480&.mjpg"
 videoFilePaths:
    - "../data/seq9/seq9-3.mp4"
 trackerGroundTruthPaths:

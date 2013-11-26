@@ -13,7 +13,7 @@ EntryExitCounter::~EntryExitCounter() {
 
 bool EntryExitCounter::initialize(configuration::ConfigurationManager& settings) {
     isInitialized = true;
-    // check that the vector with masks is the size n-cameras.
+    //check that the vector with masks is the size n-cameras.
     return isInitialized;
 }
 
@@ -21,12 +21,9 @@ void EntryExitCounter::process(FrameList &frames)
 {
     if(frames.hasPrevious())
     {
-
         for(unsigned int n = 0; n < frames.getCurrent().getCameras().size(); n++)
         {
             if(frames.hasDoorMask()){
-
-
                 CameraObject  *cameraCurr = &frames.getCurrent().getCameras()[n];
                 CameraObject  *cameraPrev = &frames.getPrevious().getCameras()[n];
                 cameraCurr->setEntered(cameraPrev->getEntered()); //pass data from last frame
@@ -53,6 +50,14 @@ void EntryExitCounter::process(FrameList &frames)
                 }
                 cameraCurr->getNewlyFoundObjects().clear();
 
+                //Set population for a spec. RoomID corresp. to current camera
+                std::string currentRoomID = frames.getCurrent().getCameras()[n].getRoomID();
+                int exitedThisFrame = cameraCurr->getExited()-cameraPrev->getExited();
+                int enteredThisFrame =  cameraCurr->getEntered()-cameraPrev->getEntered();
+                int prevPopulation = frames.getPrevious().getPopulationInRoomID(currentRoomID);
+                frames.getCurrent().setPopulationInRoomID(prevPopulation+enteredThisFrame-exitedThisFrame, currentRoomID);
+
+
                 // Debug writes nr of people that enters/exits into raw image
                 if(!cameraCurr->hasImage("debugImage"))
                     cameraCurr->addImage("debugImage", cameraCurr->getImage("rawImage").clone());
@@ -68,13 +73,23 @@ void EntryExitCounter::process(FrameList &frames)
                 putText(debugImage, text, pos1, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
                 text2 = "Exited: " + std::to_string(cameraCurr->getExited());
                 putText(debugImage, text2, pos2, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
+
+
             }
         }
-    }
 
+        //sum all rooms into one. Since roomIds are always different from each other now.
+        //totalPopulation is really a debug variable that could be printed...
+        int totalPopulation = 0;
+        for(unsigned int n = 0; n < frames.getCurrent().getCameras().size(); n++) {
+            std::string currentRoomID = frames.getCurrent().getCameras()[n].getRoomID();
+            totalPopulation = totalPopulation + frames.getCurrent().getPopulationInRoomID(currentRoomID);
+        }
+
+    }
 }
 
-bool EntryExitCounter::isInsidePolygon(cv::Mat mask, cv::Point2d point){
+bool isInsidePolygon(cv::Mat mask, cv::Point2d point){
     if(point.x >= 0 && point.y >= 0){
         if(mask.at<cv::Vec3b>(point)[0] == 255){
             return true;
@@ -83,5 +98,7 @@ bool EntryExitCounter::isInsidePolygon(cv::Mat mask, cv::Point2d point){
 
     return false;
 }
+
+
 
 }

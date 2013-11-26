@@ -1,4 +1,4 @@
-*.pdf
+#*.pdf
 *.aux
 *.toc
 *.lof
@@ -34,5 +34,6 @@ seq8.mp4
 seq9-1.mp4
 seq9-2.mp4
 seq9-3.mp4
+seq9.mov
 
 

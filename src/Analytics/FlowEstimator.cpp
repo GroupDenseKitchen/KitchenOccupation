@@ -71,7 +71,6 @@ void FlowEstimator::process(FrameList &frames)
                 totalOut = totalOut + cameraFlowVector[n].outFlow[j].flow;
                 outFlowPerFrame = totalOut/(cameraFlowVector[n].outFlow[j].frameCount);
             }
-
         }
         isSetup = true;
     }

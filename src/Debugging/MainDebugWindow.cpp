@@ -51,7 +51,12 @@ void MainDebugWindow::init()
     program = new DenseKitchen;
     mainConfigPath = "dense_conf.yml";
     if(!program->initialize(mainConfigPath)){
+        LOG("MainDebugWindow initialization error", "program initialization failed");
+        debugging::logObject.dumpToConsole();
+        exit(-1);
+
         // TODO Fix that shit
+
     }
 
     // -------- Instanciate Main Program ----------------
