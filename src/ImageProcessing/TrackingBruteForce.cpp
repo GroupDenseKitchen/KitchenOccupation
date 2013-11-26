@@ -147,17 +147,18 @@ namespace image_processing
             if(object.lost) {
                 object.lifeSpan++;
             } else {
+                object.lost = true;
                 object.lifeSpan = 1;
-                object.exitPoint = object.center;
+                object.exitPoint = object.centerOfMass;
                 object.exit();
             }
             int height = image.size().height;
             int width = image.size().width;
             if(!isInsideRemovalArea(object,mask,height,width) && object.lifeSpan < maximumTimeLostStill) { // check is if lost for too long (1000 frames) ...
                 destination.push_back(object);
-            }
-            else if(object.lifeSpan >= 1){
-                transitionaryObjects.push_back(object);
+            } else {
+                if(object.lifeSpan > 0)
+                    transitionaryObjects.push_back(object);
             }
         }
     }
@@ -167,10 +168,7 @@ namespace image_processing
 
     bool TrackingBruteForce::isInsideRemovalArea(Object & object, cv::Mat mask, int height, int width)
     {
-        if(isInsidePolygon(mask,object.exitPoint) || isCloseImageBorder(object.exitPoint,height,width, 10)){
-            return true;
-        }
-        return false;
+        return isInsidePolygon(mask,object.exitPoint) || isCloseImageBorder(object.exitPoint,height,width, 30);
     }
 
     int TrackingBruteForce::getUniqueID()

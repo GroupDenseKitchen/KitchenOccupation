@@ -66,7 +66,7 @@ void EntryExitCounter::process(FrameList &frames)
                 std::string text2 = "";
                 int fontFace = cv::FONT_HERSHEY_PLAIN;
                 double fontScale = 1;
-                int thickness = 1;
+                int thickness = 2;
                 cv::Point2d pos1 = {10,15};
                 cv::Point2d pos2 = {10,35};
                 text = "Entered: " + std::to_string(cameraCurr->getEntered());
