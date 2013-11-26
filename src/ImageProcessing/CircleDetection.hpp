@@ -48,9 +48,9 @@ private:
     int kernelSize; //Size of kernel used for bluring the image
     int averageCircleFilterSize;
     double downSamplingFactor; //Factor for downsapling the image for processing speed
+    bool maskOutForeground; //Is to indicate if foreground should be masked out before detecting circles
 
     std::vector<cv::Mat> circleFilters; //Container of circle filters
-    std::vector<int> circleFilterSizes = {35}; //TODO figure out how to initialize this with CONFIG
     int circleFilterRadiusDifference; //The disparity between the larges and smalles circle radius used in circle filters.
 };
 

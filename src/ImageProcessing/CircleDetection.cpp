@@ -18,6 +18,7 @@ namespace image_processing
         CONFIG(settings, downSamplingFactor, "downSamplingFactor", 4);
         CONFIG(settings, averageCircleFilterSize, "circleFilterSize", 35);
         CONFIG(settings, circleFilterRadiusDifference, "circleFilterRadiusDifference", 4);
+        CONFIG(settings, maskOutForeground, "maskOutForeground", true);
 
         //  This is left here for tuning purposes
         cv::namedWindow("Sliders");
@@ -56,25 +57,38 @@ namespace image_processing
             cv::Canny( channels[2], channels[2], lowThreshold, highThreshold, kernelSize );
 
             cv::Mat canny = cv::max(channels[0], cv::max(channels[1], channels[2]));
+            if (camera.hasImage("foregroundMask") && maskOutForeground) {
+                cv::Mat foregroundMask;
+                cv::resize(camera.getImage("foregroundMask"), foregroundMask,
+                           cv::Size(0,0), 1/downSamplingFactor,1/downSamplingFactor, CV_INTER_AREA);
+                cv::bitwise_and(canny,foregroundMask,canny);
+            }
+
+            camera.addImage( "RGB canny", canny );
             cv::Mat printMap;
+
             // Correllation accumulator variable
             cv::Mat accCircles = cv::Mat::zeros(canny.rows, canny.cols, CV_32FC1);
-
             for(int i = 0; i < circleFilters.size(); ++i) {
                 cv::Mat circleMap;
                 cv::filter2D(canny, circleMap, CV_32FC1, circleFilters[i]);
-                accCircles += circleMap; // accumulate
+
+                //accCircles += circleMap; // accumulate
+                accCircles = cv::max(accCircles,circleMap);
 
                 // This is all debug stuff (scaling such that correlation is visible in the GUI)
                 cv::normalize(circleMap,circleMap,255,0);
                 circleMap.convertTo(circleMap ,CV_8UC1);
-                circleMap = circleMap*4; // Scale so that circle correlation is clearly visible
+                circleMap = circleMap*8; // Scale so that circle correlation is clearly visible
                 std::string imageName = "Circle map ";
                 imageName.append(std::to_string(i));
-                camera.addImage( imageName, circleMap*2 );
+                camera.addImage( imageName, circleMap );
             }
 
-            camera.addImage( "RGB canny", canny );
+            qDebug() << cv::norm(accCircles, cv::NORM_INF);
+            cv::namedWindow("Accumulated filters");
+            cv::imshow("Accumulated filters",accCircles*(1.0/50000));
+
 
 
         }
@@ -92,13 +106,16 @@ namespace image_processing
 
             int deltaRadius = circleThickness;
 
-            std::vector<int> filterSizes = {avgFilterSize-deltaRadius, avgFilterSize, avgFilterSize+deltaRadius};
+            std::vector<int> filterSizes = {avgFilterSize-deltaRadius,
+                                            avgFilterSize,
+                                            avgFilterSize+deltaRadius};
             filters.clear();
             for (unsigned int i = 0; i < filterSizes.size(); ++i) {
                 int filterSize = filterSizes[i];
                 int radius = (filterSize-1)/2;
                 cv::Point center( radius, radius );
 
+                //Make test circles to decide scaling factors
                 cv::Mat testNegative = cv::Mat::zeros(filterSize, filterSize, CV_32FC1);
                 cv::Mat testPositive = cv::Mat::zeros(filterSize, filterSize, CV_32FC1);
                 cv::circle(testNegative, center, radius, -1,-1);
@@ -111,11 +128,17 @@ namespace image_processing
                 }
                 assert(negSum < 0 );
 
+                //Make filter with negative center
                 float posWeight = std::abs(-posSum - negSum)/posSum;
-
                 cv::Mat filter = cv::Mat::zeros(filterSize, filterSize, CV_32FC1);
                 cv::circle(filter, center, radius, -1,-1);
                 cv::circle(filter, center, radius -deltaRadius , posWeight ,deltaRadius);
+                filters.push_back(filter);
+
+
+                //Make filter with zero in center
+                cv::Mat filterZero = cv::Mat::zeros(filterSize, filterSize, CV_32FC1);
+                cv::circle(filterZero, center, radius -deltaRadius , 1/posSum ,deltaRadius);
                 filters.push_back(filter);
             }
         }
