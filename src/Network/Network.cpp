@@ -139,7 +139,7 @@ Frame* Network::dequeFrame()
             }
         }
     }
-
+    frame->initRoomPopulations(frame->getCameras());
     return frame;
 }
 

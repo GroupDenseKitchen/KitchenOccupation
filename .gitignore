@@ -29,6 +29,9 @@ CMakeLists.txt.user
 # Don't upload private videos
 seq8.mp4
 
+<<<<<<< HEAD
+data/seq9/seq9.mov
+=======
 conf/dense_conf.yml
 
 data/seq9/seq9.mov
@@ -36,3 +39,6 @@ data/seq9/seq9.mov
 doc/Requirement Specification/requirement_specification.pdf
 
 doc/Requirement Specification/requirement_specification.pdf
+>>>>>>> master
+
+conf/dense_conf.yml
