@@ -1,12 +1,9 @@
 #ifndef ENTRYEXITEVALUATION_HPP
 #define ENTRYEXITEVALUATION_HPP
 
-#include "../Utilities/utilities.hpp"
-#include "../Utilities/FrameList.hpp"
-//#include "../Configuration/ConfigurationManager.hpp"
 #include "../Utilities/Algorithm.hpp"
-
-#include <vector>
+#include "../Utilities/utilities.hpp"
+//#include "../Configuration/ConfigurationManager.hpp"
 
 namespace evaluation {
 
@@ -33,11 +30,13 @@ namespace evaluation {
      * \param settings  Configuration-object containing the location of the ground truth files and other relevant settings.
      * \return          Returns true if successful.
      */
-        bool initialize(configuration::ConfigurationManager & settings) override;
+        bool initialize(configuration::ConfigurationManager &settings) override;
 
-        void process(FrameList &frames) override;
+        void process(FrameList & frames) override;
     private:
         std::vector<std::vector<inOutEvent>> groundTruth;
+        //std::vector<inOutEvent> entryExitData;
+        int frameCount;
     };
 
 } //namespace evaluation

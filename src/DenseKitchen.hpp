@@ -17,8 +17,8 @@
 #include "ImageProcessing/EntryExitCounter.hpp"
 #include "Analytics/Analytics.hpp"
 #include "Analytics/FlowEstimator.hpp"
-#include "Analytics/Evaluation.hpp"
 #include "Analytics/EntryExitEvaluation.hpp"
+#include "Analytics/Evaluation.hpp"
 
 
 /*!
