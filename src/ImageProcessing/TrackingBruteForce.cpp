@@ -12,9 +12,10 @@ namespace image_processing
         isInitialized = true;
 
         CONFIG(settings, maximumDistance, "TrackingMaximumDistance", 4000);
-        CONFIG(settings, minimumLifeSpan, "TrackingMinimumLifeSpan", 20);   //Currently # Frames, should be in ms...
-        CONFIG(settings, maximumTimeLost, "TrackingMaximumTimeLost", 10);   //Currently # Frames, should be in ms...
+        CONFIG(settings, minimumLifeSpan, "TrackingMinimumLifeSpan", 30);   //Currently # Frames, should be in ms...
+        CONFIG(settings, maximumTimeLostInDoorArea, "MaximumTimeLostInDoorArea", 9);   //Currently # Frames, should be in ms...
         CONFIG(settings, maximumTimeLostStill, "TrackingMaximumTimeLostStill", 200);
+
 
         return isInitialized;
     }
@@ -154,10 +155,13 @@ namespace image_processing
             }
             int height = image.size().height;
             int width = image.size().width;
-            if(!isInsideRemovalArea(object,mask,height,width) && object.lifeSpan < maximumTimeLostStill) { // check is if lost for too long (1000 frames) ...
+            if(!isInsideRemovalArea(object,mask,height,width) && object.lifeSpan < maximumTimeLostStill) { // check is if lost for too long (maximumTimeLostStill frames) ...
                 destination.push_back(object);
             } else {
-                if(object.lifeSpan > 0)
+                if(object.lifeSpan < maximumTimeLostInDoorArea){ //even if in exit area save it for maximumTimeLostInDoorArea frames
+                  destination.push_back(object);
+                }
+                if(object.lifeSpan > maximumTimeLostInDoorArea-1)
                     transitionaryObjects.push_back(object);
             }
         }
