@@ -17,7 +17,7 @@
     <node id="n0">
       <data key="d6">
         <y:SVGNode>
-          <y:Geometry height="45.56999588012695" width="67.49800109863281" x="446.2509994506836" y="183.43000411987305"/>
+          <y:Geometry height="45.56999588012695" width="67.49800109863281" x="356.2509994506836" y="183.43000411987305"/>
           <y:Fill color="#CCCCFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="31.749000549316406" y="49.56999588012695">
@@ -38,7 +38,7 @@
     <node id="n1">
       <data key="d6">
         <y:SVGNode>
-          <y:Geometry height="92.98499794006355" width="55.49800109863281" x="767.23992228508" y="163.5075010299682"/>
+          <y:Geometry height="92.98499794006355" width="55.49800109863281" x="722.2509994506836" y="163.5075010299682"/>
           <y:Fill color="#CCCCFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="25.749000549316406" y="96.98499794006355">
@@ -67,7 +67,7 @@
     <node id="n2">
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="18.701171875" width="113.43204002380367" x="442.41099945068356" y="246.461171875"/>
+          <y:Geometry height="18.701171875" width="113.43204002380367" x="352.41099945068356" y="246.461171875"/>
           <y:Fill color="#CCFFFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="custom" textColor="#000000" visible="true" width="73.357421875" x="20.037309074401833" y="0.0">User devices<y:LabelModel>
@@ -84,11 +84,11 @@
     <node id="n3">
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="33.40234375" width="199.60000000000014" x="696.6340149402617" y="264.898828125"/>
+          <y:Geometry height="38.0" width="250.5999999999999" x="624.7" y="264.898828125"/>
           <y:Fill color="#CCFFFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" modelName="custom" textColor="#000000" visible="true" width="194.107421875" x="2.746289062500068" y="0.0">Processing of data on server and/or
-smaller Raspberry Pi computers. <y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" modelName="custom" textColor="#000000" visible="true" width="249.443359375" x="0.5783203124999545" y="2.298828125">Processing of data on a small server
+in each room and/or Raspberry Pi computers. <y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -102,7 +102,7 @@ smaller Raspberry Pi computers. <y:LabelModel>
     <node id="n4">
       <data key="d6">
         <y:ImageNode>
-          <y:Geometry height="99.60000000000008" width="108.7490005493164" x="989.6595146656038" y="160.19999999999996"/>
+          <y:Geometry height="99.60000000000008" width="108.7490005493164" x="984.4589843749999" y="160.19999999999996"/>
           <y:Fill color="#CCCCFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="sandwich" modelPosition="s" textColor="#000000" visible="true" width="4.0" x="52.37450027465809" y="103.60000000000011"/>
@@ -113,7 +113,7 @@ smaller Raspberry Pi computers. <y:LabelModel>
     <node id="n5">
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="32.400000000000034" width="235.5999999999999" x="926.2340149402619" y="265.40000000000003"/>
+          <y:Geometry height="32.400000000000034" width="235.5999999999999" x="921.0334846496582" y="265.40000000000003"/>
           <y:Fill color="#CCFFFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" modelName="custom" textColor="#000000" visible="true" width="228.765625" x="2.834374999999909" y="-0.5011718750000682">Data collection from different rooms using 
@@ -131,7 +131,7 @@ one or more network cameras<y:LabelModel>
     <node id="n6">
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="18.701171875" width="43.3515625" x="884.5229377746582" y="200.6494140625"/>
+          <y:Geometry height="18.701171875" width="43.3515625" x="859.4282112121582" y="200.6494140625"/>
           <y:Fill hasColor="false" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="51.34375" x="-3.99609375" y="0.0">Image(s)</y:NodeLabel>
@@ -142,7 +142,7 @@ one or more network cameras<y:LabelModel>
     <node id="n7">
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="33.40234375" width="97.392578125" x="608.0623297691345" y="193.298828125"/>
+          <y:Geometry height="33.40234375" width="97.392578125" x="543.1792106628418" y="193.298828125"/>
           <y:Fill hasColor="false" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" modelName="internal" modelPosition="c" textColor="#000000" visible="true" width="97.392578125" x="0.0" y="0.0">Information about
@@ -154,7 +154,7 @@ room occupancy</y:NodeLabel>
     <node id="n8">
       <data key="d6">
         <y:SVGNode>
-          <y:Geometry height="38.0" width="23.0" x="528.5" y="191.0"/>
+          <y:Geometry height="38.0" width="23.0" x="438.5" y="191.0"/>
           <y:Fill color="#CCCCFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="custom" textColor="#000000" visible="true" width="4.0" x="9.5" y="42.0">
