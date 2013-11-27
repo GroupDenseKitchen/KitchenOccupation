@@ -12,25 +12,26 @@ namespace evaluation {
 
     bool EntryExitEvaluation::initialize(configuration::ConfigurationManager &settings)
     {
+        // Reads ground truth from files.
+        // Check if ground truth exists.
         bool gtExists = settings.hasStringSeq("entryExitGroundTruthPaths");
         std::vector<std::string> entryExitGtPaths;
 
-        frameCount = 0;
-
+        // If ground truth exists, read the path strings. Else return false.
         if(gtExists) {
             entryExitGtPaths = settings.getStringSeq("entryExitGroundTruthPaths");
         } else {
             return false;
         }
 
+        // If ground truth path is emty, return false.
         if(entryExitGtPaths.empty()) {
             return false;
         }
 
-        //Stega igenom listan med filer/kamror
-        //Läs in ground truth för varje frame för varje kamera
+        // For each camera, read the ground truth (entry/exit)
         for(std::vector<std::string>::size_type i = 0; i != entryExitGtPaths.size(); i++) {
-            //Läs in aktuell in/ut gt för aktuell kamera
+            // Read from file
             std::string source = entryExitGtPaths[i];
             cv::FileStorage file(source, cv::FileStorage::READ);
             std::vector<int> in;
@@ -38,61 +39,54 @@ namespace evaluation {
             file["Entries"] >> in;
             file["Exits"] >> out;
 
-            // Loopa igenom vektorna in och ut
+            // Save the ground truth values in groundTrouth.
             std::vector<inOutEvent> actualCamera;
             inOutEvent inOut;
             std::cout << in.size();
             for(std::vector<int>::size_type n = 0; n != in.size(); n++) {
                 inOut.in = in[n];
                 inOut.out = out[n];
-                //std::cout << in[n] << "  " << out[n] << std::endl;
                 actualCamera.push_back(inOut);
             }
             groundTruth.push_back(actualCamera);
         }
 
-        //LOG("EntryExitEvaluation Error", "Failed to read ground truth file at: " << groundTruthPath)
-
-        //Testar om det funkar...
-        //for(std::vector<vector<>>::)
+        // Set frame count
+        frameCount = 0;
 
         return true;
     }
 
     void EntryExitEvaluation::process(FrameList &frames)
     {        
-        //Hur blir det om man stegar bakåt med denna vektor??
+        // Hur blir det om man stegar bakåt med denna vektor??
+        // Fast stega bakåt verkar inte funka...
         std::vector<inOutEvent> actualCamera;
         inOutEvent inOut;
 
-        this->frameCount++;
-
-        //getEntered/getExited är summan av totala hittills
-        //för att få för aktuell frame, ta diff mellan getCurrent och getPreviuous
+        frameCount++;
 
         int prevEntered = 0;
         int prevExited = 0;
 
         // VERKAR JU INTE SÄTTAS NÅGONSTANS I PROGRAMMET!
-        //Sparar undan värdena för entry & exit
+        // Save the values for entry and exit
         for (std::vector<CameraObject>::size_type i = 0;
              i < frames.getCurrent().getCameras().size();
              i++) {
 
-            //Om första framen
-            if(!frames.hasPrevious()){ //onödigt? prevEntered/prevExited = 0
-                inOut.in = frames.getCurrent().getCameras()[i].getEntered();
-                inOut.out = frames.getCurrent().getCameras()[i].getExited();
-                actualCamera.push_back(inOut);
-            }
-            //Om inte första framen
-            else {
-                inOut.in = frames.getCurrent().getCameras()[i].getEntered() - prevEntered;
-                inOut.out = frames.getCurrent().getCameras()[i].getExited() - prevExited;
-                actualCamera.push_back(inOut);
-            }
+            // getEntered/getExited is the sum of all entrys and exits.
+            inOut.in = frames.getCurrent().getCameras()[i].getEntered() - prevEntered;
+            inOut.out = frames.getCurrent().getCameras()[i].getExited() - prevExited;
+            actualCamera.push_back(inOut);
 
-            // Skriver ut på bilden så man ser om det funkar...
+            // Save current values for next iteration
+            prevEntered = frames.getCurrent().getCameras()[i].getEntered();
+            prevExited = frames.getCurrent().getCameras()[i].getExited();
+
+            // Debug
+            // Print entry and exit information on the image
+            // Has to step trough the frames to see the entries and exits, they are only visible in one frame
             cv::Mat raw = frames.getCurrent().getCameras()[i].getImage("rawImage");
             std::string textEntry = "";
             std::string textExit = "";
@@ -105,20 +99,17 @@ namespace evaluation {
             cv::Point2d pos2(300,35);
             cv::Point2d pos3(300,55);
             cv::Point2d pos4(300,75);
-            textEntry = "Entered: " + std::to_string(frames.getCurrent().getCameras()[i].getEntered() - prevEntered); //actualCamera[this->frameCount].in funkar konstigt...
-            textExit = "Exited: " + std::to_string(frames.getCurrent().getCameras()[i].getExited() - prevExited); //actualCamera[this->frameCount].out funkar konstigt...
-            textEntryGT = "Entered GT: " + std::to_string(groundTruth[i].size()); //groundTruth[i][frameCount].in
-            textExitGT = "Exited GT: " + std::to_string(frameCount); //groundTruth[i][frameCount].out
+            textEntry = "Entered: " + std::to_string(inOut.in);
+            textExit = "Exited: " + std::to_string(inOut.out);
+            textEntryGT = "Entered GT: " + std::to_string(groundTruth[i][frameCount].in);
+            textExitGT = "Exited GT: " + std::to_string(groundTruth[i][frameCount].out);
             putText(raw, textEntry, pos1, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
             putText(raw, textExit, pos2, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
             putText(raw, textEntryGT, pos3, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
             putText(raw, textExitGT, pos4, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
-
-            //Sparar undan aktuellt värde till nästa iteration
-            prevEntered = frames.getCurrent().getCameras()[i].getEntered();
-            prevExited = frames.getCurrent().getCameras()[i].getExited();
         }
-        // Evaluerar...
+
+        // Evaluation?
     }
 
 } //namespace evaluation
