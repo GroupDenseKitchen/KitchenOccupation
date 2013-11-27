@@ -16,7 +16,7 @@ bool DenseKitchen::initialize(std::string path) {
     algorithmFactory.add("EntryExitCounter",                 new image_processing::EntryExitCounter());
     algorithmFactory.add("Analytics",                        new statistics::Analytics());
     algorithmFactory.add("FlowEstimator",                   new statistics::FlowEstimator());
-    algorithmFactory.add("EntryExitEvaluation",              new evaluation::EntryExitEvaluation());
+    //algorithmFactory.add("EntryExitEvaluation",              new evaluation::EntryExitEvaluation());
 
     if(!settings.readConfig(path)) {
         LOG("DenseKitchen initialization error", "settings file read error! path: \"" << path << "\"");
@@ -42,8 +42,12 @@ bool DenseKitchen::initialize(std::string path) {
         LOG("DenseKitchen initialize error", "Statisitics could not be initialized!");
         isInitialized = false;
     }
-
+/*
     if(!evaluation.initialize(settings)) {
+        LOG("DenseKitchen initialize error", "Evaluation could not be initialized!");
+        isEvalInitialized = false;
+    }*/
+    if(!entryExitEvaluation.initialize(settings)) {
         LOG("DenseKitchen initialize error", "Evaluation could not be initialized!");
         isEvalInitialized = false;
     }
@@ -85,9 +89,15 @@ bool DenseKitchen::singleIteration() {
                 statistics.process(frames);
                 PROFILER_END();
 
-                if (isEvalInitialized) {
+               /* if (isEvalInitialized) {
                     PROFILER_START("Evaluation")
                     evaluation.process(frames);
+                    PROFILER_END();
+                    //evaluation.printToLog(); // Prints MOTA & MOTP for every frame.
+                }*/
+                if (isEvalInitialized) {
+                    PROFILER_START("Evaluation")
+                    entryExitEvaluation.process(frames);
                     PROFILER_END();
                     //evaluation.printToLog(); // Prints MOTA & MOTP for every frame.
                 }

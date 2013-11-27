@@ -53,45 +53,68 @@ namespace evaluation {
 
         // Set frame count
         frameCount = 0;
+        for (std::vector<std::string>::size_type i = 0; i != entryExitGtPaths.size(); i++) {
+            prevEntered.push_back(0);
+            prevExited.push_back(0);
+            sumEntryGT.push_back(0);
+            sumExitGT.push_back(0);
+            diffEntries.push_back(0);
+            diffExits.push_back(0);
+            diffTotalOfPeople.push_back(0);
+        }
 
         return true;
     }
 
     void EntryExitEvaluation::process(FrameList &frames)
     {        
-        // Hur blir det om man stegar bakåt med denna vektor??
-        // Fast stega bakåt verkar inte funka...
-        std::vector<inOutEvent> actualCamera;
-        inOutEvent inOut;
-
         frameCount++;
 
-        int prevEntered = 0;
-        int prevExited = 0;
+        std::vector<inOutEvent> inOut;
+        for (std::vector<CameraObject>::size_type i = 0;
+             i < frames.getCurrent().getCameras().size();
+             i++) {
+            inOutEvent temp;
+            temp.in = 0;
+            temp.out = 0;
+            inOut.push_back(temp);
+        }
 
-        // VERKAR JU INTE SÄTTAS NÅGONSTANS I PROGRAMMET!
         // Save the values for entry and exit
         for (std::vector<CameraObject>::size_type i = 0;
              i < frames.getCurrent().getCameras().size();
              i++) {
 
             // getEntered/getExited is the sum of all entrys and exits.
-            inOut.in = frames.getCurrent().getCameras()[i].getEntered() - prevEntered;
-            inOut.out = frames.getCurrent().getCameras()[i].getExited() - prevExited;
-            actualCamera.push_back(inOut);
+            inOut[i].in = frames.getCurrent().getCameras()[i].getEntered() - prevEntered[i];
+            inOut[i].out = frames.getCurrent().getCameras()[i].getExited() - prevExited[i];
+            //entryExitData[i].push_back(inOut[i]);
 
             // Save current values for next iteration
-            prevEntered = frames.getCurrent().getCameras()[i].getEntered();
-            prevExited = frames.getCurrent().getCameras()[i].getExited();
+            prevEntered[i] = frames.getCurrent().getCameras()[i].getEntered();
+            prevExited[i] = frames.getCurrent().getCameras()[i].getExited();
+
+            // Sum ground truth enties and exits
+            sumEntryGT[i] = sumEntryGT[i] + groundTruth[i][frameCount].in;
+            sumExitGT[i] = sumExitGT[i] + groundTruth[i][frameCount].out;
+
+            // Evaluation
+            // Diffrence in summation of entries and exits and total number of people in the room
+            diffEntries[i] = frames.getCurrent().getCameras()[i].getEntered() - sumEntryGT[i];
+            diffExits[i] = frames.getCurrent().getCameras()[i].getExited() - sumExitGT[i];
+            diffTotalOfPeople[i] = (frames.getCurrent().getCameras()[i].getEntered() -
+                                    frames.getCurrent().getCameras()[i].getExited()) -
+                                    (sumEntryGT[i] - sumExitGT[i]);
+
 
             // Debug
             // Print entry and exit information on the image
-            // Has to step trough the frames to see the entries and exits, they are only visible in one frame
             cv::Mat raw = frames.getCurrent().getCameras()[i].getImage("rawImage");
-            std::string textEntry = "";
-            std::string textExit = "";
             std::string textEntryGT = "";
             std::string textExitGT = "";
+            std::string textEntryDiff = "";
+            std::string textExitDiff = "";
+            std::string textTotalDiff = "";
             int fontFace = cv::FONT_HERSHEY_PLAIN;
             double fontScale = 1;
             int thickness = 1;
@@ -99,17 +122,25 @@ namespace evaluation {
             cv::Point2d pos2(300,35);
             cv::Point2d pos3(300,55);
             cv::Point2d pos4(300,75);
-            textEntry = "Entered: " + std::to_string(inOut.in);
-            textExit = "Exited: " + std::to_string(inOut.out);
-            textEntryGT = "Entered GT: " + std::to_string(groundTruth[i][frameCount].in);
-            textExitGT = "Exited GT: " + std::to_string(groundTruth[i][frameCount].out);
-            putText(raw, textEntry, pos1, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
-            putText(raw, textExit, pos2, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
-            putText(raw, textEntryGT, pos3, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
-            putText(raw, textExitGT, pos4, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
+            cv::Point2d pos5(300,95);
+            textEntryGT = "Entered GT: " + std::to_string(sumEntryGT[i]);
+            textExitGT = "Exited GT: " + std::to_string(sumExitGT[i]);
+            textEntryDiff = "Entered difference: " + std::to_string(diffEntries[i]);
+            textExitDiff = "Exited difference: " + std::to_string(diffExits[i]);
+            textTotalDiff  = "Total difference: " + std::to_string(diffTotalOfPeople[i]);
+            putText(raw, textEntryGT, pos1, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
+            putText(raw, textExitGT, pos2, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
+            putText(raw, textEntryDiff, pos3, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
+            putText(raw, textExitDiff, pos4, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
+            putText(raw, textTotalDiff, pos5, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
         }
+    }
 
-        // Evaluation?
+    void EntryExitEvaluation::printToLog(unsigned int cameraIndex)
+    {
+        // ej klar, behöver lägga till värdena i slutet
+        LOG("Evaluation Entry/Exit", "Total number of entries of camera " + std::to_string(cameraIndex) + " is: ");;
+        LOG("Evaluation Entry/Exit", "Total number of exits of camera " + std::to_string(cameraIndex) + " is: ");
     }
 
 } //namespace evaluation

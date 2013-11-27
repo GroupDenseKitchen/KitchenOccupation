@@ -17,7 +17,7 @@ namespace evaluation {
         int out;
     };
 
-    class EntryExitEvaluation : public Algorithm
+    class EntryExitEvaluation
     {
     public:
         /*!
@@ -36,7 +36,7 @@ namespace evaluation {
          *                  ground truth files and other relevant settings.
          * \return          Returns true if successful.
          */
-        bool initialize(configuration::ConfigurationManager &settings) override;
+        bool initialize(configuration::ConfigurationManager &settings);// override;
 
         /*!
          * \brief   Evaluates and updates the results for the system.
@@ -45,12 +45,21 @@ namespace evaluation {
          *          calculat the difference between the systems
          *          entry/exit estimate and the ground truth
          */
-        void process(FrameList & frames) override;
+        void process(FrameList & frames);// override;
+
+        void printToLog(unsigned int cameraIndex);
 
     private:
         std::vector<std::vector<inOutEvent>> groundTruth;
-        //std::vector<inOutEvent> entryExitData; //använder inte just nu...
+        std::vector<std::vector<inOutEvent>> entryExitData; //används inte just nu...
         int frameCount;
+        std::vector<int> prevEntered;
+        std::vector<int> prevExited;
+        std::vector<int> sumEntryGT;
+        std::vector<int> sumExitGT;
+        std::vector<int> diffEntries;
+        std::vector<int> diffExits;
+        std::vector<int> diffTotalOfPeople;
     };
 
 } //namespace evaluation

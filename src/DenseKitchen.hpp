@@ -68,6 +68,7 @@ private:
     network::Network network;
     configuration::ConfigurationManager settings;
     evaluation::Evaluation evaluation;
+    evaluation::EntryExitEvaluation entryExitEvaluation;
 
     AlgorithmFactory algorithmFactory;
     image_processing::ImageProcessor imageProcessor;
