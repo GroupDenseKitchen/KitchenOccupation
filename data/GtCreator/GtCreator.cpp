@@ -10,46 +10,28 @@ void createConfigFile(std::string cfgFile)
     // Open file
     cv::FileStorage textFile(cfgFile,cv::FileStorage::WRITE);
     // Add data to file
-    textFile << "myString" << "Hello OpenCV text file handle";
-    textFile << "myVideoFilePath" << "../seq7/seq7.mp4";
-    textFile << "myImageFilePath" << "image.png";
-    //std::vector<int> integers;
-    //integers.push_back(0);
-    //integers.push_back(1);
-    //integers.push_back(2);
-    //integers.push_back(3);
-    //integers.push_back(1337);
-
-    //textFile << "myIntVector" << integers;
-
-    // Måste göras för att sparas
+    textFile << "videoFilePath" << "../seq3/seq3.mp4";
+    textFile << "GTDataFilePath" << "../seq3/seq3EntryExitGT.yml";
+    // Saves file
     textFile.release();
 }
 
 int main()
 {
+    // Creates file with video file path
     createConfigFile("myFile.yml");
 
+    // Reads file path from file
     cv::FileStorage file("myFile.yml",cv::FileStorage::READ);
-    std::string videoFilePath, imageFilePath;
-
-    file["myImageFilePath"] >> imageFilePath;
-    file["myVideoFilePath"] >> videoFilePath;
+    std::string videoFilePath, GTDataFilePath;
+    file["videoFilePath"] >> videoFilePath;
+    file["GTDataFilePath"] >> GTDataFilePath;
     file.release();
 
-    cv::namedWindow("MahImageWindow");
+    // Creates a window
     cv::namedWindow("MahVidyaWindow");
 
-    cv::Mat image = cv::imread(imageFilePath);
-    if (!image.empty()) {
-
-        cv::putText(image,"Hello OpenCV", cv::Point(20,30), cv::FONT_HERSHEY_COMPLEX, 1, cv::Scalar(50,50,50));
-        cv::imshow("MahImageWindow", image);
-        cv::waitKey(0);
-    } else {
-        std::cerr << "Failed to open image at :" << imageFilePath << std::endl;
-    }
-
+    // Reads video from file path
     cv::VideoCapture videoFile(videoFilePath);
     cv::Mat frame;
     char c;
@@ -61,10 +43,11 @@ int main()
     exits.reserve(videoFile.get(CV_CAP_PROP_FRAME_COUNT));
 
     if (videoFile.isOpened()) {
-        // While we have frames left
+        // While frames left
         while (videoFile.read(frame)) {
             int actualFrame = videoFile.get(CV_CAP_PROP_POS_FRAMES);
 
+            // Print entries and exits in frame
             std::string text = "", text1 = "", text2 = "";
             std::stringstream s, s1, s2;
             s << actualFrame;
@@ -91,22 +74,14 @@ int main()
             if (c == 27){
                 entries.push_back(entryFrame);
                 exits.push_back(exitFrame);
-
-                //std::cout << "Entry vector: ";
-                //for(std::vector<int>::const_iterator i=entries.begin(); i!=entries.end(); ++i)
-                //    std::cout << (*i) << " ";
-                //std::cout << "\n" << "Exit vector: ";
-                //for(std::vector<int>::const_iterator i=exits.begin(); i!=exits.end(); ++i)
-                //    std::cout << (*i) << " ";
-                //std::cout << "\n";
                 break;
             }
             // To back one step, using z
-            else if (c == 122){
+            else if (c == 122){               
+                entryFrame = entries.back();
+                exitFrame = exits.back();
                 entries.pop_back();
                 exits.pop_back();
-                entryFrame = 0;
-                exitFrame = 0;
                 actualFrame = videoFile.set(CV_CAP_PROP_POS_FRAMES, actualFrame-2);
             }
             // To step forward, using x
@@ -131,8 +106,9 @@ int main()
                 actualFrame = videoFile.set(CV_CAP_PROP_POS_FRAMES, actualFrame-1);
 
         }
+
         // Save vectors to file
-        cv::FileStorage textFile("../seq7/seq7EntryExitGT.yml",cv::FileStorage::WRITE);
+        cv::FileStorage textFile(GTDataFilePath, cv::FileStorage::WRITE);
         textFile << "Entries" << entries;
         textFile << "Exits" << exits;
         textFile.release();
