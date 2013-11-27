@@ -15,6 +15,7 @@ bool DenseKitchen::initialize(std::string path) {
     algorithmFactory.add("TrackingBruteForce",               new image_processing::TrackingBruteForce());
     algorithmFactory.add("EntryExitCounter",                 new image_processing::EntryExitCounter());
     algorithmFactory.add("KinectSegmentation",               new image_processing::KinectSegmentation());
+    algorithmFactory.add("TrackingBruteForceLines",          new image_processing::TrackingBruteForceLines());
     algorithmFactory.add("Analytics",                        new statistics::Analytics());
     algorithmFactory.add("FlowEstimator",                    new statistics::FlowEstimator());
 

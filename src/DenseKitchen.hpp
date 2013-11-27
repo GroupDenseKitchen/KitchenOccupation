@@ -14,6 +14,7 @@
 #include "ImageProcessing/BackgroundModelMoG.hpp"
 #include "ImageProcessing/ForegroundRegionExtractorDefault.hpp"
 #include "ImageProcessing/TrackingBruteForce.hpp"
+#include "ImageProcessing/TrackingBruteForceLines.hpp"
 #include "ImageProcessing/EntryExitCounter.hpp"
 #include "ImageProcessing/kinectSegmentation.hpp"
 #include "Analytics/Analytics.hpp"
