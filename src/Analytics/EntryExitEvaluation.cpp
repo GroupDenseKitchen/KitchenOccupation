@@ -40,15 +40,15 @@ namespace evaluation {
             file["Exits"] >> out;
 
             // Save the ground truth values in groundTrouth.
-            std::vector<inOutEvent> actualCamera;
+            std::vector<inOutEvent> currentCamera;
             inOutEvent inOut;
             std::cout << in.size();
             for(std::vector<int>::size_type n = 0; n != in.size(); n++) {
                 inOut.in = in[n];
                 inOut.out = out[n];
-                actualCamera.push_back(inOut);
+                currentCamera.push_back(inOut);
             }
-            groundTruth.push_back(actualCamera);
+            groundTruth.push_back(currentCamera);
         }
 
         // Set frame count
@@ -99,7 +99,7 @@ namespace evaluation {
             sumExitGT[i] = sumExitGT[i] + groundTruth[i][frameCount].out;
 
             // Evaluation
-            // Diffrence in summation of entries and exits and total number of people in the room
+            // Diffrence in entries and exits and total number of people in the room
             diffEntries[i] = frames.getCurrent().getCameras()[i].getEntered() - sumEntryGT[i];
             diffExits[i] = frames.getCurrent().getCameras()[i].getExited() - sumExitGT[i];
             diffTotalOfPeople[i] = (frames.getCurrent().getCameras()[i].getEntered() -
@@ -138,9 +138,10 @@ namespace evaluation {
 
     void EntryExitEvaluation::printToLog(unsigned int cameraIndex)
     {
-        // ej klar, behöver lägga till värdena i slutet
-        LOG("Evaluation Entry/Exit", "Total number of entries of camera " + std::to_string(cameraIndex) + " is: ");;
-        LOG("Evaluation Entry/Exit", "Total number of exits of camera " + std::to_string(cameraIndex) + " is: ");
+        LOG("Evaluation Entry/Exit", "Difference in entries of camera " + std::to_string(cameraIndex) + " is: " + std::to_string(diffEntries[cameraIndex]));
+        LOG("Evaluation Entry/Exit", "Difference in exits of camera " + std::to_string(cameraIndex) + " is: " + std::to_string(diffExits[cameraIndex]));
+        LOG("Evaluation Entry/Exit", "Difference in total number of people in room of camera "
+            + std::to_string(cameraIndex) + " is: " + std::to_string(diffTotalOfPeople[cameraIndex]));
     }
 
 } //namespace evaluation
