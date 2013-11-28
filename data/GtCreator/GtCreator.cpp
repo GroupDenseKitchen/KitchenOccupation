@@ -29,7 +29,7 @@ int main()
     file.release();
 
     // Creates a window
-    cv::namedWindow("MahVidyaWindow");
+    cv::namedWindow("VideoWindow");
 
     // Reads video from file path
     cv::VideoCapture videoFile(videoFilePath);
