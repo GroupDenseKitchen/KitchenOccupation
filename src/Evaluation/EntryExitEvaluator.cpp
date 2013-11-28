@@ -1,16 +1,17 @@
-#include "EntryExitEvaluation.hpp"
+#include "EntryExitEvaluator.hpp"
 
 namespace evaluation {
 
-    EntryExitEvaluation::EntryExitEvaluation()
+
+    EntryExitEvaluator::EntryExitEvaluator()
     {
     }
 
-    EntryExitEvaluation::~EntryExitEvaluation()
+    EntryExitEvaluator::~EntryExitEvaluator()
     {
     }
 
-    bool EntryExitEvaluation::initialize(configuration::ConfigurationManager &settings)
+    bool EntryExitEvaluator::initialize(configuration::ConfigurationManager &settings)
     {
         // Reads ground truth from files.
         // Check if ground truth exists.
@@ -28,7 +29,7 @@ namespace evaluation {
         if(entryExitGtPaths.empty()) {
             return false;
         }
-
+        int minFrameCount = INT_MAX;
         // For each camera, read the ground truth (entry/exit)
         for(std::vector<std::string>::size_type i = 0; i != entryExitGtPaths.size(); i++) {
             // Read from file
@@ -47,12 +48,15 @@ namespace evaluation {
                 inOut.in = in[n];
                 inOut.out = out[n];
                 currentCamera.push_back(inOut);
+
             }
+            minFrameCount = cv::min(minFrameCount, (int)currentCamera.size());
             groundTruth.push_back(currentCamera);
         }
 
         // Set frame count
         frameCount = 0;
+
         for (std::vector<std::string>::size_type i = 0; i != entryExitGtPaths.size(); i++) {
             prevEntered.push_back(0);
             prevExited.push_back(0);
@@ -61,14 +65,23 @@ namespace evaluation {
             diffEntries.push_back(0);
             diffExits.push_back(0);
             diffTotalOfPeople.push_back(0);
+
         }
+        numberOfFrames = minFrameCount;
 
         return true;
     }
 
-    void EntryExitEvaluation::process(FrameList &frames)
+    void EntryExitEvaluator::process(FrameList &frames)
     {        
+        bool asdf;
+        if (frameCount == 309) {
+
+            asdf = true;
+        }
         frameCount++;
+        if (frameCount > numberOfFrames)
+            return;
 
         std::vector<inOutEvent> inOut;
         for (std::vector<CameraObject>::size_type i = 0;
@@ -136,7 +149,7 @@ namespace evaluation {
         }
     }
 
-    void EntryExitEvaluation::printToLog(unsigned int cameraIndex)
+    void EntryExitEvaluator::printToLog(unsigned int cameraIndex)
     {
         LOG("Evaluation Entry/Exit", "Difference in entries of camera " + std::to_string(cameraIndex) + " is: " + std::to_string(diffEntries[cameraIndex]));
         LOG("Evaluation Entry/Exit", "Difference in exits of camera " + std::to_string(cameraIndex) + " is: " + std::to_string(diffExits[cameraIndex]));

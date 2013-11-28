@@ -17,8 +17,9 @@
 #include "ImageProcessing/EntryExitCounter.hpp"
 #include "Analytics/Analytics.hpp"
 #include "Analytics/FlowEstimator.hpp"
-#include "Analytics/EntryExitEvaluation.hpp"
-#include "Analytics/Evaluation.hpp"
+#include "Evaluation/Evaluation.hpp"
+#include "Evaluation/EntryExitEvaluator.hpp"
+#include "Evaluation/TrackerEvaluator.hpp"
 
 
 /*!
@@ -67,12 +68,13 @@ private:
 
     network::Network network;
     configuration::ConfigurationManager settings;
-    evaluation::Evaluation evaluation;
-    evaluation::EntryExitEvaluation entryExitEvaluation;
+    //
+    //evaluation::EntryExitEvaluation entryExitEvaluation;
 
     AlgorithmFactory algorithmFactory;
     image_processing::ImageProcessor imageProcessor;
-    statistics::Analytics statistics;
+    statistics::Analytics analytics;
+    evaluation::Evaluation evaluator;
 
     std::string configPath;
 

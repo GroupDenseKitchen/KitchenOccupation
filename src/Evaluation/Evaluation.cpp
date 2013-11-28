@@ -1,6 +1,6 @@
 #include "Evaluation.hpp"
 
-using namespace rapidxml;
+//using namespace rapidxml;
 
 namespace evaluation
 {
@@ -9,11 +9,12 @@ Evaluation::Evaluation() {}
 
 Evaluation::~Evaluation()
 {
-    trackingEvaluators.clear();
+    //trackingEvaluators.clear();
 }
 
 bool Evaluation::initialize(configuration::ConfigurationManager &settings)
 {
+
     if (!settings.hasBool("runFromFile") || !settings.getBool("runFromFile")) {
         LOG("Evaluation", "Running from live stream, evaluation unavailable.");
         return false;
@@ -51,11 +52,13 @@ bool Evaluation::initialize(configuration::ConfigurationManager &settings)
         }
     }
 
-    return true;
+    return Algorithm::initialize(settings);
+
 }
 
 void Evaluation::printToLog()
 {    
+
     for (unsigned int i = 0; i < trackingEvaluators.size(); i++) {
         if(trackingEvaluators[i]) {
             trackingEvaluators[i]->printToLog(i);
@@ -65,11 +68,15 @@ void Evaluation::printToLog()
 
 void Evaluation::process(FrameList& frames)
 {
+
+
+
     for (unsigned int i = 0; i < frames.getCurrent().getCameras().size(); i++) {
         if(trackingEvaluators[i]) {
             trackingEvaluators[i]->process(frames.getCurrent().getCameras()[i]);
         }
     }
+    return Algorithm::process(frames);
 }
 
 } // namespace evaluation

@@ -11,9 +11,10 @@ ImageProcessor:
    - BackgroundModelMoG
    - ForegroundRegionExtractorDefault
    - TrackingBruteForce
-   - EntryExitCounter
 Analytics:
    - FlowEstimator
+Evaluation:
+   - EntryExitEvaluator
 cameraPaths:
    - "http://root:pass@169.254.192.68/axis-cgi/mjpg/video.cgi?resolution=640x480&.mjpg"
 videoFilePaths:

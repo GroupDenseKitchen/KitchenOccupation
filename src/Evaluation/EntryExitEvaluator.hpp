@@ -3,7 +3,7 @@
 
 #include "../Utilities/Algorithm.hpp"
 #include "../Utilities/utilities.hpp"
-//#include "../Configuration/ConfigurationManager.hpp"
+
 
 /*!
  *  \brief     Evaluates systems entry/exit counter
@@ -17,18 +17,18 @@ namespace evaluation {
         int out;
     };
 
-    class EntryExitEvaluation
+    class EntryExitEvaluator : public Algorithm
     {
     public:
         /*!
          * \brief   Constructor.
          */
-        EntryExitEvaluation();
+        EntryExitEvaluator();
 
         /*!
          * \brief   Destructor.
          */
-        ~EntryExitEvaluation();
+        ~EntryExitEvaluator();
 
         /*!
          * \brief           Initializes the entryexitevaluation module
@@ -53,6 +53,7 @@ namespace evaluation {
         std::vector<std::vector<inOutEvent>> groundTruth;
         std::vector<std::vector<inOutEvent>> entryExitData; //används inte just nu...
         int frameCount;
+        int numberOfFrames;
         std::vector<int> prevEntered;
         std::vector<int> prevExited;
         std::vector<int> sumEntryGT;

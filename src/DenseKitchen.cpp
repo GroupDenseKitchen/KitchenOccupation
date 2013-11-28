@@ -15,8 +15,9 @@ bool DenseKitchen::initialize(std::string path) {
     algorithmFactory.add("TrackingBruteForce",               new image_processing::TrackingBruteForce());
     algorithmFactory.add("EntryExitCounter",                 new image_processing::EntryExitCounter());
     algorithmFactory.add("Analytics",                        new statistics::Analytics());
-    algorithmFactory.add("FlowEstimator",                   new statistics::FlowEstimator());
-    //algorithmFactory.add("EntryExitEvaluation",              new evaluation::EntryExitEvaluation());
+    algorithmFactory.add("FlowEstimator",                    new statistics::FlowEstimator());
+    algorithmFactory.add("EntryExitEvaluator",               new evaluation::EntryExitEvaluator());
+    //algorithmFactory.add("TrackerEvaluator",                 new evaluation::TrackerEvaluator());
 
     if(!settings.readConfig(path)) {
         LOG("DenseKitchen initialization error", "settings file read error! path: \"" << path << "\"");
@@ -30,27 +31,36 @@ bool DenseKitchen::initialize(std::string path) {
         LOG("DenseKitchen initialize error", "Image processor failed when populating sub algorighms");
         isInitialized = false;
     }
-    if(!statistics.populateSubAlgorithms(settings, "Analytics", algorithmFactory)) {
+    if(!analytics.populateSubAlgorithms(settings, "Analytics", algorithmFactory)) {
         LOG("DenseKitchen initialize error", "Satisitics failed when populating sub algorighms");
         isInitialized = false;
+    }
+    if(!evaluator.populateSubAlgorithms(settings, "Evaluation", algorithmFactory)) {
+        LOG("DenseKitchen initialize error", "Satisitics failed when populating sub algorighms");
+        isEvalInitialized = false;
     }
     if(!imageProcessor.initialize(settings)) {
         LOG("DenseKitchen initialize error", "ImageProcessor could not be initialized!");
         isInitialized = false;
     }
-    if(!statistics.initialize(settings)) {
+    if(!analytics.initialize(settings)) {
         LOG("DenseKitchen initialize error", "Statisitics could not be initialized!");
         isInitialized = false;
+    }
+    if(!evaluator.initialize(settings)) {
+        LOG("DenseKitchen initialize error", "Statisitics could not be initialized!");
+         isEvalInitialized = false;
     }
 /*
     if(!evaluation.initialize(settings)) {
         LOG("DenseKitchen initialize error", "Evaluation could not be initialized!");
         isEvalInitialized = false;
     }*/
+    /*
     if(!entryExitEvaluation.initialize(settings)) {
         LOG("DenseKitchen initialize error", "Evaluation could not be initialized!");
         isEvalInitialized = false;
-    }
+    }*/
     PROFILER_ITERATION_END();
 
     return isInitialized;
@@ -60,7 +70,7 @@ void DenseKitchen::reset()
 {
     network.reset();
     imageProcessor.reset();
-    statistics.reset();
+    analytics.reset();
 
     debugging::logObject.clear();
 
@@ -86,25 +96,26 @@ bool DenseKitchen::singleIteration() {
                 PROFILER_END();
 
                 PROFILER_START("Statistics Processing");
-                statistics.process(frames);
+                analytics.process(frames);
                 PROFILER_END();
 
-               /* if (isEvalInitialized) {
+                if (isEvalInitialized) {
                     PROFILER_START("Evaluation")
-                    evaluation.process(frames);
+                    evaluator.process(frames);
                     PROFILER_END();
-                    //evaluation.printToLog(); // Prints MOTA & MOTP for every frame.
-                }*/
+                    //evaluator.printToLog(); // Prints MOTA & MOTP for every frame.
+                }
+                /*
                 if (isEvalInitialized) {
                     PROFILER_START("Evaluation")
                     entryExitEvaluation.process(frames);
                     PROFILER_END();
                     //evaluation.printToLog(); // Prints MOTA & MOTP for every frame.
-                }
+                }*/
 
             } else {
                 if (isEvalInitialized) {
-                    evaluation.printToLog();
+                    evaluator.printToLog();
                     iterationSuccess = false;
                 }
             }
