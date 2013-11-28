@@ -16,7 +16,6 @@ namespace image_processing
         CONFIG(settings, maximumTimeLostInDoorArea, "MaximumTimeLostInDoorArea", 9);   //Currently # Frames, should be in ms...
         CONFIG(settings, maximumTimeLostStill, "TrackingMaximumTimeLostStill", 200);
 
-
         return isInitialized;
     }
 
@@ -54,7 +53,6 @@ namespace image_processing
 
                 // 5) Elevate pervious candidate objects to real objects if they have lived long enough.
                 elevatePotentialObjects(cameraCurr.getPotentialObjects(), cameraCurr.getObjects(),cameraCurr.getNewlyFoundObjects());
-
 
                 // Debug
                 if(!cameraCurr.hasImage("debugImage"))
@@ -188,4 +186,5 @@ namespace image_processing
         double y2 = current.centerOfMass.y;
         return (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2);
     }
+
 }

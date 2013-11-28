@@ -53,6 +53,9 @@ public:
     // Status
     bool lost;
     int lifeSpan;
+
+    // Prediction
+    cv::KalmanFilter kalmanFilter;
 };
 
 #endif // OBJECT_HPP

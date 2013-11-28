@@ -2,7 +2,7 @@
 
 Object::Object()
 {
-
+    kalmanFilter.init(4,4);
 }
 
 Object::Object(std::vector<cv::Point>& contour, cv::Rect& boundingBox, cv::Point2f& centerOfMass, double area)
@@ -30,6 +30,25 @@ void Object::merge(Object * previousState) {
     lost = previousState->lost;
     entryPoint = previousState->entryPoint;
     lifeSpan = previousState->lifeSpan+1;
+
+    // Kalman filter prediction
+    cv::Vec2f velocity, predictedVelocity;
+    float dt = 1;
+    const cv::Matx44f transit( 1, 0, dt, 0,
+                               0, 1, 0,  dt,
+                               0, 0, 1,  0,
+                               0, 0, 0,  1 );
+    const cv::Matx44f measure( 1, 1, 0, 0  );
+
+    kalmanFilter.transitionMatrix = cv::Mat(transit);
+    kalmanFilter.measurementMatrix = cv::Mat(measure);
+
+    velocity = kalmanFilter.correct(cv::Mat(cv::Mat2f( centerOfMass.x, centerOfMass.y)));
+    predictedVelocity = kalmanFilter.predict();
+
+    //kalmanFilter.statePre = previous.centerOfMass;
+    //kalmanFilter.errorCovPre = cv::Matx22f(1,0,1,0);
+    predictedVelocity = kalmanFilter.predict();
 }
 
 void Object::enter() {
