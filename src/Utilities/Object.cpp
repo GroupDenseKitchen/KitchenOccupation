@@ -31,6 +31,7 @@ void Object::merge(Object * previousState) {
     entryPoint = previousState->entryPoint;
     lifeSpan = previousState->lifeSpan+1;
 
+    /*
     // Kalman filter prediction
     cv::Vec2f velocity, predictedVelocity;
     float dt = 1;
@@ -49,6 +50,7 @@ void Object::merge(Object * previousState) {
     //kalmanFilter.statePre = previous.centerOfMass;
     //kalmanFilter.errorCovPre = cv::Matx22f(1,0,1,0);
     predictedVelocity = kalmanFilter.predict();
+    */
 }
 
 void Object::enter() {

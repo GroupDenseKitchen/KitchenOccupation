@@ -59,9 +59,6 @@ private:
     bool isCloseImageBorder(cv::Point2d point, int height, int width, int margin);
     bool isInsideRemovalArea(Object & object, cv::Mat mask, int height, int width);
 
-    cv::KalmanFilter kalmanFilter;
-    void predict(Object & previous, Object & current);
-
     int getUniqueID();
     double distance(Object& previous, Object& current);
 };
