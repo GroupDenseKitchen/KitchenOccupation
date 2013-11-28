@@ -19,6 +19,7 @@
 #include "DebugView.hpp"
 #include "DebugViewWidget.hpp"
 #include "DebugViewGrid.hpp"
+#include "StereoCalibrationWidget.hpp"
 
 #include <opencv2/core/core.hpp>
 
@@ -85,12 +86,10 @@ private slots:
     void on_actionSave_grid_configuration_triggered();
 
     void on_actionRun_triggered();
-
     void on_actionPause_triggered();
-
     void on_actionRestart_triggered();
-
     void on_actionConfigure_triggered();
+    void on_actionStereoCalibrate_triggered();
 
 public slots:
     void removeDebugViewWidget(std::string identifier);
@@ -102,6 +101,8 @@ private:
     Ui::MainDebugWindow *ui;
     DenseKitchen* program;
     MainConfigurationWindow* configWindow;
+
+    StereoCalibrationWidget* stereoCalibrationWidget;
 
     std::map<std::string,DebugViewWidget*> debugViews;
     bool isRunning;
