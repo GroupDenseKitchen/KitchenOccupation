@@ -13,12 +13,7 @@ EntryExitCounter::~EntryExitCounter() {
 
 bool EntryExitCounter::initialize(configuration::ConfigurationManager& settings) {
     isInitialized = true;
-
-    CONFIG(settings, yMax, "yMax", 2*480/3);
-    CONFIG(settings, yMin, "yMin", 480/5);
-    CONFIG(settings, xMax, "xMax", 640);
-    CONFIG(settings, xMin, "xMin", 0);
-
+    //check that the vector with masks is the size n-cameras.
     return isInitialized;
 }
 
@@ -26,50 +21,65 @@ void EntryExitCounter::process(FrameList &frames)
 {
     if(frames.hasPrevious())
     {
-
-        for(int n = 0; n < frames.getCurrent().getCameras().size(); n++)
+        for(unsigned int n = 0; n < frames.getCurrent().getCameras().size(); n++)
         {
-            CameraObject  *cameraCurr = &frames.getCurrent().getCameras()[n];
-            CameraObject  *cameraPrev = &frames.getPrevious().getCameras()[n];
-            cameraCurr->setEntered(cameraPrev->getEntered()); //pass data from last frame
-            cameraCurr->setExited(cameraPrev->getExited());
+            if(frames.hasDoorMask()){
+                CameraObject  *cameraCurr = &frames.getCurrent().getCameras()[n];
+                CameraObject  *cameraPrev = &frames.getPrevious().getCameras()[n];
+                cameraCurr->setEntered(cameraPrev->getEntered()); //pass data from last frame
+                cameraCurr->setExited(cameraPrev->getExited()); //pass data from last frame
+                cv::Mat mask = frames.getDoorMask();
 
-            for(std::vector<Object>::iterator object = cameraCurr->getTransitionaryObjects().begin(); object != cameraCurr->getTransitionaryObjects().end(); object++)
-            {
-                cv::Point2d pos = object->exitPoint;
-                if(pos.x<xMax && pos.x >xMin && pos.y < yMax && pos.y > yMin) //the intervals here needs to be camera specific
+                for(std::vector<Object>::iterator object = cameraCurr->getTransitionaryObjects().begin(); object != cameraCurr->getTransitionaryObjects().end(); object++)
                 {
-                    cameraCurr->setEntered(cameraCurr->getEntered()+1);
+                    cv::Point2d pos = object->exitPoint;
+                    if(isInsidePolygon(mask, pos))
+                    {
+                        cameraCurr->setEntered(cameraCurr->getEntered()+1);
+                    }
                 }
-            }
-            cameraCurr->getTransitionaryObjects().clear();
+                cameraCurr->getTransitionaryObjects().clear();
 
-            for(std::vector<Object>::iterator object = cameraCurr->getNewlyFoundObjects().begin(); object != cameraCurr->getNewlyFoundObjects().end(); object++)
-            {
-                cv::Point2d pos = object->entryPoint;
-                if(pos.x<xMax && pos.x >xMin && pos.y < yMax && pos.y > yMin) //the intervals here needs to be camera specific
+                for(std::vector<Object>::iterator object = cameraCurr->getNewlyFoundObjects().begin(); object != cameraCurr->getNewlyFoundObjects().end(); object++)
                 {
-                    cameraCurr->setExited(cameraCurr->getExited()+1);
+                    cv::Point2d pos = object->entryPoint;
+                    if(isInsidePolygon(mask, pos))
+                    {
+                        cameraCurr->setExited(cameraCurr->getExited()+1);
+                    }
                 }
-            }
-            cameraCurr->getNewlyFoundObjects().clear();
+                cameraCurr->getNewlyFoundObjects().clear();
 
-            // Debug writes nr of people that enters/exits into raw image
-            cv::Mat raw = cameraCurr->getImage("rawImage");
-            std::string text = "";
-            std::string text2 = "";
-            int fontFace = cv::FONT_HERSHEY_PLAIN;
-            double fontScale = 1;
-            int thickness = 1;
-            cv::Point2d pos1 = {10,15};
-            cv::Point2d pos2 = {10,35};
-            text = "Entered: " + std::to_string(cameraCurr->getEntered());
-            putText(raw, text, pos1, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
-            text2 = "Exited: " + std::to_string(cameraCurr->getExited());
-            putText(raw, text2, pos2, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
+                //Set population for a spec. RoomID corresp. to current camera
+                std::string currentRoomID = frames.getCurrent().getCameras()[n].getRoomID();
+                int exitedThisFrame = cameraCurr->getExited()-cameraPrev->getExited();
+                int enteredThisFrame =  cameraCurr->getEntered()-cameraPrev->getEntered();
+                int prevPopulation = frames.getPrevious().getPopulationInRoomID(currentRoomID);
+                frames.getCurrent().setPopulationInRoomID(prevPopulation+enteredThisFrame-exitedThisFrame, currentRoomID);
+            }
+        }
+
+        //sum all rooms into one. Since roomIds are always different from each other now.
+        //totalPopulation is really a debug variable that could be printed...
+        int totalPopulation = 0;
+        for(unsigned int n = 0; n < frames.getCurrent().getCameras().size(); n++) {
+            std::string currentRoomID = frames.getCurrent().getCameras()[n].getRoomID();
+            totalPopulation = totalPopulation + frames.getCurrent().getPopulationInRoomID(currentRoomID);
+        }
+
+    }
+}
+
+bool isInsidePolygon(cv::Mat mask, cv::Point2d point){
+    if(point.x >= 0 && point.y >= 0){
+        if(mask.at<cv::Vec3b>(point)[0] == 255){
+            return true;
         }
     }
 
+    return false;
 }
+
+
 
 }

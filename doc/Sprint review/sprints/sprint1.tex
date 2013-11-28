@@ -1,25 +1,37 @@
 \section{Review of Sprint \sprintnum}
 \label{sec:sprint1}
 \large Period: 2013-09-30 -- 2013-11-04 \\ 
-\large Est. time: No estimate was made
+\large Est. time: No estimate was made \\
+\large Time spent: 227 hours.
 
 \subsection{Sprint backlog}
 The main focus of this sprint is to get the simplest possible system up and running on pre-recorded test data. Unfortunately no time was available on the planning meeting to perform time estimations, which is why no time estimates are available for the different sprint items. The ending date of this sprint was postponed 2 weeks due to exam periods, since not enough work would be made during these two weeks in order to justify an entire sprint.
 
+\subsection{Backlog items from previous sprints}
+These are the items created in the previous sprint that were carried over directly to this one
+
+\subsubsection{Algorithm interface}
+This item was created during sprint 0, and is represented in this sprint as a part of item number \textbf{3}.
+
+\subsubsection{DOxygen comments}
+This item was added to the product backlog in sprint 0 and is here represented by sprint item number \textbf{4}. 
+\newpage
+
+\subsection{Sprint plan table}
 
 \itemtable
 {
-	\additem{Collect more test data, several data sets with varying difficulties using a single camra above a rooom entrance are desired.}{--}{AS, EF}
+	\additem{Collect more test data, several data sets with varying difficulties using a single camera above a rooom entrance are desired.}{--}{AS, EF}
 	\additem{Label the new data (using the CAVIAR labeling program).)}{--}{AS}
-	\additem{Add more data structures to the code skeleton.}{--}{GH, MT}
+	\additem{Add more data structures to the code skeleton, including an algorithm interface.}{--}{GH, MT}
 	\additem{Add DOxygen comments to the code skeleton.}{--}{MT}
 	\additem{Load video file(s) into network module, making it possible to retrieve individual frames.}{--}{MS}
-	\additem{Implement background model and segment background/foreground (Raw image in and foreground binary image mask for the pixels that are “moving” out. (Use openCV background subtractor class)}{--}{EF, NW}
+	\additem{Implement background model and segment background/foreground (Raw image in and foreground binary image mask for the pixels that are “moving” out. (Use OpenCV background subtractor class)}{--}{EF, NW}
 	\additem{Foreground labeling. Find distinct regions in a binary image mask and describe them with position and AABB.
 	Add regions as “objects” to current Frame.}{--}{EF, MS}
-	\additem{Track objects in the frames using the information recieved from the foreground labeling and estimate the net flow of objects.}{--}{EF, MT}
-	\additem{Debug program: Display the output of different modules as well as intermediate steps in hte image processing module for each Frame.}{--}{AS, NW, MR}
-	\additem{Debug program: Step between frames and intermediate steps.}{--}{AS, NW, MR}
+	\additem{Track objects in the frames using the information received from the foreground labeling and estimate the net flow of objects.}{--}{EF, MT}
+	\additem{Debug program: Display the output of different modules as well as intermediate steps in the image processing module for each Frame.}{--}{AS, NW, MR}
+	\additem{Debug program: Step between frames and intermediate algorithm steps.}{--}{AS, NW, MR}
 	\additem{Debug program: Read a simple config file (select data set).}{--}{AS, NW, MR}
 	\additem{Debugging: Wrap debug code and make it activateable}{--}{GH, MT}
 	\additem{Debugging: Read and use labeled test data as ground truth for performance evaluation}{--}{MR, MS}
@@ -42,6 +54,8 @@ Most of the project work was done well, especially the short meetings, which wer
 The most important improvement needed in the next sprint is how group members communicate when making design decision. Some unnecessary parallel work was made due to bad communication. Persons in the group with less hours worked need to spend more time working on the project. Because of this the time reporting has to improve significantly in the future.
 \newpage
 
+\subsection{Sprint result table}
+
 \resulttable
 {
 	\addresult{Done, multiple data sets with different difficulties were collected.}{8}{AS, EF}
@@ -59,6 +73,7 @@ The most important improvement needed in the next sprint is how group members co
 	\addresult{Done.}{14}{MR, MS}
 	\addresult{Done.}{8}{MS, MT}
 }
+\newpage
 
 \subsection{New Backlog Items}
 This sprint resulted in a few new backlog items being created during the sprint, these items are listed below.
@@ -68,3 +83,9 @@ In order to make testing easier and faster, by not having to restart the program
 
 \subsubsection{Object class}
 Make sure the Object class meets the code standard.
+
+\subsubsection{Improve foreground segmentation}
+The current foreground segmentation is both much too slow and generates a lot of false positives (pixels falsely classified as foreground). This both of these issues have to be remedied in order to achieve desired performance.
+
+\subsubsection{Ground truth labeling}
+Currently there is no way to evaluate system performance with respect to how well it performs when counting people entering or exiting the room. Program code to both perform this labeling of this data as well as evaluation code has to be added to the system.

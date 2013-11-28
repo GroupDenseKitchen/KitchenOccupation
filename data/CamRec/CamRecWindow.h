@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTimer>
 #include <QElapsedTimer>
+#include <QKeyEvent>
 #include <opencv2/opencv.hpp>
 
 namespace Ui {
@@ -32,12 +33,14 @@ public:
     QElapsedTimer* elapsedTimer;
     qint64 uppdateTime;
 
+    void keyPressEvent(QKeyEvent *);
+    void closeEvent(QCloseEvent *);
+
 public slots:
     void cameraUpdate();
 
 private slots:
     void on_recordButton_clicked();
-
     void on_stopButton_clicked();
 
 private:

@@ -15,6 +15,7 @@
 #include <map>
 
 #include "../DenseKitchen.hpp"
+#include "MainConfigurationWindow.hpp"
 #include "DebugView.hpp"
 #include "DebugViewWidget.hpp"
 #include "DebugViewGrid.hpp"
@@ -79,6 +80,18 @@ private slots:
     void on_autoAdaptLogCheckBox_clicked(bool checked);
     void on_expandDepthSpinBox_valueChanged(int arg1);
 
+    void on_configureButton_clicked();
+    void on_actionClear_triggered();
+    void on_actionSave_grid_configuration_triggered();
+
+    void on_actionRun_triggered();
+
+    void on_actionPause_triggered();
+
+    void on_actionRestart_triggered();
+
+    void on_actionConfigure_triggered();
+
 public slots:
     void removeDebugViewWidget(std::string identifier);
 
@@ -88,6 +101,8 @@ signals:
 private:
     Ui::MainDebugWindow *ui;
     DenseKitchen* program;
+    MainConfigurationWindow* configWindow;
+
     std::map<std::string,DebugViewWidget*> debugViews;
     bool isRunning;
     std::string guiConfigPath, mainConfigPath;
@@ -135,6 +150,7 @@ private:
     void clearLogObject();
     void updateProfilerChildren(QStandardItem *parentItem, std::list<debugging::ProfilerEntry> children);
     void popWindow(std::string stepKey, int cameraIndex);
+    void restart();
 
     void keyPressEvent(QKeyEvent *);
     void closeEvent(QCloseEvent *);
