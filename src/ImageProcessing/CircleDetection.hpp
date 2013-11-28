@@ -42,6 +42,7 @@ private:
     //void makeCircleFilters(std::vector<cv::Mat> & filters, int numCircles);
     void gradientCircleVoting( cv::Mat &grayImage );
 
+    int detectionThreshold; //Threshold for detecting circles
     int lowThreshold; //Low threshold for canny detection
     int highThreshold; //High threshold for canny detection
     int houghThreshold; // Threshold for when a head is detected

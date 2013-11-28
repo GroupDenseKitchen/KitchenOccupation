@@ -19,9 +19,11 @@ namespace image_processing
         CONFIG(settings, averageCircleFilterSize, "circleFilterSize", 35);
         CONFIG(settings, circleFilterRadiusDifference, "circleFilterRadiusDifference", 4);
         CONFIG(settings, maskOutForeground, "maskOutForeground", true);
+        CONFIG(settings, detectionThreshold, "detectionThreshold", 4000);
 
         //  This is left here for tuning purposes
         cv::namedWindow("Sliders");
+        cv::createTrackbar("detectionThreshold", "Sliders", &detectionThreshold,60000, [](int,void*){});
         cv::createTrackbar("Low thresh", "Sliders", &lowThreshold,255, [](int,void*){});
         cv::createTrackbar("High thresh", "Sliders", &highThreshold,255, [](int,void*){});
         cv::createTrackbar("Hough thresh", "Sliders", &houghThreshold,255, [](int,void*){});
@@ -86,10 +88,13 @@ namespace image_processing
             }
 
             qDebug() << cv::norm(accCircles, cv::NORM_INF);
-            cv::namedWindow("Accumulated filters");
+            cv::namedWindow("Accumulated filters",cv::WINDOW_NORMAL);
             cv::imshow("Accumulated filters",accCircles*(1.0/50000));
 
-
+            cv::Mat thresholded;
+            cv::threshold(accCircles,thresholded,detectionThreshold,1,cv::THRESH_BINARY);
+            cv::namedWindow("Threshold image");
+            cv::imshow("Threshold image",thresholded);
 
         }
     }
