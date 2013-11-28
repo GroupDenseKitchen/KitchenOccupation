@@ -4,7 +4,7 @@ The performance of the system refers to what problems the system solves and the 
 The system should ideally be able to perform reliably under varying lighting conditions, while also being able to handle people with varying hair color and whearing a large varaiaty of different clothes, jackets, hats. It is preferable that the system also handles bags, trolleys etc. without counting them as extra people. 
 
 \subsection{Quality control}
-The system is thoroughly tested throughout developement to ensure high quality. The core computer vision functionality is also continously tested against a test data set that is never used to train or tune any algorithms. 
+The system is thoroughly tested throughout development to ensure high quality. The core computer vision functionality is also continuously tested against a test data set that is never used to train or tune any algorithms. 
 \newpage
 
 \subsection{Performance requirements}
@@ -15,12 +15,13 @@ The performance requirements listed below assume that it is possible to have cam
 	\addreq{The system is able to count the number of people entering and leaving the room, where the room has one door.}{1}
 	\addreq{The system is able to count the number of people entering and leaving the room, where the room has two doors.}{1}
 	\addreq{The system keeps track of the amount of people in the room at any one time, given that it can count the number of people passing through each door.}{1}
-	\addreq{The system knows if there is a queue to enter the room.}{1}
+	\addreq{The system knows if there is a queue to enter the room.\newline
+			\textbf{Canceled 2013-11-27:} Redundant because of next requirement in the table.}{1}
 	\addreq{A rough classification of the queue size/severity is presented by the system, where the room has one door.}{1}
 	\addreq{A rough classification of the queue size/severity is presented by the system, where the room has two or more doors.}{2}
 	\addreq{The system gives a model based estimate of the waiting time that is more informative than the rough queue classifications. }{2}
 	\addreq{The system can handle daily variations in lighting conditions such that other performance metrics are not affected.\newline \textbf{Clarified 2013-11-27:} The system can handle daily indoor lightning conditions such that other performance metrics are not widely affected. }{1}
 	\addreq{The system handles sudden changes in lighting (e.g. a blackout) without crashing and keeping track of potentially induced knowledge gaps.}{2}
 	\addreq{The system is tested against a data set that covers a wide variety of the most common cases.\newline 
-			\textbf{Clarified 2013-11-27:} The system is tested against a data set that covers the most common cases.}{1}
+			\textbf{Revised 2013-11-27:} The system is tested against a data set that covers the most common cases.}{1}
 }
