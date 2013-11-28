@@ -110,14 +110,17 @@ namespace image_processing
         return theLine;
     }
 
-    int TrackingBruteForceLines::sideOfLine(cv::Point2f point, cv::Vec3f theLine)
-    {
+    int TrackingBruteForceLines::sideOfLine(cv::Point2f point, cv::Vec3f theLine){
         cv::Vec3f thePoint(point.x, point.y, 1);
         float d = thePoint.dot(theLine);
-        if(d > 0){//----> point is on opposit side of line from origin
+        if(d > 0){          //----> point is on opposit side of line from origin
             return +1;
         }
-        return -1; // ---> Same side as line
+        if(d < 0){
+        return -1;          // ---> Same side as line
+        }else{
+            return 0;       //  point is on the line
+        }
     }
 
     void TrackingBruteForceLines::pairAndPopulate(std::list<Object> & candidatePrev, std::list<Object> & candidateCurr, std::vector<Object> & destination) {
