@@ -87,34 +87,37 @@ bool FrameList::hasInclusionMask()
     return !inclusionMask.empty();
 }
 
-void FrameList::setMarkerMaskOne(const cv::Mat &value)
+cv::Mat FrameList::getCheckPointMaskSmall() const
 {
-    markerMaskOne = value.clone();
+    return checkPointMaskSmall;
 }
 
-cv::Mat FrameList::getMarkerMaskOne() const
+void FrameList::setCheckPointMaskSmall(const cv::Mat &value)
 {
-    return markerMaskOne;
+    checkPointMaskSmall = value.clone();
 }
 
-bool FrameList::hasMarkerMaskOne()
+cv::Mat FrameList::getCheckPointMaskMedium() const
 {
-    return !markerMaskOne.empty();
+    return checkPointMaskMedium;
 }
 
-void FrameList::setMarkerMaskTwo(const cv::Mat &value)
+void FrameList::setCheckPointMaskMedium(const cv::Mat &value)
 {
-    markerMaskTwo = value.clone();
+    checkPointMaskMedium = value.clone();
 }
 
-cv::Mat FrameList::getMarkerMaskTwo() const
+cv::Mat FrameList::getCheckPointMaskLarge() const
 {
-    return markerMaskTwo;
+    return checkPointMaskLarge;
 }
 
-bool FrameList::hasMarkerMaskTwo()
+void FrameList::setCheckPointMaskLarge(const cv::Mat &value)
 {
-    return !markerMaskTwo.empty();
+    checkPointMaskLarge = value.clone();
 }
+
+
+
 
 

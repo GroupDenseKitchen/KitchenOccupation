@@ -61,13 +61,13 @@
     <string/>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>650</x>
      <y>10</y>
-     <width>106</width>
-     <height>322</height>
+     <width>114</width>
+     <height>381</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -75,6 +75,13 @@
      <widget class="QPushButton" name="newPolygonButton">
       <property name="text">
        <string>New Polygon</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCheckBox" name="circleCheckBox">
+      <property name="text">
+       <string>Circle</string>
       </property>
      </widget>
     </item>
@@ -89,6 +96,13 @@
      <widget class="QPushButton" name="addAsExclusionButton">
       <property name="text">
        <string>Add as exclusion</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="addAsCheckpointButton">
+      <property name="text">
+       <string>Add as checkpoint</string>
       </property>
      </widget>
     </item>

@@ -35,10 +35,13 @@ namespace image_processing
                 std::list<Object> currCandidates(cameraCurr.getObjects().begin(), cameraCurr.getObjects().end());
                 cameraCurr.getObjects().clear();
 
-                 frames.setMarkerMaskOne(frames.getDoorMask());
-                 frames.setMarkerMaskTwo(frames.getDoorMask());
+
+                cv::imshow("Small", frames.getCheckPointMaskSmall());
+                cv::imshow("Medium", frames.getCheckPointMaskMedium());
+                cv::imshow("Large", frames.getCheckPointMaskLarge());
+
                 // 0) Check if the objects are inside any of the marker masks, set flags.
-                setIfIsInMarkerRegion(currCandidates,frames.getMarkerMaskOne(),frames.getMarkerMaskTwo());
+                setIfIsInMarkerRegion(currCandidates,frames.getCheckPointMaskSmall(),frames.getCheckPointMaskMedium());
 
                 // The purpose here is to fill cameraCurr.objects with new or old actual objects
                 // and cameraCurr.potentialObjects with candidates that may be considered objects in the future
