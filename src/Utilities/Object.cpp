@@ -15,7 +15,9 @@ Object::Object(std::vector<cv::Point>& contour, cv::Rect& boundingBox, cv::Point
 
     entryPoint = cv::Point2d(-1, -1);
     exitPoint = cv::Point2d(-1, -1);
-
+    hasPassedMasksOne = false;
+    hasPassedMasksTwo = false;
+    hasAlreadyEntered = false;
     lost = false;
     lifeSpan = 1;
 }
@@ -30,6 +32,14 @@ void Object::merge(Object * previousState) {
     lost = previousState->lost;
     entryPoint = previousState->entryPoint;
     lifeSpan = previousState->lifeSpan+1;
+
+    if(previousState->hasPassedMasksOne == true)
+    hasPassedMasksOne = previousState->hasPassedMasksOne;
+    if(previousState->hasPassedMasksTwo == true)
+    hasPassedMasksTwo = previousState->hasPassedMasksTwo;
+
+    hasAlreadyEntered = previousState->hasAlreadyEntered;
+
 
     /*
     // Kalman filter prediction

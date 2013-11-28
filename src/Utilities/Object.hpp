@@ -52,6 +52,9 @@ public:
 
     // Status
     bool lost;
+    bool hasPassedMasksOne;
+    bool hasPassedMasksTwo;
+    bool hasAlreadyEntered;
     int lifeSpan;
 
     // Prediction

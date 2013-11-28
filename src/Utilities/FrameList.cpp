@@ -87,3 +87,34 @@ bool FrameList::hasInclusionMask()
     return !inclusionMask.empty();
 }
 
+void FrameList::setMarkerMaskOne(const cv::Mat &value)
+{
+    markerMaskOne = value.clone();
+}
+
+cv::Mat FrameList::getMarkerMaskOne() const
+{
+    return markerMaskOne;
+}
+
+bool FrameList::hasMarkerMaskOne()
+{
+    return !markerMaskOne.empty();
+}
+
+void FrameList::setMarkerMaskTwo(const cv::Mat &value)
+{
+    markerMaskTwo = value.clone();
+}
+
+cv::Mat FrameList::getMarkerMaskTwo() const
+{
+    return markerMaskTwo;
+}
+
+bool FrameList::hasMarkerMaskTwo()
+{
+    return !markerMaskTwo.empty();
+}
+
+

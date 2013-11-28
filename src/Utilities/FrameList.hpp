@@ -98,9 +98,34 @@ public:
      */
     bool hasInclusionMask();
 
+    /*!
+     * \brief Set markerMaskOne
+     */
+    void setMarkerMaskOne(const cv::Mat &value);
+    /*!
+     * \brief Get markerMaskOne
+     */
+    cv::Mat getMarkerMaskOne() const;
+    /*!
+     * \brief Is markerMaskOne set?
+     */
+    bool hasMarkerMaskOne();
+
+    /*!
+     * \brief Set markerMaskTwo
+     */
+    void setMarkerMaskTwo(const cv::Mat &value);
+    /*!
+     * \brief Get markerMaskTwo
+     */
+    cv::Mat getMarkerMaskTwo() const;
+    /*!
+     * \brief Is markerMaskTwo set?
+     */
+    bool hasMarkerMaskTwo();
 private:
     std::deque<Frame> frames;
-    cv::Mat doorMask, exclusionMask, inclusionMask;
+    cv::Mat doorMask, exclusionMask, inclusionMask, markerMaskOne, markerMaskTwo;
     bool initiatedDoorMask, initiatedExclusionMask;
 
     double smoothFps; // FPS estimate
