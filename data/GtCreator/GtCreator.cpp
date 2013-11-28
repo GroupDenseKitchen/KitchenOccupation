@@ -10,8 +10,8 @@ void createConfigFile(std::string cfgFile)
     // Open file
     cv::FileStorage textFile(cfgFile,cv::FileStorage::WRITE);
     // Add data to file
-    textFile << "videoFilePath" << "../seq3/seq3.mp4";
-    textFile << "GTDataFilePath" << "../seq3/seq3EntryExitGT.yml";
+    textFile << "videoFilePath" << "C:/DenseKitchen/colorStream.avi";
+    textFile << "GTDataFilePath" << "../depthSeq/depthSeqGT.yml";
     // Saves file
     textFile.release();
 }
@@ -66,7 +66,7 @@ int main()
             cv::putText(frame, text1, pos1, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
             cv::putText(frame, text2, pos2, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
 
-            cv::imshow("MahVidyaWindow",frame);
+            cv::imshow("VideoWindow",frame);
 
             c = cv::waitKey(0); // Wait for any key to be pressed
 
