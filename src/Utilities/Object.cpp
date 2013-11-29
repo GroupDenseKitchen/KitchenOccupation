@@ -17,6 +17,7 @@ Object::Object(std::vector<cv::Point>& contour, cv::Rect& boundingBox, cv::Point
     exitPoint = cv::Point2d(-1, -1);
     hasPassedMasksOne = false;
     hasPassedMasksTwo = false;
+    hasPassedMasksThree = false;
     hasAlreadyEntered = false;
     lost = false;
     lifeSpan = 1;
@@ -37,6 +38,8 @@ void Object::merge(Object * previousState) {
     hasPassedMasksOne = previousState->hasPassedMasksOne;
     if(previousState->hasPassedMasksTwo == true)
     hasPassedMasksTwo = previousState->hasPassedMasksTwo;
+    if(previousState->hasPassedMasksThree == true)
+    hasPassedMasksThree = previousState->hasPassedMasksThree;
 
     hasAlreadyEntered = previousState->hasAlreadyEntered;
 

@@ -50,7 +50,7 @@ private:
     int maximumTimeLost;    // # Frames
     int maximumTimeLostStill;
     int maximumTimeLostInDoorArea; //#Frames
-    void setIfIsInMarkerRegion(std::list<Object> &objects, cv::Mat maskOne, cv::Mat maskTwo);
+    void setIfIsInMarkerRegion(std::list<Object> &objects, cv::Mat maskOne, cv::Mat maskTwo, cv::Mat maskThree);
 
     void pairAndPopulate(std::list<Object> & candidatePrev, std::list<Object> & candidateCurr, std::vector<Object> & destination);
     void elevatePotentialObjects(std::vector<Object> & candidates, std::vector<Object> & destination, std::vector<Object> & newlyFoundObjects);

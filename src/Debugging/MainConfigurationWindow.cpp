@@ -181,13 +181,13 @@ void MainConfigurationWindow::polygonDrawer(cv::Mat targetMat, const cv::Point *
 
 void MainConfigurationWindow::drawCheckPointCircles(Point center, int radius, int radiusAddition)
 {
-    cv::circle(imageWithMask, circleCenter, 1.4*circleRadius, cv::Scalar(149,255,78),-1);
-    cv::circle(imageWithMask, circleCenter, 1.2*circleRadius, cv::Scalar(255,213,83),-1);
-    cv::circle(imageWithMask, circleCenter, circleRadius,     cv::Scalar(255,123,83),-1);
+    cv::circle(imageWithMask, circleCenter, 1.2*circleRadius, cv::Scalar(149,255,78),-1); //Large
+    cv::circle(imageWithMask, circleCenter, 1.1*circleRadius, cv::Scalar(255,213,83),-1); //Medium
+    cv::circle(imageWithMask, circleCenter, circleRadius,     cv::Scalar(255,123,83),-1); //Small
 
-    cv::circle(checkpointMaskSmall,  circleCenter, circleRadius,                    cv::Scalar(255,255,255),-1);
-    cv::circle(checkpointMaskMedium, circleCenter, circleRadius + radiusAddition,   cv::Scalar(255,255,255),-1);
-    cv::circle(checkpointMaskLarge,  circleCenter, circleRadius + 2*radiusAddition, cv::Scalar(255,255,255),-1);
+    cv::circle(checkpointMaskSmall,  circleCenter, circleRadius,       cv::Scalar(255,255,255),-1); //Small
+    cv::circle(checkpointMaskMedium, circleCenter, 1.1*circleRadius,   cv::Scalar(255,255,255),-1); //Medium
+    cv::circle(checkpointMaskLarge,  circleCenter, 1.2*circleRadius,   cv::Scalar(255,255,255),-1); //Large
 }
 
 void MainConfigurationWindow::loadMaskFromFile()

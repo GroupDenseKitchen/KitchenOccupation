@@ -41,7 +41,7 @@ namespace image_processing
                 cv::imshow("Large", frames.getCheckPointMaskLarge());
 
                 // 0) Check if the objects are inside any of the marker masks, set flags.
-                setIfIsInMarkerRegion(currCandidates,frames.getCheckPointMaskSmall(),frames.getCheckPointMaskMedium());
+                setIfIsInMarkerRegion(currCandidates,frames.getCheckPointMaskSmall(),frames.getCheckPointMaskMedium(),frames.getCheckPointMaskLarge());
 
                 // The purpose here is to fill cameraCurr.objects with new or old actual objects
                 // and cameraCurr.potentialObjects with candidates that may be considered objects in the future
@@ -194,13 +194,16 @@ namespace image_processing
         double y2 = current.centerOfMass.y;
         return (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2);
     }
-    void TrackingBruteForce::setIfIsInMarkerRegion(std::list<Object> &objects, cv::Mat maskOne, cv::Mat maskTwo){
+    void TrackingBruteForce::setIfIsInMarkerRegion(std::list<Object> &objects, cv::Mat maskOne, cv::Mat maskTwo, cv::Mat maskThree){
         for(Object & object : objects) {
             if(isInsidePolygon(maskOne, object.centerOfMass)){
                 object.hasPassedMasksOne = true;
             }
             if(isInsidePolygon(maskTwo, object.centerOfMass)){
                 object.hasPassedMasksTwo = true;
+            }
+            if(isInsidePolygon(maskTwo, object.centerOfMass)){
+                object.hasPassedMasksThree = true;
             }
          }
     }
