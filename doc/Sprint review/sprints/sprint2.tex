@@ -2,6 +2,7 @@
 \label{sec:sprint2}
 \large Period: 2013-11-04 -- 2013-11-18 \\ 
 \large Est. time: 295 hours. (Roughly 42 hours per person, meetings (6 hours per person) not included.)
+\large Time spent: 245 hours. (Meetings included.)
 
 \subsection{Sprint backlog}
 The main focus of this sprint is to get a minimal case implementation that meet all requirements in the specification of requirements. The initials of the person responsible for each specific sprint item is shown in boldface in the rightmost column of the table.
@@ -47,17 +48,65 @@ This item was created during \textbf{sprint 1} and is represented by sprint item
 \newpage
 
 \subsection{Result}
-General comments about the result go here
+The results from this sprint were not the ones we hoped for as five items are marked as not done, and several others are marked as not tested or have some small issues left. In total 7 out of 16 items are not finalized, which is not good enough. Time estimates were probably accurate, however the amount of time available to group members was exaggerated, hence the difference between the plan and the time actually spent.
 
-\subsection{Sprint result table}
+\subsubsection{Solutions we ended up using}
+We tried the OpenCV hough circles function with tuning, however it was not good enough for our application, meaning that we will need to implement circle detection on our own. This was also the reason item number 9 was not finished on time. The OpenCV hough circles functon was tried out on images with removed background (using the existing BackgroundModelMOG2 background subtractor.) Point descriptors for simple human classification were also evaluated without success.
+
+\subsubsection{What did we do well?}
+Several relevant papers solving the problem were found. This allowed for good re-organization of the work to both solve the new problems as well as meeting changed demands in terms of available hardware.
+
+\subsubsection{What improvements are necessary?}
+The most important improvement that needs to be made is to get better at working in parallel to try different approaches to the problem, together with prioritizing the tasks in a better way. The most important thing at the moment is to focus on the goal of the project, which is making sure it is possible to deliver a system that can count people passing under a doorway with reasonable accuracy at the time of the deadline.
+
+\newpage
 
 \resulttable
 {
-	\addresult{Results regarding this specific item}{hours}{Involved members}
+	\addresult{Done, but an overview image is missing.}{--}{NW, MT}
+	\addresult{Done.}{--}{AS}
+	\addresult{Done, but better data need to be gathered as the current data set is out of focus at head level.)}{--}{AS, MT, MS, NW}
+	\addresult{Done. (in/out flow is estimated.)}{--}{EF}
+	\addresult{Done. Exposure time is now constant and 50Hz noise is removed.}{--}{AS, EF}
+	\addresult{Done, with a naive implementation that should be improved once the segmentation improves.}{--}{EF}
+	\addresult{Developed, however it is untuned, untested and not inserted into the system, as better tracking/segmentation is required to test this properly.}{--}{NW, GH}
+	\addresult{Done. Papers seem very useful, and have been studied.}{--}{MS, NW, MR}
+	\addresult{Not done. better data set required.}{--}{NW}
+	\addresult{Not done, the OpenCV function does not perform good enough.}{--}{GH, MR}
+	\addresult{Slightly better but not good enough to work alone, and will probably have to be combined with some form of human detector.}{--}{NW}
+	\addresult{Done.}{--}{MS}
+	\addresult{Not finalized, more discussions}{--}{MS}
+	\addresult{Not done.}{--}{EF}
+	\addresult{Done.}{--}{MS}
+	\addresult{Not done.}{--}{None}
+	\addresult{Not done. Labeling program is complete, but integration of the evaluation is not complete.}{--}{MR, MS}
+	\addresult{Done.}{--}{MS}	
+
 }
 
 \subsection{New Backlog Items}
-General info about new backlog items created as a result of this sprint go here.
+Several new backlog items were created as a result of this sprint, most of them consist of unfinished items that are carried over directly to the next sprint.
 
-\subsubsection{New backlog Item 1}
-More detailed info about this specific item and why it was added to the backlog.
+\subsubsection{Program architecture image}
+Item number 1 in this sprint. Added to the backlog and is required to provide a good overview of the system to allow for easy continued development after the project is finished.
+
+\subsubsection{Queue detection}
+Needs to be tested and integrated into the project as soon as the requirements to do so are met (stable tracker/segmentation).
+
+\subsubsection{Human detector}
+A high priority item for the next sprint.
+
+\subsubsection{Improved foreground segmentation}
+This item will probably be a direct result of the foreground segmentation.
+
+\subsubsection{Better tracker}
+The tracker needs to be tested and tuned once the people detection performs adequately.
+
+\subsubsection{More specific information about project goal and requirements}
+Also a high priority item. Specification of requirements need to be revised and updated.
+
+\subsubsection{Assume that all cameras belong to the same room}
+This needs to be added to the specification of requirements.
+
+\subsubsection{Collect 3D data set}
+Collect a 3D data set using a stereo camera rig or a Microsoft Kinect.

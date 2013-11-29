@@ -4,6 +4,7 @@
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/FrameList.hpp"
 #include "../Utilities/Algorithm.hpp"
+#include "EntryExitCounter.hpp"
 
 /*!
  *  \brief   Image processing contains functionality for the different
@@ -47,19 +48,15 @@ private:
     double maximumDistance; // Euclidian distance squared, in pixels
     int minimumLifeSpan;    // # Frames
     int maximumTimeLost;    // # Frames
-
-    /*
-    void transferLongLivedObjects(std::vector<Object> & potentialObjects, std::vector<Object> & objects);
-    void mergeClosestPairs(std::vector<Object> & previousObjects, std::vector<Object> & currentObjects);
-    void populate(std::list<Object*> & candidates, std::vector<Object> & objects);
-    double mapClosestCandidatePair(std::list<Object*> & candidatePrev, std::list<Object*> & candidateCurr);
-    */
+    int maximumTimeLostStill;
 
     void pairAndPopulate(std::list<Object> & candidatePrev, std::list<Object> & candidateCurr, std::vector<Object> & destination);
     void elevatePotentialObjects(std::vector<Object> & candidates, std::vector<Object> & destination, std::vector<Object> & newlyFoundObjects);
     void removeLostObjects(std::vector<Object> & objects,std::vector<Object> & transitionary_Objects);
     void addNew(std::list<Object> & newObjects, std::vector<Object> & destination);
-    void addLost(std::list<Object> & lostObjects, std::vector<Object> & destination);
+    void addLost(std::list<Object> & lostObjects, std::vector<Object> & destination,std::vector<Object> & transitionaryObjects,cv::Mat image ,cv::Mat mask);
+    bool isCloseImageBorder(cv::Point2d point, int height, int width, int margin);
+    bool isInsideRemovalArea(Object & object, cv::Mat mask, int height, int width);
 
     int getUniqueID();
     double distance(Object& previous, Object& current);

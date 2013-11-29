@@ -71,21 +71,6 @@ void FlowEstimator::process(FrameList &frames)
                 totalOut = totalOut + cameraFlowVector[n].outFlow[j].flow;
                 outFlowPerFrame = totalOut/(cameraFlowVector[n].outFlow[j].frameCount);
             }
-
-
-            // Debug writes flow of people that enters/exits into raw image
-            cv::Mat raw = currCam.getImage("rawImage");
-            std::string text = "";
-            std::string text2 = "";
-            int fontFace = cv::FONT_HERSHEY_PLAIN;
-            double fontScale = 1;
-            int thickness = 1;
-            cv::Point2d pos1 = {10,55};
-            cv::Point2d pos2 = {10,75};
-            text = "InFlow: " + std::to_string(inFlowPerFrame) + " [ppl/frame]";
-            putText(raw, text, pos1, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
-            text2 = "OutFlow: " + std::to_string(outFlowPerFrame) + " [ppl/frame]";
-            putText(raw, text2, pos2, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
         }
         isSetup = true;
     }

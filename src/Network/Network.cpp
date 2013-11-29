@@ -58,6 +58,7 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
             settings.setInt("nCameras", (int)streams.size());
             return true;
         } else {
+            LOG("Network Error", "No camera streams from network!");
             return false;
         }
     } else {
@@ -75,6 +76,7 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
             settings.setInt("nCameras", (int)streams.size());
             return true;
         } else {
+            LOG("Network Error", "No camera streams from file(s)!");
             return false;
         }
     }
@@ -137,7 +139,7 @@ Frame* Network::dequeFrame()
             }
         }
     }
-
+    frame->initRoomPopulations(frame->getCameras());
     return frame;
 }
 
