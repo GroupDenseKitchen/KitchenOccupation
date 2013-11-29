@@ -34,7 +34,7 @@ public:
     void drawPolygons(std::string maskType, QVector<QVector<cv::Point>> polygons, cv::Scalar color);
     void drawPolygon(QVector<cv::Point> polygon, cv::Scalar color);
     void polygonDrawer(cv::Mat targetMat, const cv::Point** polygonPtrPtr, int numberOfPoints[], cv::Scalar color);
-    void drawCheckPointCircles(cv::Point center, int radius, int radiusAddition);
+    void drawCheckPointCircles();
 
     cv::Mat matImage, imageWithMask, doorMask, exclusionMask, checkpointMaskSmall, checkpointMaskMedium, checkpointMaskLarge, resizedImage;
     QImage qImage;

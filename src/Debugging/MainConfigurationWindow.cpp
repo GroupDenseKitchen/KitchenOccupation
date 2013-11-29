@@ -24,6 +24,8 @@ void MainConfigurationWindow::init(DenseKitchen* _mainProgram ,std::string _file
     loadMaskFromFile();
     applyChanges();
     isDrawingCircle = false;
+    circleRadius = 0;
+    circleCenter = cv::Point(0,0);
 }
 
 void MainConfigurationWindow::applyChanges()
@@ -123,19 +125,15 @@ void MainConfigurationWindow::storeImage(const cv::Mat &image)
 void MainConfigurationWindow::overlayMask()
 {
     imageWithMask = matImage.clone();
-    doorMask.create(480, 640, CV_8UC3);
-    doorMask.zeros(480, 640, CV_8UC3);
-    exclusionMask.create(480, 640, CV_8UC3);
-    exclusionMask.zeros(480, 640, CV_8UC3);
 
-    checkpointMaskSmall.create(480, 640, CV_8UC3);
-    checkpointMaskSmall.zeros(480, 640, CV_8UC3);
-    checkpointMaskMedium.create(480, 640, CV_8UC3);
-    checkpointMaskMedium.zeros(480, 640, CV_8UC3);
-    checkpointMaskLarge.create(480, 640, CV_8UC3);
-    checkpointMaskLarge.zeros(480, 640, CV_8UC3);
+    doorMask = cv::Mat::zeros(480, 640, CV_8UC3);
+    exclusionMask = cv::Mat::zeros(480, 640, CV_8UC3);
 
-    drawCheckPointCircles(circleCenter, circleRadius, 10);
+    checkpointMaskSmall = cv::Mat::zeros(480, 640, CV_8UC3);
+    checkpointMaskMedium = cv::Mat::zeros(480, 640, CV_8UC3);
+    checkpointMaskLarge = cv::Mat::zeros(480, 640, CV_8UC3);
+
+    drawCheckPointCircles();
     drawPolygons("exclusionPolygons", exclusionPolygons, cv::Scalar(255,45,70));
     drawPolygons("doorPolygons", doorPolygons, cv::Scalar(63,232,41));
     drawPolygon(polygon, cv::Scalar(255,218,56));
@@ -179,7 +177,7 @@ void MainConfigurationWindow::polygonDrawer(cv::Mat targetMat, const cv::Point *
               8 );
 }
 
-void MainConfigurationWindow::drawCheckPointCircles(Point center, int radius, int radiusAddition)
+void MainConfigurationWindow::drawCheckPointCircles()
 {
     cv::circle(imageWithMask, circleCenter, 1.2*circleRadius, cv::Scalar(149,255,78),-1); //Large
     cv::circle(imageWithMask, circleCenter, 1.1*circleRadius, cv::Scalar(255,213,83),-1); //Medium
