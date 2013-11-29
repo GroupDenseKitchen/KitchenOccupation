@@ -21,11 +21,13 @@ void MainConfigurationWindow::init(DenseKitchen* _mainProgram ,std::string _file
 {
     mainProgram = _mainProgram;
     filePath = _filepath;
-    loadMaskFromFile();
-    applyChanges();
     isDrawingCircle = false;
     circleRadius = 0;
     circleCenter = cv::Point(0,0);
+
+    loadMaskFromFile();
+    applyChanges();
+    showImage();
 }
 
 void MainConfigurationWindow::applyChanges()
@@ -37,8 +39,7 @@ void MainConfigurationWindow::applyChanges()
     mainProgram->frames.setCheckPointMaskLarge(checkpointMaskLarge);
 
     cv::Mat inclusionMask;
-    inclusionMask.create(exclusionMask.rows, exclusionMask.cols, exclusionMask.type());
-    inclusionMask.zeros(exclusionMask.rows, exclusionMask.cols, exclusionMask.type());
+    inclusionMask = cv::Mat::zeros(exclusionMask.rows, exclusionMask.cols, exclusionMask.type());
     cv::bitwise_not(exclusionMask, inclusionMask);
 
     //cv::imshow("", inclusionMask);
@@ -80,7 +81,7 @@ void MainConfigurationWindow::showImage()
         ui->imageLabel->setPixmap(QPixmap::fromImage(qImage));
     }
     if(!doorMask.empty()){
-        resizedImage.zeros(320, 240, CV_8UC3);
+        resizedImage = cv::Mat::zeros(320, 240, CV_8UC3);
         cv::resize(doorMask, resizedImage, cv::Size(320, 240));
         qImage = QImage( resizedImage.data,
                          resizedImage.cols,
@@ -91,7 +92,7 @@ void MainConfigurationWindow::showImage()
         ui->doorMaskLabel->setPixmap(QPixmap::fromImage(qImage));
     }
     if(!exclusionMask.empty()){
-        resizedImage.zeros(320, 240, CV_8UC3);
+        resizedImage = cv::Mat::zeros(320, 240, CV_8UC3);
         cv::resize(exclusionMask, resizedImage, cv::Size(320, 240));
         qImage = QImage( resizedImage.data,
                          resizedImage.cols,
@@ -193,10 +194,12 @@ void MainConfigurationWindow::loadMaskFromFile()
     if(configFile.open(filePath, cv::FileStorage::READ)){
         readMasks(doorPolygons, "doorPolygons");
         readMasks(exclusionPolygons, "exclusionPolygons");
+        configFile["circleCenterX"] >> circleCenter.x;
+        configFile["circleCenterY"] >> circleCenter.y;
+        configFile["circleRadius"] >> circleRadius;
         applyChanges();
     }
     configFile.release();
-    showImage();
 }
 
 void MainConfigurationWindow::closeEvent(QCloseEvent * e)
@@ -324,6 +327,9 @@ void MainConfigurationWindow::on_saveMasksButton_clicked()
     configFile.open(filePath, cv::FileStorage::WRITE);
     storeMask(doorPolygons, "doorPolygons");
     storeMask(exclusionPolygons, "exclusionPolygons");
+    configFile << "circleCenterX" << circleCenter.x;
+    configFile << "circleCenterY" << circleCenter.y;
+    configFile << "circleRadius" << circleRadius;
     configFile.release();
 }
 
