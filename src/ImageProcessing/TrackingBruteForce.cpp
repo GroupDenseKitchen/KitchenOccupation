@@ -11,23 +11,21 @@ namespace image_processing
     bool TrackingBruteForce::initialize(configuration::ConfigurationManager& settings) {
         isInitialized = true;
 
-        CONFIG(settings, maximumDistance, "TrackingMaximumDistance", 4000);
-        CONFIG(settings, minimumLifeSpan, "TrackingMinimumLifeSpan", 30);   //Currently # Frames, should be in ms...
-        CONFIG(settings, maximumTimeLostInDoorArea, "MaximumTimeLostInDoorArea", 9);   //Currently # Frames, should be in ms...
-        CONFIG(settings, maximumTimeLostStill, "TrackingMaximumTimeLostStill", 200);
+        CONFIG(settings, maximumDistance, "TrackingMaximumDistance",                4000);
+        CONFIG(settings, minimumLifeSpan, "TrackingMinimumLifeSpan",                  30);   //Currently # Frames, should be in ms...
+        CONFIG(settings, maximumTimeLostInDoorArea, "MaximumTimeLostInDoorArea",       9);   //Currently # Frames, should be in ms...
+        CONFIG(settings, maximumTimeLostStill, "TrackingMaximumTimeLostStill",       200);
 
         return isInitialized;
     }
 
     void TrackingBruteForce::process(FrameList &frames) {
-
         if(frames.hasPrevious())
         {
             for(int n = 0; n < frames.getCurrent().getCameras().size(); n++)
             {
                 CameraObject & cameraCurr = frames.getCurrent().getCameras()[n];
                 CameraObject & cameraPrev = frames.getPrevious().getCameras()[n];
-
 
                 // Containers that will be reduced in size when manipulated below
                 std::list<Object> prevPotentialObjects(cameraPrev.getPotentialObjects().begin(), cameraPrev.getPotentialObjects().end());
@@ -58,7 +56,7 @@ namespace image_processing
                 // 5) Elevate pervious candidate objects to real objects if they have lived long enough.
                 elevatePotentialObjects(cameraCurr.getPotentialObjects(), cameraCurr.getObjects(),cameraCurr.getNewlyFoundObjects());
 
-                // Debug
+                //----------------------------------------- Debug ----------------------------------------//
                 if(!cameraCurr.hasImage("debugImage"))
                     cameraCurr.addImage("debugImage", cameraCurr.getImage("rawImage").clone());
                 cv::Mat debugImage = cameraCurr.getImage("debugImage");
@@ -72,6 +70,7 @@ namespace image_processing
                     putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(0,0,255), thickness, 8);
                     cv::rectangle(debugImage, object->boundingBox, cv::Scalar(0,0,255), 2);     // Debug
                     cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(0,0,100), -1);
+                 //----------------------------------------------------------------------------------------//
 
                 }
                 for(std::vector<Object>::iterator object = cameraCurr.getObjects().begin(); object != cameraCurr.getObjects().end(); object++) {
@@ -93,8 +92,8 @@ namespace image_processing
         }
     }
 
-    void TrackingBruteForce::pairAndPopulate(std::list<Object> & candidatePrev, std::list<Object> & candidateCurr, std::vector<Object> & destination) {
-        // Pair closest points and remove from temp lists
+    void TrackingBruteForce::pairAndPopulate(std::list<Object> & candidatePrev, std::list<Object> & candidateCurr, std::vector<Object> & destination){
+        // Pair closest points and remove from temporary lists.
         double error = 0;
         while(error <= maximumDistance && !candidatePrev.empty() && !candidateCurr.empty())
         {
@@ -112,7 +111,7 @@ namespace image_processing
                     }
                 }
             }
-            if(smallestError <= maximumDistance) {
+            if(smallestError <= maximumDistance){
                 bestCurr->merge(&*bestPrev);
                 bestCurr->lost = false;
                 destination.push_back(*bestCurr);
@@ -121,14 +120,14 @@ namespace image_processing
             }
             error = smallestError;
         }
-    }
+    } //End of pairAndPopulate
 
     void TrackingBruteForce::elevatePotentialObjects(std::vector<Object> & candidates, std::vector<Object> & destination, std::vector<Object> & newlyFoundObjects) {
         std::vector<Object>::iterator candidate = candidates.begin();
         while(candidate != candidates.end()) {
             if(candidate->lifeSpan >= minimumLifeSpan) {
                 candidate->id = getUniqueID();
-                newlyFoundObjects.push_back(*candidate);//for counting objects
+                newlyFoundObjects.push_back(*candidate); //For counting objects (OLD)
                 destination.push_back(*candidate);
                 candidates.erase(candidate);
             } else {
