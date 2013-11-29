@@ -4,6 +4,8 @@ FrameList::FrameList(int framesToKeep) : framesToKeep(framesToKeep){
     frameCounter = 0;
     assert(framesToKeep >= 2 || framesToKeep == -1);
 
+    initiatedCheckPointMasks = false;
+
     //doorMask.zeros(640,480,CV_8UC3);
     //exclusionMask.zeros(640,480,CV_8UC3);
 }
