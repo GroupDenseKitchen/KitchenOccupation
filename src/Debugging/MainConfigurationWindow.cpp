@@ -179,9 +179,9 @@ void MainConfigurationWindow::polygonDrawer(cv::Mat targetMat, const cv::Point *
 
 void MainConfigurationWindow::drawCheckPointCircles()
 {
-    cv::circle(imageWithMask, circleCenter, 1.2*circleRadius, cv::Scalar(149,255,78),-1); //Large
-    cv::circle(imageWithMask, circleCenter, 1.1*circleRadius, cv::Scalar(255,213,83),-1); //Medium
-    cv::circle(imageWithMask, circleCenter, circleRadius,     cv::Scalar(255,123,83),-1); //Small
+    cv::circle(imageWithMask, circleCenter, 1.2*circleRadius, cv::Scalar(149,255,78), 2); //Large
+    cv::circle(imageWithMask, circleCenter, 1.1*circleRadius, cv::Scalar(255,213,83), 2); //Medium
+    cv::circle(imageWithMask, circleCenter, circleRadius,     cv::Scalar(255,123,83), 2); //Small
 
     cv::circle(checkpointMaskSmall,  circleCenter, circleRadius,       cv::Scalar(255,255,255),-1); //Small
     cv::circle(checkpointMaskMedium, circleCenter, 1.1*circleRadius,   cv::Scalar(255,255,255),-1); //Medium

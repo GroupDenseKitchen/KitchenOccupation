@@ -35,11 +35,6 @@ namespace image_processing
                 std::list<Object> currCandidates(cameraCurr.getObjects().begin(), cameraCurr.getObjects().end());
                 cameraCurr.getObjects().clear();
 
-
-                cv::imshow("Small", frames.getCheckPointMaskSmall());
-                cv::imshow("Medium", frames.getCheckPointMaskMedium());
-                cv::imshow("Large", frames.getCheckPointMaskLarge());
-
                 // 0) Check if the objects are inside any of the marker masks, set flags.
                 if(frames.hasCheckPointMasks()){
                 setIfIsInMarkerRegion(currCandidates,frames.getCheckPointMaskSmall(),frames.getCheckPointMaskMedium(),frames.getCheckPointMaskLarge());
