@@ -89,7 +89,7 @@ bool FrameList::hasInclusionMask()
     return !inclusionMask.empty();
 }
 
-bool FrameList::hasDoorMasks()
+bool FrameList::hasCheckPointMasks()
 {
     return initiatedCheckPointMasks;
 }

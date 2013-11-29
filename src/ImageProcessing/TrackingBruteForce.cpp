@@ -41,8 +41,9 @@ namespace image_processing
                 cv::imshow("Large", frames.getCheckPointMaskLarge());
 
                 // 0) Check if the objects are inside any of the marker masks, set flags.
+                if(frames.hasCheckPointMasks()){
                 setIfIsInMarkerRegion(currCandidates,frames.getCheckPointMaskSmall(),frames.getCheckPointMaskMedium(),frames.getCheckPointMaskLarge());
-
+                }
                 // The purpose here is to fill cameraCurr.objects with new or old actual objects
                 // and cameraCurr.potentialObjects with candidates that may be considered objects in the future
 

@@ -99,7 +99,7 @@ public:
     bool hasInclusionMask();
 
 
-    bool hasDoorMasks();
+    bool hasCheckPointMasks();
 
     cv::Mat getCheckPointMaskSmall() const;
     void setCheckPointMaskSmall(const cv::Mat &value);
