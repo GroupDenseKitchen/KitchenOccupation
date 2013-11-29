@@ -75,8 +75,7 @@ namespace evaluation {
     void EntryExitEvaluator::process(FrameList &frames)
     {        
         bool asdf;
-        if (frameCount == 309) {
-
+        if (frameCount > 309) {
             asdf = true;
         }
         frameCount++;
@@ -122,7 +121,7 @@ namespace evaluation {
 
             // Debug
             // Print entry and exit information on the image
-            cv::Mat raw = frames.getCurrent().getCameras()[i].getImage("rawImage");
+            cv::Mat raw = frames.getCurrent().getCameras()[i].getImage("debugImage");
             std::string textEntryGT = "";
             std::string textExitGT = "";
             std::string textEntryDiff = "";
