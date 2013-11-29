@@ -35,7 +35,7 @@ namespace image_processing
 
                 // 0) Check if the objects are inside any of the marker masks, set flags.
                 if(frames.hasCheckPointMasks()){
-                setIfIsInMarkerRegion(currCandidates,frames.getCheckPointMaskSmall(),frames.getCheckPointMaskMedium(),frames.getCheckPointMaskLarge());
+                setIfIsInCheckpointRegion(currCandidates,frames.getCheckPointMaskSmall(),frames.getCheckPointMaskMedium(),frames.getCheckPointMaskLarge());
                 }
                 // The purpose here is to fill cameraCurr.objects with new or old actual objects
                 // and cameraCurr.potentialObjects with candidates that may be considered objects in the future
@@ -56,7 +56,7 @@ namespace image_processing
                 // 5) Elevate pervious candidate objects to real objects if they have lived long enough.
                 elevatePotentialObjects(cameraCurr.getPotentialObjects(), cameraCurr.getObjects(),cameraCurr.getNewlyFoundObjects());
 
-                //----------------------------------------- Debug ----------------------------------------//
+                //--------------------------------------------- Debug ---------------------------------------------------//
                 if(!cameraCurr.hasImage("debugImage"))
                     cameraCurr.addImage("debugImage", cameraCurr.getImage("rawImage").clone());
                 cv::Mat debugImage = cameraCurr.getImage("debugImage");
@@ -68,10 +68,8 @@ namespace image_processing
                     cv::Point2d pos = object->centerOfMass;
                     text = "lifespan: " + std::to_string(object->lifeSpan);
                     putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(0,0,255), thickness, 8);
-                    cv::rectangle(debugImage, object->boundingBox, cv::Scalar(0,0,255), 2);     // Debug
+                    cv::rectangle(debugImage, object->boundingBox, cv::Scalar(0,0,255), 2);
                     cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(0,0,100), -1);
-                 //----------------------------------------------------------------------------------------//
-
                 }
                 for(std::vector<Object>::iterator object = cameraCurr.getObjects().begin(); object != cameraCurr.getObjects().end(); object++) {
                     cv::Point2d pos = object->centerOfMass;
@@ -79,15 +77,16 @@ namespace image_processing
 
                     if(object->lost) {
                         text += ", LOST lifespan: " + std::to_string(object->lifeSpan);
-                        cv::rectangle(debugImage, object->boundingBox, cv::Scalar(255,0,0), 2);     // Debug
+                        cv::rectangle(debugImage, object->boundingBox, cv::Scalar(255,0,0), 2);
                         cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(100,0,0), -1);
                         putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(255, 0, 0), thickness, 8);
                     } else {
-                        cv::rectangle(debugImage, object->boundingBox, cv::Scalar(0,255,0), 2);     // Debug
+                        cv::rectangle(debugImage, object->boundingBox, cv::Scalar(0,255,0), 2);
                         cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(0,100,0), -1);
                         putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(0, 255, 0), thickness, 8);
                     }
                 }
+               //--------------------------------------------------------------------------------------------------------//
             }
         }
     }
@@ -95,23 +94,19 @@ namespace image_processing
     void TrackingBruteForce::pairAndPopulate(std::list<Object> & candidatePrev, std::list<Object> & candidateCurr, std::vector<Object> & destination){
         // Pair closest points and remove from temporary lists.
         double error = 0;
-        while(error <= maximumDistance && !candidatePrev.empty() && !candidateCurr.empty())
-        {
+        while(error <= maximumDistance && !candidatePrev.empty() && !candidateCurr.empty()) {
             double smallestError = 1e99;
             std::list<Object>::iterator bestPrev, bestCurr;
-            for(std::list<Object>::iterator previous = candidatePrev.begin(); previous != candidatePrev.end(); previous++)
-            {
-                for(std::list<Object>::iterator current = candidateCurr.begin(); current != candidateCurr.end(); current++)
-                {
-                    if(distance(*previous, *current) < smallestError)
-                    {
-                        smallestError = distance(*previous, *current);
+            for(std::list<Object>::iterator previous = candidatePrev.begin(); previous != candidatePrev.end(); previous++) {
+                for(std::list<Object>::iterator current = candidateCurr.begin(); current != candidateCurr.end(); current++) {
+                    if(squaredDistance(*previous, *current) < smallestError) {
+                        smallestError = squaredDistance(*previous, *current);
                         bestPrev = previous;
                         bestCurr = current;
                     }
                 }
             }
-            if(smallestError <= maximumDistance){
+            if(smallestError <= maximumDistance) {
                 bestCurr->merge(&*bestPrev);
                 bestCurr->lost = false;
                 destination.push_back(*bestCurr);
@@ -127,7 +122,7 @@ namespace image_processing
         while(candidate != candidates.end()) {
             if(candidate->lifeSpan >= minimumLifeSpan) {
                 candidate->id = getUniqueID();
-                newlyFoundObjects.push_back(*candidate); //For counting objects (OLD)
+                newlyFoundObjects.push_back(*candidate);
                 destination.push_back(*candidate);
                 candidates.erase(candidate);
             } else {
@@ -156,10 +151,10 @@ namespace image_processing
             }
             int height = image.size().height;
             int width = image.size().width;
-            if(!isInsideRemovalArea(object,mask,height,width) && object.lifeSpan < maximumTimeLostStill) { // check is if lost for too long (maximumTimeLostStill frames) ...
+            if(!isInsideRemovalArea(object,mask,height,width) && object.lifeSpan < maximumTimeLostStill) { // check if object is lost too long (maximumTimeLostStill frames).
                 destination.push_back(object);
             } else {
-                if(object.lifeSpan < maximumTimeLostInDoorArea){ //even if in exit area save it for maximumTimeLostInDoorArea frames
+                if(object.lifeSpan < maximumTimeLostInDoorArea){ //even if object is in exit area, save it for maximumTimeLostInDoorArea frames.
                   destination.push_back(object);
                 }
                 if(object.lifeSpan > maximumTimeLostInDoorArea-1)
@@ -167,37 +162,35 @@ namespace image_processing
             }
         }
     }
-    bool TrackingBruteForce::isCloseImageBorder(cv::Point2d point, int height, int width, int margin){
+    bool TrackingBruteForce::isCloseImageBorder(cv::Point2d point, int height, int width, int margin) {
         return point.x > (width -margin) || point.x < (margin) || point.y > (height -margin) || point.y < margin;
     }
 
-    bool TrackingBruteForce::isInsideRemovalArea(Object & object, cv::Mat mask, int height, int width)
-    {
+    bool TrackingBruteForce::isInsideRemovalArea(Object & object, cv::Mat mask, int height, int width) {
         return isInsidePolygon(mask,object.exitPoint) || isCloseImageBorder(object.exitPoint,height,width, 30);
     }
 
-    int TrackingBruteForce::getUniqueID()
-    {
+    int TrackingBruteForce::getUniqueID() {
         return nextUniequeID++;
     }
 
-    double TrackingBruteForce::distance(Object & previous, Object & current)
-    {
+    double TrackingBruteForce::squaredDistance(Object & previous, Object & current) {
         double x1 = previous.centerOfMass.x;
         double y1 = previous.centerOfMass.y;
         double x2 = current.centerOfMass.x;
         double y2 = current.centerOfMass.y;
         return (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2);
     }
-    void TrackingBruteForce::setIfIsInMarkerRegion(std::list<Object> &objects, cv::Mat maskOne, cv::Mat maskTwo, cv::Mat maskThree){
+
+    void TrackingBruteForce::setIfIsInCheckpointRegion(std::list<Object> &objects, cv::Mat maskOne, cv::Mat maskTwo, cv::Mat maskThree) {
         for(Object & object : objects) {
-            if(isInsidePolygon(maskOne, object.centerOfMass)){
+            if(isInsidePolygon(maskOne, object.centerOfMass)) {
                 object.hasPassedMasksOne = true;
             }
-            if(isInsidePolygon(maskTwo, object.centerOfMass) && !isInsidePolygon(maskOne,object.centerOfMass)){
+            if(isInsidePolygon(maskTwo, object.centerOfMass) && !isInsidePolygon(maskOne,object.centerOfMass)) {
                 object.hasPassedMasksTwo = true;
             }
-            if(isInsidePolygon(maskThree, object.centerOfMass) && !isInsidePolygon(maskTwo,object.centerOfMass)){
+            if(isInsidePolygon(maskThree, object.centerOfMass) && !isInsidePolygon(maskTwo,object.centerOfMass)) {
                 object.hasPassedMasksThree = true;
             }
          }
