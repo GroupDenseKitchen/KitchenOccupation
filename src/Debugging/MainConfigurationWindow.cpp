@@ -21,11 +21,12 @@ void MainConfigurationWindow::init(DenseKitchen* _mainProgram ,std::string _file
 {
     mainProgram = _mainProgram;
     filePath = _filepath;
-    loadMaskFromFile();
-    applyChanges();
     isDrawingCircle = false;
     circleRadius = 0;
     circleCenter = cv::Point(0,0);
+    loadMaskFromFile();
+    applyChanges();
+
 }
 
 void MainConfigurationWindow::applyChanges()
@@ -193,10 +194,14 @@ void MainConfigurationWindow::loadMaskFromFile()
     if(configFile.open(filePath, cv::FileStorage::READ)){
         readMasks(doorPolygons, "doorPolygons");
         readMasks(exclusionPolygons, "exclusionPolygons");
-        applyChanges();
+        configFile["circleCenterX"] >> circleCenter.x;
+        configFile["circleCenterY"] >> circleCenter.y;
+        configFile["circleRadius"] >> circleRadius;
+        //applyChanges();
     }
     configFile.release();
     showImage();
+    applyChanges();
 }
 
 void MainConfigurationWindow::closeEvent(QCloseEvent * e)
@@ -324,6 +329,9 @@ void MainConfigurationWindow::on_saveMasksButton_clicked()
     configFile.open(filePath, cv::FileStorage::WRITE);
     storeMask(doorPolygons, "doorPolygons");
     storeMask(exclusionPolygons, "exclusionPolygons");
+    configFile << "circleCenterX" << circleCenter.x;
+    configFile << "circleCenterY" << circleCenter.y;
+    configFile << "circleRadius" << circleRadius;
     configFile.release();
 }
 
