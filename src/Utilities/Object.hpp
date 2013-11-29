@@ -17,7 +17,7 @@ struct Object
     /*!
        \brief   Constructor ising a cv::Rect for initialization.
     */
-    Object(cv::Rect boundingBox);
+    Object(std::vector<cv::Point> & contour, cv::Rect & boundingBox, cv::Point2f & centerOfMass, double area);
 
     /*!
        \brief   Destructor.
@@ -43,9 +43,9 @@ struct Object
 public:
     int id;
     cv::Rect boundingBox;
-    cv::Point2d center;
-    cv::Point2d centerOfMass;
-    cv::Point2d velocity;
+    std::vector<cv::Point> contour;
+    cv::Point2f centerOfMass;
+    double area;
 
     cv::Point2d entryPoint;
     cv::Point2d exitPoint;
@@ -53,6 +53,9 @@ public:
     // Status
     bool lost;
     int lifeSpan;
+
+    // Prediction
+    cv::KalmanFilter kalmanFilter;
 };
 
 #endif // OBJECT_HPP

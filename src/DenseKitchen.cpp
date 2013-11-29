@@ -14,9 +14,16 @@ bool DenseKitchen::initialize(std::string path) {
     algorithmFactory.add("ForegroundRegionExtractorDefault", new image_processing::ForegroundRegionExtractorDefault());
     algorithmFactory.add("TrackingBruteForce",               new image_processing::TrackingBruteForce());
     algorithmFactory.add("EntryExitCounter",                 new image_processing::EntryExitCounter());
+    algorithmFactory.add("KinectSegmentation",               new image_processing::KinectSegmentation());
+    algorithmFactory.add("TrackingBruteForceLines",          new image_processing::TrackingBruteForceLines());
     algorithmFactory.add("Analytics",                        new statistics::Analytics());
+<<<<<<< HEAD
     algorithmFactory.add("QueDetector",                      new image_processing::QueDetector());
     algorithmFactory.add("FlowEstimator",                   new statistics::FlowEstimator());
+=======
+    algorithmFactory.add("FlowEstimator",                    new statistics::FlowEstimator());
+
+>>>>>>> KinectAndKalman
 
 
     if(!settings.readConfig(path)) {

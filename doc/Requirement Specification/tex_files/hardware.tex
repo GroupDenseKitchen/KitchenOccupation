@@ -1,7 +1,6 @@
 
+Since the system is to be able to run on two different platforms, the hardware requirements differ a lot depending on which system being considered. In the case of Raspberry Pi computers being used, all cameras each have their own Raspberry Pi processing unit where image processing takes place. In case of a central image processing unit (laptop, server or desktop computer), image processing from all cameras in the room take place on this central unit.
 
-The hardware consists of network cameras connected directly by Ethernet to a processing unit. The system should be able to handle cameras with a resolution of at least 2M pixel. The cameras are connected to the processing unit a network or USB. 
-The processing unit is a computer connected to one or more cameras that displays the calculated results. 
 
 \begin{figure}[htb]
 	\centering
@@ -18,10 +17,10 @@ The hardware is limited by budget, Internet connection and the source of power. 
 \label{sec:hardware_req}
 \reqtable
 {
-	\addreq{The system uses network cameras powered via Ethernet.\newline \textbf{Revised 2013-11-13:} The system uses cameras connected to a laptop (mid-end processing device) via network or USB.}{1}	
-	\addreq{The system can operate using high resolution ($>$2 Mpixel) cameras}{1}
+	\addreq{The system uses network cameras powered via Ethernet.\newline \textbf{Revised 2013-11-27:} The system uses cameras connected to a laptop (mid-end processing device) via network or USB.}{1}	
+	\addreq{The system can operate using high resolution ($>$1 Mpixel) cameras}{1}
 	\addreq{Lower resolution cameras can be used}{2}
-	\addreq{The application can run using the processing power provided by the costumer.\newline \textbf{Canceled 2013-11-13: }No processing power is provided by the customer.}{--}
-	\addreq{The application can run using a mid-end processing device.\newline \textbf{Revised priority 2013-11-13:} The cancellation of previous req.(\textbf{3.4}) causes priority to change \textbf{from 2 to 1.}}{1}
-	\addreq{The application can run using a low-end processing device.}{3}
+	\addreq{The application can run using the processing power provided by the costumer.\newline \textbf{Canceled 2013-11-27: }No processing power is provided by the customer.}{--}
+	\addreq{The application can run using a mid-end processing device.\newline \textbf{Revised priority 2013-11-27:} The cancellation of previous req.(\textbf{3.4}) causes priority to change \textbf{from 2 to 1.}}{1}
+	\addreq{The application can run using a low-end processing device.\newline	\textbf{Revised priority 2013-11-27:} Revised due to a request from customer that the system is able to run on a Raspberry Pi. Priority changed \textbf{from 3 to 2.}}{2}
 }

@@ -11,9 +11,10 @@ namespace image_processing
     bool TrackingBruteForce::initialize(configuration::ConfigurationManager& settings) {
         isInitialized = true;
 
-        CONFIG(settings, maximumDistance, "TrackingMaximumDistance", 2500);
-        CONFIG(settings, minimumLifeSpan, "TrackingMinimumLifeSpan", 10);   //Currently # Frames, should be in ms...
-        CONFIG(settings, maximumTimeLost, "TrackingMaximumTimeLost", 10);   //Currently # Frames, should be in ms...
+        CONFIG(settings, maximumDistance, "TrackingMaximumDistance", 4000);
+        CONFIG(settings, minimumLifeSpan, "TrackingMinimumLifeSpan", 30);   //Currently # Frames, should be in ms...
+        CONFIG(settings, maximumTimeLostInDoorArea, "MaximumTimeLostInDoorArea", 9);   //Currently # Frames, should be in ms...
+        CONFIG(settings, maximumTimeLostStill, "TrackingMaximumTimeLostStill", 200);
 
         return isInitialized;
     }
@@ -26,6 +27,7 @@ namespace image_processing
             {
                 CameraObject & cameraCurr = frames.getCurrent().getCameras()[n];
                 CameraObject & cameraPrev = frames.getPrevious().getCameras()[n];
+
 
                 // Containers that will be reduced in size when manipulated below
                 std::list<Object> prevPotentialObjects(cameraPrev.getPotentialObjects().begin(), cameraPrev.getPotentialObjects().end());
@@ -47,32 +49,41 @@ namespace image_processing
                 addNew(currCandidates, cameraCurr.getPotentialObjects());
 
                 // 4) Any remaining previous objects are flagged as lost and added to current objects.
-                addLost(prevObjects, cameraCurr.getObjects());
+                addLost(prevObjects, cameraCurr.getObjects(), cameraCurr.getTransitionaryObjects(), cameraCurr.getImage("rawImage"),frames.getDoorMask());
 
                 // 5) Elevate pervious candidate objects to real objects if they have lived long enough.
                 elevatePotentialObjects(cameraCurr.getPotentialObjects(), cameraCurr.getObjects(),cameraCurr.getNewlyFoundObjects());
 
-                // 6) Remove lost objects that have been lost for too long.
-                removeLostObjects(cameraCurr.getObjects(),cameraCurr.getTransitionaryObjects());
-
                 // Debug
-                cv::Mat raw = cameraCurr.getImage("rawImage");
+                if(!cameraCurr.hasImage("debugImage"))
+                    cameraCurr.addImage("debugImage", cameraCurr.getImage("rawImage").clone());
+                cv::Mat debugImage = cameraCurr.getImage("debugImage");
                 std::string text = "";
                 int fontFace = cv::FONT_HERSHEY_PLAIN;
                 double fontScale = 1;
                 int thickness = 1;
                 for(std::vector<Object>::iterator object = cameraCurr.getPotentialObjects().begin(); object != cameraCurr.getPotentialObjects().end(); object++) {
-                    cv::Point2d pos = object->center;
+                    cv::Point2d pos = object->centerOfMass;
                     text = "lifespan: " + std::to_string(object->lifeSpan);
-                    putText(raw, text, pos, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
-                    cv::rectangle(raw, cameraCurr.getPotentialObjects().back().boundingBox, cv::Scalar(255,0,0), 2);     // Debug
+                    putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(0,0,255), thickness, 8);
+                    cv::rectangle(debugImage, object->boundingBox, cv::Scalar(0,0,255), 2);     // Debug
+                    cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(0,0,100), -1);
+
                 }
                 for(std::vector<Object>::iterator object = cameraCurr.getObjects().begin(); object != cameraCurr.getObjects().end(); object++) {
-                    cv::Point2d pos = object->center;
+                    cv::Point2d pos = object->centerOfMass;
                     text = "id: "+std::to_string(object->id);
-                    if(object->lost)
+
+                    if(object->lost) {
                         text += ", LOST lifespan: " + std::to_string(object->lifeSpan);
-                    putText(raw, text, pos, fontFace, fontScale, cv::Scalar::all(255), thickness, 8);
+                        cv::rectangle(debugImage, object->boundingBox, cv::Scalar(255,0,0), 2);     // Debug
+                        cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(100,0,0), -1);
+                        putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(255, 0, 0), thickness, 8);
+                    } else {
+                        cv::rectangle(debugImage, object->boundingBox, cv::Scalar(0,255,0), 2);     // Debug
+                        cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(0,100,0), -1);
+                        putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(0, 255, 0), thickness, 8);
+                    }
                 }
             }
         }
@@ -99,6 +110,7 @@ namespace image_processing
             }
             if(smallestError <= maximumDistance) {
                 bestCurr->merge(&*bestPrev);
+                bestCurr->lost = false;
                 destination.push_back(*bestCurr);
                 candidatePrev.erase(bestPrev);
                 candidateCurr.erase(bestCurr);
@@ -112,23 +124,11 @@ namespace image_processing
         while(candidate != candidates.end()) {
             if(candidate->lifeSpan >= minimumLifeSpan) {
                 candidate->id = getUniqueID();
-                newlyFoundObjects.push_back(*candidate);//for counting exiting objects
+                newlyFoundObjects.push_back(*candidate);//for counting objects
                 destination.push_back(*candidate);
                 candidates.erase(candidate);
             } else {
                 candidate++;
-            }
-        }
-    }
-
-    void TrackingBruteForce::removeLostObjects(std::vector<Object> & objects,std::vector<Object> & transitionary_Objects) {
-        std::vector<Object>::iterator object = objects.begin();
-        while(object != objects.end()) {
-            if(object->lost && object->lifeSpan > maximumTimeLost) {
-                transitionary_Objects.push_back(*object);
-                objects.erase(object);
-            } else {
-                object++;
             }
         }
     }
@@ -141,17 +141,36 @@ namespace image_processing
         }
     }
 
-    void TrackingBruteForce::addLost(std::list<Object> & lostObjects, std::vector<Object> & destination) {
+    void TrackingBruteForce::addLost(std::list<Object> & lostObjects, std::vector<Object> & destination,std::vector<Object> & transitionaryObjects, cv::Mat image, cv::Mat mask) {
         for(Object & object : lostObjects) {
             if(object.lost) {
                 object.lifeSpan++;
             } else {
-                object.lifeSpan = 1;
                 object.lost = true;
+                object.lifeSpan = 1;
+                object.exitPoint = object.centerOfMass;
                 object.exit();
             }
-            destination.push_back(object);
+            int height = image.size().height;
+            int width = image.size().width;
+            if(!isInsideRemovalArea(object,mask,height,width) && object.lifeSpan < maximumTimeLostStill) { // check is if lost for too long (maximumTimeLostStill frames) ...
+                destination.push_back(object);
+            } else {
+                if(object.lifeSpan < maximumTimeLostInDoorArea){ //even if in exit area save it for maximumTimeLostInDoorArea frames
+                  destination.push_back(object);
+                }
+                if(object.lifeSpan > maximumTimeLostInDoorArea-1)
+                    transitionaryObjects.push_back(object);
+            }
         }
+    }
+    bool TrackingBruteForce::isCloseImageBorder(cv::Point2d point, int height, int width, int margin){
+        return point.x > (width -margin) || point.x < (margin) || point.y > (height -margin) || point.y < margin;
+    }
+
+    bool TrackingBruteForce::isInsideRemovalArea(Object & object, cv::Mat mask, int height, int width)
+    {
+        return isInsidePolygon(mask,object.exitPoint) || isCloseImageBorder(object.exitPoint,height,width, 30);
     }
 
     int TrackingBruteForce::getUniqueID()
@@ -161,10 +180,11 @@ namespace image_processing
 
     double TrackingBruteForce::distance(Object & previous, Object & current)
     {
-        double x1 = previous.center.x;
-        double y1 = previous.center.y;
-        double x2 = current.center.x;
-        double y2 = current.center.y;
+        double x1 = previous.centerOfMass.x;
+        double y1 = previous.centerOfMass.y;
+        double x2 = current.centerOfMass.x;
+        double y2 = current.centerOfMass.y;
         return (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2);
     }
+
 }

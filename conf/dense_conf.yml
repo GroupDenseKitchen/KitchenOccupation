@@ -8,18 +8,16 @@ TrackingMaximumDistance: 2500.0
 TrackingMinimumLifeSpan: 10
 TrackingMaximumTimeLost: 10
 ImageProcessor:
-   - BackgroundModelMoG
-   - ForegroundRegionExtractorDefault
+   - KinectSegmentation
    - TrackingBruteForce
-   - EntryExitCounter
-   - QueDetector
 Analytics:
    - FlowEstimator
-cameraPaths:
-   - "http://root:pass@169.254.192.68/axis-cgi/mjpg/video.cgi?resolution=640x480&.mjpg"
+   - EntryExitCounter
+   - QueDetector
 videoFilePaths:
    - "/Users/Niko/Dropbox/Liu/TSBB11/Dense Kitchen/seq8.mp4"
+
 trackerGroundTruthPaths:
    - "../data/seq3/seq3GT.xml"
-
+   #- "../data/seq7/seq7GT.xml"
 
