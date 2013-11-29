@@ -199,10 +199,10 @@ namespace image_processing
             if(isInsidePolygon(maskOne, object.centerOfMass)){
                 object.hasPassedMasksOne = true;
             }
-            if(isInsidePolygon(maskTwo, object.centerOfMass)){
+            if(isInsidePolygon(maskTwo, object.centerOfMass) && !isInsidePolygon(maskOne,object.centerOfMass)){
                 object.hasPassedMasksTwo = true;
             }
-            if(isInsidePolygon(maskTwo, object.centerOfMass)){
+            if(isInsidePolygon(maskThree, object.centerOfMass) && !isInsidePolygon(maskTwo,object.centerOfMass)){
                 object.hasPassedMasksThree = true;
             }
          }
