@@ -15,10 +15,9 @@ ImageProcessor:
 Analytics:
    - FlowEstimator
 cameraPaths:
-   - "/Users/erikfall/Dropbox/Dense Kitchen (1)/seq8.mp4"
+   - "../data/seq8/seq8.mp4"
 videoFilePaths:
-   - "/Users/erikfall/Dropbox/Dense Kitchen (1)/seq8.mp4"
+   - "../data/seq8/seq8.mp4"
 trackerGroundTruthPaths:
    - "../data/seq3/seq3GT.xml"
-
-
+   
