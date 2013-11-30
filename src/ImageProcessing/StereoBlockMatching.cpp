@@ -60,11 +60,11 @@ void StereoBlockMatching::process(FrameList &frames)
             blockMatcher.P1 = 600;
             blockMatcher.P2 = 2400;
 
-            cv::flip(rawImageLeft,rawImageLeft,1);
+            //cv::flip(rawImageLeft,rawImageLeft,1);
 
             blockMatcher(rawImageLeft, rawImageRight, stereoDepthMap);
 
-            stereoDepthMap.convertTo(stereoDepthMap, CV_8UC1);
+            normalize(stereoDepthMap, stereoDepthMap, 0, 255, CV_MINMAX, CV_8U);
 
             leftCam.addImage("stereoDepthMap", stereoDepthMap);
             rightCam.addImage("stereoDepthMap", stereoDepthMap);
