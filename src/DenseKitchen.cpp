@@ -14,8 +14,9 @@ bool DenseKitchen::initialize(std::string path) {
     algorithmFactory.add("ForegroundRegionExtractorDefault", new image_processing::ForegroundRegionExtractorDefault());
     algorithmFactory.add("TrackingBruteForce",               new image_processing::TrackingBruteForce());
     algorithmFactory.add("EntryExitCounter",                 new image_processing::EntryExitCounter());
+    algorithmFactory.add("StereoBlockMatching",              new image_processing::StereoBlockMatching());
     algorithmFactory.add("Analytics",                        new statistics::Analytics());
-    algorithmFactory.add("FlowEstimator",                   new statistics::FlowEstimator());
+    algorithmFactory.add("FlowEstimator",                    new statistics::FlowEstimator());
 
     if(!settings.readConfig(path)) {
         LOG("DenseKitchen initialization error", "settings file read error! path: \"" << path << "\"");

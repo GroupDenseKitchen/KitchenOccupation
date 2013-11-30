@@ -1,5 +1,5 @@
-#ifndef BACKGROUNDMODELMOG_HPP
-#define BACKGROUNDMODELMOG_HPP
+#ifndef STEREOBLOCKMATCHING_HPP
+#define STEREOBLOCKMATCHING_HPP
 
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/FrameList.hpp"
@@ -10,18 +10,18 @@ namespace image_processing
 /*!
  *  \brief   Process step which creates binary image using OpenCV function BackgroundModelMoG2.
  */
-class BackgroundModelMoG : public Algorithm
+class StereoBlockMatching : public Algorithm
 {
 public:
     /*!
        \brief   Constructor.
     */
-    BackgroundModelMoG();
+    StereoBlockMatching();
 
     /*!
        \brief   Destructor.
     */
-    ~BackgroundModelMoG();
+    ~StereoBlockMatching();
 
     /*!
        \brief   Performs the background modulation.
