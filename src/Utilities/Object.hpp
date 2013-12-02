@@ -44,8 +44,12 @@ public:
     int id;
     cv::Rect boundingBox;
     std::vector<cv::Point> contour;
-    cv::Point2f centerOfMass;
     double area;
+
+    cv::Point2f centerOfMass;   // Position
+    cv::Point2f velocity;       // Velocity (from the kalman filter)
+    cv::Point2f positionPrediction;     // Predicteed Position
+    cv::Point2f velocityPrediction;     // Predicted Velocity
 
     cv::Point2d entryPoint;
     cv::Point2d exitPoint;
