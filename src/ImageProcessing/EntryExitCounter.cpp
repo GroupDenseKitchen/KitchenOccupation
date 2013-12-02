@@ -63,8 +63,8 @@ void EntryExitCounter::process(FrameList &frames)
                 int fontFace = cv::FONT_HERSHEY_PLAIN;
                 double fontScale = 1;
                 int thickness = 1;
-                cv::Point2d pos1 = {10,20};
-                cv::Point2d pos2 = {10,40};
+                cv::Point2d pos1(10,20);
+                cv::Point2d pos2(10,40);
                 text = "Entered: " + std::to_string(cameraCurr->getEntered());
                 putText(debugImage, text, pos1, fontFace, fontScale, cv::Scalar(0,255,0), thickness, 8);
                 text2 = "Exited: " + std::to_string(cameraCurr->getExited());
@@ -87,7 +87,7 @@ void EntryExitCounter::process(FrameList &frames)
         int fontFace = cv::FONT_HERSHEY_PLAIN;
         double fontScale = 1;
         text = "Is inside: " + std::to_string(totalPopulation);
-        cv::Point2d pos3 = {10,60};
+        cv::Point2d pos3(10,60);
         cv::Mat debugImage = cameraCurr->getImage("debugImage");
         putText(debugImage, text, pos3, fontFace, fontScale, cv::Scalar(0,255,0), 1, 8);
         //--------------------------------------------------------------------------------------------------------//
