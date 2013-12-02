@@ -4,6 +4,13 @@
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/Object.hpp"
 
+/*!
+ *  \brief    Statistical analysis
+ *  \details  Estimates the number of people, models, flows etc..
+ */
+namespace statistics
+{
+
 struct SplineStrip
 {
     SplineStrip(cv::Point2f P0, cv::Point2f C1, cv::Point2f C2, cv::Point2f P1): p0(P0), c1(C1), c2(C2), p1(P1) {}
@@ -35,8 +42,9 @@ public:
     Que();
 
     std::vector<SplineStrip > splineStrips;
-    //std::map<int,Object> queObjects; //These are unordered (and so far unused)
+    std::map<int,Object> queObjects; //These are unordered (and only used )
     std::vector<DirectedQueEdge> queEdges;
 };
 
+}
 #endif // QUE_HPP

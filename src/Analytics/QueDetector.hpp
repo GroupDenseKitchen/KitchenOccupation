@@ -4,7 +4,7 @@
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/FrameList.hpp"
 #include "../Utilities/Algorithm.hpp"
-#include "../Utilities/Que.hpp"
+#include "../Analytics/Que.hpp"
 #include "../Utilities/CameraObject.hpp"
 
 /*!

@@ -175,8 +175,10 @@ namespace statistics
     {
         destObjects.clear();
         for (Object & obj: allObjects) {
-            if ( obj.id != fromObject.id ) { //TODO: Remove objects that have been dropped but are still in the frame
-                destObjects.push_back( obj ); //TODO: Use better filtering for feasible destinations.
+            if (!obj.lost) {
+                if ( obj.id != fromObject.id && !fromObject.lost) {
+                    destObjects.push_back( obj ); //TODO: Use better filtering for feasible destinations.
+                }
             }
         }
     }
@@ -213,13 +215,13 @@ namespace statistics
 
             //Insert any objects into the que if they are either a source or destination
             //of a que edge.
-            /* So far this isn't used so left out for speed
+             //--So far this isn't used so left out for speed
             if ( theQue.queObjects.find(queEdge.from.id) == theQue.queObjects.end() ) {
                 theQue.queObjects.insert( {queEdge.from.id, queEdge.from} );
             }
             if ( theQue.queObjects.find(queEdge.to.id) == theQue.queObjects.end() ) {
                 theQue.queObjects.insert( {queEdge.to.id, queEdge.to} );
-            }*/
+            }
         }
         if ( !theQue.splineStrips.empty() ) { //Only add non-empty que
             ques.push_back( theQue );
