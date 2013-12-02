@@ -17,6 +17,7 @@
 #include "ImageProcessing/TrackingBruteForceLines.hpp"
 #include "ImageProcessing/EntryExitCounter.hpp"
 #include "ImageProcessing/kinectSegmentation.hpp"
+#include "ImageProcessing/StereoBlockMatching.hpp"
 #include "Analytics/Analytics.hpp"
 #include "Analytics/FlowEstimator.hpp"
 #include "Analytics/Evaluation.hpp"
