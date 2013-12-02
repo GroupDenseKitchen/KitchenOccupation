@@ -28,7 +28,7 @@ void EntryExitCounter::process(FrameList &frames)
                 for(std::vector<Object>::iterator object = cameraCurr->getTransitionaryObjects().begin(); object != cameraCurr->getTransitionaryObjects().end(); object++)
                 {
                     cv::Point2d pos = object->exitPoint;
-                    if(isInsidePolygon(mask, pos) && object->hasPassedMasksOne && object->hasPassedMasksTwo)
+                    if(isInsidePolygon(mask, pos) && object->hasPassedMasksOne && object->hasPassedMasksTwo && object->hasPassedMasksThree)
                     {
                         cameraCurr->setExited(cameraCurr->getExited()+1);
                     }
@@ -38,7 +38,7 @@ void EntryExitCounter::process(FrameList &frames)
                 for(std::vector<Object>::iterator object = cameraCurr->getObjects().begin(); object != cameraCurr->getObjects().end(); object++)
                 {
                     cv::Point2d pos = object->entryPoint;
-                    if(isInsidePolygon(mask, pos) && object->hasPassedMasksOne && object->hasPassedMasksTwo && !object->hasAlreadyEntered)
+                    if(isInsidePolygon(mask, pos) && object->hasPassedMasksOne && object->hasPassedMasksTwo && object->hasPassedMasksThree && !object->hasAlreadyEntered)
                     {
                         cameraCurr->setEntered(cameraCurr->getEntered()+1);
                         object->hasAlreadyEntered = true;
