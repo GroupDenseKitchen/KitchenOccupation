@@ -121,7 +121,7 @@ namespace evaluation {
 
             // Debug
             // Print entry and exit information on the image
-            cv::Mat raw = frames.getCurrent().getCameras()[i].getImage("debugImage");
+            cv::Mat raw = frames.getCurrent().getCameras()[i].getImage("rawImage");
             std::string textEntryGT = "";
             std::string textExitGT = "";
             std::string textEntryDiff = "";
