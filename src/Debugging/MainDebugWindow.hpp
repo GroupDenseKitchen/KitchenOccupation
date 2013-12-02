@@ -155,6 +155,8 @@ private:
 
     void keyPressEvent(QKeyEvent *);
     void closeEvent(QCloseEvent *);
+
+    cv::VideoWriter vc;
 };
 
 #endif // MAINDEBUGWINDOW_HPP

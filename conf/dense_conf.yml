@@ -11,8 +11,8 @@ ImageProcessor:
    - KinectSegmentation
    - TrackingBruteForce
 Analytics:
-   - FlowEstimator
    - EntryExitCounter
+   - FlowEstimator
 videoFilePaths:
    - "../data/seq9/seq9-3.mp4"
 trackerGroundTruthPaths:
