@@ -110,6 +110,16 @@ public:
     */
     int & getEntered() {return enteredTotal;}
 
+    /*!
+       \brief   Set que visibility.
+    */
+    void setQueVisibility(bool queStatus) { this->queIsVisible = queStatus; }
+
+    /*!
+       \brief   Get que visibility.
+    */
+    bool getQueVisibility() { return queIsVisible; }
+
 private:
     std::string roomID;
     std::map<std::string,cv::Mat> images;
@@ -119,6 +129,7 @@ private:
     std::vector<Object> newlyFoundObjects; //elevated objects that has entered the scene
     int enteredTotal;
     int exitedTotal;
+    bool queIsVisible; //Whether a que is visible from this camera or not
 
 
     //debug information

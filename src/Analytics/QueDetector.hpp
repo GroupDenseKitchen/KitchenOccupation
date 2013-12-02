@@ -8,30 +8,48 @@
 #include "../Utilities/CameraObject.hpp"
 
 /*!
- *  \brief   Image processing contains functionality for the different
- *           states of image processing required for human detection and tracking.
+    \brief      statistics contains functionality for extracting usefull data and meta data after
+                the image processing steps have been completed.
  */
 namespace statistics
 {
 
-
+/*!
+    \brief      Process step which uses information about visible persons' position and velocity
+                and determines if a que is present or not.
+ */
 class QueDetector : public Algorithm
 {
 public:
+    /*!
+        \brief      Constructor.
+     */
     QueDetector();
 
-    void process( FrameList & frames ) override;
+    /*!
+        \brief      Handles initialization.
+        \details Returns false if initialization fails,
+                e.g. if a required variable is not set in the config file.
+     */
     bool initialize( configuration::ConfigurationManager &settings ) override;
 
-private:
-    double maxSplineSegmentLength;
+    /*!
+        \brief      Performs the detection of ques.
+        \details    Sets que visibility to true in each camera object where a que is visible.
+     */
+    void process( FrameList & frames ) override;
+
+    //Theses are public for easier tuning but should be private in final version.
     double splineLengthThreshold;
     double velocityScaleFactor;
+private:
+    double maxSplineSegmentLength;
+    int maxRecursionDepth;
 
     void drawQue( cv::Mat & dstImage, const Que & que );
-    void splineFromObjects( std::vector<Object> & objects , std::vector<SplineStrip>& spline, double maxSegmentLength );
-    void subdivideSpline( SplineStrip& strip, std::vector<SplineStrip>& spline, double maxSegmentLength );
-    double splineLength( std::vector<SplineStrip> );
+    void splineFromObjects( std::vector<Object> & objects , std::vector<SplineStrip>& spline, float maxSegmentLength );
+    void subdivideSpline( SplineStrip& strip, std::vector<SplineStrip>& spline, float maxSegmentLength, int recursionDepth = 0);
+    float splineLength( std::vector<SplineStrip> & );
     void detectQues( std::vector<Object> & objects, std::vector<Que> & ques );
     void extractFeasibleDestinations( Object & fromObject, std::vector<Object> & allObjects, std::vector<Object> & destObjects );
     void findBestDestination( Object & fromObject, std::vector<Object> & destObjects, DirectedQueEdge & destEdge );

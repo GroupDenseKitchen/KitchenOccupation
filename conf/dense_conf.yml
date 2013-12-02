@@ -15,7 +15,7 @@ Analytics:
    - EntryExitCounter
    - QueDetector
 videoFilePaths:
-   - "/Users/Niko/Dropbox/Liu/TSBB11/Dense Kitchen/seq8.mp4"
+   - "/Users/Niko/Dropbox/Liu/TSBB11/Dense Kitchen/seq9-3.mp4"
 
 trackerGroundTruthPaths:
    - "../data/seq3/seq3GT.xml"

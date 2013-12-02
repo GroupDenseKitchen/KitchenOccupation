@@ -10,9 +10,19 @@ namespace statistics
     {
         isInitialized = true;
 
-        CONFIG(settings, maxSplineSegmentLength, "maxSplineSegmentLength", 3);
-        CONFIG(settings, velocityScaleFactor, "velocityScaleFactor", 1)
+        CONFIG(settings, maxSplineSegmentLength, "maxSplineSegmentLength", 5);
+        CONFIG(settings, velocityScaleFactor, "velocityScaleFactor", 1);
         CONFIG(settings, splineLengthThreshold, "splineLengthThreshold", DBL_MAX); //This value is meaningless and needs to be determined in some way
+        CONFIG(settings, maxRecursionDepth, "maxRecursionDepth", 10);
+
+        int dummyInt1 = 100;
+        int dummyInt2 = 10000;
+
+        cv::namedWindow("Sliders");
+        cv::createTrackbar("velocityScaleFactor", "Sliders", &dummyInt1 , 10000,
+                           [](int sliderValue,void* scaleFactor){ if (sliderValue != 0) {*(double *)scaleFactor = sliderValue/100.0;} },(void*)&velocityScaleFactor);
+        cv::createTrackbar("splineLengthThreshold", "Sliders", &dummyInt2, 1000000,
+                           [](int sliderValue,void* lengthThreshold){ if (sliderValue != 0) {*(double *)lengthThreshold = sliderValue/100.0;} }, (void*)&splineLengthThreshold);
 
         return isInitialized;
     }
@@ -20,84 +30,27 @@ namespace statistics
     void QueDetector::process(FrameList &frames)
     {
         for (CameraObject & camera: frames.getCurrent().getCameras()) {
-            std::vector<Object> objects = camera.getObjects();
             if(!camera.hasImage("rawImage"))
             {
-                LOG("ImageProcessing Error", "Image \"rawImage\" not set in current frame!");
+                LOG("Statistics Error", "Image \"rawImage\" not set in current frame!");
                 return;
             }
             cv::Mat debugImage = camera.getImage("rawImage").clone();
-            if( objects.size() > 1) {
-
-
-                //TODO:make sure center of mass and velocity is calculated somewhere else
-                //Simulate center of mass and velocity
-                int width = debugImage.cols;
-                int height = debugImage.rows;
-                unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-                std::default_random_engine generator (seed);
-                std::uniform_int_distribution<int> vDist(-100,100);
-                for (Object & obj: objects) {
-                    obj.velocity = cv::Point2d(vDist(generator), vDist(generator));
-                }
-
+            if( camera.getObjects().size() > 1) {
                 std::vector<Que> ques;
-                detectQues( objects, ques );
-
+                detectQues( camera.getObjects(), ques );
                 for (Que & que: ques) {
                     drawQue( debugImage,que );
                 }
+                camera.setQueVisibility(!ques.empty());
             }
             camera.addImage("Splines",debugImage);
         }
-
-        /*
-        std::vector<CameraObject> cameras = frames.getCurrent().getCameras();
-
-        if(!cameras[0].hasImage("rawImage"))
-        {
-            LOG("ImageProcessing Error", "Image \"rawImage\" not set in current frame!");
-            return;
-        }
-        cv::Mat debugImage = cameras[0].getImage("rawImage").clone();
-
-        //TODO: remove this test code and get objects from cameras instead
-        std::vector<Object> objects;
-        {
-        int numTestObjects = 10;
-        int width = debugImage.cols;
-        int height = debugImage.rows;
-        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-        std::default_random_engine generator (seed);
-        std::uniform_int_distribution<int> xDist(0,width -1);
-        std::uniform_int_distribution<int> yDist(0,height -1);
-        std::uniform_int_distribution<int> vDist(-100,100);
-
-
-        for (int i = 0; i < numTestObjects; ++i) {
-            Object obj;
-            obj.id = i;
-            obj.centerOfMass = cv::Point2d(xDist(generator),yDist(generator));
-            obj.velocity = cv::Point2d(vDist(generator), vDist(generator));
-            objects.push_back(obj);
-        }
-        }
-
-        std::vector<Que> ques;
-        detectQues( objects, ques );
-
-        for (Que que: ques) {
-            drawQue( debugImage,que );
-        }
-        cameras[0].addImage("Splines",debugImage);
-
-        //TODO:Figure out why addImage("Splines",image); doesn't work and replave viewing below
-        cv::namedWindow("Spline debug window");
-        cv::imshow("Spline debug window",debugImage);*/
-
     }
 
-    void QueDetector::splineFromObjects( std::vector<Object> & objects , std::vector<SplineStrip>& spline, double maxSegmentLength )
+    void QueDetector::splineFromObjects( std::vector<Object> & objects ,
+                                         std::vector<SplineStrip>& spline,
+                                         float maxSegmentLength )
     {
         spline.clear();
 
@@ -133,7 +86,10 @@ namespace statistics
             points[j][3] = splineStrip.p1;
         }
         //Draw spline
-        cv::polylines(dstImage,const_cast<const cv::Point**>(points),numberOfPoints,que.splineStrips.size(), false, cv::Scalar(255,255,255));
+        cv::polylines(dstImage,
+                      const_cast<const cv::Point**>(points),
+                      numberOfPoints,que.splineStrips.size(),
+                      false, cv::Scalar(255,255,255));
 
         //Clean up spline points
         for (int j = 0; j < numStrips; ++j) {
@@ -143,43 +99,52 @@ namespace statistics
         //Draw object center of masses and velocities
         auto iter = que.queObjects.begin();
         for (; iter != que.queObjects.end(); ++iter){
-            cv::Point2d center = iter->second.centerOfMass;
+            cv::Point2f center = iter->second.centerOfMass;
             cv::circle( dstImage, center, 5 ,cv::Scalar(0,255,0), 2 );
             cv::line( dstImage,center, center + iter->second.velocity, cv::Scalar(255,0,0), 2 );
         }
 
     }
 
-    void QueDetector::subdivideSpline(SplineStrip &strip, std::vector<SplineStrip> &spline, double maxSegmentLength)
+    void QueDetector::subdivideSpline(SplineStrip &strip,
+                                      std::vector<SplineStrip> &spline,
+                                      float maxSegmentLength,
+                                      int recursionDepth)
     {
         //Calculate new Control points
-        cv::Point2d helpPoint = (strip.c1 + strip.c2)*0.5;
-        cv::Point2d leftC1 = (strip.p0 + strip.c1)*0.5;
-        cv::Point2d leftC2 = (leftC1 + helpPoint)*0.5;
-        cv::Point2d rightC2 = (strip.c2 + strip.p1)*0.5;
-        cv::Point2d rightC1 = (helpPoint + rightC2)*0.5;
-        cv::Point2d center = (leftC2 + rightC1)*0.5;
+        cv::Point2f helpPoint = (strip.c1 + strip.c2)*0.5;
+        cv::Point2f leftC1 = (strip.p0 + strip.c1)*0.5;
+        cv::Point2f leftC2 = (leftC1 + helpPoint)*0.5;
+        cv::Point2f rightC2 = (strip.c2 + strip.p1)*0.5;
+        cv::Point2f rightC1 = (helpPoint + rightC2)*0.5;
+        cv::Point2f center = (leftC2 + rightC1)*0.5;
 
         SplineStrip left(strip.p0, leftC1, leftC2, center);
         SplineStrip right(center, rightC1, rightC2, strip.p1);
 
-        //Contine subdividing if not good enough
-        if ( left.maxSegmentLength() < maxSegmentLength ) {
+        //Handle recurion depth
+        if (recursionDepth >= maxRecursionDepth) {
             spline.push_back(left);
-        } else {
-            subdivideSpline(left, spline, maxSegmentLength);
-        }
-
-        if ( right.maxSegmentLength() < maxSegmentLength ) {
             spline.push_back(right);
-        } else {
-            subdivideSpline(right, spline, maxSegmentLength);
+        }
+        else {
+            //Contine subdividing if not good enough
+            if ( left.maxSegmentLength() < maxSegmentLength ) {
+                spline.push_back(left);
+            } else {
+                subdivideSpline(left, spline, maxSegmentLength, recursionDepth + 1);
+            }
+            if ( right.maxSegmentLength() < maxSegmentLength ) {
+                spline.push_back(right);
+            } else {
+                subdivideSpline(right, spline, maxSegmentLength, recursionDepth + 1);
+            }
         }
     }
 
-    double QueDetector::splineLength(std::vector<SplineStrip> spline) {
-        double length = 0;
-        for (SplineStrip strip: spline) {
+    float QueDetector::splineLength(std::vector<SplineStrip> &spline) {
+        float length = 0;
+        for (SplineStrip &strip: spline) {
             length += strip.length();
         }
         return length;
@@ -210,19 +175,21 @@ namespace statistics
     {
         destObjects.clear();
         for (Object & obj: allObjects) {
-            if ( obj.id != fromObject.id ) {
+            if ( obj.id != fromObject.id ) { //TODO: Remove objects that have been dropped but are still in the frame
                 destObjects.push_back( obj ); //TODO: Use better filtering for feasible destinations.
             }
         }
     }
 
-    void QueDetector::findBestDestination(Object &fromObject, std::vector<Object> &destObjects, DirectedQueEdge &destEdge)
+    void QueDetector::findBestDestination(Object &fromObject,
+                                          std::vector<Object> &destObjects,
+                                          DirectedQueEdge &destEdge)
     {
         for (Object & destObj: destObjects) {
             std::vector<SplineStrip> tmpSpline;
             std::vector<Object> tmpPair( {fromObject, destObj} );
-            splineFromObjects(tmpPair, tmpSpline, maxSplineSegmentLength ); //TODO: Use different constant
-            double length = splineLength( tmpSpline );
+            splineFromObjects(tmpPair, tmpSpline, maxSplineSegmentLength );
+            float length = splineLength( tmpSpline );
             if ( length < splineLengthThreshold && length < destEdge.distance ) {
                 destEdge.to = destObj;
                 destEdge.spline = tmpSpline;
@@ -246,14 +213,17 @@ namespace statistics
 
             //Insert any objects into the que if they are either a source or destination
             //of a que edge.
+            /* So far this isn't used so left out for speed
             if ( theQue.queObjects.find(queEdge.from.id) == theQue.queObjects.end() ) {
                 theQue.queObjects.insert( {queEdge.from.id, queEdge.from} );
             }
             if ( theQue.queObjects.find(queEdge.to.id) == theQue.queObjects.end() ) {
                 theQue.queObjects.insert( {queEdge.to.id, queEdge.to} );
-            }
+            }*/
         }
-        ques.push_back( theQue );
+        if ( !theQue.splineStrips.empty() ) { //Only add non-empty que
+            ques.push_back( theQue );
+        }
     }
 
 }

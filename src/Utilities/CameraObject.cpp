@@ -4,6 +4,7 @@ CameraObject::CameraObject()
 {
 enteredTotal = 0;
 exitedTotal = 0;
+queIsVisible = false;
 }
 
 CameraObject::~CameraObject()

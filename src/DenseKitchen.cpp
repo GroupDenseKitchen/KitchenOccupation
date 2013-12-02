@@ -17,13 +17,9 @@ bool DenseKitchen::initialize(std::string path) {
     algorithmFactory.add("KinectSegmentation",               new image_processing::KinectSegmentation());
     algorithmFactory.add("TrackingBruteForceLines",          new image_processing::TrackingBruteForceLines());
     algorithmFactory.add("Analytics",                        new statistics::Analytics());
-<<<<<<< HEAD
-    algorithmFactory.add("QueDetector",                      new image_processing::QueDetector());
-    algorithmFactory.add("FlowEstimator",                   new statistics::FlowEstimator());
-=======
+    algorithmFactory.add("QueDetector",                      new statistics::QueDetector());
     algorithmFactory.add("FlowEstimator",                    new statistics::FlowEstimator());
 
->>>>>>> KinectAndKalman
 
 
     if(!settings.readConfig(path)) {
