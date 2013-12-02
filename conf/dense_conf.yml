@@ -8,10 +8,10 @@ TrackingMaximumDistance: 2500.0
 TrackingMinimzumLifeSpan: 10
 TrackingMaximumTimeLost: 10
 ImageProcessor:
-   - BackgroundModelMoG
-   - ForegroundRegionExtractorDefault
+   - KinectSegmentation
    - TrackingBruteForce
 Analytics:
+   - EntryExitCounter
    - FlowEstimator
 Evaluation:
    - EntryExitEvaluator

@@ -21,14 +21,21 @@ void MainConfigurationWindow::init(DenseKitchen* _mainProgram ,std::string _file
 {
     mainProgram = _mainProgram;
     filePath = _filepath;
+    isDrawingCircle = false;
+    circleRadius = 0;
+    circleCenter = cv::Point(0,0);
     loadMaskFromFile();
     applyChanges();
+
 }
 
 void MainConfigurationWindow::applyChanges()
 {
     mainProgram->frames.setDoorMask(doorMask);
     mainProgram->frames.setExclusionMask(exclusionMask);
+    mainProgram->frames.setCheckPointMaskSmall(checkpointMaskSmall);
+    mainProgram->frames.setCheckPointMaskMedium(checkpointMaskMedium);
+    mainProgram->frames.setCheckPointMaskLarge(checkpointMaskLarge);
 
     cv::Mat inclusionMask;
     inclusionMask.create(exclusionMask.rows, exclusionMask.cols, exclusionMask.type());
@@ -119,10 +126,15 @@ void MainConfigurationWindow::storeImage(const cv::Mat &image)
 void MainConfigurationWindow::overlayMask()
 {
     imageWithMask = matImage.clone();
-    doorMask.create(480, 640, CV_8UC3);
-    doorMask.zeros(480, 640, CV_8UC3);
-    exclusionMask.create(480, 640, CV_8UC3);
-    exclusionMask.zeros(480, 640, CV_8UC3);
+
+    doorMask = cv::Mat::zeros(480, 640, CV_8UC3);
+    exclusionMask = cv::Mat::zeros(480, 640, CV_8UC3);
+
+    checkpointMaskSmall = cv::Mat::zeros(480, 640, CV_8UC3);
+    checkpointMaskMedium = cv::Mat::zeros(480, 640, CV_8UC3);
+    checkpointMaskLarge = cv::Mat::zeros(480, 640, CV_8UC3);
+
+    drawCheckPointCircles();
     drawPolygons("exclusionPolygons", exclusionPolygons, cv::Scalar(255,45,70));
     drawPolygons("doorPolygons", doorPolygons, cv::Scalar(63,232,41));
     drawPolygon(polygon, cv::Scalar(255,218,56));
@@ -166,15 +178,30 @@ void MainConfigurationWindow::polygonDrawer(cv::Mat targetMat, const cv::Point *
               8 );
 }
 
+void MainConfigurationWindow::drawCheckPointCircles()
+{
+    cv::circle(imageWithMask, circleCenter, 1.2*circleRadius, cv::Scalar(149,255,78), 2); //Large
+    cv::circle(imageWithMask, circleCenter, 1.1*circleRadius, cv::Scalar(255,213,83), 2); //Medium
+    cv::circle(imageWithMask, circleCenter, circleRadius,     cv::Scalar(255,123,83), 2); //Small
+
+    cv::circle(checkpointMaskSmall,  circleCenter, circleRadius,       cv::Scalar(255,255,255),-1); //Small
+    cv::circle(checkpointMaskMedium, circleCenter, 1.1*circleRadius,   cv::Scalar(255,255,255),-1); //Medium
+    cv::circle(checkpointMaskLarge,  circleCenter, 1.2*circleRadius,   cv::Scalar(255,255,255),-1); //Large
+}
+
 void MainConfigurationWindow::loadMaskFromFile()
 {
     if(configFile.open(filePath, cv::FileStorage::READ)){
         readMasks(doorPolygons, "doorPolygons");
         readMasks(exclusionPolygons, "exclusionPolygons");
-        applyChanges();
+        configFile["circleCenterX"] >> circleCenter.x;
+        configFile["circleCenterY"] >> circleCenter.y;
+        configFile["circleRadius"] >> circleRadius;
+        //applyChanges();
     }
     configFile.release();
     showImage();
+    applyChanges();
 }
 
 void MainConfigurationWindow::closeEvent(QCloseEvent * e)
@@ -187,6 +214,7 @@ void MainConfigurationWindow::mousePressEvent(QMouseEvent *e)
     int x = e->pos().x();
     int y = e->pos().y();
 
+    // Check if we are in the image and correct if else
     int xBoundary = matImage.cols - 1;
     int yBoundary = matImage.rows - 1;
 
@@ -203,9 +231,50 @@ void MainConfigurationWindow::mousePressEvent(QMouseEvent *e)
         y = yBoundary;
     }
 
-    polygon.push_back(cv::Point(x, y));
+    // Draw specifyed object
+    if(drawAsCircle){
+        circleRadius = 1;
+        circleCenter = cv::Point(x,y);
+        isDrawingCircle = true;
+    } else {
+        polygon.push_back(cv::Point(x, y));
+    }
 
     showImage();
+}
+
+void MainConfigurationWindow::mouseMoveEvent(QMouseEvent *e)
+{
+    if(isDrawingCircle){
+        int x = e->pos().x();
+        int y = e->pos().y();
+
+        // Check if we are in the image and correct if else
+        int xBoundary = matImage.cols - 1;
+        int yBoundary = matImage.rows - 1;
+
+        if(x < 0){
+            x = 0;
+        }
+        if(x > xBoundary){
+            x = xBoundary;
+        }
+        if(y < 0){
+            y = 0;
+        }
+        if(y > yBoundary){
+            y = yBoundary;
+        }
+
+        cv::Vec2i radiusVector = cv::Point(x,y) - circleCenter;
+        circleRadius = cv::norm(radiusVector);
+        showImage();
+    }
+}
+
+void MainConfigurationWindow::mouseReleaseEvent(QMouseEvent *e)
+{
+    isDrawingCircle = false;
 }
 
 void MainConfigurationWindow::keyPressEvent(QKeyEvent *e)
@@ -250,11 +319,19 @@ void MainConfigurationWindow::on_addAsExclusionButton_clicked()
     showImage();
 }
 
+void MainConfigurationWindow::on_addAsCheckpointButton_clicked()
+{
+
+}
+
 void MainConfigurationWindow::on_saveMasksButton_clicked()
 {
     configFile.open(filePath, cv::FileStorage::WRITE);
     storeMask(doorPolygons, "doorPolygons");
     storeMask(exclusionPolygons, "exclusionPolygons");
+    configFile << "circleCenterX" << circleCenter.x;
+    configFile << "circleCenterY" << circleCenter.y;
+    configFile << "circleRadius" << circleRadius;
     configFile.release();
 }
 
@@ -343,4 +420,9 @@ void MainConfigurationWindow::on_cancelButton_clicked()
 void MainConfigurationWindow::on_applyButton_clicked()
 {
     applyChanges();
+}
+
+void MainConfigurationWindow::on_circleCheckBox_clicked(bool checked)
+{
+    drawAsCircle = checked;
 }

@@ -4,6 +4,8 @@ FrameList::FrameList(int framesToKeep) : framesToKeep(framesToKeep){
     frameCounter = 0;
     assert(framesToKeep >= 2 || framesToKeep == -1);
 
+    initiatedCheckPointMasks = false;
+
     //doorMask.zeros(640,480,CV_8UC3);
     //exclusionMask.zeros(640,480,CV_8UC3);
 }
@@ -86,4 +88,46 @@ bool FrameList::hasInclusionMask()
 {
     return !inclusionMask.empty();
 }
+
+bool FrameList::hasCheckPointMasks()
+{
+    return initiatedCheckPointMasks;
+}
+
+cv::Mat FrameList::getCheckPointMaskSmall() const
+{
+    return checkPointMaskSmall;
+}
+
+void FrameList::setCheckPointMaskSmall(const cv::Mat &value)
+{
+    checkPointMaskSmall = value.clone();
+    initiatedCheckPointMasks = true;
+}
+
+cv::Mat FrameList::getCheckPointMaskMedium() const
+{
+    return checkPointMaskMedium;
+}
+
+void FrameList::setCheckPointMaskMedium(const cv::Mat &value)
+{
+    checkPointMaskMedium = value.clone();
+    initiatedCheckPointMasks = true;
+}
+
+cv::Mat FrameList::getCheckPointMaskLarge() const
+{
+    return checkPointMaskLarge;
+}
+
+void FrameList::setCheckPointMaskLarge(const cv::Mat &value)
+{
+    checkPointMaskLarge = value.clone();
+    initiatedCheckPointMasks = true;
+}
+
+
+
+
 

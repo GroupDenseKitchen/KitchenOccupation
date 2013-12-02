@@ -14,10 +14,16 @@ bool DenseKitchen::initialize(std::string path) {
     algorithmFactory.add("ForegroundRegionExtractorDefault", new image_processing::ForegroundRegionExtractorDefault());
     algorithmFactory.add("TrackingBruteForce",               new image_processing::TrackingBruteForce());
     algorithmFactory.add("EntryExitCounter",                 new image_processing::EntryExitCounter());
+
+    algorithmFactory.add("StereoBlockMatching",              new image_processing::StereoBlockMatching());
+    algorithmFactory.add("KinectSegmentation",               new image_processing::KinectSegmentation());
+    algorithmFactory.add("TrackingBruteForceLines",          new image_processing::TrackingBruteForceLines());
     algorithmFactory.add("Analytics",                        new statistics::Analytics());
     algorithmFactory.add("FlowEstimator",                    new statistics::FlowEstimator());
+
     algorithmFactory.add("EntryExitEvaluator",               new evaluation::EntryExitEvaluator());
     //algorithmFactory.add("TrackerEvaluator",                 new evaluation::TrackerEvaluator());
+
 
     if(!settings.readConfig(path)) {
         LOG("DenseKitchen initialization error", "settings file read error! path: \"" << path << "\"");
@@ -51,16 +57,6 @@ bool DenseKitchen::initialize(std::string path) {
         LOG("DenseKitchen initialize error", "Statisitics could not be initialized!");
          isEvalInitialized = false;
     }
-/*
-    if(!evaluation.initialize(settings)) {
-        LOG("DenseKitchen initialize error", "Evaluation could not be initialized!");
-        isEvalInitialized = false;
-    }*/
-    /*
-    if(!entryExitEvaluation.initialize(settings)) {
-        LOG("DenseKitchen initialize error", "Evaluation could not be initialized!");
-        isEvalInitialized = false;
-    }*/
     PROFILER_ITERATION_END();
 
     return isInitialized;
