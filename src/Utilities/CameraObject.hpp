@@ -130,6 +130,7 @@ private:
     int enteredTotal;
     int exitedTotal;
     bool queIsVisible; //Whether a que is visible from this camera or not
+    int currentQueStatus;
 
 
     //debug information

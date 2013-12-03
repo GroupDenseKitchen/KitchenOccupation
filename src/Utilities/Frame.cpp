@@ -1,7 +1,7 @@
 #include "Frame.hpp"
 
 Frame::Frame(){
-
+    currentQueStatus = -1;
 }
 
 Frame::~Frame(){
@@ -92,4 +92,12 @@ int Frame::getPopulationInRoomID(std::string &_currID){
         }
     }
     return -1;
+}
+
+void Frame::setQueStatus(int newQueStatus) {
+    currentQueStatus = newQueStatus;
+}
+
+int Frame::getQueStatus() {
+    return currentQueStatus;
 }

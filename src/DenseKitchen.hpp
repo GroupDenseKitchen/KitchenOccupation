@@ -20,6 +20,9 @@
 #include "ImageProcessing/kinectSegmentation.hpp"
 #include "Analytics/Analytics.hpp"
 #include "Analytics/FlowEstimator.hpp"
+#include "Analytics/QueSeverityEstimator.hpp"
+
+//This must be in the bottom.. (sloppy namespace usage in this file)
 #include "Analytics/Evaluation.hpp"
 
 

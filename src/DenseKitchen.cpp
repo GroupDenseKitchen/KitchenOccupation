@@ -19,6 +19,7 @@ bool DenseKitchen::initialize(std::string path) {
     algorithmFactory.add("Analytics",                        new statistics::Analytics());
     algorithmFactory.add("QueDetector",                      new statistics::QueDetector());
     algorithmFactory.add("FlowEstimator",                    new statistics::FlowEstimator());
+    algorithmFactory.add("QueSeverityEstimator",             new statistics::QueSeverityEstimator());
 
 
 

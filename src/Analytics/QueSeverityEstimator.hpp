@@ -51,8 +51,11 @@ public:
 private:
     std::deque<FrameQueData> historyWindow;
     int historyLength;
+    double lowQueThreshold;
+    double highQueThreshold;
 
     void shiftHistoryWindow( Frame newFrame );
+    int classifyQueStatus();
 };
 
 }
