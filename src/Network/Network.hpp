@@ -6,6 +6,12 @@
 #include "../Utilities/Timer.hpp"
 #include "../Configuration/ConfigurationManager.hpp"
 
+#ifdef __APPLE__
+#include "KinectHandlerFreenect.hpp"
+#else
+#include "KinectHandlerOpenNi.hpp"
+#endif // ifdef __APPLE__
+
 #include <QtNetwork/QtNetwork>
 #include <QByteArray>
 
