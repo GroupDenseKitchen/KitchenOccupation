@@ -14,7 +14,7 @@ Analytics:
    - FlowEstimator
    - EntryExitCounter
 videoFilePaths:
-   - "../data/seq9/seq9-3.mp4"
+   - "C:/DenseKitchen/seq9-3.mp4"
 trackerGroundTruthPaths:
    - "../data/seq3/seq3GT.xml"
    #- "../data/seq7/seq7GT.xml"

@@ -68,7 +68,7 @@ namespace image_processing
                     putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(0,0,255), thickness, 8);
                     cv::rectangle(debugImage, object->boundingBox, cv::Scalar(0,0,255), 2);     // Debug
                     cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(0,0,100), -1);
-
+                    // Print velocity vector here!
                 }
                 for(std::vector<Object>::iterator object = cameraCurr.getObjects().begin(); object != cameraCurr.getObjects().end(); object++) {
                     cv::Point2d pos = object->centerOfMass;
