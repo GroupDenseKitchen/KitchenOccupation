@@ -5,25 +5,46 @@ namespace network
 
 Network::Network()
 {
-    //TODO stub
+    nwam = new QNetworkAccessManager;
 }
 
 Network::~Network()
 {
     //TODO stub
+    delete nwam;
 }
 
 bool Network::initialize(configuration::ConfigurationManager& settings)
 {
 
+    if (!settings.hasString("webServerUrl")) {
+        LOG("Network Warning", "webServerUrl not specified");
+    } else {
+        std::string url = settings.getString("webServerUrl");
+        serverUrl.fromUserInput(QString(url.c_str()));
+    }
+
+
+
     firstFrame = true;
+
     // Check if the necessary variables are available
-    bool hasSelector  = settings.hasBool("runFromFile");
-    if (!hasSelector) {
+    if (!settings.hasBool("runFromFile")) {
         LOG("Network Error", "Boolean \"runFromFile\" undefined in config file.");
         return false;
     } else {
         runFromFile = settings.getBool("runFromFile");
+    }
+
+    if (!settings.hasBool("useKinect")) {
+        LOG("Network Error", "Boolean \"useKinect\" undefined in config file.");
+        return false;
+    } else {
+        useKinect = settings.getBool("useKinect");
+    }
+
+    if (!runFromFile && useKinect) {
+        return kinects.initialize(settings);
     }
 
     bool hasFilePaths = settings.hasStringSeq("videoFilePaths");
@@ -51,10 +72,8 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
         return initNetworkCameras(settings, cameraPaths);
     }
 
-    nwam = new QNetworkAccessManager;
-    serverUrl = "http://walla.walla.com/walla";
-}
 
+}
 
 bool Network::initNetworkCameras(configuration::ConfigurationManager& settings,
                                  std::vector<std::string> cameraPaths)
@@ -105,8 +124,11 @@ void Network::reset()
 
 Frame* Network::dequeFrame()
 {
+
     if (runFromFile) { // Loading from file
         return getFileFrame();
+    } else if (useKinect) {
+        return getKinectFrame();
     } else {
         return getNetworkCamFrame();
     }
@@ -114,26 +136,23 @@ Frame* Network::dequeFrame()
 
 void Network::broadcastData(Frame *frame)
 {
-    QNetworkRequest request(QUrl("http://walla.walla.com/walla"));
-    request.setHeader(QNetworkRequest::ContentTypeHeader,"someTexts");
+    QNetworkRequest request(serverUrl);
+    //request.setHeader(QNetworkRequest::ContentTypeHeader,"someTexts");
 
     QByteArray data;
     QUrlQuery params;
 
-    params.addQueryItem("userid","user");
-    params.addQueryItem("apiKey","key");
+    params.addQueryItem("numOccupants","1337");
     QString walla(params.query());
     data = QByteArray(walla.toStdString().c_str());
 
-    QNetworkReply *reply = nwam->post(request,data);
+    QNetworkReply *reply = nwam->deleteResource(request);
+    //QNetworkReply *reply = nwam->post(request,data);
+    qDebug() << reply->error();
     return;
 
 }
 
-bool Network::initKinects(int nDevices)
-{
-    //TODO stub
-}
 
 Frame *Network::getFileFrame()
 {
@@ -153,6 +172,7 @@ Frame *Network::getFileFrame()
             frame->setMomentaryFps(streams[i].get(CV_CAP_PROP_FPS));
         } else {
             LOG("Network Error", "Error retrieving frame from video file " << std::to_string(i) << ".");
+            delete frame;
             return 0;
         }
     }
@@ -183,19 +203,48 @@ Frame *Network::getNetworkCamFrame()
             } else {
                 frame->setMomentaryFps(1.0/timer.getSeconds());
             }
-            timer.reset();
+
         } else {
             LOG("Network Error", "Error retrieving frame from camera " << std::to_string(i) << ".");
+            delete frame;
+            timer.reset();
             return 0;
         }
     }
+    timer.reset();
     frame->initRoomPopulations(frame->getCameras());
     return frame;
 }
 
 Frame *Network::getKinectFrame()
 {
-    //TODO stub
+    Frame* frame = new Frame();
+    kinect::KinectFrame* kinectFrame = 0;
+    bool success = true;
+
+    for (unsigned int i = 0; i < kinects.getnDevices(); i++) {
+        CameraObject cam;
+        kinectFrame = kinects.readFrame(i);
+        if (kinectFrame) {
+
+            frame->addCamera(cam);
+            cam.addImage("rawImage", kinectFrame->depthImage);
+            cam.addImage("debugImage", kinectFrame->rgbImage);
+            if (firstFrame) {
+                frame->setMomentaryFps(0);
+                firstFrame = false;
+            } else {
+                frame->setMomentaryFps(1.0/timer.getSeconds());
+            }
+            delete kinectFrame;
+        } else {
+            LOG("Network Error", "Error retrieving frame from Kinect device number: " << std::to_string(i) << ".");
+            delete frame;
+            timer.reset();
+            return 0;
+        }
+    }
+    timer.reset();
 }
 
 
