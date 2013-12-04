@@ -9,6 +9,8 @@ MESSAGE( STATUS "MINGW: " ${MINGW} )
 
 IF(APPLE)
     # Apple specific
+    INCLUDE_DIRECTORIES(/usr/local/include/)
+    INCLUDE_DIRECTORIES(/usr/local/include/libfreenect)
     SET (CMAKE_CXX_FLAGS "-stdlib=libc++ -std=c++11")
 ENDIF()
 

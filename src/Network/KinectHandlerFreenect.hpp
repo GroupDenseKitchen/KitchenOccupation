@@ -1,15 +1,21 @@
 #ifndef KINECTHANDLERFREENECT_HPP
 #define KINECTHANDLERFREENECT_HPP
 
+#include <cstdint>
+
 #include "../Utilities/utilities.hpp"
 #include "../Configuration/ConfigurationManager.hpp"
+
+#include <libfreenect.h>
+#include <libfreenect_sync.h>
 
 namespace kinect
 {
 struct KinectFrame 
 {
-	cv::Mat rgbImage;
+    cv::Mat bgrImage;
 	cv::Mat depthImage;
+    std::uint32_t timestamp;
 };
 
 /*!
@@ -52,6 +58,8 @@ public:
 
 private:
     int nDevices;
+
+
 };
 
 } // namspace kinect

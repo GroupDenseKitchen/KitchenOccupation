@@ -1,5 +1,5 @@
 #Network module
-IF(APPLE)
+IF(UNIX)
     # Apple specific
     add_library(Network Network.cpp KinectHandlerFreenect.cpp)
 ENDIF()
