@@ -85,6 +85,11 @@ namespace image_processing
                         cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(0,100,0), -1);
                         putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(0, 255, 0), thickness, 8);
                     }
+                    cv::line(debugImage, object->centerOfMass, object->centerOfMass+object->velocity*10, cv::Scalar(0,255,0), 3);
+                    cv::line(debugImage, object->centerOfMass, object->centerOfMass+object->velocityPrediction*10, cv::Scalar(255,0,0), 2);
+                    cv::circle(debugImage, object->positionPrediction, 10, cv::Scalar(255,0,0), 2);
+
+
                 }
                //--------------------------------------------------------------------------------------------------------//
             }
