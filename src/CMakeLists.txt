@@ -17,9 +17,12 @@ IF(WIN32)
     IF(MINGW)
         SET (CMAKE_CXX_FLAGS "-std=c++11 -Wall")
     ENDIF()
-    cmake_policy(SET CMP0020 NEW)
 
-    MESSAGE(STATUS "OPENCV_MSVC2012_X64_INSTALL_DIR: " $ENV{OPENCV_MSVC2012_X64_INSTALL_DIR})
+    IF(MSVC)
+        MESSAGE(STATUS "OPENCV_MSVC2012_X64_INSTALL_DIR: " $ENV{OPENCV_MSVC2012_X64_INSTALL_DIR})
+        add_definitions(-D_ITERATOR_DEBUG_LEVEL=1) # Remove itterator assert
+        cmake_policy(SET CMP0020 NEW) # Remove cmake warnings
+    ENDIF()
 ENDIF()
 
 # Tell CMake to run moc when necessary:
