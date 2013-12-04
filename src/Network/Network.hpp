@@ -66,15 +66,17 @@ private:
                             std::vector<std::string> cameraPaths);
     bool loadVideoFiles(configuration::ConfigurationManager& settings,
                         std::vector<std::string> filePaths);
-    bool initKinects(int nDevices);
 
 
     Frame* getFileFrame();
     Frame* getNetworkCamFrame();
     Frame* getKinectFrame();
 
+    kinect::KinectHandler kinects;
+
     bool firstFrame;        // Is this the first frame?
     bool runFromFile;       // True if reading from file
+    bool useKinect;
 
     Timer timer;
     Frame nextFrame;
