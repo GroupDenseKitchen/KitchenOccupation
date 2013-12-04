@@ -68,7 +68,8 @@ namespace image_processing
                     putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(0,0,255), thickness, 8);
                     cv::rectangle(debugImage, object->boundingBox, cv::Scalar(0,0,255), 2);     // Debug
                     cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(0,0,100), -1);
-                    // Print velocity vector here!
+                    // velocity vector
+                    cv::line(debugImage, object->centerOfMass, object->centerOfMass + 10*object->velocity, cv::Scalar(0,0,255), thickness);
                 }
                 for(std::vector<Object>::iterator object = cameraCurr.getObjects().begin(); object != cameraCurr.getObjects().end(); object++) {
                     cv::Point2d pos = object->centerOfMass;
@@ -79,10 +80,14 @@ namespace image_processing
                         cv::rectangle(debugImage, object->boundingBox, cv::Scalar(255,0,0), 2);     // Debug
                         cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(100,0,0), -1);
                         putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(255, 0, 0), thickness, 8);
+                        // velocity vector
+                        cv::line(debugImage, object->centerOfMass, object->centerOfMass + 10*object->velocity, cv::Scalar(255,0,0), thickness);
                     } else {
                         cv::rectangle(debugImage, object->boundingBox, cv::Scalar(0,255,0), 2);     // Debug
                         cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(0,100,0), -1);
                         putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(0, 255, 0), thickness, 8);
+                        // velocity vector
+                        cv::line(debugImage, object->centerOfMass, object->centerOfMass + 10*object->velocity, cv::Scalar(0,255,0), thickness);
                     }
                 }
             }
