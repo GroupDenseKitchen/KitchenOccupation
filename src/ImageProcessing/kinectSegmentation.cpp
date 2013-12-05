@@ -92,7 +92,7 @@ void KinectSegmentation::process(FrameList &frames)
                  drawContours( individualHumans, contours, i, cv::Scalar(rng.uniform(0,255),rng.uniform(0,255),rng.uniform(0,255)), -1, 8, hierarchy, 0, cv::Point() );
 
                  // Calculate center of mass
-                 cv::Moments mu = cv::moments(contours[i]);
+                 cv::Moments mu = cv::moments(contours[i], true);
                  cv::Point2f centerOfMass = cv::Point2f(mu.m10/mu.m00, mu.m01/mu.m00);
                  cv::Rect boundingBox = cv::boundingRect(contours[i]);
                  camera.getObjects().push_back(Object(contours[i], boundingBox, centerOfMass, area));
