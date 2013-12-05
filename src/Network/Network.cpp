@@ -226,10 +226,9 @@ Frame *Network::getKinectFrame()
         CameraObject cam;
         kinectFrame = kinects.readFrame(i);
         if (kinectFrame) {
-
-            frame->addCamera(cam);
             cam.addImage("rawImage", kinectFrame->depthImage);
-            cam.addImage("debugImage", kinectFrame->rgbImage);
+            cam.addImage("debugImage", kinectFrame->bgrImage);
+            frame->addCamera(cam);
             if (firstFrame) {
                 frame->setMomentaryFps(0);
                 firstFrame = false;
@@ -245,6 +244,7 @@ Frame *Network::getKinectFrame()
         }
     }
     timer.reset();
+    return frame;
 }
 
 
