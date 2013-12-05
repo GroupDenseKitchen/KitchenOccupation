@@ -75,6 +75,10 @@ namespace evaluation {
         std::vector<int> diffEntries;
         std::vector<int> diffExits;
         std::vector<int> diffTotalOfPeople;
+
+        float accuracyTot;
+        float accuracyIn;
+        float accuracyOut;
     };
 
 } //namespace evaluation

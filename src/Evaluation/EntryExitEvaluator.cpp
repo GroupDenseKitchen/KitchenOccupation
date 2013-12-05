@@ -73,7 +73,8 @@ namespace evaluation {
     }
 
     void EntryExitEvaluator::process(FrameList &frames)
-    {        
+    {
+
         bool asdf;
         if (frameCount > 309) {
             asdf = true;
@@ -110,41 +111,56 @@ namespace evaluation {
             sumEntryGT[i] = sumEntryGT[i] + groundTruth[i][frameCount].in;
             sumExitGT[i] = sumExitGT[i] + groundTruth[i][frameCount].out;
 
-            // Evaluation
-            // Diffrence in entries and exits and total number of people in the room
-            diffEntries[i] = frames.getCurrent().getCameras()[i].getEntered() - sumEntryGT[i];
-            diffExits[i] = frames.getCurrent().getCameras()[i].getExited() - sumExitGT[i];
-            diffTotalOfPeople[i] = (frames.getCurrent().getCameras()[i].getEntered() -
-                                    frames.getCurrent().getCameras()[i].getExited()) -
-                                    (sumEntryGT[i] - sumExitGT[i]);
+
+            //Accuracy computation
+            if(sumEntryGT[i] != 0 && sumExitGT[i] != 0){
+                accuracyTot = 1 - std::abs(frames.getCurrent().getCameras()[i].getEntered()+frames.getCurrent().getCameras()[i].getExited())/(sumEntryGT[i]+sumExitGT[i]);
+                accuracyIn  = 1 - std::abs(frames.getCurrent().getCameras()[i].getEntered()-sumEntryGT[i]) / sumEntryGT[i];
+                accuracyOut = 1 - std::abs(frames.getCurrent().getCameras()[i].getExited()-sumExitGT[i]) / sumExitGT[i];
+
+                // Evaluation
+                // Diffrence in entries and exits and total number of people in the room
+                diffEntries[i] = frames.getCurrent().getCameras()[i].getEntered() - sumEntryGT[i];
+                diffExits[i] = frames.getCurrent().getCameras()[i].getExited() - sumExitGT[i];
+                diffTotalOfPeople[i] = (frames.getCurrent().getCameras()[i].getEntered() -
+                                        frames.getCurrent().getCameras()[i].getExited()) -
+                        (sumEntryGT[i] - sumExitGT[i]);
 
 
-            // Debug
-            // Print entry and exit information on the image
-            cv::Mat raw = frames.getCurrent().getCameras()[i].getImage("debugImage");
-            std::string textEntryGT = "";
-            std::string textExitGT = "";
-            std::string textEntryDiff = "";
-            std::string textExitDiff = "";
-            std::string textTotalDiff = "";
-            int fontFace = cv::FONT_HERSHEY_PLAIN;
-            double fontScale = 1;
-            int thickness = 1;
-            cv::Point2d pos1(300,15);
-            cv::Point2d pos2(300,35);
-            cv::Point2d pos3(300,55);
-            cv::Point2d pos4(300,75);
-            cv::Point2d pos5(300,95);
-            textEntryGT = "Entered GT: " + std::to_string(sumEntryGT[i]);
-            textExitGT = "Exited GT: " + std::to_string(sumExitGT[i]);
-            textEntryDiff = "Entered difference: " + std::to_string(diffEntries[i]);
-            textExitDiff = "Exited difference: " + std::to_string(diffExits[i]);
-            textTotalDiff  = "Total difference: " + std::to_string(diffTotalOfPeople[i]);
-            putText(raw, textEntryGT, pos1, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
-            putText(raw, textExitGT, pos2, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
-            putText(raw, textEntryDiff, pos3, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
-            putText(raw, textExitDiff, pos4, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
-            putText(raw, textTotalDiff, pos5, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
+                // Debug
+                // Print entry and exit information on the image
+                if(frames.getCurrent().getCameras()[i].hasImage("debugImage"))
+                {
+                    cv::Mat raw = frames.getCurrent().getCameras()[i].getImage("debugImage");
+                    std::string textEntryGT = "";
+                    std::string textExitGT = "";
+                    std::string textEntryDiff = "";
+                    std::string textExitDiff = "";
+                    std::string textTotalDiff = "";
+                    int fontFace = cv::FONT_HERSHEY_PLAIN;
+                    double fontScale = 1;
+                    int thickness = 1;
+                    cv::Point2d pos1(300,15);
+                    cv::Point2d pos2(300,35);
+                    cv::Point2d pos3(300,55);
+                    cv::Point2d pos4(300,75);
+                    cv::Point2d pos5(300,95);
+                    textEntryGT = "Entered GT: " + std::to_string(sumEntryGT[i]);
+                    textExitGT = "Exited GT: " + std::to_string(sumExitGT[i]);
+                    textEntryDiff = "Entered difference: " + std::to_string(diffEntries[i]);
+                    textExitDiff = "Exited difference: " + std::to_string(diffExits[i]);
+                    textTotalDiff  = "Total difference: " + std::to_string(diffTotalOfPeople[i]);
+                    putText(raw, textEntryGT, pos1, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
+                    putText(raw, textExitGT, pos2, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
+                    putText(raw, textEntryDiff, pos3, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
+                    putText(raw, textExitDiff, pos4, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
+                    putText(raw, textTotalDiff, pos5, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
+
+                    /*std::cerr<< std::endl << "Total: "<< accuracyTot*100 << "%"<< std::endl;
+                    std::cerr<< "In: "<< accuracyIn*100 << "%"<< std::endl;
+                    std::cerr<< "Out: "<< accuracyOut*100 << "%"<< std::endl;*/
+                }
+            }
         }
     }
 
