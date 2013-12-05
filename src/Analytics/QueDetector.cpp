@@ -1,4 +1,5 @@
 #include "QueDetector.hpp"
+#include <QDebug>
 
 namespace statistics
 {
@@ -20,9 +21,9 @@ namespace statistics
 
         cv::namedWindow("Sliders");
         cv::createTrackbar("velocityScaleFactor", "Sliders", &dummyInt1 , 10000,
-                           [](int sliderValue,void* scaleFactor){ if (sliderValue != 0) {*(double *)scaleFactor = sliderValue/100.0;} },(void*)&velocityScaleFactor);
+                           [](int sliderValue,void* scaleFactor){ if (sliderValue != 0) {*(double *)scaleFactor = sliderValue/100.0; qDebug() <<  *(double *)scaleFactor;} },(void*)&velocityScaleFactor);
         cv::createTrackbar("splineLengthThreshold", "Sliders", &dummyInt2, 1000000,
-                           [](int sliderValue,void* lengthThreshold){ if (sliderValue != 0) {*(double *)lengthThreshold = sliderValue/100.0;} }, (void*)&splineLengthThreshold);
+                           [](int sliderValue,void* lengthThreshold){ if (sliderValue != 0) {*(double *)lengthThreshold = sliderValue/100.0; qDebug() << *(double *)lengthThreshold;} }, (void*)&splineLengthThreshold);
 
         return isInitialized;
     }
