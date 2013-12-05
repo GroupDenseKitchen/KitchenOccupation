@@ -9,6 +9,8 @@ MESSAGE( STATUS "MINGW: " ${MINGW} )
 
 IF(APPLE)
     # Apple specific
+    INCLUDE_DIRECTORIES(/usr/local/include/)
+    INCLUDE_DIRECTORIES(/usr/local/include/libfreenect)
     SET (CMAKE_CXX_FLAGS "-stdlib=libc++ -std=c++11")
 ENDIF()
 
@@ -36,7 +38,7 @@ CONFIGURE_FILE(../conf/dense_conf.yml dense_conf.yml COPYONLY)
 CONFIGURE_FILE(../conf/guiConfig.yml guiConfig.yml COPYONLY)
 
 # Load external libraries
-find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Core Gui Widgets Network REQUIRED)
 find_package(OpenCV REQUIRED HINTS $ENV{OPENCV_MSVC2012_X64_INSTALL_DIR})
 MESSAGE( STATUS "OPENCV_LIB_DIR: " ${OpenCV_LIB_DIR} )
 
@@ -44,6 +46,7 @@ MESSAGE( STATUS "OPENCV_LIB_DIR: " ${OpenCV_LIB_DIR} )
 INCLUDE_DIRECTORIES(${Qt5Core_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${Qt5Gui_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${Qt5Widgets_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES(${Qt5Network_INCLUDE_DIRS})
 
 # Load project libs
 ADD_SUBDIRECTORY(Configuration)
@@ -71,4 +74,4 @@ TARGET_LINK_LIBRARIES (dense_kitchen
 
 # Activate Qt for project
 # Must be the last line in this file, else { FAIL }
-qt5_use_modules(dense_kitchen Core Gui Widgets)
+qt5_use_modules(dense_kitchen Core Gui Widgets Network)
