@@ -19,7 +19,6 @@ bool isInsidePolygon(cv::Mat mask, cv::Point2d point);
 class EntryExitCounter : public Algorithm
 {
 public:
-
     /*!
        \brief   Constructor.
     */
@@ -31,7 +30,7 @@ public:
     ~EntryExitCounter();
 
     /*!
-       \brief   Performs the process step.
+       \brief   Performs the process step, counts people.
     */
     void process(FrameList &frames) override;
     /*!

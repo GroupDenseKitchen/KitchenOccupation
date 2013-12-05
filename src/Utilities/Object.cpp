@@ -2,7 +2,6 @@
 
 Object::Object()
 {
-    kalmanFilter.init(4,4);
 }
 
 Object::Object(std::vector<cv::Point>& contour, cv::Rect& boundingBox, cv::Point2f& centerOfMass, double area)
@@ -21,6 +20,25 @@ Object::Object(std::vector<cv::Point>& contour, cv::Rect& boundingBox, cv::Point
     hasAlreadyEntered = false;
     lost = false;
     lifeSpan = 1;
+
+    // Kalman init
+    kalmanFilter.init(4,2);
+    kalmanFilter.transitionMatrix = *(cv::Mat_<float>(4, 4) << 1,0,1,0,
+                                                               0,1,0,1,
+                                                               0,0,1,0,
+                                                               0,0,0,1);
+    cv::Mat_<float> measurement(2,1);
+    measurement.setTo(cv::Scalar(0));
+
+    // Init
+    kalmanFilter.statePre.at<float>(0) = centerOfMass.x;
+    kalmanFilter.statePre.at<float>(1) = centerOfMass.y;
+    kalmanFilter.statePre.at<float>(2) = 0;
+    kalmanFilter.statePre.at<float>(3) = 0;
+    setIdentity(kalmanFilter.measurementMatrix);
+    setIdentity(kalmanFilter.processNoiseCov, cv::Scalar::all(1e-4));
+    setIdentity(kalmanFilter.measurementNoiseCov, cv::Scalar::all(1e-1));
+    setIdentity(kalmanFilter.errorCovPost, cv::Scalar::all(.1));
 }
 
 Object::~Object()
@@ -48,48 +66,25 @@ void Object::merge(Object * previousState) {
     positionPrediction = centerOfMass + velocity;
     velocityPrediction = velocity;
 
-    /*
+
     // Kalman filter prediction
     // ------------------------
-
-    // Variables
-    cv::Vec2f position, predictedPosition;
-    cv::Vec2f velocity, predictedVelocity;
-
-    // Initialize known variables
     kalmanFilter = previousState->kalmanFilter;
-    position = cv::Vec2f(centerOfMass.x, centerOfMass.y);
 
-    // State space representation of position and velocity in 2D
-    float dt = 1;
-    const cv::Matx44f transit( 1, 0, dt, 0,
-                               0, 1, 0,  dt,
-                               0, 0, 1,  0,
-                               0, 0, 0,  1 );
-    const cv::Matx44f measure( 1, 1, 0, 0  );
+    // Measure
+    cv::Mat_<float> measurement(2,1);
+    measurement(0) = centerOfMass.x;
+    measurement(1) = centerOfMass.y;
+    cv::Mat estimated = kalmanFilter.correct(measurement);
+    //position = cv::Point(estimated.at<float>(0),estimated.at<float>(1));
+    velocity = cv::Point(estimated.at<float>(2),estimated.at<float>(3));
 
-    // Iniitialize kalman filter
-    kalmanFilter.transitionMatrix = cv::Mat(transit);
-    kalmanFilter.measurementMatrix = cv::Mat(measure);
-    // .... more initialization ....
-
-    // Measurement update
-    //?? = kalmanFilter.correct(cv::Mat(position));
-    //velocity = ??
-
-    // Prediction
-    //?? = kalmanFilter.predict();
-    //predictedVelocity = ??
-    //predictedPosition = ??
-
-    // Convert back to points
-    //this->velocity = cv::Point2f(velocity.x, velocity.y);
-    //this->predictedPosition = cv::Point2f(predictedPosition.x, predictedPosition.y);
-    //this->predictedVelocity = cv::Point2f(predictedVelocity.x, predictedVelocity.y);
-
+    // Predict
+    cv::Mat prediction = kalmanFilter.predict();
+    positionPrediction = cv::Point(prediction.at<float>(0),prediction.at<float>(1));
+    velocityPrediction = cv::Point(prediction.at<float>(2),prediction.at<float>(3));
     // ---------------------
 
-    */
 }
 
 void Object::enter() {
