@@ -49,16 +49,19 @@ private:
     int maximumTimeLost;    // # Frames
     int maximumTimeLostStill;
     int maximumTimeLostInDoorArea; //#Frames
+
     void setIfIsInCheckpointRegion(std::list<Object> &objects, cv::Mat maskOne, cv::Mat maskTwo, cv::Mat maskThree);
     void pairAndPopulate(std::list<Object> & candidatePrev, std::list<Object> & candidateCurr, std::vector<Object> & destination);
     void elevatePotentialObjects(std::vector<Object> & candidates, std::vector<Object> & destination, std::vector<Object> & newlyFoundObjects);
     void removeLostObjects(std::vector<Object> & objects,std::vector<Object> & transitionary_Objects);
     void addNew(std::list<Object> & newObjects, std::vector<Object> & destination);
     void addLost(std::list<Object> & lostObjects, std::vector<Object> & destination,std::vector<Object> & transitionaryObjects,cv::Mat image ,cv::Mat mask);
+    void writeToDebugImage(CameraObject & cameraCurr);
     bool isCloseImageBorder(cv::Point2d point, int height, int width, int margin);
     bool isInsideRemovalArea(Object & object, cv::Mat mask, int height, int width);
     int getUniqueID();
     double squaredDistance(Object& previous, Object& current);
+
 };
 }
 

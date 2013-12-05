@@ -17,6 +17,12 @@ IF(WIN32)
     IF(MINGW)
         SET (CMAKE_CXX_FLAGS "-std=c++11 -Wall")
     ENDIF()
+
+    IF(MSVC)
+        MESSAGE(STATUS "OPENCV_MSVC2012_X64_INSTALL_DIR: " $ENV{OPENCV_MSVC2012_X64_INSTALL_DIR})
+        add_definitions(-D_ITERATOR_DEBUG_LEVEL=1) # Remove itterator assert
+        cmake_policy(SET CMP0020 NEW) # Remove cmake warnings
+    ENDIF()
 ENDIF()
 
 # Tell CMake to run moc when necessary:
@@ -31,7 +37,8 @@ CONFIGURE_FILE(../conf/guiConfig.yml guiConfig.yml COPYONLY)
 
 # Load external libraries
 find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
-find_package(OpenCV REQUIRED)
+find_package(OpenCV REQUIRED HINTS $ENV{OPENCV_MSVC2012_X64_INSTALL_DIR})
+MESSAGE( STATUS "OPENCV_LIB_DIR: " ${OpenCV_LIB_DIR} )
 
 # Include
 INCLUDE_DIRECTORIES(${Qt5Core_INCLUDE_DIRS})
