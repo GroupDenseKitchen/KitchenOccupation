@@ -229,7 +229,7 @@ Frame *Network::getKinectFrame()
 
             frame->addCamera(cam);
             cam.addImage("rawImage", kinectFrame->depthImage);
-            cam.addImage("debugImage", kinectFrame->rgbImage);
+            cam.addImage("debugImage", kinectFrame->bgrImage);
             if (firstFrame) {
                 frame->setMomentaryFps(0);
                 firstFrame = false;

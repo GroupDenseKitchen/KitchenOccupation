@@ -4,11 +4,16 @@
 #include "../Utilities/utilities.hpp"
 #include "../Configuration/ConfigurationManager.hpp"
 
+#include <OpenNI.h>
+#undef min
+//#undef max
+
+
 namespace kinect
 {
 struct KinectFrame 
 {
-	cv::Mat rgbImage;
+    cv::Mat bgrImage;
 	cv::Mat depthImage;
 };
 
@@ -53,6 +58,18 @@ public:
 
 private:
     int nDevices;
+
+    openni::Device device;
+    openni::VideoStream depth, color;
+    openni::Status rc;
+    openni::VideoStream** streams;
+
+    openni::VideoFrameRef depthFrame, colorFrame;
+    int changedIndex;
+
+    std::string depthWritePath;
+    std::string colorWritePath;
+    std::string networkWritePath;
 };
 
 } // namspace kinect

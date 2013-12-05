@@ -6,8 +6,6 @@ ENDIF()
 
 IF(WIN32)
     # Windows specific
-    IF(MINGW)
-        add_library(Network Network.cpp KinectHandlerOpenNi.cpp)
-    ENDIF()
+    add_library(Network Network.cpp KinectHandlerOpenNi.cpp)
 ENDIF()
 
