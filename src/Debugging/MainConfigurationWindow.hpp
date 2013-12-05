@@ -34,9 +34,14 @@ public:
     void drawPolygons(std::string maskType, QVector<QVector<cv::Point>> polygons, cv::Scalar color);
     void drawPolygon(QVector<cv::Point> polygon, cv::Scalar color);
     void polygonDrawer(cv::Mat targetMat, const cv::Point** polygonPtrPtr, int numberOfPoints[], cv::Scalar color);
+    void drawCheckPointCircles();
 
-    cv::Mat matImage, imageWithMask, doorMask, exclusionMask, resizedImage;
+    cv::Mat matImage, imageWithMask, doorMask, exclusionMask, checkpointMaskSmall, checkpointMaskMedium, checkpointMaskLarge, resizedImage;
     QImage qImage;
+
+    bool drawAsCircle, isDrawingCircle;
+    cv::Point circleCenter;
+    int circleRadius;
 
     QVector<QVector<cv::Point>> doorPolygons;
     QVector<QVector<cv::Point>> exclusionPolygons;
@@ -53,6 +58,8 @@ public slots:
 protected:
     void closeEvent(QCloseEvent *);
     void mousePressEvent(QMouseEvent *);
+    void mouseMoveEvent(QMouseEvent *);
+    void mouseReleaseEvent(QMouseEvent *);
     void keyPressEvent(QKeyEvent *);
 
 private slots:
@@ -64,6 +71,10 @@ private slots:
     void on_clearAllButton_clicked();
     void on_cancelButton_clicked();
     void on_applyButton_clicked();
+
+    void on_addAsCheckpointButton_clicked();
+
+    void on_circleCheckBox_clicked(bool checked);
 
 private:
     Ui::MainConfigurationWindow *ui;

@@ -20,6 +20,7 @@ MainDebugWindow::MainDebugWindow(QWidget *parent) :
 
 MainDebugWindow::~MainDebugWindow()
 {
+    vc.release();
     delete ui;
 }
 
@@ -59,11 +60,16 @@ void MainDebugWindow::init()
 
     }
 
-    // -------- Instanciate Main Program ----------------
+    // -------- Configuration Widget ----------------
     configWindow = new MainConfigurationWindow;
     configWindow->init(program, "masks.yml");
     connect(this, SIGNAL(updateDebugViews(Frame)),
             configWindow, SLOT(updateWindow(Frame)));
+
+    // -------- Stereo Calibration Widget ----------------
+    stereoCalibrationWidget = new StereoCalibrationWidget;
+    connect(this, SIGNAL(updateDebugViews(Frame)),
+            stereoCalibrationWidget, SLOT(updateWindow(Frame)));
 
     // -------- Camera/Step Selector Init ---------------
     cameraItemModel = new QStandardItemModel;
@@ -129,7 +135,8 @@ void MainDebugWindow::init()
     timer = new QTimer;
     connect(timer, SIGNAL(timeout()), this, SLOT(updateGUI()));
     timer->start(timerDelay);
-}
+
+    }
 
 void MainDebugWindow::updateGUI()
 {
@@ -138,6 +145,21 @@ void MainDebugWindow::updateGUI()
         updateGuiComponents();
     } else {
         isRunning = false;
+    }
+
+    // Debug
+    if(!vc.isOpened()) {
+        // Video recorder
+        if(program->frames.size() > 0 && program->frames.getCurrent().getCameras().back().hasImage("rawImage"))
+            vc = cv::VideoWriter("debugImage.avi", CV_FOURCC('D','I','V','X'), 30, program->frames.getCurrent().getCameras().back().getImage("rawImage").size());
+
+    }
+    else
+    {
+        if(program->frames.getCurrent().getCameras().back().hasImage("debugImage"))
+            vc.write(program->frames.getCurrent().getCameras().back().getImage("debugImage"));
+        else
+            LOG("fail", "debugImage not found!");
     }
 }
 
@@ -346,6 +368,7 @@ void MainDebugWindow::on_stepForwardButton_clicked()
     if(program->singleIteration()){
         updateGuiComponents();
     }
+
 }
 
 void MainDebugWindow::on_stepBackwardButton_clicked()
@@ -433,6 +456,7 @@ void MainDebugWindow::closeEvent(QCloseEvent * event)
         }
     delete debugViewGrid;
     delete configWindow;
+    delete stereoCalibrationWidget;
     event->accept();
 }
 
@@ -497,4 +521,9 @@ void MainDebugWindow::on_actionRestart_triggered()
 void MainDebugWindow::on_actionConfigure_triggered()
 {
     configWindow->show();
+}
+
+void MainDebugWindow::on_actionStereoCalibrate_triggered()
+{
+    stereoCalibrationWidget->show();
 }

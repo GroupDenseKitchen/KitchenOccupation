@@ -1,4 +1,4 @@
 #image processing module
 
-add_library(ImageProcessing ImageProcessor.cpp BackgroundModelMoG.cpp ForegroundRegionExtractorDefault.cpp TrackingBruteForce.cpp EntryExitCounter.cpp kinectSegmentation.cpp TrackingBruteForceLines.cpp)
+add_library(ImageProcessing ImageProcessor.cpp BackgroundModelMoG.cpp ForegroundRegionExtractorDefault.cpp TrackingBruteForce.cpp EntryExitCounter.cpp kinectSegmentation.cpp TrackingBruteForceLines.cpp StereoBlockMatching.cpp)
 

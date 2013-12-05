@@ -18,6 +18,7 @@
 #include "ImageProcessing/EntryExitCounter.hpp"
 #include "Analytics/QueDetector.hpp"
 #include "ImageProcessing/kinectSegmentation.hpp"
+#include "ImageProcessing/StereoBlockMatching.hpp"
 #include "Analytics/Analytics.hpp"
 #include "Analytics/FlowEstimator.hpp"
 #include "Analytics/QueSeverityEstimator.hpp"

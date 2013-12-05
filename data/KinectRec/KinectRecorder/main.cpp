@@ -10,8 +10,8 @@ int main()
 	// ------------- Setup OpenCV ----------------------
 	std::string cameraIP = "169.254.234.112";
 
-	cv::VideoCapture* networkCamera = new cv::VideoCapture("http://root:pass@169.254.234.112/axis-cgi/mjpg/video.cgi?resolution=640x480&.mjpg");
-	//cv::VideoCapture* networkCamera = new cv::VideoCapture(0);
+	//cv::VideoCapture* networkCamera = new cv::VideoCapture("http://root:pass@169.254.234.112/axis-cgi/mjpg/video.cgi?resolution=640x480&.mjpg");
+	cv::VideoCapture* networkCamera = new cv::VideoCapture(0);
 
 	if (!networkCamera->isOpened()){
         std::cout << "Could not open Network Camera at :" << cameraIP << std::endl;

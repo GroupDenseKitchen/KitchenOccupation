@@ -42,7 +42,7 @@ public:
      bool initialize(configuration::ConfigurationManager &conf) override;
 
 private:
-
+int totalPopulation;
 };
 }
 #endif

@@ -15,7 +15,10 @@ Object::Object(std::vector<cv::Point>& contour, cv::Rect& boundingBox, cv::Point
 
     entryPoint = cv::Point2d(-1, -1);
     exitPoint = cv::Point2d(-1, -1);
-
+    hasPassedMasksOne = false;
+    hasPassedMasksTwo = false;
+    hasPassedMasksThree = false;
+    hasAlreadyEntered = false;
     lost = false;
     lifeSpan = 1;
 }
@@ -30,6 +33,15 @@ void Object::merge(Object * previousState) {
     lost = previousState->lost;
     entryPoint = previousState->entryPoint;
     lifeSpan = previousState->lifeSpan+1;
+
+    // In/Out detection auxilirary variables.
+    if(previousState->hasPassedMasksOne == true)
+    hasPassedMasksOne = previousState->hasPassedMasksOne;
+    if(previousState->hasPassedMasksTwo == true)
+    hasPassedMasksTwo = previousState->hasPassedMasksTwo;
+    if(previousState->hasPassedMasksThree == true)
+    hasPassedMasksThree = previousState->hasPassedMasksThree;
+    hasAlreadyEntered = previousState->hasAlreadyEntered;
 
     // Temporary hack (remove when kalman filter is operational
     velocity = centerOfMass - previousState->centerOfMass;

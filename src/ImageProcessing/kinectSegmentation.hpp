@@ -46,6 +46,7 @@ private:
     int minimalHeadArea;
 
     void generateMaxRegionMask(cv::Mat & maxRegionMask, cv::Mat & grayImage, std::vector<std::vector<cv::Point>> & contours, int minimalArea, cv::Mat & debugImage);
+    bool isInsidePolygon(cv::Mat mask, cv::Point2d point);
 };
 
 }

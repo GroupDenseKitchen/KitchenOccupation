@@ -11,10 +11,10 @@ ImageProcessor:
    - KinectSegmentation
    - TrackingBruteForce
 Analytics:
-   - FlowEstimator
    - EntryExitCounter
    - QueDetector
    - QueSeverityEstimator
+
 videoFilePaths:
    - "/Users/Niko/Dropbox/Liu/TSBB11/Dense Kitchen/seq9-3.mp4"
 
