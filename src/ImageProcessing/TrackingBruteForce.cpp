@@ -19,6 +19,35 @@ namespace image_processing
         return isInitialized;
     }
 
+    // Help function
+    std::string toStringPrec(double value, int prec = 2) {
+        int a = std::pow(10,prec);
+        double ret = (std::floor(value * a + 0.5)/a);
+        std::ostringstream out;
+        out << ret;
+        return out.str();
+    }
+
+    // Help function
+    void textToObject(std::vector<Object>::iterator object, cv::Mat debugImage, int fontFace, double fontScale, cv::Scalar color, int thickness) {
+        // Testa övriga tre parametrar
+        std::string text1 = "V: [" + toStringPrec(object->velocity.x) + ", " + toStringPrec(object->velocity.y) + "]";
+        cv::Point2d pos1 = object->centerOfMass + cv::Point2f(0,20);
+        putText(debugImage, text1, pos1, fontFace, fontScale, color, thickness, 8);
+
+        std::string text2 = "PredV: [" + toStringPrec(object->velocityPrediction.x) + ", " + toStringPrec(object->velocityPrediction.y) + "]";
+        cv::Point2d pos2 = object->centerOfMass + cv::Point2f(0,40);
+        putText(debugImage, text2, pos2, fontFace, fontScale, color, thickness, 8);
+
+        std::string text3 = "PredPos: [" + toStringPrec(object->positionPrediction.x) + ", " + toStringPrec(object->positionPrediction.y ) + "]";
+        cv::Point2d pos3 = object->centerOfMass + cv::Point2f(0,60);
+        putText(debugImage, text3, pos3, fontFace, fontScale, color, thickness, 8);
+
+        std::string text4 = "Pos: [" + toStringPrec(object->centerOfMass.x) + ", " + toStringPrec(object->centerOfMass.y) + "]";
+        cv::Point2d pos4 = object->centerOfMass + cv::Point2f(0,80);
+        putText(debugImage, text4, pos4, fontFace, fontScale, color, thickness, 8);
+    }
+
     void TrackingBruteForce::process(FrameList &frames) {
 
         if(frames.hasPrevious())
@@ -68,8 +97,11 @@ namespace image_processing
                     putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(0,0,255), thickness, 8);
                     cv::rectangle(debugImage, object->boundingBox, cv::Scalar(0,0,255), 2);     // Debug
                     cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(0,0,100), -1);
-                    // velocity vector
+
+                    // Print velocity vector to debug image
                     cv::line(debugImage, object->centerOfMass, object->centerOfMass + 10*object->velocity, cv::Scalar(0,0,255), thickness);
+                    // Print predicted velocity, preicted position and center of mass to debug image
+                    textToObject(object, debugImage, fontFace, fontScale, cv::Scalar(0,0,255), thickness);
                 }
                 for(std::vector<Object>::iterator object = cameraCurr.getObjects().begin(); object != cameraCurr.getObjects().end(); object++) {
                     cv::Point2d pos = object->centerOfMass;
@@ -80,14 +112,20 @@ namespace image_processing
                         cv::rectangle(debugImage, object->boundingBox, cv::Scalar(255,0,0), 2);     // Debug
                         cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(100,0,0), -1);
                         putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(255, 0, 0), thickness, 8);
-                        // velocity vector
+
+                        // Print velocity vector to debug image
                         cv::line(debugImage, object->centerOfMass, object->centerOfMass + 10*object->velocity, cv::Scalar(255,0,0), thickness);
+                        // Print predicted velocity, preicted position and center of mass to debug image
+                        textToObject(object, debugImage, fontFace, fontScale, cv::Scalar(255,0,0), thickness);
                     } else {
                         cv::rectangle(debugImage, object->boundingBox, cv::Scalar(0,255,0), 2);     // Debug
                         cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(0,100,0), -1);
                         putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(0, 255, 0), thickness, 8);
-                        // velocity vector
+
+                        // Print velocity vector to debug image
                         cv::line(debugImage, object->centerOfMass, object->centerOfMass + 10*object->velocity, cv::Scalar(0,255,0), thickness);
+                        // Print predicted velocity, preicted position and center of mass to debug image
+                        textToObject(object, debugImage, fontFace, fontScale, cv::Scalar(0,255,0), thickness);
                     }
                 }
             }
