@@ -56,37 +56,8 @@ namespace image_processing
                 // 5) Elevate pervious candidate objects to real objects if they have lived long enough.
                 elevatePotentialObjects(cameraCurr.getPotentialObjects(), cameraCurr.getObjects(),cameraCurr.getNewlyFoundObjects());
 
-                //--------------------------------------------- Debug ---------------------------------------------------//
-                if(!cameraCurr.hasImage("debugImage"))
-                    cameraCurr.addImage("debugImage", cameraCurr.getImage("rawImage").clone());
-                cv::Mat debugImage = cameraCurr.getImage("debugImage");
-                std::string text = "";
-                int fontFace = cv::FONT_HERSHEY_PLAIN;
-                double fontScale = 1;
-                int thickness = 1;
-                for(std::vector<Object>::iterator object = cameraCurr.getPotentialObjects().begin(); object != cameraCurr.getPotentialObjects().end(); object++) {
-                    cv::Point2d pos = object->centerOfMass;
-                    text = "lifespan: " + std::to_string(object->lifeSpan);
-                    putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(0,0,255), thickness, 8);
-                    cv::rectangle(debugImage, object->boundingBox, cv::Scalar(0,0,255), 2);
-                    cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(0,0,100), -1);
-                }
-                for(std::vector<Object>::iterator object = cameraCurr.getObjects().begin(); object != cameraCurr.getObjects().end(); object++) {
-                    cv::Point2d pos = object->centerOfMass;
-                    text = "id: "+std::to_string(object->id);
-
-                    if(object->lost) {
-                        text += ", LOST lifespan: " + std::to_string(object->lifeSpan);
-                        cv::rectangle(debugImage, object->boundingBox, cv::Scalar(255,0,0), 2);
-                        cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(100,0,0), -1);
-                        putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(255, 0, 0), thickness, 8);
-                    } else {
-                        cv::rectangle(debugImage, object->boundingBox, cv::Scalar(0,255,0), 2);
-                        cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(0,100,0), -1);
-                        putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(0, 255, 0), thickness, 8);
-                    }
-                }
-               //--------------------------------------------------------------------------------------------------------//
+                //Write info on debugImage
+                writeToDebugImage(cameraCurr);
             }
         }
     }
@@ -162,6 +133,9 @@ namespace image_processing
             }
         }
     }
+
+
+
     bool TrackingBruteForce::isCloseImageBorder(cv::Point2d point, int height, int width, int margin) {
         return point.x > (width -margin) || point.x < (margin) || point.y > (height -margin) || point.y < margin;
     }
@@ -194,6 +168,38 @@ namespace image_processing
                 object.hasPassedMasksThree = true;
             }
          }
+    }
+    void TrackingBruteForce::writeToDebugImage(CameraObject &cameraCurr)
+    {
+        if(!cameraCurr.hasImage("debugImage"))
+            cameraCurr.addImage("debugImage", cameraCurr.getImage("rawImage").clone());
+        cv::Mat debugImage = cameraCurr.getImage("debugImage");
+        std::string text = "";
+        int fontFace = cv::FONT_HERSHEY_PLAIN;
+        double fontScale = 1;
+        int thickness = 1;
+        for(std::vector<Object>::iterator object = cameraCurr.getPotentialObjects().begin(); object != cameraCurr.getPotentialObjects().end(); object++) {
+            cv::Point2d pos = object->centerOfMass;
+            text = "lifespan: " + std::to_string(object->lifeSpan);
+            putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(0,0,255), thickness, 8);
+            cv::rectangle(debugImage, object->boundingBox, cv::Scalar(0,0,255), 2);
+            cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(0,0,100), -1);
+        }
+        for(std::vector<Object>::iterator object = cameraCurr.getObjects().begin(); object != cameraCurr.getObjects().end(); object++) {
+            cv::Point2d pos = object->centerOfMass;
+            text = "id: "+std::to_string(object->id);
+
+            if(object->lost) {
+                text += ", LOST lifespan: " + std::to_string(object->lifeSpan);
+                cv::rectangle(debugImage, object->boundingBox, cv::Scalar(255,0,0), 2);
+                cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(100,0,0), -1);
+                putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(255, 0, 0), thickness, 8);
+            } else {
+                cv::rectangle(debugImage, object->boundingBox, cv::Scalar(0,255,0), 2);
+                cv::circle(debugImage, object->centerOfMass, 15, cv::Scalar(0,100,0), -1);
+                putText(debugImage, text, pos, fontFace, fontScale, cv::Scalar(0, 255, 0), thickness, 8);
+            }
+        }
     }
 
 }
