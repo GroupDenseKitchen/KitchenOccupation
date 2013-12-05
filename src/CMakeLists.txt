@@ -21,6 +21,13 @@ IF(WIN32)
 
     IF(MSVC)
         MESSAGE( STATUS "Compiler: MSVC")
+        STRING( TOUPPER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
+        MESSAGE( STATUS "Build type: "${BUILD_TYPE})
+        IF(${BUILD_TYPE} STREQUAL "DEBUG")
+            add_definitions(-D_ITERATOR_DEBUG_LEVEL=1) # Remove itterator assert
+            MESSAGE( STATUS "ITERATOR_DEBUG_LEVEL=1")
+        ENDIF()
+
         MESSAGE( STATUS "ENV_OPENCV_MSVC2012_X64_INSTALL_DIR: " $ENV{OPENCV_MSVC2012_X64_INSTALL_DIR})
         MESSAGE( STATUS "ENV_OPENNI2_INCLUDE64: " $ENV{OPENNI2_INCLUDE64} )
         MESSAGE( STATUS "ENV_OPENNI2_LIB64: " $ENV{OPENNI2_LIB64} )
@@ -37,10 +44,6 @@ IF(WIN32)
 
         MESSAGE( STATUS "OPENNI2_INCLUDE_DIR: " ${OPENNI2_INCLUDE_DIR} )
         MESSAGE( STATUS "OPENNI2_LIBS: " ${OPENNI2_LIBS} )
-
-        IF(CMAKE_BUILD_TYPE=debug)
-            add_definitions(-D_ITERATOR_DEBUG_LEVEL=1) # Remove itterator assert
-        ENDIF()
 
         cmake_policy(SET CMP0020 NEW) # Remove cmake warnings
     ENDIF()
