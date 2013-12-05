@@ -1,7 +1,9 @@
 #Network module
 IF(UNIX)
     # Apple specific
-    add_library(Network Network.cpp KinectHandlerFreenect.cpp)
+    ADD_LIBRARY(Network Network.cpp KinectHandlerFreenect.cpp)
+    TARGET_LINK_LIBRARIES(Network freenect freenect_sync)
+
 ENDIF()
 
 IF(WIN32)
