@@ -101,14 +101,7 @@ bool DenseKitchen::singleIteration() {
                     PROFILER_END();
                     //evaluator.printToLog(); // Prints MOTA & MOTP for every frame.
                 }
-                /*
-                if (isEvalInitialized) {
-                    PROFILER_START("Evaluation")
-                    entryExitEvaluation.process(frames);
-                    PROFILER_END();
-                    //evaluation.printToLog(); // Prints MOTA & MOTP for every frame.
-                }*/
-
+                //network.broadcastData(currentFrame);
             } else {
                 if (isEvalInitialized) {
                     evaluator.printToLog();
