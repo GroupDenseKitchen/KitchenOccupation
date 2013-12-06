@@ -1,5 +1,4 @@
 #include "QueDetector.hpp"
-#include <QDebug>
 
 namespace statistics
 {
@@ -53,7 +52,6 @@ namespace statistics
                 }
                 camera.setQueVisibility(!ques.empty());
             }
-            //camera.addImage("Splines",debugImage);
         }
     }
 
@@ -105,16 +103,6 @@ namespace statistics
         for (int j = 0; j < numStrips; ++j) {
             delete[] points[j];
         }
-
-        /*
-        //Draw object center of masses and velocities
-        auto iter = que.queObjects.begin();
-        for (; iter != que.queObjects.end(); ++iter){
-            cv::Point2f center = iter->second.centerOfMass;
-            cv::circle( dstImage, center, 5 ,cv::Scalar(0,255,0), 2 );
-            cv::line( dstImage,center, center + iter->second.velocity, cv::Scalar(255,0,0), 2 );
-        }
-*/
     }
 
     void QueDetector::subdivideSpline(SplineStrip &strip,
@@ -214,8 +202,8 @@ namespace statistics
     void QueDetector::quesFromEdges(std::vector<DirectedQueEdge> &queEdges, std::vector<Que> &ques)
     {
         //TODO: Do something smarter than (make sure each que is disjoint from all other ques)
-        //Right now all edges/objects in que are put into one single que
-        //Also, remove loops
+        //Right now all edges/objects in que are put into one single queue
+        //Also, remove loops in queue-graph
         ques.clear();
         Que theQue;
         for (DirectedQueEdge & queEdge: queEdges) {
@@ -224,8 +212,8 @@ namespace statistics
             }
             theQue.queEdges.push_back(queEdge);
 
-            //Insert any objects into the que if they are either a source or destination
-            //of a que edge.
+            //Insert any objects into the queue if they are either a source or destination
+            //of a queue edge.
              //--So far this isn't used so left out for speed
             if ( theQue.queObjects.find(queEdge.from.id) == theQue.queObjects.end() ) {
                 theQue.queObjects.insert( {queEdge.from.id, queEdge.from} );

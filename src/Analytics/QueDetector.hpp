@@ -28,8 +28,8 @@ public:
 
     /*!
         \brief      Handles initialization.
-        \details Returns false if initialization fails,
-                e.g. if a required variable is not set in the config file.
+        \details    Returns false if initialization fails,
+                    e.g. if a required variable is not set in the config file.
      */
     bool initialize( configuration::ConfigurationManager &settings ) override;
 
@@ -39,10 +39,9 @@ public:
      */
     void process( FrameList & frames ) override;
 
-    //Theses are public for easier tuning but should be private in final version.
+private:
     double splineLengthThreshold;
     double velocityScaleFactor;
-private:
     double maxSplineSegmentLength;
     int maxRecursionDepth;
     double momentaryFps;

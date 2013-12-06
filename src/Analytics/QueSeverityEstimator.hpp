@@ -15,17 +15,29 @@
 namespace statistics
 {
 
+/*!
+ * \brief A struct containing information from each frame needed to determine queue status over time.
+ */
 struct FrameQueData
 {
+    /*!
+     * \brief Constructor
+     */
     explicit FrameQueData(int totalEnteredPeople = 0, bool queIsPresent = false): totalEnteredPeople(totalEnteredPeople), queIsPresent(queIsPresent) {}
 public:
- int totalEnteredPeople;
- bool queIsPresent;
+    /*!
+     * \brief The number of people that entered into view in this frame
+     */
+    int totalEnteredPeople;
+    /*!
+      * \brief Whether a queue is visible in this frame or not
+      */
+     bool queIsPresent;
 };
 
 /*!
     \brief
-    \details ... THis class asumes that one instance of the program DenseKitchen is run per room.
+    \details ... This class asumes that one instance of the program DenseKitchen is run per room.
  */
 class QueSeverityEstimator : public Algorithm
 {
