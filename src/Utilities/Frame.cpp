@@ -1,4 +1,5 @@
 #include "Frame.hpp"
+#include <QDebug>
 
 Frame::Frame(){
     currentQueStatus = -1;
@@ -96,6 +97,7 @@ int Frame::getPopulationInRoomID(std::string &_currID){
 
 void Frame::setQueStatus(int newQueStatus) {
     currentQueStatus = newQueStatus;
+    qDebug() << "QUEUE STATUS: " << currentQueStatus;
 }
 
 int Frame::getQueStatus() {

@@ -12,10 +12,11 @@ namespace statistics
         isInitialized = true;
 
         CONFIG(settings, maxSplineSegmentLength, "maxSplineSegmentLength", 5);
-        CONFIG(settings, velocityScaleFactor, "velocityScaleFactor", 1);
-        CONFIG(settings, splineLengthThreshold, "splineLengthThreshold", DBL_MAX); //This value is meaningless and needs to be determined in some way
+        CONFIG(settings, velocityScaleFactor, "velocityScaleFactor", 2);
+        CONFIG(settings, splineLengthThreshold, "splineLengthThreshold", 600);
         CONFIG(settings, maxRecursionDepth, "maxRecursionDepth", 10);
 
+        /* ****DEBUG/TUNING STUFF****
         int dummyInt1 = 100;
         int dummyInt2 = 10000;
 
@@ -24,28 +25,35 @@ namespace statistics
                            [](int sliderValue,void* scaleFactor){ if (sliderValue != 0) {*(double *)scaleFactor = sliderValue/100.0; qDebug() <<  *(double *)scaleFactor;} },(void*)&velocityScaleFactor);
         cv::createTrackbar("splineLengthThreshold", "Sliders", &dummyInt2, 1000000,
                            [](int sliderValue,void* lengthThreshold){ if (sliderValue != 0) {*(double *)lengthThreshold = sliderValue/100.0; qDebug() << *(double *)lengthThreshold;} }, (void*)&splineLengthThreshold);
-
+        */
         return isInitialized;
     }
 
     void QueDetector::process(FrameList &frames)
     {
+        momentaryFps = frames.getCurrent().getMomentaryFps();
         for (CameraObject & camera: frames.getCurrent().getCameras()) {
-            if(!camera.hasImage("rawImage"))
+            if(!camera.hasImage("debugImage"))
             {
-                LOG("Statistics Error", "Image \"rawImage\" not set in current frame!");
+                LOG("Statistics Error", "Image \"debugImage\" not set in current frame!");
                 return;
             }
-            cv::Mat debugImage = camera.getImage("rawImage").clone();
+            cv::Mat debugImage = camera.getImage("debugImage");
             if( camera.getObjects().size() > 1) {
                 std::vector<Que> ques;
                 detectQues( camera.getObjects(), ques );
                 for (Que & que: ques) {
                     drawQue( debugImage,que );
+
+                    /*  //DEBUG/TUNING
+                    for (DirectedQueEdge & edge: que.queEdges) {
+                        qDebug() << "From obj" << edge.from.id << " to obj" << edge.to.id << " length = " << edge.distance;
+                    }
+                    */
                 }
                 camera.setQueVisibility(!ques.empty());
             }
-            camera.addImage("Splines",debugImage);
+            //camera.addImage("Splines",debugImage);
         }
     }
 
@@ -58,9 +66,10 @@ namespace statistics
         Object previousObject;
         for(Object & nextObject: objects) {
             if ( nextObject.id != begin(objects)->id ) {
+                double currentVelocityFactor =  velocityScaleFactor*momentaryFps;
                 SplineStrip strip(previousObject.centerOfMass,
-                                  previousObject.centerOfMass + 3*velocityScaleFactor*previousObject.velocity,
-                                  nextObject.centerOfMass - 3*velocityScaleFactor*nextObject.velocity,
+                                  previousObject.centerOfMass + 3*currentVelocityFactor*previousObject.velocity,
+                                  nextObject.centerOfMass - 3*currentVelocityFactor*nextObject.velocity,
                                   nextObject.centerOfMass);
                 subdivideSpline(strip, spline, maxSegmentLength);
             }
@@ -90,13 +99,14 @@ namespace statistics
         cv::polylines(dstImage,
                       const_cast<const cv::Point**>(points),
                       numberOfPoints,que.splineStrips.size(),
-                      false, cv::Scalar(255,255,255));
+                      false, cv::Scalar(255,255,255),2);
 
         //Clean up spline points
         for (int j = 0; j < numStrips; ++j) {
             delete[] points[j];
         }
 
+        /*
         //Draw object center of masses and velocities
         auto iter = que.queObjects.begin();
         for (; iter != que.queObjects.end(); ++iter){
@@ -104,7 +114,7 @@ namespace statistics
             cv::circle( dstImage, center, 5 ,cv::Scalar(0,255,0), 2 );
             cv::line( dstImage,center, center + iter->second.velocity, cv::Scalar(255,0,0), 2 );
         }
-
+*/
     }
 
     void QueDetector::subdivideSpline(SplineStrip &strip,

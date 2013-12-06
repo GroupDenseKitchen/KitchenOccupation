@@ -45,6 +45,7 @@ public:
 private:
     double maxSplineSegmentLength;
     int maxRecursionDepth;
+    double momentaryFps;
 
     void drawQue( cv::Mat & dstImage, const Que & que );
     void splineFromObjects( std::vector<Object> & objects , std::vector<SplineStrip>& spline, float maxSegmentLength );
