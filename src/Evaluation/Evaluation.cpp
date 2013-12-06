@@ -20,38 +20,43 @@ bool Evaluation::initialize(configuration::ConfigurationManager &settings)
         return false;
     }
 
-    bool gtExists = settings.hasStringSeq("trackerGroundTruthPaths");
-    std::vector<std::string> trackerGtPaths;
+    hasTrackerEvaluator = false;
+    std::vector<std::string> stringVec = settings.getStringSeq("Evaluation");
+    if(std::find(stringVec.begin(),stringVec.end(),"TrackerEvaluator") != stringVec.end()) {
+        hasTrackerEvaluator = true;
 
-    if(gtExists) {
-        trackerGtPaths = settings.getStringSeq("trackerGroundTruthPaths");
-    } else {
-        return false;
-    }
+        bool gtExists = settings.hasStringSeq("trackerGroundTruthPaths");
+        std::vector<std::string> trackerGtPaths;
 
-    if (trackerGtPaths.empty()) {
-        return false;
-    }
-
-    bool threshValExists = settings.hasInt("evalPrecisionThreshold");
-    if (!threshValExists) {
-        LOG("Evaluation Warning", "No MOTA threshold found, using default");
-        trackEvalThreshold = 50;
-    } else {
-        trackEvalThreshold = settings.getInt("evalPrecisionThreshold");
-    }
-
-    for (unsigned int i = 0; i < trackerGtPaths.size(); i++) {
-        TrackerEvaluator* TE = new TrackerEvaluator();
-        bool isTrackEvalInitialized = TE->initialize(trackerGtPaths[i], trackEvalThreshold);
-
-        if (!isTrackEvalInitialized) {
-            trackingEvaluators.push_back(0);
+        if(gtExists) {
+            trackerGtPaths = settings.getStringSeq("trackerGroundTruthPaths");
         } else {
-            trackingEvaluators.push_back(TE);
+            return false;
+        }
+
+        if (trackerGtPaths.empty()) {
+            return false;
+        }
+
+        bool threshValExists = settings.hasInt("evalPrecisionThreshold");
+        if (!threshValExists) {
+            LOG("Evaluation Warning", "No MOTA threshold found, using default");
+            trackEvalThreshold = 50;
+        } else {
+            trackEvalThreshold = settings.getInt("evalPrecisionThreshold");
+        }
+
+        for (unsigned int i = 0; i < trackerGtPaths.size(); i++) {
+            TrackerEvaluator* TE = new TrackerEvaluator();
+            bool isTrackEvalInitialized = TE->initialize(trackerGtPaths[i], trackEvalThreshold);
+
+            if (!isTrackEvalInitialized) {
+                trackingEvaluators.push_back(0);
+            } else {
+                trackingEvaluators.push_back(TE);
+            }
         }
     }
-
     return Algorithm::initialize(settings);
 
 }
@@ -68,12 +73,11 @@ void Evaluation::printToLog()
 
 void Evaluation::process(FrameList& frames)
 {
-
-
-
-    for (unsigned int i = 0; i < frames.getCurrent().getCameras().size(); i++) {
-        if(trackingEvaluators[i]) {
-            trackingEvaluators[i]->process(frames.getCurrent().getCameras()[i]);
+    if(hasTrackerEvaluator) {
+        for (unsigned int i = 0; i < frames.getCurrent().getCameras().size(); i++) {
+            if(trackingEvaluators[i]) {
+                trackingEvaluators[i]->process(frames.getCurrent().getCameras()[i]);
+            }
         }
     }
     return Algorithm::process(frames);

@@ -59,7 +59,7 @@ public:
 private:
 
     std::vector<TrackerEvaluator*> trackingEvaluators;
-
+    bool hasTrackerEvaluator;
     int trackEvalThreshold;
 
 };
