@@ -28,10 +28,10 @@ class MainDebugWindow;
 }
 
 /*!
- * \brief       The MainDebugWindow class is a debug interface to speed-up development
- *              and testing of image processing algorithms.
+ * \brief       The MainDebugWindow class is a debug interface to speed up development,
+ *              testing and validation of image processing algorithms.
  * \version     0.1
- * \date        2013-10-18
+ * \date        2013-12-06
  */
 class MainDebugWindow : public QMainWindow
 {
@@ -39,7 +39,7 @@ class MainDebugWindow : public QMainWindow
 
 public:
     /*!
-     * \brief MainDebugWindow
+     * \brief Constructor
      * \param parent
      */
     explicit MainDebugWindow(QWidget *parent = 0);
@@ -51,19 +51,96 @@ public:
 
     /*!
      * \brief Initializes the GUI with values specified in
-     *  guiConfig.yml
+     * guiConfig.yml.
      */
-    void init();
+    void init(std::string mainConfigFile, std::string guiConfigFile);
 
     /*!
      * \brief The GUI needs full access to DenseKitchen.
      */
     friend class DenseKitchen;
 
+signals:
+    /*!
+     * \brief updateDebugViews is used to send a fresh Frame to all sub-widgets and update their content.
+     * \param currentFrame
+     */
+    void updateDebugViews( Frame currentFrame);
+
+private:
+
+
+    void configureGUI(string guiConfigFile);
+    bool readConfig(std::string filePath);
+    void generateConfig(std::string filePath);
+
+    void popWindow(std::string stepKey, int cameraIndex);
+
+    void updateGuiComponents();
+    void updateCameraSelector();
+    void updateProfiler();
+    void updateProfilerChildren(QStandardItem *parentItem, std::list<debugging::ProfilerEntry> children);
+    void updateLog();
+    void clearLogObject();
+
+    void adaptColumnsToContent(QTreeView* tree, QStandardItemModel* model);
+
+    void restart();
+
 private slots:
     void updateGUI();
 
     void cameraSelectionUpdate(QModelIndex,QModelIndex);
+    void removeDebugViewWidget(std::string identifier);
+
+private:
+    Ui::MainDebugWindow *ui;
+
+    DenseKitchen* program;
+
+    DebugViewGrid* debugViewGrid;
+    MainConfigurationWindow* configWindow;
+    StereoCalibrationWidget* stereoCalibrationWidget;
+    std::map<std::string,DebugViewWidget*> debugViews;
+
+    std::string guiConfigPath;
+    std::string mainConfigPath;
+    cv::FileStorage configFile;
+    std::vector<int> presetCameraNumber;
+    std::vector<std::string> presetStepName;
+
+    bool isRunning;
+    bool popAllWindows;
+
+    QTreeView* cameraTree;
+    QStandardItemModel* cameraItemModel;
+    QItemSelectionModel* cameraSelection;
+    int currentCameraIndex;
+    std::string currentKey;
+
+    QTreeView* logTree;
+    QStandardItemModel* logItemModel;
+    QSortFilterProxyModel* logProxyModel;
+
+    bool autoAdaptLog;
+
+    QTreeView* profilerTree;
+    QStandardItemModel* profilerItemModel;
+    QSortFilterProxyModel* profilerProxyModel;
+
+
+    bool autoAdaptProfiler;
+    int profilerExpandDepth;
+
+    QTimer* timer;
+    int timerDelay;
+
+    cv::VideoWriter videoWriter;
+
+    void keyPressEvent(QKeyEvent *);
+    void closeEvent(QCloseEvent *);
+
+private slots:
 
     void on_runButton_clicked();
     void on_pauseButton_clicked();
@@ -90,73 +167,6 @@ private slots:
     void on_actionRestart_triggered();
     void on_actionConfigure_triggered();
     void on_actionStereoCalibrate_triggered();
-
-public slots:
-    void removeDebugViewWidget(std::string identifier);
-
-signals:
-    void updateDebugViews( Frame currentFrame);
-
-private:
-    Ui::MainDebugWindow *ui;
-    DenseKitchen* program;
-    MainConfigurationWindow* configWindow;
-
-    StereoCalibrationWidget* stereoCalibrationWidget;
-
-    std::map<std::string,DebugViewWidget*> debugViews;
-    bool isRunning;
-    std::string guiConfigPath, mainConfigPath;
-
-    DebugViewGrid* debugViewGrid;
-    std::vector<int> presetCameraNumber;
-    std::vector<std::string> presetStepName;
-
-    QTreeView* cameraTree;
-    QStandardItemModel* cameraItemModel;
-    QItemSelectionModel* cameraSelection;
-
-    void updateCameraSelector();
-    int currentCameraIndex;
-    std::string currentKey;
-    bool popAllWindows;
-
-    QTreeView* logTree;
-    QStandardItemModel* logItemModel;
-    QSortFilterProxyModel* logProxyModel;
-
-    void updateLog();
-    bool autoAdaptLog;
-
-    QTreeView* profilerTree;
-    QStandardItemModel* profilerItemModel;
-    QSortFilterProxyModel* profilerProxyModel;
-
-    void updateProfiler();
-    bool autoAdaptProfiler;
-    int profilerExpandDepth;
-
-    void adaptColumnsToContent(QTreeView* tree, QStandardItemModel* model);
-
-    QImage qImage;
-
-    QTimer* timer;
-    int timerDelay;
-
-    cv::FileStorage configFile;
-    void configureGUI();
-    bool readConfig(std::string filePath);
-    void generateConfig(std::string filePath);
-    void updateGuiComponents();
-    void clearLogObject();
-    void updateProfilerChildren(QStandardItem *parentItem, std::list<debugging::ProfilerEntry> children);
-    void popWindow(std::string stepKey, int cameraIndex);
-    void restart();
-
-    void keyPressEvent(QKeyEvent *);
-    void closeEvent(QCloseEvent *);
-
-    cv::VideoWriter vc;
 };
 
 #endif // MAINDEBUGWINDOW_HPP

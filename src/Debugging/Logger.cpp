@@ -89,7 +89,7 @@ void Logger::reset()
 void Logger::dumpToConsole(void)
 {
     for(std::deque<LogEntry>::iterator it = logFile.begin(); it != logFile.end(); ++it) {
-        std::cerr << it->toString() << std::endl;
+        std::cerr << it->toString() << std::endl << std::endl;
     }
 }
 
