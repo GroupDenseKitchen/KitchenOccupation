@@ -121,7 +121,7 @@ void MainDebugWindow::configureGUI(std::string guiConfigFile)
     }
 
     debugViewGrid = new DebugViewGrid;
-    debugViewGrid->init(2);
+    debugViewGrid->initialize(2);
     debugViewGrid->showMaximized();
 
     // Display preset processingsteps

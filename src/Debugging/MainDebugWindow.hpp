@@ -16,7 +16,6 @@
 
 #include "../DenseKitchen.hpp"
 #include "MainConfigurationWindow.hpp"
-#include "DebugView.hpp"
 #include "DebugViewWidget.hpp"
 #include "DebugViewGrid.hpp"
 #include "StereoCalibrationWidget.hpp"

@@ -10,6 +10,7 @@ namespace Ui {
 class DebugViewWidget;
 }
 
+
 class DebugViewWidget : public QWidget
 {
     Q_OBJECT
