@@ -69,7 +69,7 @@ void DebugViewWidget::storeImage(const cv::Mat &image)
 
 void DebugViewWidget::adaptImageToWidget()
 {
-        if(!matImage.empty()){
+    if(!matImage.empty()){
         float trueRatio = (float) matImage.cols/matImage.rows;
 
         if(windowRatio > trueRatio){
@@ -81,7 +81,7 @@ void DebugViewWidget::adaptImageToWidget()
             int correctedHeight = (int)ceil( (float)windowWidth / trueRatio );
             cv::resize(matImage, resizedImage, cv::Size(windowWidth, correctedHeight));
         }
-        }
+    }
 }
 
 void DebugViewWidget::keyPressEvent(QKeyEvent *e)
