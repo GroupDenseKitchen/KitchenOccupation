@@ -14,9 +14,9 @@ DebugViewGrid::~DebugViewGrid()
     delete ui;
 }
 
-void DebugViewGrid::init(int columns)
+void DebugViewGrid::initialize(int nColumns)
 {
-    maxColumns = columns - 1;
+    maxColumns = nColumns - 1;
     row = 0;
     column = 0;
 }
@@ -55,7 +55,3 @@ void DebugViewGrid::closeEvent(QCloseEvent *e)
 {
     e->accept();
 }
-
-//void DebugViewGrid::resizeEvent(QResizeEvent *e){
-//    e->accept();
-//}
