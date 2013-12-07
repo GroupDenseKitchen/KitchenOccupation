@@ -171,7 +171,7 @@ void MainDebugWindow::generateConfig(std::string filePath){
 void MainDebugWindow::popWindow(std::string stepKey, int cameraIndex){
     DebugViewWidget* debugView = new DebugViewWidget;
     debugView->setAttribute(Qt::WA_DeleteOnClose);
-    debugView->init(stepKey,cameraIndex);
+    debugView->initialize(stepKey,cameraIndex);
 
     connect(this, SIGNAL(updateDebugViews(Frame)),
             debugView, SLOT(updateView(Frame)));
