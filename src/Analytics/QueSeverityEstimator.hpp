@@ -16,7 +16,7 @@ namespace statistics
 {
 
 /*!
- * \brief A struct containing information from each frame needed to determine queue status over time.
+ * \brief A struct the containing information from each frame needed to determine queue status over time.
  */
 struct FrameQueData
 {
@@ -36,26 +36,27 @@ public:
 };
 
 /*!
-    \brief
-    \details ... This class asumes that one instance of the program DenseKitchen is run per room.
+ *  \brief      Process step that aggregates queue visibility over time and uses this information
+ *              to output a stable classification of the current queue severity.
+ *  \details    The calculated queue classification valu (0,1,2) is placed in the current frame object.
  */
 class QueSeverityEstimator : public Algorithm
 {
 public:
     /*!
-        \brief
+     *  \brief
      */
     QueSeverityEstimator();
 
     /*!
-        \brief
-        \details
+     *   \brief
+     *   \details
      */
     bool initialize( configuration::ConfigurationManager &settings ) override;
 
     /*!
-        \brief
-        \details
+     *   \brief
+     *   \details
      */
     void process( FrameList & frames ) override;
 

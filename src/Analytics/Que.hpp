@@ -56,7 +56,9 @@ struct SplineStrip
 };
 
 /*!
- * \brief A directed edge between objects in the queue graph
+ * \brief   A directed edge between objects in the queue graph
+ * \details The cost/length of an edge is determined by the length of the spline from the
+ *          first object/person to the last.
  */
 struct DirectedQueEdge
 {
@@ -92,7 +94,7 @@ struct DirectedQueEdge
 };
 
 /*!
- * \brief A queue
+ * \brief   A queue of persons
  */
 struct Que
 {
