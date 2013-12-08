@@ -16,6 +16,14 @@
  *             Contain persons seen.
  *             Contain all intermediate debuging data.
  */
+
+/*!
+   \brief   Struct for keeping track of people entering the same room from different cameras.
+*/
+struct roomPopulation{
+    int people;
+    std::string roomID;
+};
 class Frame
 {
 public:
@@ -66,11 +74,26 @@ public:
      * \param value New value;
      */
     void setMomentaryFps(double value);
+    /*!
+     * \brief Initialize the room populations.
+     */
+    void initRoomPopulations(std::vector<CameraObject> &_cameras);
+    /*!
+     * \brief Set the room population in a room.
+     */
+    void setPopulationInRoomID(int _newVal, std::string &_currID);
+    /*!
+     * \brief Initialize the room population in a room.
+     */
+    int getPopulationInRoomID(std::string &_currID);
 
 private:
     std::vector<CameraObject> cameras;
 
     double momentaryFps;
+    std::vector<roomPopulation> populations;
+
+    bool hasID(std::string &_currID);
 };
 
 #endif // FRAME_H

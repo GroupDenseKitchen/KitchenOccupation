@@ -98,10 +98,22 @@ public:
      */
     bool hasInclusionMask();
 
+
+    bool hasCheckPointMasks();
+
+    cv::Mat getCheckPointMaskSmall() const;
+    void setCheckPointMaskSmall(const cv::Mat &value);
+
+    cv::Mat getCheckPointMaskMedium() const;
+    void setCheckPointMaskMedium(const cv::Mat &value);
+
+    cv::Mat getCheckPointMaskLarge() const;
+    void setCheckPointMaskLarge(const cv::Mat &value);
+
 private:
     std::deque<Frame> frames;
-    cv::Mat doorMask, exclusionMask, inclusionMask;
-    bool initiatedDoorMask, initiatedExclusionMask;
+    cv::Mat doorMask, exclusionMask, inclusionMask, checkPointMaskSmall, checkPointMaskMedium, checkPointMaskLarge;
+    bool initiatedDoorMask, initiatedExclusionMask, initiatedCheckPointMasks;
 
     double smoothFps; // FPS estimate
 

@@ -21,38 +21,64 @@ public:
     explicit MainConfigurationWindow(QWidget *parent = 0);
     ~MainConfigurationWindow();
 
+    /*!
+     * \brief init
+     * \param _mainProgram
+     * \param _filepath
+     */
     void init(DenseKitchen* _mainProgram , std::string _filepath);
-    void applyChanges();
 
+public slots:
+    /*!
+     * \brief updateWindow
+     * \param currentFrame
+     */
+    void updateWindow(Frame currentFrame);
+
+private:
+    Ui::MainConfigurationWindow *ui;
     DenseKitchen* mainProgram;
     std::string filePath;
 
-    void showImage();
-    void storeImage(const cv::Mat &image);
+    void storeImageLocally(const cv::Mat &image);
 
-    void overlayMask();
-    void drawPolygons(std::string maskType, QVector<QVector<cv::Point>> polygons, cv::Scalar color);
     void drawPolygon(QVector<cv::Point> polygon, cv::Scalar color);
-    void polygonDrawer(cv::Mat targetMat, const cv::Point** polygonPtrPtr, int numberOfPoints[], cv::Scalar color);
+    void drawPolygons(std::string maskType, QVector<QVector<cv::Point>> polygons, cv::Scalar color);
+    void drawPolygonsToMat(cv::Mat targetMat, const cv::Point** polygonPtrPtr, int numberOfPoints[], cv::Scalar color);
+    void drawPolygonsToMasks();
+    void drawCheckPointCircles();
+    void sendMasksToFrameList();
 
-    cv::Mat matImage, imageWithMask, doorMask, exclusionMask, resizedImage;
-    QImage qImage;
-
+    QVector<cv::Point> polygon;
     QVector<QVector<cv::Point>> doorPolygons;
     QVector<QVector<cv::Point>> exclusionPolygons;
-    QVector<cv::Point> polygon;
+    bool drawAsCircle, isDrawingCircle;
+    cv::Point circleCenter;
+    int circleRadius;
+
+    void updateGUIImages();
+
+    cv::Mat matImage;
+    cv::Mat imageWithMask;
+    cv::Mat doorMask;
+    cv::Mat exclusionMask;
+    cv::Mat checkpointMaskSmall;
+    cv::Mat checkpointMaskMedium;
+    cv::Mat checkpointMaskLarge;
+    cv::Mat resizedImage;
+    QImage qImage;
 
     void loadMaskFromFile();
-    cv::FileStorage configFile;
     void storeMask(QVector<QVector<cv::Point> > polygons, std::string nodeName);
     bool readMasks(QVector<QVector<cv::Point> > &polygons, std::string nodeName);
 
-public slots:
-    void updateWindow(Frame currentFrame);
+    cv::FileStorage configFile;
 
-protected:
+    // Events
     void closeEvent(QCloseEvent *);
     void mousePressEvent(QMouseEvent *);
+    void mouseMoveEvent(QMouseEvent *);
+    void mouseReleaseEvent(QMouseEvent *);
     void keyPressEvent(QKeyEvent *);
 
 private slots:
@@ -64,9 +90,9 @@ private slots:
     void on_clearAllButton_clicked();
     void on_cancelButton_clicked();
     void on_applyButton_clicked();
+    void on_addAsCheckpointButton_clicked();
+    void on_circleCheckBox_clicked(bool checked);
 
-private:
-    Ui::MainConfigurationWindow *ui;
 };
 
 #endif // MAINCONFIGURATIONWINDOW_HPP

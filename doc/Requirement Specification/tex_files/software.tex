@@ -1,27 +1,30 @@
 The software part of the system performs all the image processing and analysis needed to detect usage of a room. It will also be cablable of predicting future room occupancy degree based on historical usage. 
 
-A website for the project will be published using the wordpress CMS, it will describe the prject and its participants.
+A website for the project will be published using the wordpress CMS or using GitHubs webpage services, it will describe the project and its participants.
  
 \subsection{External dependencies}
 The software is written using the OpenCV library to handle the image processing, and when possible interfacing with cameras. 
 Any visualization and debugging tools are written using the Qt framework. 
-An HTTP library is used to handle communication with LIUs REST API.
-Cmake and any C++11 capable compiler can be used to compile the source code to a binary.
+OpenNI is used for accessing the Kinect camera. 
+An HTTP library is used to handle communication with LiUs REST API.
+Cmake and any C++11 capable compiler can be used to compile the source code to binary.
 
 The website will be hosted on a standard LAMP stack.
 
 \subsection{Compatibility}
-The software is possible to build for most major plattforms (Windows/OS X). A REST API is used to communicate the results.
+The software is possible to build for most major platforms (Windows/OS X). A REST API is used to communicate the results.
 
 \subsection{Limitations}
-For integrity reasons no personally identifiable information can be stored or reported by the system. As the processing is done on a server there is no hard limit on the computational complexity of the software.
+For integrity reasons no personally identifiable information can be stored or reported by the system. The processing is done locally for each camera on a Raspberry PI or on a remote computer connected via network or USB. Depending on which of these hardware configurations is used, the computational power will differ and therefore limiting or enabling the use of computational-heavy algorithms.  
 
 \subsection{Software Requirements}
 \label{sec:software_req}
 \reqtable
 {	
 	\addreq{The system runs on Windows based plattforms}{1}
-	\addreq{The system runs on OS x}{1}
-	\addreq{The system is modular with respect to the camera manufacturer and/or network API}{1}
+	\addreq{The system runs on OS X}{1}
+	\addreq{\textbf{Added 2013-11-27:} The system runs on Raspberry PI}{2}
+	\addreq{The system is modular with respect to the camera manufacturer and/or network API.\newline
+			\textbf{Revised 2013-11-27:} The system is modular with respect to any depth sensor and network API}{1}
 	\addreq{The system must not store image data}{1}
 }

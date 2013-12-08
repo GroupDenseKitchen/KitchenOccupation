@@ -14,11 +14,11 @@
 #include "ImageProcessing/BackgroundModelMoG.hpp"
 #include "ImageProcessing/ForegroundRegionExtractorDefault.hpp"
 #include "ImageProcessing/TrackingBruteForce.hpp"
+#include "ImageProcessing/TrackingBruteForceLines.hpp"
 #include "ImageProcessing/EntryExitCounter.hpp"
-#include "ImageProcessing/QueDetector.hpp"
-
 #include "ImageProcessing/CircleDetection.hpp"
-
+#include "ImageProcessing/kinectSegmentation.hpp"
+#include "ImageProcessing/StereoBlockMatching.hpp"
 #include "Analytics/Analytics.hpp"
 #include "Analytics/FlowEstimator.hpp"
 #include "Analytics/Evaluation.hpp"
