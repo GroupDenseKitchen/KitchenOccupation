@@ -14,8 +14,14 @@ namespace image_processing
 {
 
 /*!
- *  \brief   Process step which detects circles in the image that are meant to be
- *           indicative of th presence of human heads.
+ *  \brief      Process step which detects circles in the image that are meant to be
+ *              indicative of the presence of human heads.
+ *  \details    The approach is based on [Gardel, A.; Bravo, I.; Jimenez, P.; Lazaro, J.L.;
+ *              Torquemada, A. "Real Time Head Detection for Embedded Vision Modules",
+ *              Intelligent Signal Processing, 2007. WISP 2007. IEEE International Symposium on,
+ *              On page(s): 1 - 6]. Although effective for simple cases we did not find the approach
+ *              to be as usefull as hinted in the paper for more complex senarios. The algorithm class
+ *              is therefore not completed.
  */
 class CircleDetection : public Algorithm
 {
