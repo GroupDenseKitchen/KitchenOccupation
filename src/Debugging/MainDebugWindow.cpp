@@ -150,8 +150,8 @@ void MainDebugWindow::updateGUI()
     // Debug
     if(!vc.isOpened()) {
         // Video recorder
-        if(program->frames.size() > 0 && program->frames.getCurrent().getCameras().back().hasImage("rawImage"))
-            vc = cv::VideoWriter("debugImage.avi", CV_FOURCC('D','I','V','X'), 30, program->frames.getCurrent().getCameras().back().getImage("rawImage").size());
+        // if(program->frames.size() > 0 && program->frames.getCurrent().getCameras().back().hasImage("rawImage"))
+           // vc = cv::VideoWriter("debugImage.avi", CV_FOURCC('D','I','V','X'), 30, program->frames.getCurrent().getCameras().back().getImage("rawImage").size());
 
     }
     else

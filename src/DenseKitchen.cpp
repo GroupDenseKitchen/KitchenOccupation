@@ -99,6 +99,7 @@ bool DenseKitchen::singleIteration() {
                     PROFILER_END();
                     //evaluation.printToLog(); // Prints MOTA & MOTP for every frame.
                 }
+                //network.broadcastData(currentFrame);
 
             } else {
                 if (isEvalInitialized) {
