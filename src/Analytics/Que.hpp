@@ -113,11 +113,6 @@ struct Que
      * \brief All the directed edges in the queue
      */
     std::vector<DirectedQueEdge> queEdges;
-
-    /*!
-     * \brief Constructor
-     */
-    Que();
 };
 
 }

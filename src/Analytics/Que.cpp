@@ -2,8 +2,5 @@
 
 namespace statistics
 {
-Que::Que()
-{
-}
 
 }
