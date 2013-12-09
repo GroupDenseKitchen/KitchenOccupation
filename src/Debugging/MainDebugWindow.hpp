@@ -18,7 +18,6 @@
 #include "MainConfigurationWindow.hpp"
 #include "DebugViewWidget.hpp"
 #include "DebugViewGrid.hpp"
-#include "StereoCalibrationWidget.hpp"
 
 #include <opencv2/core/core.hpp>
 
@@ -99,7 +98,6 @@ private:
 
     DebugViewGrid* debugViewGrid;
     MainConfigurationWindow* configWindow;
-    StereoCalibrationWidget* stereoCalibrationWidget;
     std::map<std::string,DebugViewWidget*> debugViews;
 
     std::string guiConfigPath;
@@ -165,7 +163,6 @@ private slots:
     void on_actionPause_triggered();
     void on_actionRestart_triggered();
     void on_actionConfigure_triggered();
-    void on_actionStereoCalibrate_triggered();
 };
 
 #endif // MAINDEBUGWINDOW_HPP

@@ -21,7 +21,7 @@ DebugViewWidget::~DebugViewWidget()
     delete ui;
 }
 
-void DebugViewWidget:: init(const std::string processStepName, int camNumber)
+void DebugViewWidget:: initialize(const std::string processStepName, int camNumber)
 {
     processStep = processStepName;
     cameraNumber = camNumber;
@@ -30,6 +30,24 @@ void DebugViewWidget:: init(const std::string processStepName, int camNumber)
                    " Process Step: " + processStepNameQ);
     ui->label->setText("Camera: " + QString::number(cameraNumber) +
                        " Process Step: " + processStepNameQ);
+}
+
+void DebugViewWidget::showImage()
+{
+    if(!resizedImage.empty()){
+        qImage = QImage( resizedImage.data,
+                         resizedImage.cols,
+                         resizedImage.rows,
+                         resizedImage.step,
+                         QImage::Format_RGB888);
+
+        ui->imageLabel->setPixmap(QPixmap::fromImage(qImage));
+    }
+}
+
+std::string DebugViewWidget::getIdentifier( )
+{
+     return std::to_string(cameraNumber) + processStep;
 }
 
 void DebugViewWidget::updateView( Frame currentFrame)
@@ -82,29 +100,6 @@ void DebugViewWidget::adaptImageToWidget()
             cv::resize(matImage, resizedImage, cv::Size(windowWidth, correctedHeight));
         }
     }
-}
-
-void DebugViewWidget::keyPressEvent(QKeyEvent *e)
-{
-    e->ignore();
-}
-
-void DebugViewWidget::showImage()
-{
-    if(!resizedImage.empty()){
-        qImage = QImage( resizedImage.data,
-                         resizedImage.cols,
-                         resizedImage.rows,
-                         resizedImage.step,
-                         QImage::Format_RGB888);
-
-        ui->imageLabel->setPixmap(QPixmap::fromImage(qImage));
-    }
-}
-
-std::string DebugViewWidget::getIdentifier( )
-{
-     return std::to_string(cameraNumber) + processStep;
 }
 
 void DebugViewWidget::closeEvent(QCloseEvent * event)

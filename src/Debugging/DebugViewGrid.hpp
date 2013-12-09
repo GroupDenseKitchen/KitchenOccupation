@@ -57,7 +57,7 @@ private:
     std::vector<DebugViewWidget*> gridWidgets;
 
     void keyPressEvent(QKeyEvent *);
-    void closeEvent(QCloseEvent *e);
+    void closeEvent(QCloseEvent *);
 };
 
 #endif // DEBUGVIEWGRID_H

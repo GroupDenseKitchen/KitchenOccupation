@@ -13,20 +13,34 @@ namespace Ui {
 class MainConfigurationWindow;
 }
 
+/*!
+ * \brief The MainConfigurationWindow class is a window where you can cnfigure
+ * different settings in the system. Especially masks used to define doors and
+ * exceptions for a camera. The door mask is used to check if a person is
+ * currently in a doorway and the exception mask is used to speed up and harden
+ * the system by defining ares that are not interesrting for the system.
+ */
 class MainConfigurationWindow : public QWidget
 {
     Q_OBJECT
 
 public:
+    /*!
+     * \brief Constructor
+     */
     explicit MainConfigurationWindow(QWidget *parent = 0);
+
+    /*!
+     * \brief Destructor
+     */
     ~MainConfigurationWindow();
 
     /*!
-     * \brief init
-     * \param _mainProgram
-     * \param _filepath
+     * \brief initialize sets up the \ref MainConfigurationWindow
+     * \param mainProgram
+     * \param filepath
      */
-    void init(DenseKitchen* _mainProgram , std::string _filepath);
+    void initialize(DenseKitchen* mainProgram , std::string filepath);
 
 public slots:
     /*!
