@@ -8,7 +8,6 @@ namespace kinect
 
 KinectHandler::KinectHandler()
 {
-    //TODO: Check if this needs to be expanded..
 }
 
 KinectHandler::~KinectHandler()
@@ -23,9 +22,11 @@ bool KinectHandler::initialize(configuration::ConfigurationManager& settings)
     std::uint32_t timestamp = 0;
     if (freenect_sync_get_depth( (void**)&depthData, &timestamp, 0, FREENECT_DEPTH_11BIT) ) {
         nDevices = 0;
+        std::cout << "Couldn't read from kinect.." << std::endl;
         return false;
     } else {
         nDevices = 1;
+        std::cout << "Started reading from kinect.." << std::endl;
         return true;
     }
 }
@@ -45,7 +46,7 @@ KinectFrame* KinectHandler::readFrame(int deviceID)
         if(depthData[i] == 2047) {
             depthImage.data[i] = 0;
         } else {
-            depthImage.data[i] = (std::uint8_t)(depthData[i]/8);
+            depthImage.data[i] = static_cast<std::uint8_t>(depthData[i]/4);
         }
     }
     //frame->depthImage = depthImage;
@@ -66,7 +67,6 @@ KinectFrame* KinectHandler::readFrame(int deviceID)
 
 int KinectHandler::getnDevices()
 {
-	//TODO stub
 	return nDevices;
 }
 
