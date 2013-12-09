@@ -5,13 +5,11 @@ namespace network
 
 Network::Network()
 {
-    nwam = new QNetworkAccessManager;
+    //nwam = new QNetworkAccessManager;
 }
 
 Network::~Network()
 {
-    //TODO stub
-    delete nwam;
 }
 
 bool Network::initialize(configuration::ConfigurationManager& settings)
@@ -21,7 +19,7 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
         LOG("Network Warning", "webServerUrl not specified");
     } else {
         std::string url = settings.getString("webServerUrl");
-        serverUrl.fromUserInput(QString(url.c_str()));
+        //serverUrl.fromUserInput(QString(url.c_str()));
     }
 
 
@@ -136,6 +134,7 @@ Frame* Network::dequeFrame()
 
 void Network::broadcastData(Frame *frame)
 {
+/*
     QNetworkRequest request(serverUrl);
     //request.setHeader(QNetworkRequest::ContentTypeHeader,"someTexts");
 
@@ -149,6 +148,8 @@ void Network::broadcastData(Frame *frame)
     QNetworkReply *reply = nwam->deleteResource(request);
     //QNetworkReply *reply = nwam->post(request,data);
     qDebug() << reply->error();
+
+*/
     return;
 
 }

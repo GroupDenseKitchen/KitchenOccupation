@@ -37,7 +37,7 @@ bool TrackerEvaluator::initialize(std::string groundTruthPath, int precisionThre
 
     initSuccess = readXML2FrameList(groundTruthPath.c_str());
     if(!initSuccess)
-        LOG("Tracking Evaluation Error", "Failed to read ground truth file at: " << groundTruthPath)
+//        LOG("Tracking Evaluation Error", "Failed to read ground truth file at: " << groundTruthPath)
     return initSuccess;
 }
 
@@ -103,7 +103,7 @@ bool TrackerEvaluator::readXML2FrameList(const char* fileName)
     }
 
 
-    for (vector<vector<Object>>::iterator i = groundTruth.begin(); i != groundTruth.end(); i++)
+    for (vector<vector<Object> >::iterator i = groundTruth.begin(); i != groundTruth.end(); i++)
     {
         numberOfObjects.push_back( (int)i->size() );
     }
@@ -113,8 +113,8 @@ bool TrackerEvaluator::readXML2FrameList(const char* fileName)
 
 void TrackerEvaluator::printToLog(unsigned int cameraIndex)
 {
-    LOG("Evaluation Tracking", "MOTA value of camera " + to_string(cameraIndex) + " is: " + to_string(motaValue));
-    LOG("Evaluation Tracking", "MOTP value of camera " + to_string(cameraIndex) + " is: " + to_string(motpValue));
+  //  LOG("Evaluation Tracking", "MOTA value of camera " + to_string(cameraIndex) + " is: " + to_string(motaValue));
+  //  LOG("Evaluation Tracking", "MOTP value of camera " + to_string(cameraIndex) + " is: " + to_string(motpValue));
 }
 
 // This is magic in it's purest form, and also proof that
@@ -180,7 +180,7 @@ void TrackerEvaluator::process(CameraObject& cam)
         // Objects without correspondance
         // Find matching hypothesis, allowing only 1-1 match
         // Alg part 2.1"
-        multimap<double, pair<int, int>> distMap;
+        multimap<double, pair<int, int> > distMap;
         // Alg part 2.2"
         // Create map with the distance from all objects to all hypothesis
         for( vector<Object>::iterator truObj = groundTruth.at(frameCounter).begin(); truObj != groundTruth.at(frameCounter).end(); truObj++)
@@ -194,7 +194,7 @@ void TrackerEvaluator::process(CameraObject& cam)
                                        std::pow(truObj->boundingBox.y - hypObj->boundingBox.y, 2));
                     if (distance < precisionThreshold)
                     {
-                        distMap.emplace(distance, make_pair(truObj->id, hypObj->id));
+                        //distMap.emplace(distance, make_pair(truObj->id, hypObj->id));
                     }
             }
         }
@@ -226,14 +226,14 @@ void TrackerEvaluator::process(CameraObject& cam)
             // Alg part 3.4.4
             frameDistance += (float)distMap.begin()->first;
             // Alg part 3.4.5
-            for ( multimap<double, pair<int, int>>::iterator it = distMap.begin(); it != distMap.end();)
+            for ( multimap<double, pair<int, int> >::iterator it = distMap.begin(); it != distMap.end();)
             {
                 // Alg part 3.5
                 if ( it->second.first == obID)
                 {
                     // Alg part 3.6
                     // It is not allowed to remove the object that the iterator is pointing at
-                    multimap<double, pair<int, int>>::iterator itTemp = it;
+                    multimap<double, pair<int, int> >::iterator itTemp = it;
                     it++;
                     distMap.erase(itTemp);
                 }

@@ -15,7 +15,7 @@ Evaluation::~Evaluation()
 bool Evaluation::initialize(configuration::ConfigurationManager &settings)
 {
     if (!settings.hasBool("runFromFile") || !settings.getBool("runFromFile")) {
-        LOG("Evaluation", "Running from live stream, evaluation unavailable.");
+        //LOG("Evaluation", "Running from live stream, evaluation unavailable.");
         return false;
     }
 
@@ -34,7 +34,7 @@ bool Evaluation::initialize(configuration::ConfigurationManager &settings)
 
     bool threshValExists = settings.hasInt("evalPrecisionThreshold");
     if (!threshValExists) {
-        LOG("Evaluation Warning", "No MOTA threshold found, using default");
+        //LOG("Evaluation Warning", "No MOTA threshold found, using default");
         trackEvalThreshold = 50;
     } else {
         trackEvalThreshold = settings.getInt("evalPrecisionThreshold");

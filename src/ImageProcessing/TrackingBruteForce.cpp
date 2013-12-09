@@ -103,7 +103,9 @@ namespace image_processing
     }
 
     void TrackingBruteForce::addNew(std::list<Object> & newObjects, std::vector<Object> & destination) {
-        for(Object & object : newObjects) {
+        for(std::vector<Object>::iterator oIter = newObjects.begin(); oIter != newObjects.end(); ++newObjects)
+	//for(Object & object : newObjects) {
+	Object object *oIter;
             object.lifeSpan = 1;
             object.enter();
             destination.push_back(object);

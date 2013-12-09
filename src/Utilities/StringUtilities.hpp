@@ -7,3 +7,4 @@
 void replaceString(std::string & str, std::string toReplace, std::string replaceWith);
 std::string getImgType(int imgTypeInt);
 #endif
+

@@ -33,14 +33,14 @@ class Analytics : public Algorithm
            \brief   Initialize the Analytics module.
            \details Configurates which algorithms to be applied in which order.
         */
-        bool initialize(configuration::ConfigurationManager & settings) override;
+        bool initialize(configuration::ConfigurationManager & settings);
 
         void reset();
 
         /*!
            \brief   Perform all Statistics algorithms in order.
         */
-        void process(FrameList &frames) override;
+        void process(FrameList &frames);
 
     private:
 

@@ -58,8 +58,8 @@ private:
 
     vector<int> numberOfObjects, matches, misses, falsePositive, mismatches;
     vector<float> distance;
-    vector<map<int, int>> correspondance;
-    vector<vector<Object>> groundTruth;
+    vector<map<int, int> > correspondance;
+    vector<vector<Object> > groundTruth;
     vector<Object> hypothesisList;
 
     CameraObject* camera;

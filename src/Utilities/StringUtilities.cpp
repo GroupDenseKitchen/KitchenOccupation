@@ -33,3 +33,15 @@ std::string getImgType(int imgTypeInt)
     }
     return "unknown image type";
 }
+
+
+#ifdef __linux__
+namespace std{
+	template<typename Type>
+	string to_string(Type& v){
+		stringstream ss;
+		ss << v;
+		return ss.str();
+	}
+}
+#endif

@@ -1,7 +1,5 @@
 #include "KinectHandlerFreenect.hpp"
 
-#include <QDebug>
-
 
 namespace kinect
 {

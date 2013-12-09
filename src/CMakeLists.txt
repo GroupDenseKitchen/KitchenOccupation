@@ -1,13 +1,19 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 2.8.8)
+CMAKE_MINIMUM_REQUIRED (VERSION 2.8.7)
 # Dense kitchen project
 PROJECT(dense_kitchen)
 
-IF(APPLE)
-    # Apple specific
-    MESSAGE( STATUS "System: Apple")
-    INCLUDE_DIRECTORIES(/usr/local/include/)
-    INCLUDE_DIRECTORIES(/usr/local/include/libfreenect)
-    SET (CMAKE_CXX_FLAGS "-stdlib=libc++ -std=c++11")
+IF(UNIX)
+    # unix specific
+    MESSAGE( STATUS "System: UNIX")
+    IF(APPLE)
+    	INCLUDE_DIRECTORIES(/usr/local/include/)
+    	INCLUDE_DIRECTORIES(/usr/local/include/libfreenect)
+    	SET (CMAKE_CXX_FLAGS "-stdlib=libc++ -std=c++11")
+	MESSAGE( STATUS "System: APPLE" )
+    ELSE()
+	
+	MESSAGE( STATUS "System Linux" )
+    ENDIF()
 ENDIF()
 
 IF(WIN32)
@@ -50,7 +56,7 @@ IF(WIN32)
 ENDIF()
 
 # Tell CMake to run moc when necessary:
-set(CMAKE_AUTOMOC ON)
+#set(CMAKE_AUTOMOC ON)
 # As moc files are generated in the binary dir, tell CMake
 # to always look for includes there:
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -60,16 +66,16 @@ CONFIGURE_FILE(../conf/dense_conf.yml dense_conf.yml COPYONLY)
 CONFIGURE_FILE(../conf/guiConfig.yml guiConfig.yml COPYONLY)
 
 # Load external libraries
-find_package(Qt5 COMPONENTS Core Gui Widgets Network REQUIRED)
+#find_package(Qt5 COMPONENTS Core Gui Widgets Network REQUIRED)
 find_package(OpenCV REQUIRED HINTS ${OPENCV_HINTS})
 MESSAGE( STATUS "OPENCV_INCLUDE_DIRS: " ${OpenCV_INCLUDE_DIRS} )
 MESSAGE( STATUS "OPENCV_LIB_DIR: " ${OpenCV_LIB_DIR} )
 
 # Include
-INCLUDE_DIRECTORIES(${Qt5Core_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES(${Qt5Gui_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES(${Qt5Widgets_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES(${Qt5Network_INCLUDE_DIRS})
+#INCLUDE_DIRECTORIES(${Qt5Core_INCLUDE_DIRS})
+#INCLUDE_DIRECTORIES(${Qt5Gui_INCLUDE_DIRS})
+#INCLUDE_DIRECTORIES(${Qt5Widgets_INCLUDE_DIRS})
+#INCLUDE_DIRECTORIES(${Qt5Network_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${OpenCV_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${OPENNI2_INCLUDE_DIR})
 
@@ -99,4 +105,4 @@ TARGET_LINK_LIBRARIES (dense_kitchen
 
 # Activate Qt for project
 # Must be the last line in this file, else { FAIL }
-qt5_use_modules(dense_kitchen Core Gui Widgets Network)
+#qt5_use_modules(dense_kitchen Core Gui Widgets Network)

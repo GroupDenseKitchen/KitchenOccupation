@@ -40,8 +40,13 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
 void BackgroundModelMoG::process(FrameList &frames)
  {
      int n = 0;
-     for(CameraObject & camera : frames.getCurrent().getCameras())
+
+     for(std::vector<CameraObject>::iterator camiter=frames.getCurrent().getCameras().begin(); camiter != frames.getCurrent().getCameras().end(); ++camiter)
+     //for(CameraObject & camera : frames.getCurrent().getCameras())
      {
+	CameraObject camera = *camiter;
+
+
          if(!camera.hasImage("rawImage"))
          {
              LOG("ImageProcessing Error", "Image \"rawImage\" not set in current frame!");

@@ -187,7 +187,7 @@ class ConfigurationManager
         std::map<std::string, int> intBoolMap;
         std::map<std::string, double> doubleMap;
         std::map<std::string, std::string> stringMap;
-        std::map<std::string, std::vector<std::string>> stringSeqMap;
+        std::map<std::string, std::vector<std::string> > stringSeqMap;
 
 
 

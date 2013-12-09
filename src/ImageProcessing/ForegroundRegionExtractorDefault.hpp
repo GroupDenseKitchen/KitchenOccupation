@@ -33,12 +33,12 @@ public:
        \details Returns false if initialization fails,
                 e.g. if a required variable is not set in the config file.
     */
-    bool initialize(configuration::ConfigurationManager &settings) override;
+    bool initialize(configuration::ConfigurationManager &settings);
 
     /*!
        \brief   Performs the foreground modulation.
     */
-    void process(FrameList &frames) override;
+    void process(FrameList &frames);
 
 private:
     cv::Mat foregroundMask;

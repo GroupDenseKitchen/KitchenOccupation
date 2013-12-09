@@ -8,12 +8,15 @@
 
 #ifdef __APPLE__
     #include "KinectHandlerFreenect.hpp"
-#else
+#endif
+#ifdef  __linux__
+	#include "KinectHandlerFreenect.hpp"
+#endif
+
+#ifdef __WINDOWS__
     #include "KinectHandlerOpenNi.hpp"
 #endif // ifdef __APPLE__
 
-#include <QtNetwork/QtNetwork>
-#include <QByteArray>
 
 /*!
  *  \brief     Network contains all network and camera i/o functionality.
@@ -81,9 +84,9 @@ private:
     Timer timer;
     Frame nextFrame;
     std::vector<cv::VideoCapture> streams;
-    QUrl serverUrl;
+    //QUrl serverUrl;
 
-    QNetworkAccessManager* nwam;
+    //QNetworkAccessManager* nwam;
 };
 
 }

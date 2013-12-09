@@ -12,7 +12,7 @@ bool Algorithm::initialize(configuration::ConfigurationManager & settings) {
         PROFILER_START(algorithmTag[n]+" initialization");
         if(!algorithms[n]->initialize(settings)) {
             isInitialized = false;
-            LOG(algorithmTag[n]+" initialization error", algorithmTag[n] << " initialization failed!");
+            //LOG(algorithmTag[n]+" initialization error", algorithmTag[n] << " initialization failed!");
         } else {
             algorithms[n]->isInitialized = true;
         }
@@ -39,7 +39,7 @@ bool Algorithm::populateSubAlgorithms(configuration::ConfigurationManager& setti
                 if(settings.hasStringSeq(*algorithmName)) {
                     addAlgorithm(*algorithmName+" [empty]", new Algorithm());
                 } else {
-                    LOG("ImageProcessor initialize error", "Algorithm \"" << *algorithmName << "\" not found! Unregistered or misspelled?");
+              //      LOG("ImageProcessor initialize error", "Algorithm \"" << *algorithmName << "\" not found! Unregistered or misspelled?");
                     isSuccessful = false;
                 }
             }
@@ -59,7 +59,7 @@ void Algorithm::process(FrameList & frames) {
             algorithms[n]->process(frames);
             PROFILER_END();
         } else {
-            LOG(algorithmTag[n]+" process error", algorithmTag[n] << " must be initialized befor it is executed!");
+           // LOG(algorithmTag[n]+" process error", algorithmTag[n] << " must be initialized befor it is executed!");
         }
     }
 }

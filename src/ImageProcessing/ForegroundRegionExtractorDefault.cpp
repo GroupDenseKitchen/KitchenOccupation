@@ -21,8 +21,10 @@ bool ForegroundRegionExtractorDefault::initialize(configuration::ConfigurationMa
 
 void ForegroundRegionExtractorDefault::process(FrameList &frames)
 {
-    for(CameraObject & camera : frames.getCurrent().getCameras())
+    for(std::vector<CameraObject>::iterator camIter = frames.getCurrent().getCameras().begin(); camIter != frames.getCurrent().getCameras().end(); ++camIter)
+    //for(CameraObject & camera : frames.getCurrent().getCameras())
     {
+	CameraObject camera = *camIter;	
         if(!camera.hasImage("foregroundMask"))
         {
             LOG("ImageProcessing Error", "Image \"foregroundMask\" not set in current frame!");

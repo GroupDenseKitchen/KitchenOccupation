@@ -1,4 +1,3 @@
-#include "Debugging/MainDebugWindow.hpp"
 #include "Debugging/Logger.hpp"
 #include "DenseKitchen.hpp"
 
@@ -8,10 +7,14 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainDebugWindow debugProgram;
-    debugProgram.init();
-    debugProgram.show();
+    //QApplication a(argc, argv);
+    //MainDebugWindow debugProgram;
+    //debugProgram.init();
+    //debugProgram.show();
 
-    return a.exec();
+   DenseKitchen dk = DenseKitchen(argc,argv);
+
+   return 0;
+
+    //return a.exec();
 }

@@ -32,14 +32,14 @@ public:
        \brief   Initialize all image processing algorithms.
        \details Returns false if any of the sub algorithms fail during their initialization.
     */
-    bool initialize(configuration::ConfigurationManager & settings) override;
+    bool initialize(configuration::ConfigurationManager & settings);
 
     void reset();
 
     /*!
        \brief   Perform all image processing algorithms in order.
     */
-    void process(FrameList &frames) override;
+    void process(FrameList &frames);
 };
 }
 

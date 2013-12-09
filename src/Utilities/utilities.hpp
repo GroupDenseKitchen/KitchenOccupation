@@ -16,6 +16,7 @@
 #include <deque>
 #include <map>
 
+
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -25,5 +26,17 @@
 #include <opencv2/opencv.hpp>
 
 #include "../Debugging/Logger.hpp"
+
+
+#ifdef __linux__
+namespace std{
+        template<typename Type>
+        string to_string(Type v){
+                stringstream ss;
+                ss << v;
+                return ss.str();
+        }
+}
+#endif
 
 #endif

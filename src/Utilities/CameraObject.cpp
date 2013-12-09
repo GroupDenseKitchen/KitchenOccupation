@@ -25,7 +25,7 @@ bool CameraObject::hasImage(std::string tag)
 cv::Mat CameraObject::getImage(std::string tag)
 {
     if(!hasImage(tag))
-        LOG("Frame CameraObject Error", "No image tagged \"" << tag << "\" exist!");
+        //LOG("Frame CameraObject Error", "No image tagged \"" << tag << "\" exist!");
     return images[tag];
 }
 

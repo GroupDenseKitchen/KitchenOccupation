@@ -26,14 +26,14 @@ public:
     /*!
        \brief   Performs the background modulation.
     */
-    void process(FrameList &frames) override;
+    void process(FrameList &frames);
 
     /*!
        \brief   Initialize the algorithm.
        \details Returns false if initialization fails,
                 e.g. if a required variable is not set
     */
-    bool initialize(configuration::ConfigurationManager &conf) override;
+    bool initialize(configuration::ConfigurationManager &conf);
 
 private:
     int cameraAmount;
