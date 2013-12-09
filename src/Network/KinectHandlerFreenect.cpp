@@ -13,7 +13,7 @@ KinectHandler::KinectHandler()
 
 KinectHandler::~KinectHandler()
 {
-    //TODO stub
+    std::cout << "Shutting down freenect" << std::endl;
 }
 
 bool KinectHandler::initialize(configuration::ConfigurationManager& settings)
@@ -33,7 +33,8 @@ bool KinectHandler::initialize(configuration::ConfigurationManager& settings)
 KinectFrame* KinectHandler::readFrame(int deviceID)
 {
     KinectFrame* frame = new KinectFrame;
-    //Depth
+
+    // ------------ Depth ---------------
     std::uint16_t *depthData = 0;
     if (freenect_sync_get_depth( (void**)&depthData, &frame->timestamp, 0, FREENECT_DEPTH_11BIT) ) {
         LOG( "KinectHandler","Error reading from kinnect. Is it connected?" );
@@ -50,7 +51,7 @@ KinectFrame* KinectHandler::readFrame(int deviceID)
     //frame->depthImage = depthImage;
     cv::cvtColor(depthImage,frame->depthImage,CV_GRAY2BGR);
 
-    //BGR
+    // ------------- BGR -----------------
     std::uint8_t *rgbData = 0;
     std::uint32_t timestampRgb;
     if ( freenect_sync_get_video((void**)&rgbData, &timestampRgb, 0, FREENECT_VIDEO_RGB) ) {
