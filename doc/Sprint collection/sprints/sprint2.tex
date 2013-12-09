@@ -1,0 +1,112 @@
+\section{Review of Sprint 2}
+\label{sec:sprint2}
+\large Period: 2013-11-04 -- 2013-11-18 \\ 
+\large Est. time: 295 hours. (Roughly 42 hours per person, meetings (6 hours per person) not included.)
+\large Time spent: 245 hours. (Meetings included.)
+
+\subsection{Sprint backlog}
+The main focus of this sprint is to get a minimal case implementation that meet all requirements in the specification of requirements. The initials of the person responsible for each specific sprint item is shown in boldface in the rightmost column of the table.
+
+\subsection{Backlog items from previous sprints}
+These are the items created in the previous sprint that were carried over directly to this one
+
+\subsubsection{Improve foreground segmentation}
+Both performance and computation time of the foreground segmentation needs to improve in order to make it useful.
+This item was created during \textbf{sprint 1} and is represented in this sprint as item number \textbf{10}.
+
+\subsubsection{Ground truth labeling}
+In order to be able to present projects result with some form of performance measurement ground truth data, as well as evaluation code has to be created.
+This item was created during \textbf{sprint 1} and is represented by sprint item number \textbf{4}. 
+
+\newpage
+
+\subsection{Sprint plan table}
+
+\itemtable
+{
+	\additem{Explain and visualize the system design and how to continue building on it. The explanation is to be published on the group Github pages.}{\textbf{NW}, MT}
+	\additem{Installation/Configuration GUI. Adds possibility to set what image regions should be excluded from the image processing, where do people leave/enter the image plane.}{\textbf{AS}, MT}
+	\additem{Gather test data from realistic environments (e.g. CYD-poolen) and label these.}{\textbf{EF}, AS}
+	\additem{Add net flow estimation to the statistics module.}{\textbf{EF}, MR}
+	\additem{Make the system more robust against illumination. OpenCV settings? Better background model. Shut down dynamic exposure/gain in camera? normalized pixels? (make the system entirely intensity independent.)}{\textbf{MT}, MS}
+	\additem{Handle people standing still. (Worst case: rewrite background model. Best case: feed OpenCV with a bit mask.)}{\textbf{EF}, AS}
+	\additem{Add queue detection (Requires \textbf{6})}{\textbf{NW}, GH}
+	\additem{Gather more information about methods from different computer vision papers.}{All}
+	\additem{Simple classifier of humans from above.}{\textbf{NW}, GH}
+	\additem{Improve foreground segmentation, allowing more precise people detection, especially when people are close together.}{\textbf{GH}, MR}
+	\additem{More sophisticated error measurement for how probable it is that a previous object and a current one are the same.}{\textbf{NW}, MT}
+	\additem{Use a video stream that is in real time from a camera as input to the system}{\textbf{MS}, AS}
+	\additem{Update and "renegotiate" requirement specification (Power over ethernet camera no longer an option.)}{\textbf{MR}, MS}
+	\additem{Handle one camera over each door to the same room and keep a consistent count of hte number of people in the room (Net flow estimation upgrade, making \textbf{4} work using several cameras.)}{\textbf{EF}, MR}
+	\additem{Handle multiple video files as separate cameras.}{\textbf{MS}}
+	\additem{Collect 3D data set. One set viewing a room with people moving and another with one camera above the door and an other looking towards the door.}{\textbf{EF}, MR}
+	\additem{Create system for labeling and reading ground truth of people count. (in/out)}{\textbf{MR}, MS}
+	\additem{Finalize the sprint review of sprint 1 and plan of sprint 2 (this docuement and submit these to the supervisor.)}{\textbf{MS}}
+
+		
+}
+\newpage
+
+\subsection{Result}
+The results from this sprint were not the ones we hoped for as five items are marked as not done, and several others are marked as not tested or have some small issues left. In total 7 out of 16 items are not finalized, which is not good enough. Time estimates were probably accurate, however the amount of time available to group members was exaggerated, hence the difference between the plan and the time actually spent.
+
+\subsubsection{Solutions we ended up using}
+We tried the OpenCV hough circles function with tuning, however it was not good enough for our application, meaning that we will need to implement circle detection on our own. This was also the reason item number 9 was not finished on time. The OpenCV hough circles functon was tried out on images with removed background (using the existing BackgroundModelMOG2 background subtractor.) Point descriptors for simple human classification were also evaluated without success.
+
+\subsubsection{What did we do well?}
+Several relevant papers solving the problem were found. This allowed for good re-organization of the work to both solve the new problems as well as meeting changed demands in terms of available hardware.
+
+\subsubsection{What improvements are necessary?}
+The most important improvement that needs to be made is to get better at working in parallel to try different approaches to the problem, together with prioritizing the tasks in a better way. The most important thing at the moment is to focus on the goal of the project, which is making sure it is possible to deliver a system that can count people passing under a doorway with reasonable accuracy at the time of the deadline.
+
+\newpage
+
+\resulttable
+{
+	\addresult{Done, but an overview image is missing.}{NW, MT}
+	\addresult{Done.}{AS}
+	\addresult{Done, but better data need to be gathered as the current data set is out of focus at head level.)}{AS, MT, MS, NW}
+	\addresult{Done. (in/out flow is estimated.)}{EF}
+	\addresult{Done. Exposure time is now constant and 50Hz noise is removed.}{AS, EF}
+	\addresult{Done, with a naive implementation that should be improved once the segmentation improves.}{EF}
+	\addresult{Developed, however it is untuned, untested and not inserted into the system, as better tracking/segmentation is required to test this properly.}{NW, GH}
+	\addresult{Done. Papers seem very useful, and have been studied.}{MS, NW, MR}
+	\addresult{Not done. better data set required.}{NW}
+	\addresult{Not done, the OpenCV function does not perform good enough.}{GH, MR}
+	\addresult{Slightly better but not good enough to work alone, and will probably have to be combined with some form of human detector.}{NW}
+	\addresult{Done.}{MS}
+	\addresult{Not finalized, more discussions}{MS}
+	\addresult{Not done.}{EF}
+	\addresult{Done.}{MS}
+	\addresult{Not done.}{None}
+	\addresult{Not done. Labeling program is complete, but integration of the evaluation is not complete.}{MR, MS}
+	\addresult{Done.}{MS}	
+
+}
+
+\subsection{New Backlog Items}
+Several new backlog items were created as a result of this sprint, most of them consist of unfinished items that are carried over directly to the next sprint.
+
+\subsubsection{Program architecture image}
+Item number 1 in this sprint. Added to the backlog and is required to provide a good overview of the system to allow for easy continued development after the project is finished.
+
+\subsubsection{Queue detection}
+Needs to be tested and integrated into the project as soon as the requirements to do so are met (stable tracker/segmentation).
+
+\subsubsection{Human detector}
+A high priority item for the next sprint.
+
+\subsubsection{Improved foreground segmentation}
+This item will probably be a direct result of the foreground segmentation.
+
+\subsubsection{Better tracker}
+The tracker needs to be tested and tuned once the people detection performs adequately.
+
+\subsubsection{More specific information about project goal and requirements}
+Also a high priority item. Specification of requirements need to be revised and updated.
+
+\subsubsection{Assume that all cameras belong to the same room}
+This needs to be added to the specification of requirements.
+
+\subsubsection{Collect 3D data set}
+Collect a 3D data set using a stereo camera rig or a Microsoft Kinect.

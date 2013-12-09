@@ -1,0 +1,206 @@
+%& -job-name=review_collection
+\documentclass[10pt, a4paper, twoside]{article}
+
+%
+% Specify the number of the sprint
+%
+\newcommand{\sprintnum}{2}
+
+% Set up the standard margins for the document
+% 42.2 left & 15.5 right is same as Forsling, Neymark
+% 21.3 top  & 20 bottom is same as Olofsson
+\usepackage[left=25.5mm, right=25.5mm, top=21.3mm, bottom=20mm]{geometry}
+
+% Input file character encoding (kinda useless if we don't
+% use åäö and stuff, but it doesn't hurt to have it)
+\usepackage[utf8]{inputenc}
+%\usepackage[swedish]{babel}
+\usepackage{caption}
+\usepackage{subcaption}
+% Block Comments
+\usepackage{comment}
+
+% No indentation in new paragraph
+\usepackage{parskip}
+
+% To include graphics
+\usepackage{graphicx}
+
+% More mathematical symbols and fonts
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+% Simple list
+\usepackage[ampersand]{easylist}
+\ListProperties(Hide=100, Hang=true, Progressive=5ex, Style*=$\bullet$ ,
+Style2*=-- ,Style3*=$\circ$ ,Style4*=\tiny$\blacksquare$ )
+
+
+% Clickable internal links
+\usepackage{hyperref}
+\usepackage[all]{hypcap} % without this the link takes you to the caption, not the top of the image
+\hypersetup{ % Settings for links in documnet
+	setpagesize = false, % Don't allow hyperref to change page size. Tips från Micke Olofsson
+	colorlinks = true,   % No boxes around links
+	linkcolor = black,citecolor = black,filecolor = black,urlcolor = black, % don't color links
+}
+
+% To include to first page pdf file
+\usepackage{pdfpages}
+
+%
+% Definitions of commands for the requirement table
+%
+
+
+\newcounter{itemCounter}
+\newcommand{\itemnum}
+{
+	\addtocounter{itemCounter}{1}
+	\textbf{\arabic{itemCounter}}
+}
+
+\newcommand{\itemtable}[1]
+{
+	\vspace{0.5cm}
+	\begin{center}
+	\begin{Large}
+	\begin{tabular}{|c|p{12cm}|p{2.2cm}|}
+		\hline
+		\large{\textbf{Item}} & 
+		\large{\textbf{Description}} & 
+		\large{\textbf{People}} \\
+		\hline
+	#1
+	\end{tabular}
+	\end{Large}
+	\end{center}
+	% reset counter
+	\setcounter{itemCounter}{0}
+}
+
+\newcommand{\additem}[2]
+{
+	\large{\itemnum} & \normalsize{#1} & \normalsize{#2} \\
+	\hline
+}
+
+\newcommand{\resulttable}[1]
+{
+	\vspace{0.5cm}
+	\begin{center}
+	\begin{Large}
+	\begin{tabular}{|c|p{12cm}|p{2cm}|}
+		\hline
+		\large{\textbf{Item}} & 
+		\large{\textbf{Result}} & 
+		\large{\textbf{People}} \\
+		\hline
+	#1
+	\end{tabular}
+	\end{Large}
+	\end{center}
+	% reset counter
+	\setcounter{itemCounter}{0}
+}
+
+\newcommand{\addresult}[2]
+{
+	\large{\itemnum} & \normalsize{#1} & \normalsize{#2} \\
+	\hline
+}
+
+%
+% Header stuff
+%
+\usepackage{fancyhdr}
+\setlength{\headheight}{15pt}
+\pagenumbering{roman}
+
+\fancyhf{}
+
+\fancyhead[LE, RO]{\thepage}
+\fancyhead[RE]{TSBB11 2013: Kitchen Occupation}
+\fancyhead[LO]{Sprint reviews}
+
+\fancypagestyle{plain}{ %
+\fancyhf{} % remove everything
+\renewcommand{\headrulewidth}{0pt} % remove lines as well
+\renewcommand{\footrulewidth}{0pt}}
+%
+% End header stuff
+%
+
+
+\begin{document}
+
+
+% First page
+\includepdf{Cover/cover.pdf}
+
+
+% Project identity page
+\newpage
+\pagestyle{fancy}
+\pagenumbering{arabic}
+\setcounter{page}{2} % sets the current page number to 2 
+
+% Group info
+\input{identity.tex}
+
+% table of contents
+\newpage
+\tableofcontents
+\listoffigures
+%\listoftables
+
+
+% Document history page
+\newpage
+\vspace*{5\baselineskip}
+
+\begin{center}
+\textbf{\LARGE Document history}
+
+{ \footnotesize 
+\begin{tabular}{|p{1cm}|p{2.0cm}|p{6.5cm}|p{2cm}|}
+	\hline
+	\textbf{Version} & \textbf{Date} & \textbf{Changes} & \textbf{Sign} \\
+	
+	\hline
+	0.1 & 2013--12--08 & Initial draft & MS \\
+	\hline
+	 &  &  &   \\
+	
+	\hline
+\end{tabular}
+}
+\end{center}
+
+\vspace{2cm}
+
+\section{About this document}
+\label{sec:about}
+
+This document, together with the attached time report spreadsheet, constitutes the project log and is a complete description of who did what, when and how much.
+
+%
+% Content start
+%
+\newpage
+\input{sprints/sprint0.tex}
+\newpage
+\input{sprints/sprint1.tex}
+\newpage
+\input{sprints/sprint2.tex}
+\newpage
+\input{sprints/sprint3.tex}
+\newpage
+\input{sprints/sprint4.tex}
+
+
+
+
+
+\end{document}

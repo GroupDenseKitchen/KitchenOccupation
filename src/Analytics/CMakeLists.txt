@@ -1,2 +1,3 @@
 #Statistics module
-add_library(Statistics Analytics.cpp Evaluation.cpp TrackerEvaluator.cpp FlowEstimator.cpp QueDetector.cpp Que.cpp QueSeverityEstimator.cpp)
+add_library(Statistics Analytics.cpp FlowEstimator.cpp QueDetector.cpp Que.cpp QueSeverityEstimator.cpp)
+

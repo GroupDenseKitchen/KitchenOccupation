@@ -23,8 +23,9 @@
 #include "Analytics/FlowEstimator.hpp"
 #include "Analytics/QueSeverityEstimator.hpp"
 
-//This must be in the bottom.. (sloppy namespace usage in this file)
-#include "Analytics/Evaluation.hpp"
+#include "Evaluation/Evaluation.hpp"
+#include "Evaluation/EntryExitEvaluator.hpp"
+#include "Evaluation/TrackerEvaluator.hpp"
 
 
 /*!
@@ -73,11 +74,13 @@ private:
 
     network::Network network;
     configuration::ConfigurationManager settings;
-    evaluation::Evaluation evaluation;
+    //
+    //evaluation::EntryExitEvaluation entryExitEvaluation;
 
     AlgorithmFactory algorithmFactory;
     image_processing::ImageProcessor imageProcessor;
-    statistics::Analytics statistics;
+    statistics::Analytics analytics;
+    evaluation::Evaluation evaluator;
 
     std::string configPath;
 
