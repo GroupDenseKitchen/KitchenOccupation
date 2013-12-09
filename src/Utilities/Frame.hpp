@@ -86,6 +86,14 @@ public:
      * \brief Initialize the room population in a room.
      */
     int getPopulationInRoomID(std::string &_currID);
+     /*!
+     * \brief Set the the status of "queueness" estimated to this frame
+     */
+    void setQueStatus(int newQueStatus);
+     /*!
+     * \brief Get the the status of "queueness" estimated to this frame
+     */
+    int getQueStatus();
 
 private:
     std::vector<CameraObject> cameras;
@@ -94,6 +102,8 @@ private:
     std::vector<roomPopulation> populations;
 
     bool hasID(std::string &_currID);
+
+    int currentQueStatus; 
 };
 
 #endif // FRAME_H

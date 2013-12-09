@@ -15,6 +15,9 @@ ImageProcessor:
 Analytics:
    - EntryExitCounter
    - FlowEstimator
+   - QueDetector
+   - QueSeverityEstimator
+   
 Evaluation:
    - EntryExitEvaluator
 cameraPaths:
@@ -28,3 +31,4 @@ trackerGroundTruthPaths:
 entryExitGroundTruthPaths:
    - "../data/seq3/seq3EntryExitGT.yml"
    - "../data/seq7/seq7EntryExitGT.yml"
+

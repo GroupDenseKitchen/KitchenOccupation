@@ -19,7 +19,10 @@ bool DenseKitchen::initialize(std::string path) {
     algorithmFactory.add("KinectSegmentation",               new image_processing::KinectSegmentation());
     algorithmFactory.add("TrackingBruteForceLines",          new image_processing::TrackingBruteForceLines());
     algorithmFactory.add("Analytics",                        new statistics::Analytics());
+    algorithmFactory.add("QueDetector",                      new statistics::QueDetector());
     algorithmFactory.add("FlowEstimator",                    new statistics::FlowEstimator());
+    algorithmFactory.add("QueSeverityEstimator",             new statistics::QueSeverityEstimator());
+
 
     algorithmFactory.add("EntryExitEvaluator",               new evaluation::EntryExitEvaluator());
     //algorithmFactory.add("TrackerEvaluator",                 new evaluation::TrackerEvaluator());
