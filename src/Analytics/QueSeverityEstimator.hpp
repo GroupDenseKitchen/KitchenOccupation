@@ -24,11 +24,13 @@ struct FrameQueData
      * \brief Constructor
      */
     explicit FrameQueData(int totalEnteredPeople = 0, bool queIsPresent = false): totalEnteredPeople(totalEnteredPeople), queIsPresent(queIsPresent) {}
+
 public:
     /*!
      * \brief The number of people that entered into view in this frame
      */
     int totalEnteredPeople;
+    
     /*!
       * \brief Whether a queue is visible in this frame or not
       */
