@@ -286,7 +286,6 @@
     <addaction name="actionPause"/>
     <addaction name="actionRestart"/>
     <addaction name="actionConfigure"/>
-    <addaction name="actionStereoCalibrate"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>

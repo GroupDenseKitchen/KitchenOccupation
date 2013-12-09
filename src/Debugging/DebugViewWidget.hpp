@@ -67,14 +67,12 @@ private:
     QImage qImage;
 
     void storeImage(const cv::Mat& image);
-    void adpatToWidgetSize();
     void adaptImageToWidget();
 
     int windowWidth;
     int windowHeight;
     float windowRatio;
 
-    void keyPressEvent(QKeyEvent *);
     void closeEvent(QCloseEvent *);
     void resizeEvent(QResizeEvent *);
 };

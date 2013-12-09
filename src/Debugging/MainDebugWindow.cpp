@@ -40,14 +40,9 @@ void MainDebugWindow::init(string mainConfigFile, string guiConfigFile)
 
     // -------- Configuration Widget ---------------------
     configWindow = new MainConfigurationWindow;
-    configWindow->init(program, "masks.yml");
+    configWindow->initialize(program, "masks.yml");
     connect(this, SIGNAL(updateDebugViews(Frame)),
             configWindow, SLOT(updateWindow(Frame)));
-
-    // -------- Stereo Calibration Widget ----------------
-    stereoCalibrationWidget = new StereoCalibrationWidget;
-    connect(this, SIGNAL(updateDebugViews(Frame)),
-            stereoCalibrationWidget, SLOT(updateWindow(Frame)));
 
     // -------- Camera/Step Selector Init ----------------
     cameraItemModel = new QStandardItemModel;
@@ -402,7 +397,6 @@ void MainDebugWindow::closeEvent(QCloseEvent * event)
         }
     delete debugViewGrid;
     delete configWindow;
-    delete stereoCalibrationWidget;
     event->accept();
 }
 
@@ -527,9 +521,4 @@ void MainDebugWindow::on_actionRestart_triggered()
 void MainDebugWindow::on_actionConfigure_triggered()
 {
     configWindow->show();
-}
-
-void MainDebugWindow::on_actionStereoCalibrate_triggered()
-{
-    stereoCalibrationWidget->show();
 }

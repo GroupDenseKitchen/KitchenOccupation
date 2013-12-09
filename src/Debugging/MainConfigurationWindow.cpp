@@ -15,10 +15,10 @@ MainConfigurationWindow::~MainConfigurationWindow()
     delete ui;
 }
 
-void MainConfigurationWindow::init(DenseKitchen* _mainProgram ,std::string _filepath)
+void MainConfigurationWindow::initialize(DenseKitchen* mainProgram ,std::string filepath)
 {
-    mainProgram = _mainProgram;
-    filePath = _filepath;
+    this->mainProgram = mainProgram;
+    this->filePath = filepath;
     isDrawingCircle = false;
     circleRadius = 0;
     circleCenter = cv::Point(0,0);
