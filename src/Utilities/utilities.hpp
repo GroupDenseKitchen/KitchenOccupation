@@ -26,6 +26,7 @@
 #include <opencv2/video/tracking.hpp>
 #include <opencv2/video/video.hpp>
 #include <opencv2/opencv.hpp>
+#include "opencv2/features2d/features2d.hpp"
 
 #include "../Debugging/Logger.hpp"
 

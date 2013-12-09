@@ -14,11 +14,11 @@ bool DenseKitchen::initialize(std::string path) {
     algorithmFactory.add("ForegroundRegionExtractorDefault", new image_processing::ForegroundRegionExtractorDefault());
     algorithmFactory.add("TrackingBruteForce",               new image_processing::TrackingBruteForce());
     algorithmFactory.add("EntryExitCounter",                 new image_processing::EntryExitCounter());
-
     algorithmFactory.add("StereoBlockMatching",              new image_processing::StereoBlockMatching());
     algorithmFactory.add("KinectSegmentation",               new image_processing::KinectSegmentation());
     algorithmFactory.add("TrackingBruteForceLines",          new image_processing::TrackingBruteForceLines());
     algorithmFactory.add("Analytics",                        new statistics::Analytics());
+    algorithmFactory.add("CircleDetection",                   new image_processing::CircleDetection());
     algorithmFactory.add("QueDetector",                      new statistics::QueDetector());
     algorithmFactory.add("FlowEstimator",                    new statistics::FlowEstimator());
     algorithmFactory.add("QueSeverityEstimator",             new statistics::QueSeverityEstimator());
