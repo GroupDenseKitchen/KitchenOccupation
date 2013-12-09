@@ -19,6 +19,23 @@ namespace statistics
 struct SplineStrip
 {
     /*!
+     * \brief First on-curve control point
+     */
+    cv::Point2f p0;
+    /*!
+     * \brief First off-curve control point
+     */
+    cv::Point2f c1;
+    /*!
+     * \brief Second off-curve control point
+     */
+    cv::Point2f c2;
+    /*!
+     * \brief Second on-curve control point
+     */
+    cv::Point2f p1;
+
+    /*!
      * \brief Constructor
      */
     explicit SplineStrip(cv::Point2f P0, cv::Point2f C1, cv::Point2f C2, cv::Point2f P1): p0(P0), c1(C1), c2(C2), p1(P1) {}
@@ -36,23 +53,6 @@ struct SplineStrip
      * \return  Maximum segment length
      */
     float maxSegmentLength() {return std::max(cv::norm(c1 - p0), std::max(cv::norm(c2 -c1), cv::norm(p1 - c2) ));}
-
-    /*!
-     * \brief First on-curve control point
-     */
-    cv::Point2f p0;
-    /*!
-     * \brief First off-curve control point
-     */
-    cv::Point2f c1;
-    /*!
-     * \brief Second off-curve control point
-     */
-    cv::Point2f c2;
-    /*!
-     * \brief Second on-curve control point
-     */
-    cv::Point2f p1;
 };
 
 /*!
@@ -62,16 +62,6 @@ struct SplineStrip
  */
 struct DirectedQueEdge
 {
-    /*!
-     * \brief Constructor
-     */
-    DirectedQueEdge(Object fromObj, Object toObj, std::vector<SplineStrip> splineStrips, float dist):
-        from(fromObj), to(toObj), spline(splineStrips), distance(dist) {}
-    /*!
-     * \brief Constructor
-     */
-    DirectedQueEdge(Object fromObj): from(fromObj), to(fromObj), spline(std::vector<SplineStrip>()), distance( DBL_MAX ) {}
-
     /*!
      * \brief Object that edge starts from
      */
@@ -91,6 +81,17 @@ struct DirectedQueEdge
      * \details The distance is measured as the length of the connecting spline
      */
     double distance;
+    /*!
+     * \brief Constructor
+     */
+    DirectedQueEdge(Object fromObj, Object toObj, std::vector<SplineStrip> splineStrips, float dist):
+        from(fromObj), to(toObj), spline(splineStrips), distance(dist) {}
+    /*!
+     * \brief Constructor
+     */
+    DirectedQueEdge(Object fromObj): from(fromObj), to(fromObj), spline(std::vector<SplineStrip>()), distance( DBL_MAX ) {}
+
+    
 };
 
 /*!
@@ -98,12 +99,6 @@ struct DirectedQueEdge
  */
 struct Que
 {
-public:
-    /*!
-     * \brief Constructor
-     */
-    Que();
-
     /*!
      * \brief   All the splinestrips in the queue.
      * \details The splines are subdiveded and ready to draw.
@@ -118,6 +113,11 @@ public:
      * \brief All the directed edges in the queue
      */
     std::vector<DirectedQueEdge> queEdges;
+
+    /*!
+     * \brief Constructor
+     */
+    Que();
 };
 
 }
