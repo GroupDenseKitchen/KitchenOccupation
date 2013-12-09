@@ -22,17 +22,21 @@ struct SplineStrip
      * \brief First on-curve control point
      */
     cv::Point2f p0;
+
     /*!
      * \brief First off-curve control point
      */
+
     cv::Point2f c1;
     /*!
      * \brief Second off-curve control point
      */
+
     cv::Point2f c2;
     /*!
      * \brief Second on-curve control point
      */
+
     cv::Point2f p1;
 
     /*!
@@ -66,26 +70,31 @@ struct DirectedQueEdge
      * \brief Object that edge starts from
      */
     Object from;
+
     /*!
      * \brief Object that edge ends at
      */
     Object to;
+
     /*!
      * \brief   The spline that draws the path between them.
      * \details A container holding all the splinestrips resulting from subdivision of
      *          the original spline representation. These are not necessarily in order.
      */
     std::vector<SplineStrip> spline;
+
     /*!
      * \brief   The distance between the two objects.
      * \details The distance is measured as the length of the connecting spline
      */
     double distance;
+
     /*!
      * \brief Constructor
      */
     DirectedQueEdge(Object fromObj, Object toObj, std::vector<SplineStrip> splineStrips, float dist):
         from(fromObj), to(toObj), spline(splineStrips), distance(dist) {}
+
     /*!
      * \brief Constructor
      */
@@ -104,11 +113,13 @@ struct Que
      * \details The splines are subdiveded and ready to draw.
      */
     std::vector<SplineStrip > splineStrips;
+
     /*!
      * \brief   A map containing all of the objects in the queue
      * \details The key is the objects id number
      */
     std::map<int,Object> queObjects;
+    
     /*!
      * \brief All the directed edges in the queue
      */

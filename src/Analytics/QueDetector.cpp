@@ -6,7 +6,7 @@ namespace statistics
     {
     }
 
-    bool QueDetector::initialize(configuration::ConfigurationManager &settings)
+    bool QueDetector::initialize(configuration::ConfigurationManager & settings)
     {
         isInitialized = true;
 
@@ -28,20 +28,20 @@ namespace statistics
         return isInitialized;
     }
 
-    void QueDetector::process(FrameList &frames)
+    void QueDetector::process(FrameList & frames)
     {
         momentaryFps = frames.getCurrent().getMomentaryFps();
-        for (CameraObject & camera: frames.getCurrent().getCameras()) {
-            if(!camera.hasImage("debugImage"))
+        for (CameraObject & camera : frames.getCurrent().getCameras()) {
+            if( !camera.hasImage("debugImage") )
             {
                 LOG("Statistics Error", "Image \"debugImage\" not set in current frame!");
                 return;
             }
             cv::Mat debugImage = camera.getImage("debugImage");
-            if( camera.getObjects().size() > 1) {
+            if( camera.getObjects().size() > 1 ) {
                 std::vector<Que> ques;
                 detectQues( camera.getObjects(), ques );
-                for (Que & que: ques) {
+                for (Que & que : ques) {
                     drawQue( debugImage,que );
 
                     /*  //DEBUG/TUNING
@@ -56,7 +56,7 @@ namespace statistics
     }
 
     void QueDetector::splineFromObjects( std::vector<Object> & objects ,
-                                         std::vector<SplineStrip>& spline,
+                                         std::vector<SplineStrip> & spline,
                                          float maxSegmentLength )
     {
         spline.clear();
@@ -75,7 +75,7 @@ namespace statistics
         }
     }
 
-    void QueDetector::drawQue(cv::Mat &dstImage, const Que & que)
+    void QueDetector::drawQue(cv::Mat & dstImage, const Que & que)
     {
         //OpenCV wants this in c-arrays (of arrays)
         const int numPoints = 4; //Cubic spline
@@ -84,7 +84,7 @@ namespace statistics
         int numberOfPoints[numStrips];
 
         //Fill per-spline-arrays with points on each spline strip
-        for (int j=0; j < numStrips;++j) {
+        for (int j = 0; j < numStrips; ++j) {
             SplineStrip splineStrip = que.splineStrips[j];
             numberOfPoints[j] = numPoints;
             points[j] = new cv::Point[numPoints];
@@ -122,7 +122,7 @@ namespace statistics
         SplineStrip right(center, rightC1, rightC2, strip.p1);
 
         //Handle recurion depth
-        if (recursionDepth >= maxRecursionDepth) {
+        if ( recursionDepth >= maxRecursionDepth ) {
             spline.push_back(left);
             spline.push_back(right);
         }
@@ -141,19 +141,19 @@ namespace statistics
         }
     }
 
-    float QueDetector::splineLength(std::vector<SplineStrip> &spline) {
+    float QueDetector::splineLength(std::vector<SplineStrip> & spline) {
         float length = 0;
-        for (SplineStrip &strip: spline) {
+        for (SplineStrip & strip : spline) {
             length += strip.length();
         }
         return length;
     }
 
-    void QueDetector::detectQues(std::vector<Object> &objects, std::vector<Que> &ques)
+    void QueDetector::detectQues(std::vector<Object> &objects, std::vector<Que> & ques)
     {
         //Find good pairs of objects in que (closest close-enough destination for each object)
         std::vector<DirectedQueEdge> edges;
-        for (Object & obj: objects) {
+        for (Object & obj : objects) {
             std::vector<Object> feasibleDestinations;
             extractFeasibleDestinations( obj, objects, feasibleDestinations );
 
@@ -168,25 +168,25 @@ namespace statistics
         quesFromEdges(edges, ques);
     }
 
-    void QueDetector::extractFeasibleDestinations(Object &fromObject,
-                                                  std::vector<Object> &allObjects,
-                                                  std::vector<Object> &destObjects)
+    void QueDetector::extractFeasibleDestinations(Object & fromObject,
+                                                  std::vector<Object> & allObjects,
+                                                  std::vector<Object> & destObjects)
     {
         destObjects.clear();
-        for (Object & obj: allObjects) {
-            if (!obj.lost) {
-                if ( obj.id != fromObject.id && !fromObject.lost) {
+        for (Object & obj : allObjects) {
+            if ( !obj.lost ) {
+                if ( obj.id != fromObject.id && !fromObject.lost ) {
                     destObjects.push_back( obj ); //TODO: Use better filtering for feasible destinations.
                 }
             }
         }
     }
 
-    void QueDetector::findBestDestination(Object &fromObject,
-                                          std::vector<Object> &destObjects,
-                                          DirectedQueEdge &destEdge)
+    void QueDetector::findBestDestination(Object & fromObject,
+                                          std::vector<Object> & destObjects,
+                                          DirectedQueEdge & destEdge)
     {
-        for (Object & destObj: destObjects) {
+        for (Object & destObj : destObjects) {
             std::vector<SplineStrip> tmpSpline;
             std::vector<Object> tmpPair( {fromObject, destObj} );
             splineFromObjects(tmpPair, tmpSpline, maxSplineSegmentLength );
@@ -206,8 +206,8 @@ namespace statistics
         //Also, remove loops in queue-graph
         ques.clear();
         Que theQue;
-        for (DirectedQueEdge & queEdge: queEdges) {
-            for (SplineStrip & strip: queEdge.spline) {
+        for (DirectedQueEdge & queEdge : queEdges) {
+            for (SplineStrip & strip : queEdge.spline) {
                 theQue.splineStrips.push_back( strip );
             }
             theQue.queEdges.push_back(queEdge);
