@@ -15,6 +15,7 @@
 #include <queue>
 #include <deque>
 #include <map>
+#include <cmath>
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
