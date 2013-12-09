@@ -6,20 +6,30 @@ useKinect: 1
 nCameras: 1
 evalPrecisionThreshold: 50
 TrackingMaximumDistance: 2500.0
-TrackingMinimumLifeSpan: 10
+TrackingMinimzumLifeSpan: 10
 TrackingMaximumTimeLost: 10
 webServerUrl: "http://api.densekitchen.bloip.se/api/roomstate/1"
 ImageProcessor:
    - KinectSegmentation
    - TrackingBruteForce
-
 Analytics:
    - EntryExitCounter
    - FlowEstimator
-
+   - QueDetector
+   - QueSeverityEstimator
+   
+Evaluation:
+   - EntryExitEvaluator
+cameraPaths:
+   - "/Users/erikfall/Dropbox/Dense Kitchen (1)/seq8.mp4"
 videoFilePaths:
-   - "../data/seq9/seq9-3.mp4"
+   - "../data/seq3/seq3.mp4"
+   - "../data/seq7/seq7.mp4"
 trackerGroundTruthPaths:
    - "../data/seq3/seq3GT.xml"
-   #- "../data/seq7/seq7GT.xml"
+   - "../data/seq7/seq7GT.xml"
+entryExitGroundTruthPaths:
+   - "../data/seq3/seq3EntryExitGT.yml"
+   - "../data/seq7/seq7EntryExitGT.yml"
+
 

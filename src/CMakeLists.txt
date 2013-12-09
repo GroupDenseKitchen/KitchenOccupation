@@ -80,6 +80,9 @@ ADD_SUBDIRECTORY(ImageProcessing)
 ADD_SUBDIRECTORY(Network)
 ADD_SUBDIRECTORY(Analytics)
 ADD_SUBDIRECTORY(Utilities)
+ADD_SUBDIRECTORY(Evaluation)
+# ADD_SUBDIRECTORY(ExtLib)
+
 
 # Binaries
 ADD_EXECUTABLE(dense_kitchen main.cpp DenseKitchen.cpp)
@@ -92,6 +95,7 @@ TARGET_LINK_LIBRARIES (dense_kitchen
     Network
     Statistics
     Utilities
+	Evaluation
     # ExtLib
     ${OpenCV_LIBS}
     ${OPENNI2_LIBS}

@@ -2,7 +2,6 @@
 
 Object::Object()
 {
-
 }
 
 Object::Object(std::vector<cv::Point>& contour, cv::Rect& boundingBox, cv::Point2f& centerOfMass, double area)

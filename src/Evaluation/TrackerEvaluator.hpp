@@ -3,6 +3,7 @@
 
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/FrameList.hpp"
+#include "../Utilities/Algorithm.hpp"
 #include "../ExtLib/rapidxml.hpp"
 #include <numeric>
 

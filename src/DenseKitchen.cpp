@@ -19,6 +19,13 @@ bool DenseKitchen::initialize(std::string path) {
     algorithmFactory.add("TrackingBruteForceLines",          new image_processing::TrackingBruteForceLines());
     algorithmFactory.add("Analytics",                        new statistics::Analytics());
     algorithmFactory.add("CircleDetection",                   new image_processing::CircleDetection());
+    algorithmFactory.add("QueDetector",                      new statistics::QueDetector());
+    algorithmFactory.add("FlowEstimator",                    new statistics::FlowEstimator());
+    algorithmFactory.add("QueSeverityEstimator",             new statistics::QueSeverityEstimator());
+
+
+    algorithmFactory.add("EntryExitEvaluator",               new evaluation::EntryExitEvaluator());
+    //algorithmFactory.add("TrackerEvaluator",                 new evaluation::TrackerEvaluator());
 
 
     if(!settings.readConfig(path)) {
@@ -33,22 +40,25 @@ bool DenseKitchen::initialize(std::string path) {
         LOG("DenseKitchen initialize error", "Image processor failed when populating sub algorighms");
         isInitialized = false;
     }
-    if(!statistics.populateSubAlgorithms(settings, "Analytics", algorithmFactory)) {
+    if(!analytics.populateSubAlgorithms(settings, "Analytics", algorithmFactory)) {
         LOG("DenseKitchen initialize error", "Satisitics failed when populating sub algorighms");
         isInitialized = false;
+    }
+    if(!evaluator.populateSubAlgorithms(settings, "Evaluation", algorithmFactory)) {
+        LOG("DenseKitchen initialize error", "Satisitics failed when populating sub algorighms");
+        isEvalInitialized = false;
     }
     if(!imageProcessor.initialize(settings)) {
         LOG("DenseKitchen initialize error", "ImageProcessor could not be initialized!");
         isInitialized = false;
     }
-    if(!statistics.initialize(settings)) {
+    if(!analytics.initialize(settings)) {
         LOG("DenseKitchen initialize error", "Statisitics could not be initialized!");
         isInitialized = false;
     }
-
-    if(!evaluation.initialize(settings)) {
-        LOG("DenseKitchen initialize error", "Evaluation could not be initialized!");
-        isEvalInitialized = false;
+    if(!evaluator.initialize(settings)) {
+        LOG("DenseKitchen initialize error", "Statisitics could not be initialized!");
+         isEvalInitialized = false;
     }
     PROFILER_ITERATION_END();
 
@@ -59,7 +69,7 @@ void DenseKitchen::reset()
 {
     network.reset();
     imageProcessor.reset();
-    statistics.reset();
+    analytics.reset();
 
     debugging::logObject.clear();
 
@@ -85,20 +95,19 @@ bool DenseKitchen::singleIteration() {
                 PROFILER_END();
 
                 PROFILER_START("Statistics Processing");
-                statistics.process(frames);
+                analytics.process(frames);
                 PROFILER_END();
 
                 if (isEvalInitialized) {
                     PROFILER_START("Evaluation")
-                    evaluation.process(frames);
+                    evaluator.process(frames);
                     PROFILER_END();
-                    //evaluation.printToLog(); // Prints MOTA & MOTP for every frame.
+                    //evaluator.printToLog(); // Prints MOTA & MOTP for every frame.
                 }
                 //network.broadcastData(currentFrame);
-
             } else {
                 if (isEvalInitialized) {
-                    evaluation.printToLog();
+                    evaluator.printToLog();
                     iterationSuccess = false;
                 }
             }

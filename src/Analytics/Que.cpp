@@ -1,5 +1,6 @@
 #include "Que.hpp"
 
-Que::Que()
+namespace statistics
 {
+
 }
