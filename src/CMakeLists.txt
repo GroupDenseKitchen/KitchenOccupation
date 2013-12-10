@@ -25,7 +25,8 @@ IF(WIN32)
         MESSAGE( STATUS "Build type: "${BUILD_TYPE})
         IF(${BUILD_TYPE} STREQUAL "DEBUG")
             add_definitions(-D_ITERATOR_DEBUG_LEVEL=1) # Remove itterator assert
-            MESSAGE( STATUS "ITERATOR_DEBUG_LEVEL=3")
+            add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+            MESSAGE( STATUS "ITERATOR_DEBUG_LEVEL=1")
         ENDIF()
 
         MESSAGE( STATUS "ENV_OPENCV_MSVC2012_X64_INSTALL_DIR: " $ENV{OPENCV_MSVC2012_X64_INSTALL_DIR})
