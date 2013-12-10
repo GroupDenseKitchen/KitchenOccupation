@@ -227,6 +227,7 @@ Frame *Network::getKinectFrame()
         kinectFrame = kinects.readFrame(i);
         if (kinectFrame) {
             cam.addImage("rawImage", kinectFrame->depthImage);
+            cam.addImage("rawColorImage", kinectFrame->bgrImage.clone());
             cam.addImage("debugImage", kinectFrame->bgrImage);
             frame->addCamera(cam);
             if (firstFrame) {

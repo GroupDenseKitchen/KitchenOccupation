@@ -132,7 +132,8 @@ private:
     QTimer* timer;
     int timerDelay;
 
-    cv::VideoWriter videoWriter;
+    bool isRecordToFiles;
+    cv::VideoWriter videoWriterRaw, videoWriterRawColor, videoWriterLiveSystem;
 
     void keyPressEvent(QKeyEvent *);
     void closeEvent(QCloseEvent *);

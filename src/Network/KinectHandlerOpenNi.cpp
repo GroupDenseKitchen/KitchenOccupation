@@ -89,7 +89,11 @@ bool KinectHandler::initialize(configuration::ConfigurationManager& settings)
             openni::OpenNI::shutdown();
             return false;
         }
+    } else {
+        printf("Atleast 1 Kinect sensor is required for the system to start.\n");
+        return false;
     }
+
 
     streams = new openni::VideoStream*[2];
     streams[0] = &depth;

@@ -16,11 +16,14 @@ MainDebugWindow::MainDebugWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("DenseDebugger");
+    isRecordToFiles = false;
 }
 
 MainDebugWindow::~MainDebugWindow()
 {
-    videoWriter.release();
+    videoWriterRaw.release();
+    videoWriterRawColor.release();
+    videoWriterLiveSystem.release();
     delete ui;
 }
 
@@ -140,6 +143,7 @@ bool MainDebugWindow::readConfig(std::string filePath)
         configFile["popAllWindows"] >> popAllWindows;
         configFile["presetCameraNumber"] >> presetCameraNumber;
         configFile["presetStepName"] >> presetStepName;
+        configFile["recordToFiles"] >> isRecordToFiles;
 
         return true;
     } else {
@@ -158,6 +162,7 @@ void MainDebugWindow::generateConfig(std::string filePath){
     configFile << "popAllWindows" << true;
     configFile << "presetCameraNumber" << presetCameraNumber;
     configFile << "presetStepName" << presetStepName;
+    configFile << "recordToFiles" << isRecordToFiles;
     configFile.release();
 
     readConfig(filePath);
@@ -333,18 +338,25 @@ void MainDebugWindow::updateGUI()
     }
 
     // Debug
-    if(!videoWriter.isOpened()) {
-        // Video recorder
-        // if(program->frames.size() > 0 && program->frames.getCurrent().getCameras().back().hasImage("rawImage"))
-           // vc = cv::VideoWriter("debugImage.avi", CV_FOURCC('D','I','V','X'), 30, program->frames.getCurrent().getCameras().back().getImage("rawImage").size());
+    if(isRecordToFiles) {
+        if(!videoWriterRaw.isOpened()) {
+            // Video recorder
+             if(program->frames.size() > 0 && program->frames.getCurrent().getCameras().back().hasImage("rawImage")) {
+                videoWriterRaw = cv::VideoWriter("rawImage.avi", CV_FOURCC('D','I','V','X'), 30, program->frames.getCurrent().getCameras().back().getImage("rawImage").size());
+                videoWriterRawColor = cv::VideoWriter("rawColorImage.avi", CV_FOURCC('D','I','V','X'), 30, program->frames.getCurrent().getCameras().back().getImage("rawColorImage").size());
+                videoWriterLiveSystem = cv::VideoWriter("liveSystem.avi", CV_FOURCC('D','I','V','X'), 30, program->frames.getCurrent().getCameras().back().getImage("debugImage").size());
+             }
 
-    }
-    else
-    {
-        if(program->frames.getCurrent().getCameras().back().hasImage("debugImage"))
-            videoWriter.write(program->frames.getCurrent().getCameras().back().getImage("debugImage"));
+        }
         else
-            LOG("fail", "debugImage not found!");
+        {
+            if(program->frames.getCurrent().getCameras().back().hasImage("rawImage"))
+                videoWriterRaw.write(program->frames.getCurrent().getCameras().back().getImage("rawImage"));
+            if(program->frames.getCurrent().getCameras().back().hasImage("rawColorImage"))
+                videoWriterRawColor.write(program->frames.getCurrent().getCameras().back().getImage("rawColorImage"));
+            if(program->frames.getCurrent().getCameras().back().hasImage("debugImage"))
+                videoWriterLiveSystem.write(program->frames.getCurrent().getCameras().back().getImage("debugImage"));
+        }
     }
 }
 
