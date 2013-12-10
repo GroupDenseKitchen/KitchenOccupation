@@ -23,7 +23,7 @@ This is the core class for the person density estimation. It is owned and run by
 The Frame class is the main data container for any data needed by the processing pipeline. Each object is responsible for data pertaining to one time step.
 
 ### Network
-The Network module is responsible for reading images the involved cameras and comunicating with external systems.
+The Network module is responsible for reading images from the involved cameras and comunicating with external systems.
 
 ### ImageProcessor
 The ImageProcessor class is derived from Algorithm and is responsible for the image processing part of the pipeline. It holds an ordered collection of the objects responsible for each image processing step (also derived from Algorithm).
@@ -40,7 +40,7 @@ Algorithm is a base class that can own other algorithms.
 When Algorithm::initialize and Algorithm::process is called all its sub-Algorithms are called in order as well.
 
 ### Adding a new sub-Algorithm
-Algorithms can be added to other Algorithms using the config file, this however require that a AlgorithmFactory is instanciated and that the desired algorithm to be added is added to the factory first.
+Algorithms can be added to other Algorithms using the config file, this however requires that an AlgorithmFactory is instanciated and that the desired algorithm to be added is added to the factory first.
 This can look like the following in the config file:
 ```yml
 ImageProcessor:
