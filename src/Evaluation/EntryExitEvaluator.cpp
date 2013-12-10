@@ -74,7 +74,7 @@ bool EntryExitEvaluator::initialize(configuration::ConfigurationManager &setting
 void EntryExitEvaluator::process(FrameList &frames)
 {
     frameCount++;
-    if (frameCount > numberOfFrames) {
+    if (frameCount >= numberOfFrames) {
         return;
     }
 
@@ -137,9 +137,9 @@ void EntryExitEvaluator::process(FrameList &frames)
                 cv::Point2d pos5(140,40);
                 cv::Point2d pos6(140,60);
 
-                accIn      = "Accuracy In:      " + std::to_string(int(round(accuracyIn*100))) + " %";
-                accOut     = "Accuracy Out:     " + std::to_string(int(round(accuracyOut*100))) + " %";
-                accTotDiff = "Accuracy TotDiff: " + std::to_string(int(round(accuracyTot*100))) + " %";
+                accIn      = "Accuracy In:      " + std::to_string(int(std::floor(accuracyIn*100))) + " %";
+                accOut     = "Accuracy Out:     " + std::to_string(int(std::floor(accuracyOut*100))) + " %";
+                accTotDiff = "Accuracy TotDiff: " + std::to_string(int(std::floor(accuracyTot*100))) + " %";
                 GTIn       = "(" + std::to_string(sumEntryGT[i]) + ")";
                 GTOut      = "(" + std::to_string(sumExitGT[i]) + ")";
                 GTTotal    = "(" + std::to_string(sumEntryGT[i] - sumExitGT[i]) + ")";

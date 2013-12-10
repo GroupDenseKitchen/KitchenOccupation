@@ -48,7 +48,10 @@ namespace image_processing
 
             cv::Mat smallImage;
             cv::Mat red, green, blue;
-            std::vector<cv::Mat> channels = {blue, green, red};
+            std::vector<cv::Mat> channels;
+            channels.push_back(blue);
+            channels.push_back(green);
+            channels.push_back(red);
             cv::resize(camera.getImage("rawImage"), smallImage, cv::Size(0,0), 1/downSamplingFactor,1/downSamplingFactor, CV_INTER_AREA);
             cv::blur(smallImage, smallImage, cv::Size(kernelSize, kernelSize) );
 
@@ -111,9 +114,10 @@ namespace image_processing
 
             int deltaRadius = circleThickness;
 
-            std::vector<int> filterSizes = {avgFilterSize-deltaRadius,
-                                            avgFilterSize,
-                                            avgFilterSize+deltaRadius};
+            std::vector<int> filterSizes;
+            filterSizes.push_back(avgFilterSize-deltaRadius);
+            filterSizes.push_back(avgFilterSize);
+            filterSizes.push_back(avgFilterSize+deltaRadius);
             filters.clear();
             for (unsigned int i = 0; i < filterSizes.size(); ++i) {
                 int filterSize = filterSizes[i];

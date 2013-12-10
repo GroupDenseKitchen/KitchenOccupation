@@ -77,6 +77,7 @@ namespace statistics
 
     void QueDetector::drawQue(cv::Mat & dstImage, const Que & que)
     {
+        /*
         //OpenCV wants this in c-arrays (of arrays)
         const int numPoints = 4; //Cubic spline
         const int numStrips = que.splineStrips.size();
@@ -103,6 +104,7 @@ namespace statistics
         for (int j = 0; j < numStrips; ++j) {
             delete[] points[j];
         }
+        */
     }
 
     void QueDetector::subdivideSpline(SplineStrip &strip,
@@ -186,6 +188,7 @@ namespace statistics
                                           std::vector<Object> & destObjects,
                                           DirectedQueEdge & destEdge)
     {
+        /*
         for (Object & destObj : destObjects) {
             std::vector<SplineStrip> tmpSpline;
             std::vector<Object> tmpPair( {fromObject, destObj} );
@@ -197,10 +200,12 @@ namespace statistics
                 destEdge.distance = length;
             }
         }
+        */
     }
 
     void QueDetector::quesFromEdges(std::vector<DirectedQueEdge> &queEdges, std::vector<Que> &ques)
     {
+        /*
         //TODO: Do something smarter than (make sure each que is disjoint from all other ques)
         //Right now all edges/objects in que are put into one single queue
         //Also, remove loops in queue-graph
@@ -225,6 +230,7 @@ namespace statistics
         if ( !theQue.splineStrips.empty() ) { //Only add non-empty que
             ques.push_back( theQue );
         }
+        */
     }
 
 }

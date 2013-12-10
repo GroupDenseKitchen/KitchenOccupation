@@ -83,14 +83,18 @@ void EntryExitCounter::process(FrameList &frames)
             totalPopulation = totalPopulation + frames.getCurrent().getPopulationInRoomID(currentRoomID);
         }
         //--------------------------------- Debug, writes population to debugImage --------------------------------//
-        CameraObject  *cameraCurr = &frames.getCurrent().getCameras()[0];
-        std::string text = "";
-        int fontFace = cv::FONT_HERSHEY_PLAIN;
-        double fontScale = 1;
-        text = "Is inside: " + std::to_string(totalPopulation);
-        cv::Point2d pos3(10,60);
-        cv::Mat debugImage = cameraCurr->getImage("debugImage");
-        putText(debugImage, text, pos3, fontFace, fontScale, cv::Scalar(0,255,0), 1, 8);
+        std::vector<CameraObject> cameras = frames.getCurrent().getCameras();
+        if(cameras.size() > 0){
+            //CameraObject  *cameraCurr = &frames.getCurrent().getCameras()[0];
+            CameraObject  *cameraCurr = &cameras[0];
+            std::string text = "";
+            int fontFace = cv::FONT_HERSHEY_PLAIN;
+            double fontScale = 1;
+            text = "Is inside: " + std::to_string(totalPopulation);
+            cv::Point2d pos3(10,60);
+            cv::Mat debugImage = cameraCurr->getImage("debugImage");
+            putText(debugImage, text, pos3, fontFace, fontScale, cv::Scalar(0,255,0), 1, 8);
+        }
         //--------------------------------------------------------------------------------------------------------//
     }
 }
