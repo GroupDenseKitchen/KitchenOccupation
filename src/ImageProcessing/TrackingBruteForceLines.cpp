@@ -97,7 +97,7 @@ namespace image_processing
         cv::Vec3f theLine = point1.cross(point2); //line is calculated but not normalized.
         //Normalize line
         cv::Point2f normer(theLine[0],theLine[1]);
-        float n = cv::norm(normer);
+        float n = (float)cv::norm(normer);
         if(theLine[2] > 0){
             theLine[0] = -theLine[0]/n;
             theLine[1] = -theLine[1]/n;

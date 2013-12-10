@@ -47,11 +47,11 @@ public:
     /*!
        \brief   Get the number of frames in history.
     */
-    int size() { return frames.size(); }
+    int size() { return (int)frames.size(); }
     /*!
        \brief   Get the current frame counter.
     */
-    int getFrameCount() { return frameCounter; }
+    int getFrameCount() { return (int)frameCounter; }
 
     /*!
      * \brief getExclusionMask

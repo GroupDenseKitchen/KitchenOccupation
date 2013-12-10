@@ -222,7 +222,7 @@ Frame *Network::getKinectFrame()
     kinect::KinectFrame* kinectFrame = 0;
     bool success = true;
 
-    for (unsigned int i = 0; i < kinects.getnDevices(); i++) {
+    for (int i = 0; i < kinects.getnDevices(); i++) {
         CameraObject cam;
         kinectFrame = kinects.readFrame(i);
         if (kinectFrame) {

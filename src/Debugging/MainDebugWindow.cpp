@@ -207,7 +207,7 @@ void MainDebugWindow::updateCameraSelector()
 
     // Build a new tree
     std::vector<CameraObject> cameras = currentFrame.getCameras();
-    int nCameras = cameras.size();
+    int nCameras = (int)cameras.size();
     for (int i = 0; i < nCameras; i++){
         QStandardItem* item = new QStandardItem(QString::number(i));
         item->setSelectable(false);

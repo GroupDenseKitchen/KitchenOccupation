@@ -100,7 +100,7 @@ public:
     /*!
        \brief   The number of stored log entries.
     */
-    int size()              { return logFile.size();  }
+    int size()              { return (int)logFile.size();  }
 
     /*!
        \brief   Weather or not no log entries exist.
