@@ -1,8 +1,6 @@
 #include "Debugging/Logger.hpp"
 #include "DenseKitchen.hpp"
 
-#include <QApplication>
-#include <QtCore>
 #include <iostream>
 
 int main(int argc, char *argv[])
@@ -12,7 +10,7 @@ int main(int argc, char *argv[])
     //debugProgram.init();
     //debugProgram.show();
 
-   DenseKitchen dk = DenseKitchen(argc,argv);
+   DenseKitchen dk = DenseKitchen();
 
    return 0;
 

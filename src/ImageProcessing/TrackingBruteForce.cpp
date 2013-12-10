@@ -103,9 +103,8 @@ namespace image_processing
     }
 
     void TrackingBruteForce::addNew(std::list<Object> & newObjects, std::vector<Object> & destination) {
-        for(std::vector<Object>::iterator oIter = newObjects.begin(); oIter != newObjects.end(); ++newObjects)
-	//for(Object & object : newObjects) {
-	Object object *oIter;
+        for(std::list<Object>::iterator oIter = newObjects.begin(); oIter != newObjects.end(); ++oIter){
+	    Object object = *oIter;
             object.lifeSpan = 1;
             object.enter();
             destination.push_back(object);
@@ -113,8 +112,9 @@ namespace image_processing
     }
 
     void TrackingBruteForce::addLost(std::list<Object> & lostObjects, std::vector<Object> & destination,std::vector<Object> & transitionaryObjects, cv::Mat image, cv::Mat mask) {
-        for(Object & object : lostObjects) {
-            if(object.lost) {
+	for(std::list<Object>::iterator oIter = lostObjects.begin(); oIter != lostObjects.end(); ++oIter){
+       	    Object object = *oIter;
+	    if(object.lost) {
                 object.lifeSpan++;
             } else {
                 object.lost = true;
@@ -159,7 +159,8 @@ namespace image_processing
     }
 
     void TrackingBruteForce::setIfIsInCheckpointRegion(std::list<Object> &objects, cv::Mat maskOne, cv::Mat maskTwo, cv::Mat maskThree) {
-        for(Object & object : objects) {
+        for(std::list<Object>::iterator oIter = objects.begin(); oIter != objects.end(); ++oIter){
+	    Object object = *oIter;
             if(isInsidePolygon(maskOne, object.centerOfMass)) {
                 object.hasPassedMasksOne = true;
             }

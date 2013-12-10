@@ -11,7 +11,7 @@ IF(UNIX)
     	SET (CMAKE_CXX_FLAGS "-stdlib=libc++ -std=c++11")
 	MESSAGE( STATUS "System: APPLE" )
     ELSE()
-	
+	SET(CMAKE_CXX_FLAGS "-std=c++0x")	
 	MESSAGE( STATUS "System Linux" )
     ENDIF()
 ENDIF()

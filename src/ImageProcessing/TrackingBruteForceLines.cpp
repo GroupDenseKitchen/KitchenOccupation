@@ -168,7 +168,9 @@ namespace image_processing
     }
 
     void TrackingBruteForceLines::addNew(std::list<Object> & newObjects, std::vector<Object> & destination) {
-        for(Object & object : newObjects) {
+        for(std::list<Object>::iterator iterO = newObjects.begin(); iterO != newObjects.end(); ++iterO){
+	//for(Object & object : newObjects) {
+	    Object object = *iterO;
             object.lifeSpan = 1;
             object.enter();
             destination.push_back(object);
@@ -176,7 +178,9 @@ namespace image_processing
     }
 
     void TrackingBruteForceLines::addLost(std::list<Object> & lostObjects, std::vector<Object> & destination,std::vector<Object> & transitionaryObjects, cv::Mat image, cv::Mat mask) {
-        for(Object & object : lostObjects) {
+        for(std::list<Object>::iterator iterO = lostObjects.begin(); iterO != lostObjects.end(); ++iterO){
+	//for(Object & object : lostObjects) {
+	  Object object = *iterO;
             if(object.lost) {
                 object.lifeSpan++;
             } else {
