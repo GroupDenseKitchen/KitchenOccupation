@@ -14,6 +14,8 @@ This is archieved by sending the video frames one at a time through a image proc
 It is configurable and debuggable via a GUI which increment the pipeline, apart from this the GUI is not at all required for the execution of the system.
 Configurations are read from file aswell.
 
+![Overview](readme_images/DenseKitchen%20Overview.jpg)
+
 ### DenseKitchen
 This is the core class for the person density estimation. It is owned and run byt the debug gui. It is resposible for administring and syncronizing the processing pipeline, and passing around the process data. 
 
@@ -31,8 +33,6 @@ The statistics class has the same structure as the ImageProcessor but is respons
 
 ### Evaluator
 The Evaluator evaluates the whole system by looking at the MOTA and MOTP metrics of tracking performance.
-
-![Overview](https://doc-0s-8o-docs.googleusercontent.com/docs/securesc/5btq9f7huc8bqtncm8qh0s5eefd7hgmg/eoaigplsae5m486ulbr76qr2ok2d7b6h/1383652800000/06151035857182574422/06151035857182574422/0B53Hlj6c__71RjhrMzktdG1aWm8?h=12494863305412751534&e=view)
 
 ***
 ## Algorithm pipeline architecture

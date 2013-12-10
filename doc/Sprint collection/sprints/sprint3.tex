@@ -1,0 +1,119 @@
+\section{Review of Sprint 3}
+\label{sec:sprint3}
+\large Period: 2013-11-18 -- 2013-12-02 \\ 
+\large Est. time: 280 hours, meetings included. \\
+\large Time spent: 311 hours, meetings included.
+
+\subsection{Sprint backlog}
+The main focus of this sprint is to get a minimal case implementation that meet all requirements in the specification of requirements. The initials of the person responsible for each specific sprint item is shown in boldface in the rightmost column of the table.
+
+\subsection{Backlog items from previous sprints}
+These are the items created in the previous sprint that were carried over directly to this one. This week, all of the items below are from the previous sprint (\textbf{2}).
+
+\subsubsection{Program architecture image}
+Item number 1 in this sprint. Added to the backlog and is required to provide a good overview of the system to allow for easy continued development after the project is finished.
+
+\subsubsection{Queue detection}
+Needs to be tested and integrated into the project as soon as the requirements to do so are met (stable tracker/segmentation).
+
+\subsubsection{Human detector}
+A high priority item for the next sprint.
+
+\subsubsection{Improved foreground segmentation}
+This item will probably be a direct result of the foreground segmentation.
+
+\subsubsection{Better tracker}
+The tracker needs to be tested and tuned once the people detection has reached adequate performance.
+
+\subsubsection{More specific information about project goal and requirements}
+Also a high priority item. Specification of requirements need to be revised and updated.
+
+\subsubsection{Assume that all cameras belong to the same room}
+This needs to be added to the specification of requirements.
+
+\subsubsection{Collect 3D data set}
+A Microsoft Kinect is now available, and will be used to collect a 3D data set (item number \textbf{4}).
+
+
+%\newpage
+
+\subsection{Sprint plan table}
+
+\itemtable
+{
+	\additem{Implementation of circular Hough-based classifier.}{\textbf{NW}, MS}
+	\additem{Tuning of circular Hough-based classifier.}{\textbf{NW}, MS}
+	\additem{Tracking using optical flow.}{\textbf{EF}, GH}
+	\additem{Simple segmentation using optical flow.}{\textbf{EF}, GH}
+	\additem{Segmentation using  optical flow and super-pixels.}{\textbf{EF}, GH}
+	\additem{Remove debugging from raw-image into a debug image}{\textbf{GH}}
+	\additem{Collect a top-down view data set with depth using the Microsoft Kinect.}{\textbf{AS}, MT, MR}
+	\additem{Calibrate a stereo camera. \textbf{Cancelled because of the Kinect-sensor.}}{\textbf{AS}, MT}
+	\additem{Use height information from stereo cameras to segment and classify humans.}{\textbf{AS}, MT, MR}
+	\additem{Collect a new data set using a camera with focus at head level rather than ground level.}{\textbf{MS}, NW}
+	\additem{Integrate evaluation of in/out people count from ground truth.}{\textbf{MR}}
+	\additem{Collect an RGBD data set using the Kinect sensor mounted above a room entrance.}{\textbf{AS}}
+	\additem{Tuning and merging of integrated parts in the system as well as tuning the entire pipeline.}{\textbf{All}}
+	\additem{Handle one camera over each door to hte same room and keep a consistent count of the number of people in the room. (Same as item number 4 in previous sprint, but this time with several cameras.)}{\textbf{EF}, MR}
+	\additem{Finalize this document and the review of hte previous sprint.}{\textbf{MS}}
+	\additem{Do a complete overhaul of the entire specification of requirements to fit the new, changed, circumstances.}{\textbf{MS}, MT}
+	\additem{Do more research (look at scientific papers).}{\textbf{Everyone}}
+	\additem{Improve the tracker in order to increase counting performance.}{\textbf{EF}}
+	
+	
+
+		
+}
+\newpage
+
+\subsection{Result}
+The most prominent result from this sprint was the realization that tracking and counting people waiting in line is extremely hard without any form of depth information. This realization, combined with the acquisition of a Microsoft Kinect sensor caused the focus of the project to shift entirely from the mono-camera approach to one using depth sensors. Due to a customer desire to run the system on a small, cheap computer a number of Raspberry Pi machines were recieved. Over 20 man-hours were spent on trying to make these communicate with the kinect without success. What we did finish however, was a kinect-based human segmentation, an improved tracker, stereo block matching and the collection of a 40 minute long kinect data set capturing several interesting scenarios.
+
+\subsubsection{Solutions we ended up using}
+The solutions described above that ended up being in use were the kinect-based human segmentation together with a new tracker.
+
+\subsubsection{What did we do well?}
+The kinect based image processing pipeline works well and provides promising results together with the new tracker.
+
+\subsubsection{What improvements are necessary?}
+Better communication is required when big changes occur, such as switching to depth-sensors or abandoning a platform (Raspberry PI). To solve this a new, non-digital SCRUM-board has been created on the whiteboard in the project room, and group members are encouraged to do their work in the project room.
+
+\newpage
+
+\resulttable
+{
+	\addresult{Done.}{\textbf{NW}, MS}
+	\addresult{Cancelled. Hours of tuning did not improve performance enough.}{\textbf{NW}, MS}
+	\addresult{Done, however performance was not good enough to allow further development and tuning.}{\textbf{GH}, EF}
+	\addresult{Done. Performance is not good enough.}{\textbf{GH}, EF}
+	\addresult{Cancelled. Too complicated and too high computational complexity.}{\textbf{GH}, EF}
+	\addresult{Done.}{\textbf{GH}}
+	\addresult{Dropped, focus is shifted to the Kinect sensor.}{\textbf{AS}, MT, MR}
+	\addresult{Evaluated but dropped due to block matching using OpenCV build-in functions being too slow.}{\textbf{AS}, MT}
+	\addresult{Done using the Kinect sensor.}{\textbf{AS}, MT, MR}
+	\addresult{Done.}{\textbf{MS}, NW}	
+	\addresult{Almost done.}{\textbf{MR}, MS}
+	\addresult{Done.}{\textbf{AS}, MT}
+	\addresult{In progress.}{\textbf{MT}, All}
+	\addresult{Done.}{\textbf{EF}}
+	\addresult{Done.}{\textbf{MS}}
+	\addresult{Done.}{\textbf{MS}, MT}
+	\addresult{Done.}{Everyone}
+	\addresult{Done. The tracker now handles a lot more difficult cases.}{\textbf{EF}}
+	
+
+			
+	
+
+}
+
+\subsection{New Backlog Items}
+Several new backlog items were created as a result of this sprint, most of which are aimed towards finishing the problems, dealing with the final issues.
+
+\subsubsection{Stream live from the kinect sensor}
+Make the program run live using the kinect sensor on Windows as well as Mac OS X.
+
+\subsubsection{Evaluation data set}
+In order to make a somewhat reasonable estimation of system performance an evaluation data set needs to be collected from a different student kitchen.  
+
+

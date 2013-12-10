@@ -25,6 +25,7 @@ IF(WIN32)
         MESSAGE( STATUS "Build type: "${BUILD_TYPE})
         IF(${BUILD_TYPE} STREQUAL "DEBUG")
             add_definitions(-D_ITERATOR_DEBUG_LEVEL=1) # Remove itterator assert
+            add_definitions(-D_CRT_SECURE_NO_WARNINGS)
             MESSAGE( STATUS "ITERATOR_DEBUG_LEVEL=1")
         ENDIF()
 
@@ -80,6 +81,9 @@ ADD_SUBDIRECTORY(ImageProcessing)
 ADD_SUBDIRECTORY(Network)
 ADD_SUBDIRECTORY(Analytics)
 ADD_SUBDIRECTORY(Utilities)
+ADD_SUBDIRECTORY(Evaluation)
+# ADD_SUBDIRECTORY(ExtLib)
+
 
 # Binaries
 ADD_EXECUTABLE(dense_kitchen main.cpp DenseKitchen.cpp)
@@ -92,6 +96,7 @@ TARGET_LINK_LIBRARIES (dense_kitchen
     Network
     Statistics
     Utilities
+	Evaluation
     # ExtLib
     ${OpenCV_LIBS}
     ${OPENNI2_LIBS}

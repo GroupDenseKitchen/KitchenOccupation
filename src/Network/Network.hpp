@@ -7,9 +7,9 @@
 #include "../Configuration/ConfigurationManager.hpp"
 
 #ifdef __APPLE__
-#include "KinectHandlerFreenect.hpp"
+    #include "KinectHandlerFreenect.hpp"
 #else
-#include "KinectHandlerOpenNi.hpp"
+    #include "KinectHandlerOpenNi.hpp"
 #endif // ifdef __APPLE__
 
 #include <QtNetwork/QtNetwork>

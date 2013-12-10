@@ -1,4 +1,5 @@
 #include "Evaluation.hpp"
+#include <numeric>
 
 using namespace rapidxml;
 

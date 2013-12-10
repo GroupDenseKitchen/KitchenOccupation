@@ -15,6 +15,9 @@
 #include <queue>
 #include <deque>
 #include <map>
+#include <cmath>
+
+#include <random>
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -23,6 +26,7 @@
 #include <opencv2/video/tracking.hpp>
 #include <opencv2/video/video.hpp>
 #include <opencv2/opencv.hpp>
+#include "opencv2/features2d/features2d.hpp"
 
 #include "../Debugging/Logger.hpp"
 

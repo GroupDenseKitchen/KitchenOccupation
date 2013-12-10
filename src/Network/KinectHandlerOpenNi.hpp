@@ -6,9 +6,11 @@
 
 #include <OpenNI.h>
 #undef min
-//#undef max
+#undef max
 
-
+/*!
+ *      \brief kinect contains functionality for reading rgb and depth images from a kinect 360 devise.
+ */
 namespace kinect
 {
 struct KinectFrame 

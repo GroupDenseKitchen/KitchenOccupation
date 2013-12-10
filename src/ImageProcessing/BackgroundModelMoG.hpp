@@ -9,6 +9,8 @@ namespace image_processing
 {
 /*!
  *  \brief   Process step which creates binary image using OpenCV function BackgroundModelMoG2.
+ *           Z. Zivkovic. Improved adaptive Gausian mixture model for background subtraction.
+ *           International Conference Pattern Recognition, UK, August, 2004.
  */
 class BackgroundModelMoG : public Algorithm
 {
@@ -24,14 +26,14 @@ public:
     ~BackgroundModelMoG();
 
     /*!
-       \brief   Performs the background modulation.
+       \brief   Performs the process step background modulation.
     */
     void process(FrameList &frames) override;
 
     /*!
        \brief   Initialize the algorithm.
        \details Returns false if initialization fails,
-                e.g. if a required variable is not set
+                e.g. if a required variables is not set
     */
     bool initialize(configuration::ConfigurationManager &conf) override;
 

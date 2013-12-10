@@ -18,6 +18,7 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
     //
     //               |VARIABLE          |NAME                  |DEFAULT
     //---------------------------------------------------------------
+
     CONFIG(settings, nmixtures,         "nmixtures",            5);
     CONFIG(settings, backgroundRatio,   "backgroundRatio",      0.95);
     CONFIG(settings, varThresholdGen,   "varThresholdGen",      16);
@@ -30,6 +31,7 @@ bool BackgroundModelMoG::initialize(configuration::ConfigurationManager &setting
     CONFIG(settings, history,           "history",              500);
     CONFIG(settings, learningRate,      "learningRate",         0.0005);
     CONFIG(settings, downSamplingFactor,"downSamplingFactor",   3.0);
+
     REQUIRE(settings, cameraAmount,     "nCameras");
 
     if(isInitialized) {
