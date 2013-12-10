@@ -8,11 +8,14 @@
 #include <numeric>
 
 using namespace std;
-
+/*!
+ * \brief   TODO
+ * \details TODO
+ */
 namespace evaluation
 {
 /*!
- * \brief Tracker accuracy evaluator
+ * \brief   Tracker accuracy evaluator
  * \details Evaluates the performance of the tracker by comparing the output to
  *          ground truth data. Performance is measured using the MOTA and MOTP
  *          methods.
@@ -21,31 +24,34 @@ class TrackerEvaluator
 {
 public:
     /*!
-     * \brief Empty Constructor.
+     * \brief   Empty Constructor.
      */
     TrackerEvaluator();
 
     /*!
-     * \brief Destructor.
+     * \brief   Destructor.
      */
     ~TrackerEvaluator();
 
     /*!
-     * \brief Initializes the tracking module.
-     * \param groundTruthPath Path to ground truth xml-file.
+     * \brief                    Initializes the tracking module.
+     * \details                  TODO
+     * \param groundTruthPath    Path to ground truth xml-file.
      * \param precisionThreshold Threshold for the MOTA/MOTP measurements.
-     * \return Returns true if successful.
+     * \return                   Returns true if successful.
      */
     bool initialize(std::string groundTruthPath, int precisionThresh);
 
     /*!
-     * \brief Calculates MOTA and MOTP for the CameraObject.
-     * \param camera The CameraObject in question.
+     * \brief     Calculates MOTA and MOTP for the CameraObject.
+     * \details   TODO
+     * \param cam The CameraObject in question.
      */
     void process(CameraObject &cam);
 
     /*!
-     * \brief Prints the MOTA and MOTP values.
+     * \brief          Prints the MOTA and MOTP values.
+     * \details        TODO
      * \param camIndex Index of the current camera.
      */
     void printToLog(unsigned int camIndex);

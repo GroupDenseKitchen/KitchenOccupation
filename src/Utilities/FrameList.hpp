@@ -7,107 +7,176 @@
 #include "Frame.hpp"
 
 /*!
- *  \brief     A container of cronoligicaly ordered Frames.
- *  \details   Keeps infinitly or a configurable number of Frames as history apart from the current Frame.
+ * \brief     A container of cronoligicaly ordered Frames.
+ * \details   Keeps infinitly or a configurable number of Frames as history apart from the current Frame.
  */
 class FrameList
 {
 public:
 
     /*!
-       \brief   Constructor.
-    */
+     * \brief              Constructor.
+     * \param framesToKeep TODO
+     */
     FrameList(int framesToKeep = 10);
 
     /*!
-       \brief   Destructor.
-    */
+     * \brief   Destructor.
+     */
     ~FrameList();
 
     /*!
-       \brief   Get the current (latest) Frame.
-    */
+     * \brief   Get the current (latest) Frame.
+     * \details TODO
+     * \return  TODO
+     */
     Frame &getCurrent();
 
     /*!
-       \brief   Get the previous (previously latest) Frame.
-    */
+     * \brief   Get the previous (previously latest) Frame.
+     * \details TODO
+     * \return  TODO
+     */
     Frame &getPrevious();
 
     /*!
-       \brief   Weather there are two or more frames.
-    */
+     * \brief   Weather there are two or more frames.
+     * \details TODO
+     * \return  TODO
+     */
     bool hasPrevious();
 
     /*!
-       \brief   Append the FrameList with the latest Frame.
-    */
+     * \brief          Append the FrameList with the latest Frame.
+     * \details        TODO
+     * \param newFrame TODO
+     */
     void append(Frame newFrame);
 
     /*!
-       \brief   Get the number of frames in history.
-    */
+     * \brief   Get the number of frames in history.
+     * \details TODO
+     * \return  TODO
+     */
     int size() { return (int)frames.size(); }
+
     /*!
-       \brief   Get the current frame counter.
-    */
+     * \brief   Get the current frame counter.
+     * \details TODO
+     * \return  TODO
+     */
     int getFrameCount() { return (int)frameCounter; }
 
     /*!
-     * \brief getExclusionMask
+     * \brief   TODO
+     * \details TODO
+     * \return  TODO
      */
     cv::Mat getExclusionMask() const;
 
     /*!
-     * \brief setExclusionMask
+     * \brief       TODO
+     * \details     TODO
+     * \param value TODO
      */
     void setExclusionMask(const cv::Mat &value);
 
     /*!
-     * \brief hasExclusionMask
+     * \brief   TODO
+     * \details TODO
+     * \return  TODO
      */
     bool hasExclusionMask();
 
     /*!
-     * \brief getDoorMask
+     * \brief   TODO
+     * \details TODO
+     * \return  TODO
      */
     cv::Mat getDoorMask() const;
 
     /*!
-     * \brief setDoorMask
+     * \brief       TODO
+     * \details     TODO
+     * \param value TODO
      */
     void setDoorMask(const cv::Mat &value);
 
     /*!
-     * \brief hasDoorMask
+     * \brief   TODO
+     * \detials TODO
+     * \return  TODO
      */
     bool hasDoorMask();
 
     /*!
-     * \brief getInclusionMask
+     * \brief   TODO
+     * \details TODO
+     * \return  TODO
      */
     cv::Mat getInclusionMask() const;
 
     /*!
-     * \brief setInclusionMask
+     * \brief       TODO
+     * \details     TODO
+     * \param value TODO
      */
     void setInclusionMask(const cv::Mat &value);
 
     /*!
-     * \brief hasInclusionMask
+     * \brief   TODO
+     * \details TODO
+     * \return  TODO
      */
     bool hasInclusionMask();
 
-
+    /*!
+     * \brief   TODO
+     * \details TODO
+     * \return  TODO
+     */
     bool hasCheckPointMasks();
 
+    /*!
+     * \brief   TODO
+     * \details TODO
+     * \return  TODO
+     */
     cv::Mat getCheckPointMaskSmall() const;
+
+    /*!
+     * \brief       TODO
+     * \details     TODO
+     * \param value TODO
+     */
     void setCheckPointMaskSmall(const cv::Mat &value);
 
+    /*!
+     * \brief   TODO
+     * \details TODO
+     * \return  TODO
+     */
     cv::Mat getCheckPointMaskMedium() const;
+
+    /*!
+     * \brief       TODO
+     * \details     TODO
+     * \param value TODO
+     */
     void setCheckPointMaskMedium(const cv::Mat &value);
 
+    /*!
+     * \brief   TODO
+     * \details TODO
+     * \return  TODO
+     */
     cv::Mat getCheckPointMaskLarge() const;
+
+    /*!
+     * \brief       TODO
+     * \details     TODO
+     * \param value TODO
+     */
     void setCheckPointMaskLarge(const cv::Mat &value);
 
 private:

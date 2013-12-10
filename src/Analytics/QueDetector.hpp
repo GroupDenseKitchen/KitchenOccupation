@@ -8,8 +8,9 @@
 #include "../Utilities/CameraObject.hpp"
 
 /*!
- *  \brief      statistics contains functionality for extracting usefull data and meta data after
- *              the image processing steps have been completed.
+ * \brief   statistics contains functionality for extracting usefull data and meta data after
+ *          the image processing steps have been completed.
+ * \details TODO
  */
 namespace statistics
 {
@@ -30,20 +31,23 @@ class QueDetector : public Algorithm
 {
 public:
     /*!
-     *  \brief      Constructor.
+     * \brief   Constructor.
      */
     QueDetector();
 
     /*!
-     *  \brief      Handles initialization.
-     *  \details    Returns false if initialization fails,
-     *              e.g. if a required variable is not set in the config file.
+     * \brief          Handles initialization.
+     * \details        Returns false if initialization fails,
+     *                 e.g. if a required variable is not set in the config file.
+     * \param settings TODO
+     * \return         TODO
      */
     bool initialize( configuration::ConfigurationManager &settings ) override;
 
     /*!
-     *  \brief      Performs the detection of queues.
-     *  \details    Sets queue visibility to true in each camera object where a queue is visible.
+     * \brief        Performs the detection of queues.
+     * \details      Sets queue visibility to true in each camera object where a queue is visible.
+     * \param frames TODO
      */
     void process( FrameList & frames ) override;
 

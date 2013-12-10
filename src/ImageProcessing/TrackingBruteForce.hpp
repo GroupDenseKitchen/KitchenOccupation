@@ -7,39 +7,45 @@
 #include "EntryExitCounter.hpp"
 
 /*!
- *  \brief   Image processing contains functionality for the different
- *           states of image processing required for human detection and tracking.
+ * \brief   Image processing contains functionality for the different
+ *          states of image processing required for human detection and tracking.
+ * \details TODO
  */
 namespace image_processing
 {
 
 /*!
- *  \brief   Process step which tracks bounding boxes between frames.
+ * \brief   Process step which tracks bounding boxes between frames.
+ * \details TODO
  */
 class TrackingBruteForce : public Algorithm
 {
 public:
 
     /*!
-       \brief   Constructor.
-    */
+     * \brief   Constructor.
+     */
     TrackingBruteForce();
 
     /*!
-       \brief   Destructor.
-    */
+     * \brief   Destructor.
+     */
     ~TrackingBruteForce();
 
     /*!
-       \brief   Initialize the algorithm.
-       \details Returns false if initialization fails,
-                e.g. if a required variable is not set in the config file.
-    */
+     * \brief          Initialize the algorithm.
+     * \details        Returns false if initialization fails,
+     *                 e.g. if a required variable is not set in the config file.
+     * \param settings TODO
+     * \return         TODO
+     */
     bool initialize(configuration::ConfigurationManager &settings) override;
 
     /*!
-       \brief   Performs the tracking.
-    */
+     * \brief        Performs the tracking.
+     * \details      TODO
+     * \param frames TODO
+     */
     void process(FrameList &frames) override;
 
 private:

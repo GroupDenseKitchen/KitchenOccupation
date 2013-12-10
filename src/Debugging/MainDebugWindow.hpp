@@ -21,15 +21,20 @@
 
 #include <opencv2/core/core.hpp>
 
+/*!
+ * \brief   TODO
+ * \details TODO
+ */
 namespace Ui {
 class MainDebugWindow;
 }
 
 /*!
- * \brief       The MainDebugWindow class is a debug interface to speed up development,
- *              testing and validation of image processing algorithms.
- * \version     0.1
- * \date        2013-12-06
+ * \brief   The MainDebugWindow class is a debug interface to speed up development,
+ *          testing and validation of image processing algorithms.
+ * \details TODO
+ * \version 0.1
+ * \date    2013-12-06
  */
 class MainDebugWindow : public QMainWindow
 {
@@ -37,19 +42,21 @@ class MainDebugWindow : public QMainWindow
 
 public:
     /*!
-     * \brief Constructor
-     * \param parent
+     * \brief        Constructor
+     * \param parent TODO
      */
     explicit MainDebugWindow(QWidget *parent = 0);
 
     /*!
-     * \brief Destructor
+     * \brief   Destructor
      */
     ~MainDebugWindow();
 
     /*!
-     * \brief Initializes the GUI with values specified in
-     * guiConfig.yml.
+     * \brief                Initializes the GUI with values specified in guiConfig.yml.
+     * \details              TODO
+     * \param mainConfigFile TODO
+     * \param guiConfigFile  TODO
      */
     void init(std::string mainConfigFile, std::string guiConfigFile);
 
@@ -60,8 +67,9 @@ public:
 
 signals:
     /*!
-     * \brief updateDebugViews is used to send a fresh Frame to all sub-widgets and update their content.
-     * \param currentFrame
+     * \brief              updateDebugViews is used to send a fresh Frame to all sub-widgets and update their content.
+     * \details            TODO
+     * \param currentFrame TODO
      */
     void updateDebugViews( Frame currentFrame);
 

@@ -6,39 +6,49 @@
 #include "../Utilities/Algorithm.hpp"
 
 /*!
- *  \brief   Image processing contains functionality for the different
- *           states of image processing required for human detection and tracking.
+ * \brief   Image processing contains functionality for the different
+ *          states of image processing required for human detection and tracking.
+ * \details TODO
  */
 namespace image_processing
 {
 /*!
- *  \brief     The Image Processor is the interface to the image processing functionality.
+ * \brief   The Image Processor is the interface to the image processing functionality.
+ * \details TODO
  */
 class ImageProcessor : public Algorithm
 {
 public:
 
     /*!
-       \brief   Constructor.
-    */
+     * \brief   Constructor.
+     */
     ImageProcessor();
 
     /*!
-       \brief   Destructor.
-    */
+     * \brief   Destructor.
+     */
     ~ImageProcessor();
 
     /*!
-       \brief   Initialize all image processing algorithms.
-       \details Returns false if any of the sub algorithms fail during their initialization.
-    */
+     * \brief          Initialize all image processing algorithms.
+     * \details        Returns false if any of the sub algorithms fail during their initialization.
+     * \param settings TODO
+     * \return         TODO
+     */
     bool initialize(configuration::ConfigurationManager & settings) override;
 
+    /*!
+     * \brief   TODO
+     * \details TODO
+     */
     void reset();
 
     /*!
-       \brief   Perform all image processing algorithms in order.
-    */
+     * \brief        Perform all image processing algorithms in order.
+     * \details      TODO
+     * \param frames TODO
+     */
     void process(FrameList &frames) override;
 };
 }

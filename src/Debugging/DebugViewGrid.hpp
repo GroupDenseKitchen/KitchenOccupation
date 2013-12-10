@@ -5,6 +5,10 @@
 #include <QCloseEvent>
 #include "DebugViewWidget.hpp"
 
+/*!
+ * \brief   TODO
+ * \details TODO
+ */
 namespace Ui {
 class DebugViewGrid;
 }
@@ -21,30 +25,33 @@ class DebugViewGrid : public QWidget
 
 public:
     /*!
-     * \brief Constructor
-     * \param parent
+     * \brief        Constructor
+     * \param parent TODO
      */
     explicit DebugViewGrid(QWidget *parent = 0);
 
     /*!
-     * \brief Destructor
+     * \brief   Destructor
      */
     ~DebugViewGrid();
 
     /*!
-     * \brief initialize takes the desired number of columns and sets up the auto-adaption.
-     * \param nColumns
+     * \brief          Initialize takes the desired number of columns and sets up the auto-adaption.
+     * \details        TODO
+     * \param nColumns TODO
      */
     void initialize(int nColumns);
 
     /*!
-     * \brief addWidget inserts an \ref DebugViewWidget in the grid.
-     * \param widget
+     * \brief        Inserts an \ref DebugViewWidget in the grid.
+     * \details      TODO
+     * \param widget TODO
      */
     void addWidget(DebugViewWidget* widget);
 
     /*!
-     * \brief clearGrid removes everything that is currently in the grid.
+     * \brief   Removes everything that is currently in the grid.
+     * \details TODO
      */
     void clearGrid();
 

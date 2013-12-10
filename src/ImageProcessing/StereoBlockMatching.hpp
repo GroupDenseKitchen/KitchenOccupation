@@ -5,34 +5,43 @@
 #include "../Utilities/FrameList.hpp"
 #include "../Utilities/Algorithm.hpp"
 
+/*!
+ * \brief   TODO
+ * \details TODO
+ */
 namespace image_processing
 {
 /*!
- *  \brief   Process step which creates binary image using OpenCV function BackgroundModelMoG2.
+ * \brief   Process step which creates binary image using OpenCV function BackgroundModelMoG2.
+ * \details TODO
  */
 class StereoBlockMatching : public Algorithm
 {
 public:
     /*!
-       \brief   Constructor.
-    */
+     * \brief   Constructor.
+     */
     StereoBlockMatching();
 
     /*!
-       \brief   Destructor.
-    */
+     * \brief   Destructor.
+     */
     ~StereoBlockMatching();
 
     /*!
-       \brief   Performs the background modulation.
-    */
+     * \brief        Performs the background modulation.
+     * \details      TODO
+     * \param frames TODO
+     */
     void process(FrameList &frames) override;
 
     /*!
-       \brief   Initialize the algorithm.
-       \details Returns false if initialization fails,
-                e.g. if a required variable is not set
-    */
+     * \brief      Initialize the algorithm.
+     * \details    Returns false if initialization fails,
+     *             e.g. if a required variable is not set.
+     * \param conf TODO
+     * \return     TODO
+     */
     bool initialize(configuration::ConfigurationManager &conf) override;
 
 private:

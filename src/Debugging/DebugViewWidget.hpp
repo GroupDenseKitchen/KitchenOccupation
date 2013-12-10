@@ -6,6 +6,10 @@
 #include <QWidget>
 #include <opencv2/core/core.hpp>
 
+/*!
+ * \brief   TODO
+ * \details TODO
+ */
 namespace Ui {
 class DebugViewWidget;
 }
@@ -13,6 +17,7 @@ class DebugViewWidget;
 /*!
  * \brief   The DebugViewWidget class if simply a container for a \ref cv::Mat representing a certain
  *          step in the preocess chain.
+ * \details TODO
  */
 class DebugViewWidget : public QWidget
 {
@@ -20,37 +25,42 @@ class DebugViewWidget : public QWidget
 
 public:
     /*!
-     * \brief Constructor
-     * \param parent
+     * \brief        Constructor
+     * \param parent TODO
      */
     explicit DebugViewWidget(QWidget *parent = 0);
 
     /*!
-     * \brief Destructor
+     * \brief   Destructor
      */
     ~DebugViewWidget();
 
     /*!
-     * \brief initialize sets up the widget, adding a label with the represented preocesses step and camera.
-     * \param processStepName
-     * \param camNumber
+     * \brief                 Sets up the widget, adding a label with the represented preocesses step and camera.
+     * \details               TODO
+     * \param processStepName TODO
+     * \param camNumber       TODO
      */
     void initialize(const std::string processStepName, int camNumber);
 
     /*!
-     * \brief showImage converts the \ref cv::Mat into a \ref QImage and displays it.
+     * \brief   Converts the \ref cv::Mat into a \ref QImage and displays it.
+     * \details TODO
      */
     void showImage();
 
     /*!
-     * \brief getIdentifier returns the process step and camera of the widget.
-     * \return
+     * \brief   Returns the process step and camera of the widget.
+     * \details TODO
+     * \return  TODO
      */
     std::string getIdentifier();
 
 public slots:
     /*!
      * \brief updateView receivs a \ref Frame, stores it in the widget and displays the new one.
+     * \details TODO
+     * \param TODO
      */
     void updateView( Frame );
 

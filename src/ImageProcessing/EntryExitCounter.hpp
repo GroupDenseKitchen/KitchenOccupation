@@ -5,43 +5,56 @@
 #include "../Utilities/FrameList.hpp"
 #include "../Utilities/Algorithm.hpp"
 
-
+/*!
+ * \brief   TODO
+ * \details TODO
+ */
 namespace image_processing
 {
 /*!
-   \brief   Checks if a 2D-point is inside a polygon.
-*/
+ * \brief       Checks if a 2D-point is inside a polygon.
+ * \details     TODO
+ * \param mask  TODO
+ * \param point TODO
+ * \return      TODO
+ */
 bool isInsidePolygon(cv::Mat mask, cv::Point2d point);
 
 /*!
- *  \brief     Process step which determines if objects are lost in an entry area, creates bounding boxes.
+ * \brief   Process step which determines if objects are lost in an entry area, creates bounding boxes.
+ * \details TODO
  */
 class EntryExitCounter : public Algorithm
 {
 public:
     /*!
-       \brief   Constructor.
-    */
+     * \brief   Constructor.
+     */
     EntryExitCounter();
 
     /*!
-       \brief   Destructor.
-    */
+     * \brief   Destructor.
+     */
     ~EntryExitCounter();
 
     /*!
-       \brief   Performs the process step, counts people.
-    */
+     * \brief        Performs the process step, counts people.
+     * \details      TODO
+     * \param frames TODO
+     */
     void process(FrameList &frames) override;
+
     /*!
-       \brief   Initialize the algorithm.
-       \details Returns false if initialization fails,
-                e.g. if a required variable is not set
-    */
-     bool initialize(configuration::ConfigurationManager &conf) override;
+     * \brief      Initialize the algorithm.
+     * \details    Returns false if initialization fails,
+     *             e.g. if a required variable is not set.
+     * \param conf TODO
+     * \return     TODO
+     */
+    bool initialize(configuration::ConfigurationManager &conf) override;
 
 private:
-int totalPopulation;
+    int totalPopulation;
 };
 }
 #endif

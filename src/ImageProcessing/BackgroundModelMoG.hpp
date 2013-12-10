@@ -5,36 +5,45 @@
 #include "../Utilities/FrameList.hpp"
 #include "../Utilities/Algorithm.hpp"
 
+/*!
+ * \brief   TODO
+ * \details TODO
+ */
 namespace image_processing
 {
 /*!
- *  \brief   Process step which creates binary image using OpenCV function BackgroundModelMoG2.
- *           Z. Zivkovic. Improved adaptive Gausian mixture model for background subtraction.
- *           International Conference Pattern Recognition, UK, August, 2004.
+ * \brief   Process step which creates binary image using OpenCV function BackgroundModelMoG2.
+ *          Z. Zivkovic. Improved adaptive Gausian mixture model for background subtraction.
+ *          International Conference Pattern Recognition, UK, August, 2004.
+ * \details TODO
  */
 class BackgroundModelMoG : public Algorithm
 {
 public:
     /*!
-       \brief   Constructor.
-    */
+     * \brief   Constructor.
+     */
     BackgroundModelMoG();
 
     /*!
-       \brief   Destructor.
-    */
+     * \brief   Destructor.
+     */
     ~BackgroundModelMoG();
 
     /*!
-       \brief   Performs the process step background modulation.
-    */
+     * \brief        Performs the process step background modulation.
+     * \details      TODO
+     * \param frames TODO
+     */
     void process(FrameList &frames) override;
 
     /*!
-       \brief   Initialize the algorithm.
-       \details Returns false if initialization fails,
-                e.g. if a required variables is not set
-    */
+     * \brief      Initialize the algorithm.
+     * \details    Returns false if initialization fails,
+     *             e.g. if a required variables is not set.
+     * \param conf TODO
+     * \return     TODO
+     */
     bool initialize(configuration::ConfigurationManager &conf) override;
 
 private:

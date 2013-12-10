@@ -9,16 +9,21 @@
 
 #include <opencv2/core/core.hpp>
 
+/*!
+ * \brief   TODO
+ * \details TODO
+ */
 namespace Ui {
 class MainConfigurationWindow;
 }
 
 /*!
- * \brief The MainConfigurationWindow class is a window where you can cnfigure
- * different settings in the system. Especially masks used to define doors and
- * exceptions for a camera. The door mask is used to check if a person is
- * currently in a doorway and the exception mask is used to speed up and harden
- * the system by defining ares that are not interesrting for the system.
+ * \brief   The MainConfigurationWindow class is a window where you can cnfigure
+ *          different settings in the system. Especially masks used to define doors and
+ *          exceptions for a camera. The door mask is used to check if a person is
+ *          currently in a doorway and the exception mask is used to speed up and harden
+ *          the system by defining ares that are not interesrting for the system.
+ * \details TODO
  */
 class MainConfigurationWindow : public QWidget
 {
@@ -26,26 +31,28 @@ class MainConfigurationWindow : public QWidget
 
 public:
     /*!
-     * \brief Constructor
+     * \brief   Constructor
      */
     explicit MainConfigurationWindow(QWidget *parent = 0);
 
     /*!
-     * \brief Destructor
+     * \brief   Destructor
      */
     ~MainConfigurationWindow();
 
     /*!
-     * \brief initialize sets up the \ref MainConfigurationWindow
-     * \param mainProgram
-     * \param filepath
+     * \brief             initialize sets up the \ref MainConfigurationWindow
+     * \details           TODO
+     * \param mainProgram TODO
+     * \param filepath    TODO
      */
     void initialize(DenseKitchen* mainProgram , std::string filepath);
 
 public slots:
     /*!
-     * \brief updateWindow
-     * \param currentFrame
+     * \brief              TODO
+     * \details            TODO
+     * \param currentFrame TODO
      */
     void updateWindow(Frame currentFrame);
 

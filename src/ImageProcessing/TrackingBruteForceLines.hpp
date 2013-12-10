@@ -7,29 +7,45 @@
 
 #include "EntryExitCounter.hpp"
 
-
-
-
+/*!
+ * \brief   TODO
+ * \details TODO
+ */
 namespace image_processing
 {
+/*!
+ * \brief   TODO
+ * \details TODO
+ */
 class TrackingBruteForceLines :  public Algorithm
 {
 public:
+    /*!
+     * \brief Constructor.
+     */
     TrackingBruteForceLines();
 
+    /*!
+     * \brief Destructor.
+     */
     ~TrackingBruteForceLines();
 
     /*!
-       \brief   Initialize the algorithm.
-       \details Returns false if initialization fails,
-                e.g. if a required variable is not set in the config file.
-    */
+     * \brief          Initialize the algorithm.
+     * \details        Returns false if initialization fails,
+     *                 e.g. if a required variable is not set in the config file.
+     * \param settings TODO
+     * \return         TODO
+     */
     bool initialize(configuration::ConfigurationManager &settings) override;
 
     /*!
-       \brief   Performs the tracking.
-    */
+     * \brief        Performs the tracking.
+     * \details      TODO
+     * \param frames TODO
+     */
     void process(FrameList &frames) override;
+
 private:
     int nextUniequeID;
 
