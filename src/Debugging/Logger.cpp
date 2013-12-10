@@ -102,7 +102,7 @@ ProfilerEntry Logger::popProfiler()
 
 int Logger::profilerSize()
 {
-    return loopIterations.size();
+    return (int)loopIterations.size();
 }
 
 void Logger::profilerBeginIteration()

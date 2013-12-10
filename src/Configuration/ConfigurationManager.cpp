@@ -41,7 +41,7 @@ namespace configuration
     bool ConfigurationManager::getBool(std::string name)
     {
         if (hasBool(name)) {
-            return intBoolMap[name];
+            return (bool)intBoolMap[name];
         } else {
             LOG("Settings Error", "Variable not found, use the \"hasBool\" function first");
             return false;

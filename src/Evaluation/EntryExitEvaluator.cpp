@@ -44,7 +44,7 @@ bool EntryExitEvaluator::initialize(configuration::ConfigurationManager &setting
         // Save the ground truth values in groundTrouth.
         std::vector<inOutEvent> currentCamera;
         inOutEvent inOut;
-        std::cout << in.size();
+        //std::cout << in.size();
         for(std::vector<int>::size_type n = 0; n != in.size(); n++) {
             inOut.in = in[n];
             inOut.out = out[n];
