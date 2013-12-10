@@ -77,12 +77,11 @@ namespace statistics
 
     void QueDetector::drawQue(cv::Mat & dstImage, const Que & que)
     {
-        /*
         //OpenCV wants this in c-arrays (of arrays)
         const int numPoints = 4; //Cubic spline
-        const int numStrips = que.splineStrips.size();
+        const int numStrips = (int)que.splineStrips.size();
         cv::Point **points = new cv::Point*[numStrips];
-        int numberOfPoints[numStrips];
+        int* numberOfPoints = new int[numStrips];
 
         //Fill per-spline-arrays with points on each spline strip
         for (int j = 0; j < numStrips; ++j) {
@@ -97,14 +96,14 @@ namespace statistics
         //Draw spline
         cv::polylines(dstImage,
                       const_cast<const cv::Point**>(points),
-                      numberOfPoints,que.splineStrips.size(),
+                      numberOfPoints,numStrips,
                       false, cv::Scalar(255,255,255),2);
 
         //Clean up spline points
         for (int j = 0; j < numStrips; ++j) {
             delete[] points[j];
         }
-        */
+        delete numberOfPoints;
     }
 
     void QueDetector::subdivideSpline(SplineStrip &strip,
@@ -188,10 +187,11 @@ namespace statistics
                                           std::vector<Object> & destObjects,
                                           DirectedQueEdge & destEdge)
     {
-        /*
         for (Object & destObj : destObjects) {
             std::vector<SplineStrip> tmpSpline;
-            std::vector<Object> tmpPair( {fromObject, destObj} );
+            std::vector<Object> tmpPair;
+            tmpPair.push_back(fromObject);
+            tmpPair.push_back(destObj);
             splineFromObjects(tmpPair, tmpSpline, maxSplineSegmentLength );
             float length = splineLength( tmpSpline );
             if ( length < splineLengthThreshold && length < destEdge.distance ) {
@@ -200,12 +200,10 @@ namespace statistics
                 destEdge.distance = length;
             }
         }
-        */
     }
 
     void QueDetector::quesFromEdges(std::vector<DirectedQueEdge> &queEdges, std::vector<Que> &ques)
     {
-        /*
         //TODO: Do something smarter than (make sure each que is disjoint from all other ques)
         //Right now all edges/objects in que are put into one single queue
         //Also, remove loops in queue-graph
@@ -221,16 +219,15 @@ namespace statistics
             //of a queue edge.
              //--So far this isn't used so left out for speed
             if ( theQue.queObjects.find(queEdge.from.id) == theQue.queObjects.end() ) {
-                theQue.queObjects.insert( {queEdge.from.id, queEdge.from} );
+                theQue.queObjects.insert( std::pair<int,Object>(queEdge.from.id, queEdge.from) );
             }
             if ( theQue.queObjects.find(queEdge.to.id) == theQue.queObjects.end() ) {
-                theQue.queObjects.insert( {queEdge.to.id, queEdge.to} );
+                theQue.queObjects.insert( std::pair<int,Object>(queEdge.to.id, queEdge.to) );
             }
         }
         if ( !theQue.splineStrips.empty() ) { //Only add non-empty que
             ques.push_back( theQue );
         }
-        */
     }
 
 }

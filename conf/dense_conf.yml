@@ -23,8 +23,8 @@ Evaluation:
 cameraPaths:
    - "/Users/erikfall/Dropbox/Dense Kitchen (1)/seq8.mp4"
 videoFilePaths:
-   - "../data/seq3/seq3.mp4"
+   - "../data/seq9/seq9-4.mp4"
 trackerGroundTruthPaths:
    - "../data/seq3/seq3GT.xml"
 entryExitGroundTruthPaths:
-   - "../data/seq3/seq3EntryExitGT.yml"
+   - "../data/seq9/seq9-4.yml"
