@@ -72,5 +72,7 @@ private:
     std::string networkWritePath;
 };
 
+char *openniErrorToString(openni::Status & status);
+
 } // namspace kinect
 #endif

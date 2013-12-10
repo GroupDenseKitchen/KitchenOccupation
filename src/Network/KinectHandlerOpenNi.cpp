@@ -55,7 +55,7 @@ bool KinectHandler::initialize(configuration::ConfigurationManager& settings)
             rc = depth.start();
             if (rc != openni::STATUS_OK)
             {
-                printf("Couldn't start depth stream:\n%s\n", openni::OpenNI::getExtendedError());
+                printf("Couldn't start depth stream (%s):\n%s\n",openniErrorToString(rc), openni::OpenNI::getExtendedError());
                 depth.destroy();
                 return false;
             }
@@ -72,7 +72,7 @@ bool KinectHandler::initialize(configuration::ConfigurationManager& settings)
             rc = color.start();
             if (rc != openni::STATUS_OK)
             {
-                printf("Couldn't start color stream:\n%s\n", openni::OpenNI::getExtendedError());
+                printf("Couldn't start color stream (%s):\n%s\n",openniErrorToString(rc), openni::OpenNI::getExtendedError());
                 color.destroy();
                 return false;
             }
@@ -134,6 +134,17 @@ int KinectHandler::getnDevices()
 {
 	//TODO stub
 	return nDevices;
+}
+
+
+char * openniErrorToString(openni::Status & status) {
+    return status == openni::STATUS_BAD_PARAMETER ? "Bad parameter" :
+           status == openni::STATUS_NOT_IMPLEMENTED ? "Not implemented" :
+           status == openni::STATUS_NOT_SUPPORTED ? "Not supported" :
+           status == openni::STATUS_NO_DEVICE ? "No device" :
+           status == openni::STATUS_TIME_OUT ? "Time out" :
+           status == openni::STATUS_OUT_OF_FLOW ? "Out of flow" :
+           status == openni::STATUS_ERROR ? "Generic Error" :  "Unknown error";
 }
 
 } // namespace kinect
