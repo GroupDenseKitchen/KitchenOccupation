@@ -64,7 +64,7 @@ protected:
      */
     bool isInitialized;
 
-
+    
     std::vector<Algorithm *> algorithms;
     std::vector<std::string> algorithmTag;
 

@@ -345,7 +345,7 @@ void MainDebugWindow::updateGUI()
             // Video recorder
              if(program->getFrames()->size() > 0 && program->getFrames()->getCurrent().getCameras().back().hasImage("rawImage")) {
                  videoWriter = new cv::VideoWriter[program->getFrames()->getCurrent().getCameras().size()*3];
-                 for(int c = 0; c < program->getFrames()->getCurrent().getCameras().size()*3; c += 3) {
+                 for(int c = 0; c+2 < program->getFrames()->getCurrent().getCameras().size()*3; c += 3) {
                      videoWriter[c] = cv::VideoWriter("rawImage"+std::to_string(c/3)+".avi", CV_FOURCC('D','I','V','X'), 30, program->getFrames()->getCurrent().getCameras()[c/3].getImage("rawImage").size());
                      videoWriter[c+1] = cv::VideoWriter("rawColorImage"+std::to_string(c/3)+".avi", CV_FOURCC('D','I','V','X'), 30, program->getFrames()->getCurrent().getCameras()[c/3].getImage("rawColorImage").size());
                      videoWriter[c+2] = cv::VideoWriter("liveSystem"+std::to_string(c/3)+".avi", CV_FOURCC('D','I','V','X'), 30, program->getFrames()->getCurrent().getCameras()[c/3].getImage("debugImage").size());
@@ -354,7 +354,7 @@ void MainDebugWindow::updateGUI()
         }
         else
         {
-            for(int c = 0; c < program->getFrames()->getCurrent().getCameras().size()*3; c += 3) {
+            for(int c = 0; c+2 < program->getFrames()->getCurrent().getCameras().size()*3; c += 3) {
                 if(program->getFrames()->getCurrent().getCameras()[c/3].hasImage("rawImage"))
                     videoWriter[c].write(program->getFrames()->getCurrent().getCameras()[c/3].getImage("rawImage"));
                 if(program->getFrames()->getCurrent().getCameras()[c/3].hasImage("rawColorImage"))

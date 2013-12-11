@@ -5,8 +5,9 @@
 #include "Algorithm.hpp"
 
 /*!
- * \brief     Global factory of algorithms
- * \details   TODO
+ * \brief     Algorithm Factory store available algorithms that can be added to the pipeline from config file.
+ * \warning   Algorithms stored are currently shared, meaning that there exist only ONE algorithm of each type with the same name.\n
+ *            This should be improved with cloning of algorithms, since algorithms can contain member data which should not be shared between different instances in the pipeline of the same algorithm type.
  */
 class AlgorithmFactory
 {
