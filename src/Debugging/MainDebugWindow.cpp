@@ -17,13 +17,15 @@ MainDebugWindow::MainDebugWindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowTitle("DenseDebugger");
     isRecordToFiles = false;
+    videoWriter = 0;
 }
 
 MainDebugWindow::~MainDebugWindow()
 {
-    videoWriterRaw.release();
-    videoWriterRawColor.release();
-    videoWriterLiveSystem.release();
+    for(int c = 0; c < program->frames.getCurrent().getCameras().size()*3; c++) {
+        videoWriter[c].release();
+    }
+    delete [] videoWriter;
     delete ui;
 }
 
@@ -339,23 +341,27 @@ void MainDebugWindow::updateGUI()
 
     // Debug
     if(isRecordToFiles) {
-        if(!videoWriterRaw.isOpened()) {
+        if(videoWriter == 0 || !videoWriter[0].isOpened()) {
             // Video recorder
              if(program->frames.size() > 0 && program->frames.getCurrent().getCameras().back().hasImage("rawImage")) {
-                videoWriterRaw = cv::VideoWriter("rawImage.avi", CV_FOURCC('D','I','V','X'), 30, program->frames.getCurrent().getCameras().back().getImage("rawImage").size());
-                videoWriterRawColor = cv::VideoWriter("rawColorImage.avi", CV_FOURCC('D','I','V','X'), 30, program->frames.getCurrent().getCameras().back().getImage("rawColorImage").size());
-                videoWriterLiveSystem = cv::VideoWriter("liveSystem.avi", CV_FOURCC('D','I','V','X'), 30, program->frames.getCurrent().getCameras().back().getImage("debugImage").size());
+                 videoWriter = new cv::VideoWriter[program->frames.getCurrent().getCameras().size()*3];
+                 for(int c = 0; c < program->frames.getCurrent().getCameras().size()*3; c += 3) {
+                     videoWriter[c] = cv::VideoWriter("rawImage"+std::to_string(c/3)+".avi", CV_FOURCC('D','I','V','X'), 30, program->frames.getCurrent().getCameras()[c/3].getImage("rawImage").size());
+                     videoWriter[c+1] = cv::VideoWriter("rawColorImage"+std::to_string(c/3)+".avi", CV_FOURCC('D','I','V','X'), 30, program->frames.getCurrent().getCameras()[c/3].getImage("rawColorImage").size());
+                     videoWriter[c+2] = cv::VideoWriter("liveSystem"+std::to_string(c/3)+".avi", CV_FOURCC('D','I','V','X'), 30, program->frames.getCurrent().getCameras()[c/3].getImage("debugImage").size());
+                 }
              }
-
         }
         else
         {
-            if(program->frames.getCurrent().getCameras().back().hasImage("rawImage"))
-                videoWriterRaw.write(program->frames.getCurrent().getCameras().back().getImage("rawImage"));
-            if(program->frames.getCurrent().getCameras().back().hasImage("rawColorImage"))
-                videoWriterRawColor.write(program->frames.getCurrent().getCameras().back().getImage("rawColorImage"));
-            if(program->frames.getCurrent().getCameras().back().hasImage("debugImage"))
-                videoWriterLiveSystem.write(program->frames.getCurrent().getCameras().back().getImage("debugImage"));
+            for(int c = 0; c < program->frames.getCurrent().getCameras().size()*3; c += 3) {
+                if(program->frames.getCurrent().getCameras()[c/3].hasImage("rawImage"))
+                    videoWriter[c].write(program->frames.getCurrent().getCameras()[c/3].getImage("rawImage"));
+                if(program->frames.getCurrent().getCameras()[c/3].hasImage("rawColorImage"))
+                    videoWriter[c+1].write(program->frames.getCurrent().getCameras()[c/3].getImage("rawColorImage"));
+                if(program->frames.getCurrent().getCameras()[c/3].hasImage("debugImage"))
+                    videoWriter[c+2].write(program->frames.getCurrent().getCameras()[c/3].getImage("debugImage"));
+            }
         }
     }
 }

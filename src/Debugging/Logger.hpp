@@ -238,10 +238,12 @@ public:
     void profilerDumpSectionToConsole(ProfilerEntry * pe, int depth = 0);
 
 private:
+    // Logging
     std::deque<LogEntry> logFile;
     std::string buildDate;
     std::string buildTime;
     time_t rawTime;
+    int maxLogEntrySize;
 
     // Profiler
     std::deque<ProfilerEntry> loopIterations;
