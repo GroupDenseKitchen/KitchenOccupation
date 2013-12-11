@@ -7,11 +7,7 @@
 #include "../Analytics/Que.hpp"
 #include "../Utilities/CameraObject.hpp"
 
-/*!
- * \brief   statistics contains functionality for extracting usefull data and meta data after
- *          the image processing steps have been completed.
- * \details TODO
- */
+
 namespace statistics
 {
 
@@ -36,18 +32,16 @@ public:
     QueDetector();
 
     /*!
-     * \brief          Handles initialization.
-     * \details        Returns false if initialization fails,
-     *                 e.g. if a required variable is not set in the config file.
-     * \param settings TODO
-     * \return         TODO
+     * \brief           Handles initialization.
+     * \param settings  A configuration::ConfigurationManager object that potentially includes values for the
+     *                  algorithm's constants.
+     * \return          Returns false if the initialization fails, e.g. if a required variable is not set in the config file.
      */
     bool initialize( configuration::ConfigurationManager &settings ) override;
 
     /*!
-     * \brief        Performs the detection of queues.
-     * \details      Sets queue visibility to true in each camera object where a queue is visible.
-     * \param frames TODO
+     * \brief           Performs the algorithm.
+     * \param frames    A FrameList object containing the current and some of the previos frames.
      */
     void process( FrameList & frames ) override;
 
