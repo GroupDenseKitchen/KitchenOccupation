@@ -17,16 +17,16 @@ KinectHandler::~KinectHandler()
 
 bool KinectHandler::initialize()
 {
-    //Try to grab data once to make sure device is connected
-    std::uint16_t *depthData = 0;
-    std::uint32_t timestamp = 0;
-    if (freenect_sync_get_depth( (void**)&depthData, &timestamp, 0, FREENECT_DEPTH_11BIT) ) {
-        nDevices = 0;
-        std::cout << "Couldn't read from kinect.." << std::endl;
+    freenect_context *f_ctx;
+    if (freenect_init(&f_ctx, NULL) < 0) {
+            LOG("Kinect handler error","freenect_init() failed\n");
+            return false;
+        }
+
+    nDevices = freenect_num_devices (f_ctx);
+    if (nDevices == 0) {
         return false;
     } else {
-        nDevices = 1;
-        std::cout << "Started reading from kinect.." << std::endl;
         return true;
     }
 }
@@ -37,7 +37,7 @@ KinectFrame* KinectHandler::readFrame(int deviceID)
 
     // ------------ Depth ---------------
     std::uint16_t *depthData = 0;
-    if (freenect_sync_get_depth( (void**)&depthData, &frame->timestamp, 0, FREENECT_DEPTH_11BIT) ) {
+    if (freenect_sync_get_depth( (void**)&depthData, &frame->timestamp, deviceID, FREENECT_DEPTH_11BIT) ) {
         LOG( "KinectHandler","Error reading from kinnect. Is it connected?" );
         return NULL;
     }
@@ -55,7 +55,7 @@ KinectFrame* KinectHandler::readFrame(int deviceID)
     // ------------- BGR -----------------
     std::uint8_t *rgbData = 0;
     std::uint32_t timestampRgb;
-    if ( freenect_sync_get_video((void**)&rgbData, &timestampRgb, 0, FREENECT_VIDEO_RGB) ) {
+    if ( freenect_sync_get_video((void**)&rgbData, &timestampRgb, deviceID, FREENECT_VIDEO_RGB) ) {
         LOG( "KinectHandler","Error reading from kinnect. Is it connected?" );
         return NULL;
     }
