@@ -40,16 +40,14 @@ struct SplineStrip
 
     /*!
      * \brief    Constructor.
-     * \param P0 TODO
-     * \param C1 TODO
-     * \param C2 TODO
-     * \param P1 TODO
      */
     explicit SplineStrip(cv::Point2f P0, cv::Point2f C1, cv::Point2f C2, cv::Point2f P1): p0(P0), c1(C1), c2(C2), p1(P1) {}
 
     /*!
-     * \brief  Calculates upper bound of spline length.
-     * \details TODO
+     * \brief   Calculates upper bound of spline length.
+     * \details The control points of a bezier spline define a convex hull for the curve.
+     *          The upper bound for the curve is therefore calculated as the lengths of the lines between
+     *          each of the control points.
      * \return The lenght.
      */
     float length() {return cv::norm(c1 - p0) + cv::norm(c2 - c1) + cv::norm(p1 - c2);}
@@ -95,24 +93,18 @@ struct DirectedQueEdge
 
     /*!
      * \brief              Constructor.
-     * \param fromObj      TODO
-     * \param toObj        TODO
-     * \param SplineStrips TODO
-     * \param dist         TODO
      */
     DirectedQueEdge(Object fromObj, Object toObj, std::vector<SplineStrip> splineStrips, float dist):
         from(fromObj), to(toObj), spline(splineStrips), distance(dist) {}
 
     /*!
      * \brief         Constructor
-     * \param fromObj TODO
      */
     DirectedQueEdge(Object fromObj): from(fromObj), to(fromObj), spline(std::vector<SplineStrip>()), distance( DBL_MAX ) {}    
 };
 
 /*!
  * \brief   A queue of persons.
- * \details TODO
  */
 struct Que
 {
