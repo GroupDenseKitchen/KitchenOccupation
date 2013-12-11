@@ -103,12 +103,12 @@ void KinectSegmentation::process(FrameList &frames)
 
 
          // Calculate histogram
-         /*
+/*
          cv::Mat histogram;
          int histSize = 256;
-         float range[] = { lowestDistanceOverFloor, 256 } ;
+         float range[] = { 0, 256 } ;
          const float* histRange = { range };
-         cv::calcHist(&correctedGrayImage,
+         cv::calcHist(&grayImage,
                   1,
                   0,
                   cv::Mat(),
@@ -121,6 +121,8 @@ void KinectSegmentation::process(FrameList &frames)
          int hist_h = grayImage.size().height;
          int bin_w = cvRound( (double) hist_w/histSize );
          cv::Mat histImage( hist_h, hist_w, grayImage.type(), cv::Scalar(0) );
+
+         cv::normalize(histogram,histogram, 0, histImage.rows,cv::NORM_MINMAX, -1, cv::Mat() );
          for( int i = 1; i < histSize; i++ )
          {
              cv::line( histImage, cv::Point( bin_w*(i-1), hist_h - cvRound(histogram.at<float>(i-1)) ) ,

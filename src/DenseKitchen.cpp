@@ -16,7 +16,6 @@ bool DenseKitchen::initialize(std::string path) {
     algorithmFactory.add("EntryExitCounter",                 new image_processing::EntryExitCounter());
     algorithmFactory.add("StereoBlockMatching",              new image_processing::StereoBlockMatching());
     algorithmFactory.add("KinectSegmentation",               new image_processing::KinectSegmentation());
-    algorithmFactory.add("TrackingBruteForceLines",          new image_processing::TrackingBruteForceLines());
     algorithmFactory.add("Analytics",                        new statistics::Analytics());
     algorithmFactory.add("CircleDetection",                   new image_processing::CircleDetection());
     algorithmFactory.add("QueDetector",                      new statistics::QueDetector());
