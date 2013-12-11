@@ -4,15 +4,11 @@
 #include "../Utilities/Algorithm.hpp"
 #include "../Utilities/utilities.hpp"
 
-/*!
- *  \brief   Evaluates systems entry/exit counter
- *  \details TODO
- */
+
 namespace evaluation {
 
 /*!
- * \brief   TODO
- * \details TODO
+ * \brief   Describes how many people entered or exited the room in the current frame.
  */
 struct inOutEvent {
     int in;
@@ -20,8 +16,9 @@ struct inOutEvent {
 };
 
 /*!
- * \brief   TODO
- * \details TODO
+ * \brief   Evaluates system counting performance.
+ * \details System performance is evaluated here by comparing the total number of people that
+ *          have exited the room to a pre-recorded ground truth file.
  */
 class EntryExitEvaluator : public Algorithm
 {
@@ -38,26 +35,26 @@ public:
 
     /*!
      * \brief          Initializes the entryexitevaluation module
-     * \details        TODO
+     * \details        The module is intitalized by loading all ground truth from files specified by
+     *                 the configurationManager object
      * \param settings Configuration-object containing the location of the
      *                 ground truth files and other relevant settings.
-     * \return         Returns true if successful.
+     * \return         Returns true if successful, otherwise false.
      */
     bool initialize(configuration::ConfigurationManager &settings);// override;
 
     /*!
      * \brief        Evaluates and updates the results for the system.
      * \details      Is called upon after each iteration in order to
-     *               calculat the difference between the systems
+     *               calculate the difference between the systems
      *               entry/exit estimate and the ground truth.
      * \param frames The Frames to be evaluated.
      */
     void process(FrameList & frames);// override;
 
     /*!
-     * \brief             TODO
-     * \details           TODO
-     * \param cameraIndex TODO
+     * \brief             Prints entry/exit accuracy information to the debug log.
+     * \param cameraIndex Index of the camera where information is located.
      */
     void printToLog(unsigned int cameraIndex);
 

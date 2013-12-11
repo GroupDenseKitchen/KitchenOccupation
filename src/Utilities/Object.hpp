@@ -5,29 +5,28 @@
 #include "../Utilities/Timer.hpp"
 
 /*!
- * \brief     A movable object seen (candidate for human).
- * \details   TODO
+ * \brief     A movable object that has been detected, and that potentially might be a human.
  */
 struct Object
 {
     /*!
-     * \brief   Empty constructor.
+     * \brief   Constructor.
      */
     Object();
-
-    /*!
-     * \brief              Constructor using a cv::Rect for initialization.
-     * \param contour      TODO
-     * \param boundingBox  TODO
-     * \param centerOfMass TODO
-     * \param area         TODO
-     */
-    Object(std::vector<cv::Point> & contour, cv::Rect & boundingBox, cv::Point2f & centerOfMass, double area);
 
     /*!
      * \brief   Destructor.
      */
     ~Object();
+
+    /*!
+     * \brief              Constructor using a cv::Rect for initialization.
+     * \param contour      The 2-dimensional contour of the object.
+     * \param boundingBox  An axis-aligned bounding box.
+     * \param centerOfMass The center of mass of the object contour
+     * \param area         Object contour area.
+     */
+    Object(std::vector<cv::Point> & contour, cv::Rect & boundingBox, cv::Point2f & centerOfMass, double area);
 
     /*!
      * \brief               Merge current state of an object with the previous.
@@ -38,13 +37,15 @@ struct Object
 
     /*!
      * \brief   Called when an object has entered the view.
-     * \details TODO
+     * \details Sets the Object property entryPoint to the current center of mass, thus saving information about
+     *          where the object spawned for the first time.
      */
     void enter();
 
     /*!
      * \brief   Called when an object has exited the view.
-     * \details TODO
+     * \details Sets the Object property exitPoint to the to the point were the object was last seen,
+     *          thus saving information about where the object exited the field of view.
      */
     void exit();
 

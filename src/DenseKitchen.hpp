@@ -30,8 +30,8 @@
 
 /*!
  * \brief     Main program class.
- * \details   It provides the interface for people detection and counting engine.
- *            Run in order: Init() once, readConfig(...) once, singleIteration() as many times as wished.
+ * \details   This class provides the interface for people detection and counting engine.
+ *            Run in order: initialize() once and then, singleIteration() as many times as wished.
  */
 class DenseKitchen
 {
