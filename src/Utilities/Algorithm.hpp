@@ -57,7 +57,14 @@ public:
     void clearAlgorithms();
 
 protected:
+
+    /*!
+     * \brief       Is true if the algorithm is initialized.
+     * \details     It should be set in the initialize method and may be modified by REQUIRE, if this macro is used. An algorithm which has isInitialized as false will not have its process method called.
+     */
     bool isInitialized;
+
+
     std::vector<Algorithm *> algorithms;
     std::vector<std::string> algorithmTag;
 

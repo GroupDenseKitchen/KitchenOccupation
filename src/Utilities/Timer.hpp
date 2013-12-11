@@ -21,42 +21,32 @@ public:
     Timer()             { reset(); }
 
     /*!
-     * \brief   Reset timer, starts to mesure the time from now.
-     * \details TODO
+     * \brief   Resets timer, starts to mesure the time from now.
      */
     void reset()        { begun = cv::getTickCount(); }
 
     /*!
      * \brief   Reset timer from last sampling (using any get method).
-     * \details TODO
      */
     void resetFromLast() { begun = last; }
 
     /*!
-     * \brief   Get the time in seconds since it was last reseted.
-     * \details TODO
-     * \return  TODO
+     * \brief   Get the time in seconds since last reset.
      */
     double getSeconds();
 
     /*!
-     * \brief   Get the time in milliseconds since it was last reseted.
-     * \details TODO
-     * \return  TODO
+     * \brief   Get the time in milliseconds since last reset.
      */
     double getMilliseconds();
 
     /*!
-     * \brief   Get the time in microseconds since it was last reseted.
-     * \details TODO
-     * \return  TODO
+     * \brief   Get the time in microseconds since last reset.
      */
     double getMicroseconds();
 
     /*!
-     * \brief   Get the time in nanoseconds since it was last reseted.
-     * \details TODO
-     * \return  TODO
+     * \brief   Get the time in nanoseconds since last reset.
      */
     double getNanoseconds();
 
