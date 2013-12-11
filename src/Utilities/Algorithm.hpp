@@ -36,7 +36,7 @@ public:
      * \brief   Adds sub algorithms from settings, then calls this function for every sub algorithm.
      * \details A sub algorithm is another Algorithm that is a part in this algorithms pipeline,
      *          meaning that it is initialized when this algorithm is initialized and it is executed
-     *          when this algorithm is executed, both in the order specified in settings.
+     *          when this algorithm is executed, both in the order specified in settings (the order they are stored in the algorithms vector).
      * \param   settings A ConfigurationManager object containing system settings.
      * \param   algorithmName The name of the algortihm to be added to the pipeline.
      * \param   algorithmFactory The current pipeline part to be populated.
@@ -64,8 +64,15 @@ protected:
      */
     bool isInitialized;
 
-
+    /*!
+     * \brief       A vector of sub algorithms.
+     * \details     The sub algorithms will be initialized in order when initialize is called. They will also be processed in order when process is called, if process is not overriden.
+     */
     std::vector<Algorithm *> algorithms;
+
+    /*!
+     * \brief       A vector of sub algorithms names, mapped in order to algorithms.
+     */
     std::vector<std::string> algorithmTag;
 
 private:
