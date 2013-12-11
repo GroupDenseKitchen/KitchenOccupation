@@ -141,7 +141,7 @@ private:
     int timerDelay;
 
     bool isRecordToFiles;
-    cv::VideoWriter videoWriterRaw, videoWriterRawColor, videoWriterLiveSystem;
+    cv::VideoWriter * videoWriter;
 
     void keyPressEvent(QKeyEvent *);
     void closeEvent(QCloseEvent *);

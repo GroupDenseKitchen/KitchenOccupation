@@ -15,7 +15,7 @@ KinectHandler::~KinectHandler()
     std::cout << "Shutting down freenect" << std::endl;
 }
 
-bool KinectHandler::initialize(configuration::ConfigurationManager& settings)
+bool KinectHandler::initialize()
 {
     freenect_context *f_ctx;
     if (freenect_init(&f_ctx, NULL) < 0) {

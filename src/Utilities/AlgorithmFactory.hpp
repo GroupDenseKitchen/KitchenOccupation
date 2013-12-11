@@ -7,8 +7,6 @@
 /*!
  * \brief     Global factory of algorithms
  * \details   TODO
- * \date      2013-10-15
- * \version   1.0
  */
 class AlgorithmFactory
 {
@@ -19,32 +17,29 @@ public:
     ~AlgorithmFactory();
 
     /*!
-     * \brief   Weather an algorithm with a specific class name has been registered.
-     * \details TODO
-     * \param   algorithmClassName TODO
-     * \return  TODO
+     * \brief   Queries wether an algorithm with a specific class name has been registered.
+     * \param   algorithmClassName The name of the algorithm
+     * \return  True if found.
      */
     bool has(std::string algorithmClassName);
 
     /*!
-     * \brief   Get a registered algorithm.
-     * \details TODO
-     * \param   algorithmClassName TODO
-     * \return  TODO
+     * \brief   Get a pointer to a registered algorithm.
+     * \param   algorithmClassName The name of registered algorithm.
+     * \return  Pointer to requested algorithm.
      */
     Algorithm * get(std::string algorithmClassName);
 
     /*!
      * \brief   Add/register an algorithm.
-     * \details TODO
-     * \param   algorithmClassName TODO
-     * \param   algorithm TODO
+     * \details Adds an algorithm with the specified name to this algorithm's list of sub algorithms.
+     * \param   algorithmClassName Name of the algorithm to be added.
+     * \param   algorithm Pointer to the algorithm to be added.
      */
     void add(std::string algorithmClassName, Algorithm * algorithm);
 
     /*!
-     * \brief   Remove all algorithms (delete).
-     * \details TODO
+     * \brief   Remove all algorithms and sub algorithms (delete).
      */
     void clear();
 

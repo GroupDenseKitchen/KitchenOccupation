@@ -16,7 +16,7 @@ KinectHandler::~KinectHandler()
     openni::OpenNI::shutdown();
 }
 
-bool KinectHandler::initialize(configuration::ConfigurationManager& settings)
+bool KinectHandler::initialize()
 {
     // ------------- Setup OpenNI ----------------------
     // Initiallize OpenNI

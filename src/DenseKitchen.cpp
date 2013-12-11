@@ -118,3 +118,10 @@ bool DenseKitchen::singleIteration() {
 
     return iterationSuccess;
 }
+
+FrameList* DenseKitchen::getFrames()
+{
+    return &frames;
+}
+
+

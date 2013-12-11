@@ -99,8 +99,7 @@ void KinectSegmentation::process(FrameList &frames)
              }
          }
          camera.addImage("individualHumans", individualHumans);
-
-
+         n++;
 
          // Calculate histogram
 /*
@@ -129,11 +128,11 @@ void KinectSegmentation::process(FrameList &frames)
                                   cv::Point( bin_w*(i),   hist_h - cvRound(histogram.at<float>(i)) ),
                                   cv::Scalar( 255 ), 2, 8, 0 );
          }
-         camera.addImage("histImage", histImage);*/
+         camera.addImage("histImage", histImage);
+*/
 
-
-         n++;
      }
+
  }
 
 void KinectSegmentation::generateMaxRegionMask(cv::Mat & maxRegionMask, cv::Mat & grayImage, std::vector<std::vector<cv::Point>> & contours, int minimalArea, cv::Mat & debugImage) {

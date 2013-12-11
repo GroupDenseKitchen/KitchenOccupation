@@ -2,21 +2,18 @@
 #define KINECTOPENNI_H
 
 #include "../Utilities/utilities.hpp"
-#include "../Configuration/ConfigurationManager.hpp"
 
 #include <OpenNI.h>
 #undef min
 #undef max
 
 /*!
- * \brief   kinect contains functionality for reading rgb and depth images from a kinect 360 devise.
- * \details TODO
+ * \brief   The kinect namespace contains functionality for reading rgb and depth images from a kinect 360 device.
  */
 namespace kinect
 {
 /*!
- * \brief   TODO
- * \details TODO
+ * \brief   Struct for handling output data created by the KinectHandler Class.
  */
 struct KinectFrame 
 {
@@ -25,10 +22,9 @@ struct KinectFrame
 };
 
 /*!
- * \brief   Handler for the kinect sensors.
- * \details TODO
- * \version 0.1
- * \date    2013-10-07
+ * \brief   Handler for the Kinect sensors.
+ * \details The class is a hardware interface for the Microsoft Kinect and contains functionality to convert
+ *          output RGB and depth streams into OpenCV images.
  */
 class KinectHandler
 {
@@ -45,24 +41,20 @@ public:
 
     /*!
      * \brief 	        Initializes the Kinect sensor.
-     * \details        TODO
-     * \param settings A configuration object containing program settings. (not sure if needed)
-     * \return 		True if any devices were found.
+     * \return          True if any devices were found.
      */
-    bool initialize(configuration::ConfigurationManager& settings);
+    bool initialize();
 	
     /*!
      * \brief          Returns a pointer to the latest KinectFrame containing the last images.
-     * \details        TODO
      * \param deviceId The index (zero based) of the device to be read.
      * \return         Returns zero if no frame is available.
      */
     KinectFrame* readFrame(int deviceId);
 	
 	/*!
-     * \brief   The number of active devices.
-     * \details TODO
-     * \return  TODO
+     * \brief   getnDevices
+     * \return  The number of active devices.
 	 */
 	int getnDevices();
 

@@ -132,18 +132,18 @@ void MainConfigurationWindow::drawCheckPointCircles()
 
 void MainConfigurationWindow::sendMasksToFrameList()
 {
-    mainProgram->frames.setDoorMask(doorMask);
-    mainProgram->frames.setExclusionMask(exclusionMask);
-    mainProgram->frames.setCheckPointMaskSmall(checkpointMaskSmall);
-    mainProgram->frames.setCheckPointMaskMedium(checkpointMaskMedium);
-    mainProgram->frames.setCheckPointMaskLarge(checkpointMaskLarge);
+    mainProgram->getFrames()->setDoorMask(doorMask);
+    mainProgram->getFrames()->setExclusionMask(exclusionMask);
+    mainProgram->getFrames()->setCheckPointMaskSmall(checkpointMaskSmall);
+    mainProgram->getFrames()->setCheckPointMaskMedium(checkpointMaskMedium);
+    mainProgram->getFrames()->setCheckPointMaskLarge(checkpointMaskLarge);
 
     cv::Mat inclusionMask;
     inclusionMask.create(exclusionMask.rows, exclusionMask.cols, exclusionMask.type());
     inclusionMask.zeros(exclusionMask.rows, exclusionMask.cols, exclusionMask.type());
     cv::bitwise_not(exclusionMask, inclusionMask);
 
-    mainProgram->frames.setInclusionMask(inclusionMask);
+    mainProgram->getFrames()->setInclusionMask(inclusionMask);
 
     close();
 }
