@@ -15,7 +15,7 @@ KinectHandler::~KinectHandler()
     std::cout << "Shutting down freenect" << std::endl;
 }
 
-bool KinectHandler::initialize(configuration::ConfigurationManager& settings)
+bool KinectHandler::initialize()
 {
     //Try to grab data once to make sure device is connected
     std::uint16_t *depthData = 0;

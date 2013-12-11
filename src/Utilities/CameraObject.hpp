@@ -12,8 +12,6 @@
 /*!
  * \brief     A process history entry is a container of image processing history.
  * \details   Stored is a tag and a time associated with a resulting image matrix.
- * \version   0.1
- * \date      2013-10-10
  */
 struct ProcessHistoryEntry
 {
@@ -24,8 +22,8 @@ struct ProcessHistoryEntry
 };
 
 /*!
- * \brief     TODO...
- * \details   TODO...
+ * \brief     The CameraObject class represents a physical camera or similar sensor.
+ * \details   This class contains intermediate steps of the image processing pipeline
  */
 class CameraObject
 {

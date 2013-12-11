@@ -28,8 +28,7 @@ public:
 
     /*!
      * \brief   Initializes algorithm and all sub algorithms.
-     * \details TODO
-     * \param settings TODO
+     * \param settings A ConfigurationManager object containing system settings.
      */
     virtual bool initialize(configuration::ConfigurationManager &settings);
 
@@ -38,31 +37,22 @@ public:
      * \details A sub algorithm is another Algorithm that is a part in this algorithms pipeline,
      *          meaning that it is initialized when this algorithm is initialized and it is executed
      *          when this algorithm is executed, both in the order specified in settings.
-     * \param   settings TODO
-     * \param   algorithmName TODO
-     * \param   algorithmFactory TODO
-     * \return  TODO
+     * \param   settings A ConfigurationManager object containing system settings.
+     * \param   algorithmName The name of the algortihm to be added to the pipeline.
+     * \param   algorithmFactory The current pipeline part to be populated.
+     * \return  True if successful.
      */
     bool populateSubAlgorithms(configuration::ConfigurationManager &settings, std::string algorithmName, AlgorithmFactory &algorithmFactory);
 
     /*!
      * \brief   Processes all sub algorithms.
-     * \details TODO
-     * \param   frames TODO
+     * \details Calls the process function on all populated sub algorithms in the order specified by the configuration file.
+     * \param   frames The current FrameList.
      */
     virtual void process(FrameList & frames);
 
     /*!
-     * \brief   Add sub algorithm.
-     * \details TODO
-     * \param   tag TODO
-     * \param   slgorithm TODO
-     */
-    void addAlgorithm(std::string tag, Algorithm * algorithm);
-
-    /*!
      * \brief   Remove all sub algorithms.
-     * \details TODO
      */
     void clearAlgorithms();
 
@@ -70,6 +60,9 @@ protected:
     bool isInitialized;
     std::vector<Algorithm *> algorithms;
     std::vector<std::string> algorithmTag;
+
+private:
+     void addAlgorithm(std::string tag, Algorithm * algorithm);
 };
 
 /*!

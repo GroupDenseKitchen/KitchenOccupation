@@ -3,28 +3,12 @@
 namespace network
 {
 
-Network::Network()
-{
-    nwam = new QNetworkAccessManager;
-}
+Network::Network() {}
 
-Network::~Network()
-{
-    //TODO stub
-    delete nwam;
-}
+Network::~Network() {}
 
 bool Network::initialize(configuration::ConfigurationManager& settings)
 {
-
-    if (!settings.hasString("webServerUrl")) {
-        LOG("Network Warning", "webServerUrl not specified");
-    } else {
-        std::string url = settings.getString("webServerUrl");
-        serverUrl.fromUserInput(QString(url.c_str()));
-    }
-
-
 
     firstFrame = true;
 
@@ -44,7 +28,7 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
     }
 
     if (!runFromFile && useKinect) {
-        return kinects.initialize(settings);
+        return kinects.initialize();
     }
 
     bool hasFilePaths = settings.hasStringSeq("videoFilePaths");
@@ -136,21 +120,7 @@ Frame* Network::dequeFrame()
 
 void Network::broadcastData(Frame *frame)
 {
-    QNetworkRequest request(serverUrl);
-    //request.setHeader(QNetworkRequest::ContentTypeHeader,"someTexts");
-
-    QByteArray data;
-    QUrlQuery params;
-
-    params.addQueryItem("numOccupants","1337");
-    QString walla(params.query());
-    data = QByteArray(walla.toStdString().c_str());
-
-    QNetworkReply *reply = nwam->deleteResource(request);
-    //QNetworkReply *reply = nwam->post(request,data);
-    qDebug() << reply->error();
-    return;
-
+    //TODO: stub
 }
 
 

@@ -48,36 +48,40 @@ public:
     ~DenseKitchen() {}
 
     /*!
-     * \brief      Initialize the program using a settings file specified.
-     * \details    TODO
-     * \param path TODO
-     * \return     Return false if any of its modules fail.
+     * \brief      Initialize the program using a specified configuration file.
+     * \details    Loads system settings and configures all the different program modules.
+     * \param path Path to the configuration file
+     * \return     Returns false if any of its modules fail.
      */
     bool initialize(std::string path);
 
     /*!
      * \brief    Reset program completely.
-     * \details  TODO
+     * \details  Clears all temporary system settings and variables.
      */
     void reset();
 
     /*!
      * \brief     Run one iteration of the program.
-     * \details   Deque one frame and perform person tracking and update the statistics.
-     * \return    False if the program want to terminate, otherwise True.
+     * \details   Deque one frame, perform person tracking and update statistics.
+     * \return    False if the program wants to terminate, otherwise True.
      */
     bool singleIteration();
 
-    FrameList frames;   //TODO: make private and provide interface (?)
+    /*!
+     * \brief getFrames
+     * \return A pointer to the active FrameList.
+     */
+    FrameList* getFrames();
+
 private:
+    FrameList frames;
 
     bool isInitialized;
     bool isEvalInitialized;
 
     network::Network network;
     configuration::ConfigurationManager settings;
-    //
-    //evaluation::EntryExitEvaluation entryExitEvaluation;
 
     AlgorithmFactory algorithmFactory;
     image_processing::ImageProcessor imageProcessor;

@@ -22,7 +22,7 @@ MainDebugWindow::MainDebugWindow(QWidget *parent) :
 
 MainDebugWindow::~MainDebugWindow()
 {
-    for(int c = 0; c < program->frames.getCurrent().getCameras().size()*3; c++) {
+    for(int c = 0; c < program->getFrames()->getCurrent().getCameras().size()*3; c++) {
         videoWriter[c].release();
     }
     delete [] videoWriter;
@@ -197,7 +197,7 @@ void MainDebugWindow::popWindow(std::string stepKey, int cameraIndex){
 }
 
 void MainDebugWindow::updateGuiComponents(){
-    emit updateDebugViews(program->frames.getCurrent());
+    emit updateDebugViews(program->getFrames()->getCurrent());
     updateCameraSelector();
     updateLog();
     updateProfiler();
@@ -207,7 +207,7 @@ void MainDebugWindow::updateGuiComponents(){
 void MainDebugWindow::updateCameraSelector()
 {
     // Init camera and frame selector treeView
-    Frame& currentFrame = program->frames.getCurrent();
+    Frame& currentFrame = program->getFrames()->getCurrent();
 
     // Remove old tree
     cameraItemModel->removeRows(0, cameraItemModel->rowCount());
@@ -343,24 +343,24 @@ void MainDebugWindow::updateGUI()
     if(isRecordToFiles) {
         if(videoWriter == 0 || !videoWriter[0].isOpened()) {
             // Video recorder
-             if(program->frames.size() > 0 && program->frames.getCurrent().getCameras().back().hasImage("rawImage")) {
-                 videoWriter = new cv::VideoWriter[program->frames.getCurrent().getCameras().size()*3];
-                 for(int c = 0; c < program->frames.getCurrent().getCameras().size()*3; c += 3) {
-                     videoWriter[c] = cv::VideoWriter("rawImage"+std::to_string(c/3)+".avi", CV_FOURCC('D','I','V','X'), 30, program->frames.getCurrent().getCameras()[c/3].getImage("rawImage").size());
-                     videoWriter[c+1] = cv::VideoWriter("rawColorImage"+std::to_string(c/3)+".avi", CV_FOURCC('D','I','V','X'), 30, program->frames.getCurrent().getCameras()[c/3].getImage("rawColorImage").size());
-                     videoWriter[c+2] = cv::VideoWriter("liveSystem"+std::to_string(c/3)+".avi", CV_FOURCC('D','I','V','X'), 30, program->frames.getCurrent().getCameras()[c/3].getImage("debugImage").size());
+             if(program->getFrames()->size() > 0 && program->getFrames()->getCurrent().getCameras().back().hasImage("rawImage")) {
+                 videoWriter = new cv::VideoWriter[program->getFrames()->getCurrent().getCameras().size()*3];
+                 for(int c = 0; c < program->getFrames()->getCurrent().getCameras().size()*3; c += 3) {
+                     videoWriter[c] = cv::VideoWriter("rawImage"+std::to_string(c/3)+".avi", CV_FOURCC('D','I','V','X'), 30, program->getFrames()->getCurrent().getCameras()[c/3].getImage("rawImage").size());
+                     videoWriter[c+1] = cv::VideoWriter("rawColorImage"+std::to_string(c/3)+".avi", CV_FOURCC('D','I','V','X'), 30, program->getFrames()->getCurrent().getCameras()[c/3].getImage("rawColorImage").size());
+                     videoWriter[c+2] = cv::VideoWriter("liveSystem"+std::to_string(c/3)+".avi", CV_FOURCC('D','I','V','X'), 30, program->getFrames()->getCurrent().getCameras()[c/3].getImage("debugImage").size());
                  }
              }
         }
         else
         {
-            for(int c = 0; c < program->frames.getCurrent().getCameras().size()*3; c += 3) {
-                if(program->frames.getCurrent().getCameras()[c/3].hasImage("rawImage"))
-                    videoWriter[c].write(program->frames.getCurrent().getCameras()[c/3].getImage("rawImage"));
-                if(program->frames.getCurrent().getCameras()[c/3].hasImage("rawColorImage"))
-                    videoWriter[c+1].write(program->frames.getCurrent().getCameras()[c/3].getImage("rawColorImage"));
-                if(program->frames.getCurrent().getCameras()[c/3].hasImage("debugImage"))
-                    videoWriter[c+2].write(program->frames.getCurrent().getCameras()[c/3].getImage("debugImage"));
+            for(int c = 0; c < program->getFrames()->getCurrent().getCameras().size()*3; c += 3) {
+                if(program->getFrames()->getCurrent().getCameras()[c/3].hasImage("rawImage"))
+                    videoWriter[c].write(program->getFrames()->getCurrent().getCameras()[c/3].getImage("rawImage"));
+                if(program->getFrames()->getCurrent().getCameras()[c/3].hasImage("rawColorImage"))
+                    videoWriter[c+1].write(program->getFrames()->getCurrent().getCameras()[c/3].getImage("rawColorImage"));
+                if(program->getFrames()->getCurrent().getCameras()[c/3].hasImage("debugImage"))
+                    videoWriter[c+2].write(program->getFrames()->getCurrent().getCameras()[c/3].getImage("debugImage"));
             }
         }
     }
@@ -372,7 +372,7 @@ void MainDebugWindow::cameraSelectionUpdate(QModelIndex current, QModelIndex pre
         currentKey = current.data().toString().toStdString();
         currentCameraIndex = current.parent().row();
     }
-   emit updateDebugViews(program->frames.getCurrent());
+   emit updateDebugViews(program->getFrames()->getCurrent());
 }
 
 void MainDebugWindow::removeDebugViewWidget(std::string identifier)
