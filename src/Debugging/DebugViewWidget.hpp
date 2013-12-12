@@ -21,42 +21,35 @@ class DebugViewWidget : public QWidget
 
 public:
     /*!
-     * \brief        Constructor
-     * \param parent TODO
+     * \brief Constructor
      */
     explicit DebugViewWidget(QWidget *parent = 0);
 
     /*!
-     * \brief   Destructor
+     * \brief Destructor
      */
     ~DebugViewWidget();
 
     /*!
      * \brief                 Sets up the widget, adding a label with the represented preocesses step and camera.
-     * \details               TODO
-     * \param processStepName TODO
-     * \param camNumber       TODO
+     * \param processStepName is the name of a debug image set by the developer.
+     * \param camNumber       is number of the camera that the process step belongs to.
      */
     void initialize(const std::string processStepName, int camNumber);
 
     /*!
      * \brief   Converts the \ref cv::Mat into a \ref QImage and displays it.
-     * \details TODO
      */
     void showImage();
 
     /*!
      * \brief   Returns the process step and camera of the widget.
-     * \details TODO
-     * \return  TODO
      */
     std::string getIdentifier();
 
 public slots:
     /*!
      * \brief updateView receivs a \ref Frame, stores it in the widget and displays the new one.
-     * \details TODO
-     * \param TODO
      */
     void updateView( Frame );
 

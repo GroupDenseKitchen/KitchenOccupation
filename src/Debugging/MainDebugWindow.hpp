@@ -30,9 +30,8 @@ class MainDebugWindow;
 /*!
  * \brief   The MainDebugWindow class is a debug interface to speed up development,
  *          testing and validation of image processing algorithms.
- * \details TODO
  * \version 0.1
- * \date    2013-12-06
+ * \date    2013-12-12
  */
 class MainDebugWindow : public QMainWindow
 {
@@ -40,8 +39,7 @@ class MainDebugWindow : public QMainWindow
 
 public:
     /*!
-     * \brief        Constructor
-     * \param parent TODO
+     * \brief   Constructor
      */
     explicit MainDebugWindow(QWidget *parent = 0);
 
@@ -52,9 +50,8 @@ public:
 
     /*!
      * \brief                Initializes the GUI with values specified in guiConfig.yml.
-     * \details              TODO
-     * \param mainConfigFile TODO
-     * \param guiConfigFile  TODO
+     * \param mainConfigFile contains settings for the main program pipeline.
+     * \param guiConfigFile  contains settings for the GUI.
      */
     void init(std::string mainConfigFile, std::string guiConfigFile);
 
@@ -66,8 +63,6 @@ public:
 signals:
     /*!
      * \brief              updateDebugViews is used to send a fresh Frame to all sub-widgets and update their content.
-     * \details            TODO
-     * \param currentFrame TODO
      */
     void updateDebugViews( Frame currentFrame);
 
