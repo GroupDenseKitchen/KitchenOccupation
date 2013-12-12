@@ -1,5 +1,4 @@
 #include "EntryExitEvaluator.hpp"
-#include "QDebug"
 
 namespace evaluation {
 

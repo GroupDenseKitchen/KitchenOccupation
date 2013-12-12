@@ -194,7 +194,9 @@ void TrackerEvaluator::process(CameraObject& cam)
                                        std::pow(truObj->boundingBox.y - hypObj->boundingBox.y, 2));
                     if (distance < precisionThreshold)
                     {
-                        distMap.emplace(distance, make_pair(truObj->id, hypObj->id));
+			//fixed for retarded compilers
+			distMap.insert(std::make_pair(distance,make_pair(truObj->id,hypObj->id)));
+                        //distMap.emplace(distance, make_pair(truObj->id, hypObj->id));
                     }
             }
         }
