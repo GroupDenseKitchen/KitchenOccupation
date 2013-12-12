@@ -82,12 +82,12 @@ private:
 /*!
  * \brief   Set the variable to config data if such exist, otherwise log error and fail initialization
  */
-#define REQUIRE(c, variable, name)              if(!c.configure(name, variable)){LOG("Initialization error", name << " not specified"); isInitialized = false;}
+#define REQUIRE(c, variable, name)              if(!c.configure(name, variable, 0)){LOG("Initialization error", name << " not specified"); isInitialized = false;}
 
 /*!
  * \brief   Set the variable to config data if such exist, otherwise log warning and set variable to default value
  */
-#define CONFIG(c, variable, name, defaultValue) if(!c.configure(name, variable)){LOG("Initialization warning", "Property \"" << name << "\" not specified, uses default value: " << defaultValue); variable = defaultValue;}
+#define CONFIG(c, variable, name, defaultValue) if(!c.configure(name, variable, defaultValue)){LOG("Initialization warning", "Property \"" << name << "\" not specified, uses default value: " << defaultValue);}
 
 
 #include "AlgorithmFactory.hpp"

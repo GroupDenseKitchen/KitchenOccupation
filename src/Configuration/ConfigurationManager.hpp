@@ -145,36 +145,40 @@ class ConfigurationManager
         void setStringSeq(std::string name, std::vector<std::string> value);
 
         /*!
-         * \brief          Sets variable if it exists otherwise return false.
-         * \param name     The name of the variable
-         * \param variable The variable value
-         * \return         True if variable already existed.
+         * \brief               Sets variable if it exists otherwise, sets it to devaultValue.
+         * \param name          The name of the variable
+         * \param variable      The variable value
+         * \param variable      The default variable value
+         * \return              True if variable already existed, false if it was assigned to defaultValue.
          */
-        bool configure(std::string name, bool &variable);
+        bool configure(std::string name, bool &variable, bool defaultValue);
 		
         /*!
-         * \brief          Sets variable if it exists otherwise return false.
-         * \param name     The name of the variable
-         * \param variable The variable value
-         * \return         True if variable already existed.
+         * \brief               Sets variable if it exists otherwise, sets it to devaultValue.
+         * \param name          The name of the variable
+         * \param variable      The variable value
+         * \param variable      The default variable value
+         * \return              True if variable already existed, false if it was assigned to defaultValue.
          */
-        bool configure(std::string name, int &variable);
+        bool configure(std::string name, int &variable, int defaultValue);
 		
         /*!
-         * \brief          Sets variable if it exists otherwise return false.
-         * \param name     The name of the variable
-         * \param variable The variable value
-         * \return         True if variable already existed.
+         * \brief               Sets variable if it exists otherwise, sets it to devaultValue.
+         * \param name          The name of the variable
+         * \param variable      The variable value
+         * \param variable      The default variable value
+         * \return              True if variable already existed, false if it was assigned to defaultValue.
          */
-        bool configure(std::string name, double &variable);
+        bool configure(std::string name, double &variable, double defaultValue);
 		
         /*!
-         * \brief          Sets variable if it exists otherwise return false.
-         * \param name     The name of the variable
-         * \param variable The variable value
-         * \return         True if variable already existed.
+         * \brief               Sets variable if it exists otherwise, sets it to devaultValue.
+         * \param name          The name of the variable
+         * \param variable      The variable value
+         * \param variable      The default variable value
+         * \return              True if variable already existed, false if it was assigned to defaultValue.
          */
-        bool configure(std::string name, std::string &variable);
+        bool configure(std::string name, std::string &variable, std::string defaultValue);
 
         /*!
          * \brief          Writes all stored settings in the configuration manager to file.

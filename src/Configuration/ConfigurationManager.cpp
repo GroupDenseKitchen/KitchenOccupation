@@ -91,6 +91,7 @@ namespace configuration
 
     void ConfigurationManager::setBool(std::string name, bool value)
     {
+
         intBoolMap[name] = value;
     }
 
@@ -184,35 +185,39 @@ namespace configuration
 
     }
 
-    bool ConfigurationManager::configure(std::string name, bool &variable) {
+    bool ConfigurationManager::configure(std::string name, bool& variable, bool defaultValue) {
         if(!hasBool(name)) {
-            setBool(name, variable);
+            setBool(name, defaultValue);
+            variable = defaultValue;
             return false;
         }
         variable = getBool(name);
         return true;
     }
 
-    bool ConfigurationManager::configure(std::string name, int &variable) {
+    bool ConfigurationManager::configure(std::string name, int& variable, int defaultValue) {
         if(!hasInt(name)) {
-            setInt(name, variable);
+            setInt(name, defaultValue);
+            variable = defaultValue;
             return false;
         }
         variable = getInt(name);
         return true;
     }
 
-    bool ConfigurationManager::configure(std::string name, double &variable) {
+    bool ConfigurationManager::configure(std::string name, double& variable, double defaultValue) {
         if(!hasDouble(name)) {
-            setDouble(name, variable);
+            setDouble(name, defaultValue);
+            variable = defaultValue;
             return false;
         }
         variable = getDouble(name);
         return true;
     }
-    bool ConfigurationManager::configure(std::string name, std::string &variable) {
+    bool ConfigurationManager::configure(std::string name, std::string& variable, std::string defaultValue) {
         if(!hasString(name)) {
-            setString(name, variable);
+            setString(name, defaultValue);
+            variable = defaultValue;
             return false;
         }
         variable = getString(name);
@@ -223,7 +228,7 @@ namespace configuration
     {
         cv::FileStorage file;
         std::string outputPath = cfgFilePath;
-        replaceString(outputPath, ".yml", "_out.yml");
+        //replaceString(outputPath, ".yml", "_out.yml");
 
         try {
             file.open(outputPath, cv::FileStorage::WRITE);
