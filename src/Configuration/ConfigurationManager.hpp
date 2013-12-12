@@ -181,7 +181,7 @@ class ConfigurationManager
          * \param filePath Location and name of output file.
          * \return         Returns true if successful.
          */
-        bool writeToFile(std::string filePath);
+        bool writeToFile();
 
     private:
 
@@ -197,6 +197,7 @@ class ConfigurationManager
 
         int nCameras;                   // Number of cameras/video files.
 
+        std::string cfgFilePath;
         std::string videoFilePath;      // Location of video file(s).
         std::string groundTruthPath;    // Location of ground truth data for specified video
 

@@ -61,6 +61,9 @@ bool DenseKitchen::initialize(std::string path) {
     }
     PROFILER_ITERATION_END();
 
+    if (isInitialized)
+        settings.writeToFile(); // Save successful initialization to config
+
     return isInitialized;
 }
 
