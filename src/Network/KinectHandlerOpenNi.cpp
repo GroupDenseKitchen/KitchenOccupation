@@ -29,75 +29,82 @@ bool KinectHandler::initialize()
     }
 
     // Look for devices
-    openni::Array<openni::DeviceInfo>* devices = new openni::Array<openni::DeviceInfo>;
-    openni::OpenNI::enumerateDevices(devices);
-    nDevices = devices->getSize();
+    openni::Array<openni::DeviceInfo> devices; // = new openni::Array<openni::DeviceInfo>;
+    openni::OpenNI::enumerateDevices(&devices);
+    nDevices = devices.getSize();
 
     std::cout << "Available devices: " << nDevices << std::endl;
 
+    depthStreams = new openni::VideoStream*[nDevices];
+    colorStreams = new openni::VideoStream*[nDevices];
+
     // If any interesting device exists
     if(nDevices > 0){
+        for(int i = 0; i < nDevices; i++){
 
-        const char* deviceURI = openni::ANY_DEVICE;
+            //const char* deviceURI = openni::ANY_DEVICE;
+            const char* deviceURI = devices[i].getUri();
 
-        // Try to open device
-        rc = device.open(deviceURI);
-        if (rc != openni::STATUS_OK)
-        {
-            printf("Device open failed:\n%s\n", openni::OpenNI::getExtendedError());
-            openni::OpenNI::shutdown();
-            return false;
-        }
+            openni::VideoStream *depth = new openni::VideoStream;
+            openni::VideoStream *color = new openni::VideoStream;
 
-        rc = depth.create(device, openni::SENSOR_DEPTH);
-        if (rc == openni::STATUS_OK)
-        {
-            rc = depth.start();
+            // Try to open device
+            rc = device.open(deviceURI);
             if (rc != openni::STATUS_OK)
             {
-                printf("Couldn't start depth stream:\n%s\n", openni::OpenNI::getExtendedError());
-                depth.destroy();
+                printf("Device open failed:\n%s\n", openni::OpenNI::getExtendedError());
+                openni::OpenNI::shutdown();
                 return false;
             }
-        }
-        else
-        {
-            printf("Couldn't find depth stream:\n%s\n", openni::OpenNI::getExtendedError());
-            return false;
-        }
 
-        rc = color.create(device, openni::SENSOR_COLOR);
-        if (rc == openni::STATUS_OK)
-        {
-            rc = color.start();
-            if (rc != openni::STATUS_OK)
+            rc = depth->create(device, openni::SENSOR_DEPTH);
+            if (rc == openni::STATUS_OK)
             {
-                printf("Couldn't start color stream:\n%s\n", openni::OpenNI::getExtendedError());
-                color.destroy();
+                rc = depth->start();
+                if (rc != openni::STATUS_OK)
+                {
+                    printf("Couldn't start depth stream:\n%s\n", openni::OpenNI::getExtendedError());
+                    depth->destroy();
+                    return false;
+                }
+            }
+            else
+            {
+                printf("Couldn't find depth stream:\n%s\n", openni::OpenNI::getExtendedError());
                 return false;
             }
-        }
-        else
-        {
-            printf("Couldn't find color stream:\n%s\n", openni::OpenNI::getExtendedError());
-            return false;
-        }
 
-        if (!depth.isValid() || !color.isValid())
-        {
-            printf("SimpleViewer: No valid streams. Exiting\n");
-            openni::OpenNI::shutdown();
-            return false;
+            rc = color->create(device, openni::SENSOR_COLOR);
+            if (rc == openni::STATUS_OK)
+            {
+                rc = color->start();
+                if (rc != openni::STATUS_OK)
+                {
+                    printf("Couldn't start color stream:\n%s\n", openni::OpenNI::getExtendedError());
+                    color->destroy();
+                    return false;
+                }
+            }
+            else
+            {
+                printf("Couldn't find color stream:\n%s\n", openni::OpenNI::getExtendedError());
+                return false;
+            }
+
+            if (!depth->isValid() || !color->isValid())
+            {
+                printf("SimpleViewer: No valid streams. Exiting\n");
+                openni::OpenNI::shutdown();
+                return false;
+            }
+
+            depthStreams[i] = depth;
+            colorStreams[i] = color;
         }
     } else {
         printf("Atleast 1 Kinect sensor is required for the system to start.\n");
         return false;
     }
-
-
-    streams = new openni::VideoStream*[2];
-    streams[0] = &depth;
-    streams[1] = &color;
 
     return true;
 }
@@ -111,7 +118,7 @@ KinectFrame* KinectHandler::readFrame(int deviceId)
     // --------- Read from VideoStream -------------
 
     // ------------ Depth -------------
-    depth.readFrame(&depthFrame);
+    depthStreams[deviceId]->readFrame(&depthFrame);
     cvDepthImage = cv::Mat(depthFrame.getHeight(), depthFrame.getWidth(),
             CV_16U, (char*)depthFrame.getData());
 
@@ -122,7 +129,7 @@ KinectFrame* KinectHandler::readFrame(int deviceId)
     cv::cvtColor(cvDepthImage, cvDepthImage, CV_GRAY2BGR);
 
     // ------------ Record Color -------------
-    color.readFrame(&colorFrame);
+    colorStreams[deviceId]->readFrame(&colorFrame);
     cvColorImage = cv::Mat(colorFrame.getHeight(), colorFrame.getWidth(),
             CV_8UC3, (char*)colorFrame.getData());
 
