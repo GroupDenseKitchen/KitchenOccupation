@@ -22,7 +22,6 @@ A_{out} = 1 - |\frac{\sum_{frames}{out_{Est}}-\sum_{frames}out_{GT}}{\sum_{frame
 A_{in-out} = 1 - |\frac{(\sum_{frames}{in_{Est}-\sum_{frames}out_{Est}})-(\sum_{frames}{in_{GT}-\sum_{frames}out_{GT}})}{\sum_{frames}in_{GT}+out_{GT}}| 
 \end{equation} 
 
-\subsection{Tracker Evaluation}
-An initial thought was to use the MOTA/MOTP performance metrics as defined in \cite{MOTA} to evaluate the tracker part of the pipeline. This decision was made mainly because an implementation of these metrics was already available from a previous project. Initially some evaluation of the tracker was done using these methods. Since actual goal of the project was people counting, not tracking, in combination with the method of obtaining ground truth data for this evaluation being time consuming the tracker evaluation was scrapped.
+
 
 
