@@ -49,6 +49,12 @@ void MainDebugWindow::init(string mainConfigFile, string guiConfigFile)
     connect(this, SIGNAL(updateDebugViews(Frame)),
             configWindow, SLOT(updateWindow(Frame)));
 
+    // -------- Configuration Widget ---------------------
+    calibrationWindow = new CalibrationWindow;
+    calibrationWindow->initialize(program, "masks.yml");
+    connect(this, SIGNAL(updateDebugViews(Frame)),
+            calibrationWindow, SLOT(updateWindow(Frame)));
+
     // -------- Camera/Step Selector Init ----------------
     cameraItemModel = new QStandardItemModel;
     cameraTree = ui->camerasTreeView;
@@ -415,6 +421,7 @@ void MainDebugWindow::closeEvent(QCloseEvent * event)
         }
     delete debugViewGrid;
     delete configWindow;
+    delete calibrationWindow;
     event->accept();
 }
 
@@ -539,4 +546,9 @@ void MainDebugWindow::on_actionRestart_triggered()
 void MainDebugWindow::on_actionConfigure_triggered()
 {
     configWindow->show();
+}
+
+void MainDebugWindow::on_actionCalibrate_triggered()
+{
+    calibrationWindow->show();
 }

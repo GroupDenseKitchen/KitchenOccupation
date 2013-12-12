@@ -8,6 +8,7 @@ MainConfigurationWindow::MainConfigurationWindow(QWidget *parent) :
     ui(new Ui::MainConfigurationWindow)
 {
     ui->setupUi(this);
+    setWindowTitle("Configuration Window");
 }
 
 MainConfigurationWindow::~MainConfigurationWindow()

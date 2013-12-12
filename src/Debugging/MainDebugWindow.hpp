@@ -18,6 +18,7 @@
 #include "MainConfigurationWindow.hpp"
 #include "DebugViewWidget.hpp"
 #include "DebugViewGrid.hpp"
+#include "CalibrationWindow.hpp"
 
 #include <opencv2/core/core.hpp>
 
@@ -106,6 +107,7 @@ private:
 
     DebugViewGrid* debugViewGrid;
     MainConfigurationWindow* configWindow;
+    CalibrationWindow* calibrationWindow;
     std::map<std::string,DebugViewWidget*> debugViews;
 
     std::string guiConfigPath;
@@ -172,6 +174,7 @@ private slots:
     void on_actionPause_triggered();
     void on_actionRestart_triggered();
     void on_actionConfigure_triggered();
+    void on_actionCalibrate_triggered();
 };
 
 #endif // MAINDEBUGWINDOW_HPP
