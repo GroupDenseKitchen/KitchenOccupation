@@ -14,8 +14,7 @@
 
 
 /*!
- * \brief     Network contains all network and camera i/o functionality.
- * \details   TODO
+ * \brief     the network namespace contains all system I/O functionality (sensors and web interface).
  */
 namespace network
 {
