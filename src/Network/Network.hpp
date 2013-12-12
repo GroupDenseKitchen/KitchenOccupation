@@ -12,8 +12,6 @@
     #include "KinectHandlerOpenNi.hpp"
 #endif // ifdef __APPLE__
 
-#include <QtNetwork/QtNetwork>
-#include <QByteArray>
 
 /*!
  * \brief     Network contains all network and camera i/o functionality.
