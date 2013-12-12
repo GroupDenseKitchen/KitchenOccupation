@@ -38,7 +38,7 @@ public:
      * \param settings TODO
      * \return         TODO
      */
-    bool initialize(configuration::ConfigurationManager &settings) override;
+    bool initialize(configuration::ConfigurationManager &settings);
 
     /*!
      * \brief        Uses Canny edge detector on each of the image channels, combines them,
@@ -48,7 +48,7 @@ public:
      * \details      TODO
      * \param frames TODO
      */
-    void process(FrameList &frames) override;
+    void process(FrameList &frames);
 
 private:
     void makeCircleFilters(std::vector<cv::Mat> & filters, int circleThickness, int avgFilterSize);
