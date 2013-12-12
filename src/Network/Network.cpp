@@ -139,6 +139,7 @@ Frame *Network::getFileFrame()
         {
             cam.setRoomID(std::to_string(i));
             cam.addImage("rawImage", rawImage);
+	    cam.addImage("debugImage",rawImage.clone());
             frame->addCamera(cam);
             frame->setMomentaryFps(streams[i].get(CV_CAP_PROP_FPS));
         } else {

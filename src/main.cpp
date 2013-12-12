@@ -24,8 +24,21 @@ int main(int argc, char *argv[])
    bool ok = dk.initialize("dense_conf.yml");
    if(ok == false){
 	printf("error initing ! \n");
-	exit(0);
+	exit(-1);
+   }else{
+	printf("INIT SUCCESS, NOW RUNNING!!! \n");
    }
+
+   //run the acual program
+   bool iterOK = dk.singleIteration();
+
+   if(iterOK){
+	printf("successfull iteration, success is now inf! \n");
+   }else{
+	printf("error iterating! \n");
+	exit(-1);
+   }
+
 
    return 0;
 #endif

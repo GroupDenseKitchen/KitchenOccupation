@@ -73,6 +73,7 @@ namespace configuration
         if (hasString(name)) {
             return stringMap[name];
         } else {
+	    printf("did not find variable %s \n",name.c_str());
             LOG("Settings Error", "Variable not found, use the \"hasString\" function first");
             return "";
         }
@@ -83,6 +84,7 @@ namespace configuration
         if (hasStringSeq(name)) {
             return stringSeqMap[name];
         } else {
+	    printf("did not find variable %s \n",name.c_str());
             LOG("Settings Error", "Variable not found, use the \"hasStringSeq\" function first");
             std::vector<std::string> emptyVec;
             return emptyVec;

@@ -17,10 +17,13 @@ Analytics:
    - FlowEstimator
    - QueDetector
    - QueSeverityEstimator
-   
 Evaluation:
    - EntryExitEvaluator
 cameraPaths:
    - "/home/gustav/KitchenOccupation/data/seq9/seq9-4.mp4"
 videoFilePaths:
    - "/home/gustav/KitchenOccupation/data/seq9/seq9-4.mp4"
+trackerGroundTruthPaths:
+  - "/home/gustav/KitchenOccupation/data/seq9/seq9-4GT.xml"
+entryExitGroundTruthPaths:
+  - "/home/gustav/KitchenOccupation/data/seq9/seq9-3.yml"
