@@ -28,16 +28,19 @@ int main(int argc, char *argv[])
    }else{
 	printf("INIT SUCCESS, NOW RUNNING!!! \n");
    }
+   
+   bool iterOK = true;
 
-   //run the acual program
-   bool iterOK = dk.singleIteration();
-
-   if(iterOK){
-	printf("successfull iteration, success is now inf! \n");
-   }else{
-	printf("error iterating! \n");
-	exit(-1);
-   }
+   while(iterOK){
+   	//run the acual program
+   	iterOK = dk.singleIteration();
+   	if(iterOK){
+		printf("iteration success! \n");
+   	}else{
+		printf("error iterating, dying! \n");
+		exit(-1);
+   	}
+  }
 
 
    return 0;
