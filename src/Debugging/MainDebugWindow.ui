@@ -286,6 +286,7 @@
     <addaction name="actionPause"/>
     <addaction name="actionRestart"/>
     <addaction name="actionConfigure"/>
+    <addaction name="actionCalibrate"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -326,6 +327,11 @@
   <action name="actionStereoCalibrate">
    <property name="text">
     <string>StereoCalibrate</string>
+   </property>
+  </action>
+  <action name="actionCalibrate">
+   <property name="text">
+    <string>Calibrate</string>
    </property>
   </action>
  </widget>
