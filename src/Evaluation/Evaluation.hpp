@@ -42,7 +42,7 @@ public:
      * \param settings Configuration-object containing the location of the ground truth files and other relevant settings.
      * \return         True if successful.
      */
-    bool initialize(configuration::ConfigurationManager& settings) override;
+    bool initialize(configuration::ConfigurationManager& settings);
 
     /*!
      * \brief           Evaluates and updates the results for the system.
@@ -50,7 +50,7 @@ public:
      *                  by comparing the tracker system output to ground truth.
      * \param frameList The FrameList to be evaluated.
      */
-    void process(FrameList& frames) override;
+    void process(FrameList& frames);
 
     /*!
      * \brief   Print stats to the debug log.
