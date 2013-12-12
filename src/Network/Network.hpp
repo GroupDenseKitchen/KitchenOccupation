@@ -8,6 +8,8 @@
 
 #ifdef __APPLE__
     #include "KinectHandlerFreenect.hpp"
+#elif __unix__
+    #include "KinectHandlerFreenect.hpp"
 #else
     #include "KinectHandlerOpenNi.hpp"
 #endif // ifdef __APPLE__
