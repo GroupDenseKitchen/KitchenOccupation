@@ -1,6 +1,12 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 2.8.8)
+CMAKE_MINIMUM_REQUIRED (VERSION 2.8.7)
 # Dense kitchen project
 PROJECT(dense_kitchen)
+
+OPTION(headless "headless" OFF)
+
+MESSAGE( STATUS "headless is " ${headless} )
+
+
 
 IF(APPLE)
     # Apple specific
@@ -52,7 +58,9 @@ IF(WIN32)
 ENDIF()
 
 # Tell CMake to run moc when necessary:
-set(CMAKE_AUTOMOC ON)
+IF(NOT headless)
+ set(CMAKE_AUTOMOC ON)
+ENDIF()
 # As moc files are generated in the binary dir, tell CMake
 # to always look for includes there:
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -62,15 +70,21 @@ CONFIGURE_FILE(../conf/dense_conf.yml dense_conf.yml COPYONLY)
 CONFIGURE_FILE(../conf/guiConfig.yml guiConfig.yml COPYONLY)
 
 # Load external libraries
-find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
+IF(NOT headless)
+	find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
+ENDIF()
+
 find_package(OpenCV REQUIRED HINTS ${OPENCV_HINTS})
 MESSAGE( STATUS "OPENCV_INCLUDE_DIRS: " ${OpenCV_INCLUDE_DIRS} )
 MESSAGE( STATUS "OPENCV_LIB_DIR: " ${OpenCV_LIB_DIR} )
 
 # Include
-INCLUDE_DIRECTORIES(${Qt5Core_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES(${Qt5Gui_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES(${Qt5Widgets_INCLUDE_DIRS})
+IF(NOT headless)
+  INCLUDE_DIRECTORIES(${Qt5Core_INCLUDE_DIRS})
+  INCLUDE_DIRECTORIES(${Qt5Gui_INCLUDE_DIRS})
+  INCLUDE_DIRECTORIES(${Qt5Widgets_INCLUDE_DIRS})
+ENDIF()
+
 INCLUDE_DIRECTORIES(${OpenCV_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${OPENNI2_INCLUDE_DIR})
 
@@ -96,7 +110,7 @@ TARGET_LINK_LIBRARIES (dense_kitchen
     Network
     Statistics
     Utilities
-	Evaluation
+    Evaluation
     # ExtLib
     ${OpenCV_LIBS}
     ${OPENNI2_LIBS}
@@ -104,4 +118,6 @@ TARGET_LINK_LIBRARIES (dense_kitchen
 
 # Activate Qt for project
 # Must be the last line in this file, else { FAIL }
+IF(NOT headless)
 qt5_use_modules(dense_kitchen Core Gui Widgets)
+ENDIF()
