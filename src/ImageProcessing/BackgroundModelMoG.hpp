@@ -10,7 +10,6 @@ namespace image_processing
 {
 /*!
  * \brief   Class which creates binary image using OpenCV function BackgroundModelMoG2.
- *
  * \details Z. Zivkovic. Improved adaptive Gausian mixture model for background subtraction.
  *          International Conference Pattern Recognition, UK, August, 2004.
  */
@@ -28,10 +27,9 @@ public:
     ~BackgroundModelMoG();
 
     /*!
-     * \brief        Performs the process step background modulation.
+     * \brief        Performs the process step of the background-foreground segmentation.
      * \details      Creates a binary image, "foregroundMask", and performs erotions and dilations on the generated binary image.
      * \param frames Requires that each camera's latest frame contains a RGB-image called "rawImage".
-     *
      */
     void process(FrameList &frames) override;
 
