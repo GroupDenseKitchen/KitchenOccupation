@@ -35,7 +35,7 @@ public:
      * \details      TODO
      * \param frames TODO
      */
-    void process(FrameList &frames) override;
+    void process(FrameList &frames);
 
     /*!
      * \brief      Initialize the algorithm.
@@ -44,7 +44,7 @@ public:
      * \param conf TODO
      * \return     TODO
      */
-    bool initialize(configuration::ConfigurationManager &conf) override;
+    bool initialize(configuration::ConfigurationManager &conf);
 
 private:
     int cameraAmount;

@@ -37,14 +37,14 @@ public:
      * \param settings TODO
      * \return         TODO
      */
-    bool initialize(configuration::ConfigurationManager &settings) override;
+    bool initialize(configuration::ConfigurationManager &settings);
 
     /*!
      * \brief        Performs the foreground modulation.
      * \details      TODO
      * \param frames TODO
      */
-    void process(FrameList &frames) override;
+    void process(FrameList &frames);
 
 private:
     cv::Mat foregroundMask;
