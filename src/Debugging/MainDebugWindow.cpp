@@ -332,6 +332,7 @@ void MainDebugWindow::restart()
     delete calibrationWindow;
 
     debugging::logObject.reset();
+    logItemModel->removeRows(0, logItemModel->rowCount());
 
     // Re initialize
     isRecordToFiles = false;
@@ -361,35 +362,6 @@ void MainDebugWindow::restart()
     if(program->singleIteration()){
         updateGuiComponents();
     }
-
-
-
-    /*
-    std::map<std::string,DebugViewWidget*>::iterator debugView;
-    for (debugView = debugViews.begin() ; debugView != debugViews.end();++debugView) {
-            delete debugView->second;
-    }
-    delete program;
-    delete debugViewGrid;
-    delete configurationWindow;
-    delete calibrationWindow;
-    delete cameraItemModel;
-    delete logItemModel;
-    delete logProxyModel;
-
-    delete profilerItemModel;
-    delete profilerProxyModel;
-    delete timer;
-
-
-    debugging::logObject.reset();
-
-    // Re initialize
-    isRecordToFiles = false;
-    videoWriter = 0;
-
-    init(mainConfigPath, guiConfigPath);
-    */
 }
 
 void MainDebugWindow::updateGUI()
