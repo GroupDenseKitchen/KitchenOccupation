@@ -21,8 +21,14 @@ void CalibrationWindow::initialize(DenseKitchen* mainProgram ,std::string filepa
 {
     this->mainProgram = mainProgram;
     this->filePath = filepath;
-    loadMaskFromFile();
+    if(mainProgram->getSettings()->hasInt("lowestDistanceOverFloor")){
+        thresholdValue = mainProgram->getSettings()->getInt("lowestDistanceOverFloor");
+    } else {
+        thresholdValue = 255;
+    }
 
+    ui->thresholdLabel->setText("Threshold: " + QString::number(thresholdValue));
+    ui->thresholdSlider->setValue(thresholdValue);
 }
 
 void CalibrationWindow::updateWindow(Frame currentFrame)
@@ -67,9 +73,64 @@ void CalibrationWindow::thresholdImage()
     cv::threshold(matImage, thresholdedImage, thresholdValue, 255, 4);
 }
 
+void CalibrationWindow::calculateHistogram()
+{
+    // Calculate histogram
+
+    cv::Mat histogram;
+    int histSize = 320;
+    float range[] = { 0, 256 } ;
+    const float* histRange = { range };
+    cv::calcHist(&thresholdedImage,
+             1,
+             0,
+             cv::Mat(),
+             histogram,
+             1,
+             &histSize,
+             &histRange);
+
+    int hist_w = thresholdedImage.size().width;
+    int hist_h = thresholdedImage.size().height;
+    int bin_w = cvRound( (double) hist_w/histSize );
+    cv::Mat histImage( hist_h, hist_w, thresholdedImage.type(), cv::Scalar(0) );
+
+    histogram.at<int>(0,0) = 0;
+    cv::normalize(histogram,histogram, 0, histImage.rows,cv::NORM_MINMAX, -1, cv::Mat() );
+    for( int i = 1; i < histSize; i++ )
+    {
+        cv::line( histImage, cv::Point( bin_w*(i-1), hist_h - cvRound(histogram.at<float>(i-1)) ) ,
+                             cv::Point( bin_w*(i),   hist_h - cvRound(histogram.at<float>(i)) ),
+                             cv::Scalar( 255 ), 2, 8, 0 );
+    }
+    histogramImage = histImage.clone();
+
+    cv::calcHist(&matImage,
+             1,
+             0,
+             cv::Mat(),
+             histogram,
+             1,
+             &histSize,
+             &histRange);
+
+    histImage = cv::Mat( hist_h, hist_w, matImage.type(), cv::Scalar(0) );
+
+    histogram.at<int>(0,0) = 0;
+    cv::normalize(histogram,histogram, 0, histImage.rows,cv::NORM_MINMAX, -1, cv::Mat() );
+    for( int i = 1; i < histSize; i++ )
+    {
+        cv::line( histImage, cv::Point( bin_w*(i-1), hist_h - cvRound(histogram.at<float>(i-1)) ) ,
+                             cv::Point( bin_w*(i),   hist_h - cvRound(histogram.at<float>(i)) ),
+                             cv::Scalar( 128 ), 2, 8, 0 );
+    }
+    histogramImage += histImage.clone();
+}
+
 void CalibrationWindow::updateGUIImages()
 {
     thresholdImage();
+    calculateHistogram();
 
     if(!thresholdedImage.empty()){
         qImage = QImage( thresholdedImage.data,
@@ -79,6 +140,15 @@ void CalibrationWindow::updateGUIImages()
                          QImage::Format_Indexed8);
 
         ui->imageLabel->setPixmap(QPixmap::fromImage(qImage));
+    }
+    if(!histogramImage.empty()){
+        qImage = QImage( histogramImage.data,
+                         histogramImage.cols,
+                         histogramImage.rows,
+                         histogramImage.step,
+                         QImage::Format_Indexed8);
+
+        ui->histogramLabel->setPixmap(QPixmap::fromImage(qImage));
     }
 }
 
@@ -119,6 +189,8 @@ void CalibrationWindow::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_Return:
     case Qt::Key_Enter:
+        on_applyButton_clicked();
+        break;
 
     default:
         break;
@@ -140,12 +212,13 @@ void CalibrationWindow::on_cancelButton_clicked()
 void CalibrationWindow::on_applyButton_clicked()
 {
     mainProgram->getSettings()->setInt("lowestDistanceOverFloor", thresholdValue);
-
+    mainProgram->getSettings()->writeToFile();
     close();
 }
 
 void CalibrationWindow::on_thresholdSlider_valueChanged(int value)
 {
     thresholdValue = value;
+    ui->thresholdLabel->setText("Threshold: " + QString::number(thresholdValue));
     updateGUIImages();
 }

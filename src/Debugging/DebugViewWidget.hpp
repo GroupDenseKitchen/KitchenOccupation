@@ -14,7 +14,6 @@ class DebugViewWidget;
 /*!
  * \brief   The DebugViewWidget class if simply a container for a \ref cv::Mat representing a certain
  *          step in the preocess chain.
- * \details TODO
  */
 class DebugViewWidget : public QWidget
 {

@@ -16,11 +16,11 @@ class MainConfigurationWindow;
 
 /*!
  * \brief   The MainConfigurationWindow class is a window where you can cnfigure
- *          different settings in the system. Especially masks used to define doors and
+ *          different settings in the system.
+ * \details Especially masks used to define doors and
  *          exceptions for a camera. The door mask is used to check if a person is
  *          currently in a doorway and the exception mask is used to speed up and harden
  *          the system by defining ares that are not interesrting for the system.
- * \details TODO
  */
 class MainConfigurationWindow : public QWidget
 {
@@ -44,7 +44,7 @@ public:
      * \param filepath    TODO
      */
     void initialize(DenseKitchen* mainProgram , std::string filepath);
-    void sendMasksToFrameList();
+
 
 public slots:
     /*!
@@ -88,6 +88,7 @@ private:
     QImage qImage;
 
     void loadMaskFromFile();
+    void sendMasksToFrameList();
     void storeMask(QVector<QVector<cv::Point> > polygons, std::string nodeName);
     bool readMasks(QVector<QVector<cv::Point> > &polygons, std::string nodeName);
 

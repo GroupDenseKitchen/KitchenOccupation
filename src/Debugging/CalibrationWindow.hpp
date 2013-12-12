@@ -16,11 +16,11 @@ class CalibrationWindow;
 
 /*!
  * \brief   The CalibrationWindow class is a window where you can cnfigure
- *          different settings in the system. Especially masks used to define doors and
+ *          different settings in the system.
+ * \details Especially masks used to define doors and
  *          exceptions for a camera. The door mask is used to check if a person is
  *          currently in a doorway and the exception mask is used to speed up and harden
  *          the system by defining ares that are not interesrting for the system.
- * \details TODO
  */
 class CalibrationWindow : public QWidget
 {
@@ -61,10 +61,12 @@ private:
     void storeImageLocally(const cv::Mat &image);
 
     void thresholdImage();
+    void calculateHistogram();
     void updateGUIImages();
 
     cv::Mat matImage;
     cv::Mat thresholdedImage;
+    cv::Mat histogramImage;
     cv::Mat resizedImage;
     QImage qImage;
 
