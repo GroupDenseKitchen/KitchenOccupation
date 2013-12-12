@@ -52,13 +52,13 @@ public:
      *                  algorithm's constants.
      * \return          Returns false if the initialization fails, e.g. if a required variable is not set in the config file.
      */
-    bool initialize( configuration::ConfigurationManager &settings ) override;
+    bool initialize( configuration::ConfigurationManager &settings );
 
     /*!
      * \brief           Performs the algorithm.
      * \param frames    A FrameList object containing the current and some of the previos frames.
      */
-    void process( FrameList & frames ) override;
+    void process( FrameList & frames );
 
 private:
     std::deque<FrameQueData> historyWindow;

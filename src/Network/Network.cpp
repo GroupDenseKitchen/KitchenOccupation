@@ -14,6 +14,7 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
 
     // Check if the necessary variables are available
     if (!settings.hasBool("runFromFile")) {
+	printf("run from file undefined in config \n");
         LOG("Network Error", "Boolean \"runFromFile\" undefined in config file.");
         return false;
     } else {
@@ -21,6 +22,7 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
     }
 
     if (!settings.hasBool("useKinect")) {
+	printf("use kinect undefined in config file \n");
         LOG("Network Error", "Boolean \"useKinect\" undefined in config file.");
         return false;
     } else {
@@ -37,6 +39,7 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
     bool hasValidSettings = (runFromFile && hasFilePaths) || (!runFromFile && hasCamPaths);
 
     if(!hasValidSettings) {
+	printf("settings invalid! \n");
         LOG("Network Error", "std::vector<std::string> \"videoFilePaths\" or \"cameraPaths\" undefined in config file.");
         return false;
     }
@@ -55,8 +58,6 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
     } else {
         return initNetworkCameras(settings, cameraPaths);
     }
-
-
 }
 
 bool Network::initNetworkCameras(configuration::ConfigurationManager& settings,

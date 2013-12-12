@@ -52,7 +52,7 @@ public:
      * \details      TODO
      * \param frames TODO
      */
-    void process(FrameList &frames) override;
+    void process(FrameList &frames);
 
     /*!
      * \brief      Initialize the algorithm.
@@ -60,7 +60,7 @@ public:
      *             e.g. if a required variable is not set.
      * \param conf TODO
      */
-     bool initialize(configuration::ConfigurationManager &conf) override;
+     bool initialize(configuration::ConfigurationManager &conf);
 
 private:
      std::vector<CameraFlow> cameraFlowVector;//vector to separate flow for different cameras.

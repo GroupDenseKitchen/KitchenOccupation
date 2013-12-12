@@ -4,8 +4,11 @@ PROJECT(dense_kitchen)
 
 OPTION(headless "headless" OFF)
 
-MESSAGE( STATUS "headless is " ${headless} )
 
+IF(headless)
+   MESSAGE( STATUS "Headless build enabled" )
+  ADD_DEFINITIONS(-DHEADLESS)
+ENDIF()
 
 
 IF(APPLE)

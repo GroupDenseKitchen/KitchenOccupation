@@ -1,5 +1,4 @@
 #include "Frame.hpp"
-#include <QDebug>
 
 Frame::Frame(){
     currentQueStatus = -1;

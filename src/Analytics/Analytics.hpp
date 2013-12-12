@@ -36,7 +36,7 @@ class Analytics : public Algorithm
          * \param settings TODO
          * \return         TODO
          */
-        bool initialize(configuration::ConfigurationManager & settings) override;
+        bool initialize(configuration::ConfigurationManager & settings);
 
         /*!
          * \brief   TODO
@@ -49,7 +49,7 @@ class Analytics : public Algorithm
          * \details      TODO
          * \param frames TODO
          */
-        void process(FrameList &frames) override;
+        void process(FrameList &frames);
 
     private:
 

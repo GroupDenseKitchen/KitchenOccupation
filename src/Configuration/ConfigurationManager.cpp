@@ -123,6 +123,7 @@ namespace configuration
             configFile.open(filePath,cv::FileStorage::READ);
         }
         catch (cv::Exception& e) {
+	    printf("error opening configuration file! \n");
             LOG("Settings Error", "Error reading configuration file " << filePath);
             return false;
         }
@@ -132,6 +133,7 @@ namespace configuration
             nodes = configFile.root();
         }
         catch (cv::Exception& e) {
+	    printf("error reading configuration file! \n");
             LOG("Settings Error", "Error reading configuration file " << filePath);
             return false;
         }
