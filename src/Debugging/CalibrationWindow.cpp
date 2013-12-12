@@ -139,7 +139,9 @@ void CalibrationWindow::on_cancelButton_clicked()
 
 void CalibrationWindow::on_applyButton_clicked()
 {
-    //mainProgram->settings.setInt("lowestDistanceOverFloor", thresholdValue);
+    mainProgram->getSettings()->setInt("lowestDistanceOverFloor", thresholdValue);
+
+    close();
 }
 
 void CalibrationWindow::on_thresholdSlider_valueChanged(int value)

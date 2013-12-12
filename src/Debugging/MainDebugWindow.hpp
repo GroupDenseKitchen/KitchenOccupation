@@ -106,7 +106,7 @@ private:
     DenseKitchen* program;
 
     DebugViewGrid* debugViewGrid;
-    MainConfigurationWindow* configWindow;
+    MainConfigurationWindow* configurationWindow;
     CalibrationWindow* calibrationWindow;
     std::map<std::string,DebugViewWidget*> debugViews;
 
