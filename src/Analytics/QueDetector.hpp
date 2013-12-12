@@ -35,10 +35,14 @@ public:
      * \brief           Handles initialization.
      *
      * \details         Configurable algorithm parameters are:
-     *                      - maxSplineSegmentLength:       TODO: add description for this parameter here
-     *                      - velocityScaleFactor:          TODO: add description for this parameter here
-     *                      - splineLengthThreshold:        TODO: add description for this parameter here
-     *                      - maxRecursionDepth:            TODO: add description for this parameter here
+     *                      - maxSplineSegmentLength:       Spline subdivision stops when the longest segment
+     *                                                      in the spline drops below this length (in pixels).
+     *                      - velocityScaleFactor:          The scale factor applied to the velocity vectors
+     *                                                      when creating a spline. (To account for spline
+     *                                                      parametrization)
+     *                      - splineLengthThreshold:        Pairs of objects connected by a spline longer than
+     *                                                      this are not considered part of the same queue.
+     *                      - maxRecursionDepth:            Spline subdivisions are stopped at this depth of recursions.
      *
      * \param settings  A configuration::ConfigurationManager object that potentially includes values for the
      *                  algorithm's constants.

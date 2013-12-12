@@ -51,11 +51,15 @@ public:
      * \brief           Handles initialization.
      *
      * \details         Configurable algorithm parameters are:
-     *                      - historyLength:            TODO: add description for this parameter here
-     *                      - lowQueThreshold:          TODO: add description for this parameter here
-     *                      - highQueThreshold:         TODO: add description for this parameter here
-     *                      - lowOccupancyThreshold:    TODO: add description for this parameter here
-     *                      - highOccupancyThreshold:   TODO: add description for this parameter here
+     *                      - historyLength:            The number of frames considered when classifying
+     *                                                  queue severity.
+     *                      - lowQueThreshold:          If the proportion of considered frames with a detected
+     *                                                  queue is less than this, queue severity is 0.
+     *                      - highQueThreshold:         If the proportion of considered frames with a detected
+     *                                                  queue is above this, queue severity is 2.
+     *                      - lowOccupancyThreshold:    If there are more people than this and less than
+     *                                                  highOccupancyThreshold, queue severity is 1.
+     *                      - highOccupancyThreshold:   If there are more people than this, queue severity is 2.
      *
      *
      * \param settings  A configuration::ConfigurationManager object that potentially includes values for the
