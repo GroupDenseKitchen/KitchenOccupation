@@ -39,7 +39,7 @@ void MainDebugWindow::init(string mainConfigFile, string guiConfigFile)
     // -------- Instanciate Main Program ----------------
     program = new DenseKitchen;
     this->mainConfigPath = mainConfigFile;
-    if(!program->initialize(this->mainConfigPath)){
+    if(!program->reInitialize()){
         LOG("MainDebugWindow initialization error", "program initialization failed");
         debugging::logObject.dumpToConsole();
         exit(-1);
@@ -327,7 +327,7 @@ void MainDebugWindow::adaptColumnsToContent(QTreeView *tree, QStandardItemModel 
 void MainDebugWindow::restart()
 {
     // Delete current instance
-    delete program;
+    //delete program;
     delete configurationWindow;
     delete calibrationWindow;
 
@@ -338,8 +338,8 @@ void MainDebugWindow::restart()
     videoWriter = 0;
 
     // -------- Instanciate Main Program ----------------
-    program = new DenseKitchen;
-    if(!program->initialize(this->mainConfigPath)){
+    //program = new DenseKitchen;
+    if(!program->reInitialize()){
         LOG("MainDebugWindow initialization error", "program initialization failed");
         debugging::logObject.dumpToConsole();
         exit(-1);

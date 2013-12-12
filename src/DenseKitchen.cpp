@@ -1,11 +1,12 @@
 #include "DenseKitchen.hpp"
 
-bool DenseKitchen::initialize(std::string path) {
+bool DenseKitchen::initialize(std::string path, bool reInitialize = false) {
     isInitialized = true;
     isEvalInitialized = true;
 
     PROFILER_ITERATION_START();
     algorithmFactory.clear();
+
     /*
      *  REGISTER ALGORITHMS HERE
      */
@@ -26,10 +27,11 @@ bool DenseKitchen::initialize(std::string path) {
     algorithmFactory.add("EntryExitEvaluator",               new evaluation::EntryExitEvaluator());
     //algorithmFactory.add("TrackerEvaluator",                 new evaluation::TrackerEvaluator());
 
-
-    if(!settings.readConfig(path)) {
-        LOG("DenseKitchen initialization error", "settings file read error! path: \"" << path << "\"");
-        isInitialized = false;
+    if(!reInitialize) {
+        if(!settings.readConfig(path)) {
+            LOG("DenseKitchen initialization error", "settings file read error! path: \"" << path << "\"");
+            isInitialized = false;
+        }
     }
     if(!network.initialize(settings)) {
         LOG("DenseKitchen initialize error", "Network module could not be initialized!");
@@ -67,15 +69,19 @@ bool DenseKitchen::initialize(std::string path) {
     return isInitialized;
 }
 
-void DenseKitchen::reset()
+bool DenseKitchen::reInitialize()
 {
+    //network = network::Network();
     network.reset();
-    imageProcessor.reset();
-    analytics.reset();
+    imageProcessor = image_processing::ImageProcessor();
+    analytics = statistics::Analytics();
+    evaluator = evaluation::Evaluation();
+    algorithmFactory = AlgorithmFactory();
+    frames = FrameList();
 
     debugging::logObject.clear();
 
-    // Reset global variables
+    return initialize(configPath, true);
 
 }
 

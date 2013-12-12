@@ -53,13 +53,13 @@ public:
      * \param path Path to the configuration file
      * \return     Returns false if any of its modules fail.
      */
-    bool initialize(std::string path);
+    bool initialize(std::string path, bool reInitialize);
 
     /*!
-     * \brief    Reset program completely.
+     * \brief    Reset program completely without reading the config file.
      * \details  Clears all temporary system settings and variables.
      */
-    void reset();
+    bool reInitialize();
 
     /*!
      * \brief     Run one iteration of the program.
