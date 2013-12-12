@@ -36,8 +36,14 @@ public:
      * \brief          Initialize the algorithm.
      * \details        Returns false if initialization fails,
      *                 e.g. if a required variable is not set in the config file.
-     * \param settings TODO
-     * \return         TODO
+     *
+     * \details Configurable algorithm parameters are:
+     *              - maximumDistance:                 TODO: add description for this parameter here
+     *              - minimumLifeSpan:                TODO: add description for this parameter here
+     *              - maximumTimeLostInDoorArea:               TODO: add description for this parameter here
+     *              - maximumTimeLostStill:                   TODO: add description for this parameter here
+     *
+     * \return     True if successful.
      */
     bool initialize(configuration::ConfigurationManager &settings) override;
 

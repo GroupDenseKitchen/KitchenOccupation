@@ -36,8 +36,15 @@ public:
      * \brief      Initialize the algorithm.
      * \details    Returns false if initialization fails,
      *             e.g. if a required variable is not set.
-     * \param conf TODO
-     * \return     TODO
+     *
+     *  \details   Configurable algorithm parameters are:
+     *              - headHeightMargin:         TODO: add description for this parameter here
+     *              - lowestDistanceOverFloor:  TODO: add description for this parameter here
+     *              - distanceToCameraMargin:   TODO: add description for this parameter here
+     *              - minimalHumanArea:         TODO: add description for this parameter here
+     *              - minimalHeadArea:          TODO: add description for this parameter here
+     *
+     * \return     True if successful.
      */
     bool initialize(configuration::ConfigurationManager &conf) override;
 

@@ -33,10 +33,21 @@ public:
     CircleDetection();
 
     /*!
-     * \brief          Initialization of values used by the algorithm.
-     * \details        TODO
-     * \param settings TODO
-     * \return         TODO
+     * \brief   Initialize the algorithm.
+     * \details Returns false if initialization fails, e.g. if a required variables is not set.
+     *
+     * \details Configurable algorithm parameters are:
+     *              - lowThreshold:                 TODO: add description for this parameter here
+     *              - highThreshold:                TODO: add description for this parameter here
+     *              - houghThreshold:               TODO: add description for this parameter here
+     *              - kernelSize:                   TODO: add description for this parameter here
+     *              - downSamplingFactor:           TODO: add description for this parameter here
+     *              - averageCircleFilterSize:      TODO: add description for this parameter here
+     *              - circleFilterRadiusDifference: TODO: add description for this parameter here
+     *              - maskOutForeground:            TODO: add description for this parameter here
+     *              - detectionThreshold:           TODO: add description for this parameter here
+     *
+     * \return     True if successful.
      */
     bool initialize(configuration::ConfigurationManager &settings) override;
 

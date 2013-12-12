@@ -48,6 +48,15 @@ public:
 
     /*!
      * \brief           Handles initialization.
+     *
+     * \details         Configurable algorithm parameters are:
+     *                      - historyLength:            TODO: add description for this parameter here
+     *                      - lowQueThreshold:          TODO: add description for this parameter here
+     *                      - highQueThreshold:         TODO: add description for this parameter here
+     *                      - lowOccupancyThreshold:    TODO: add description for this parameter here
+     *                      - highOccupancyThreshold:   TODO: add description for this parameter here
+     *
+     *
      * \param settings  A configuration::ConfigurationManager object that potentially includes values for the
      *                  algorithm's constants.
      * \return          Returns false if the initialization fails, e.g. if a required variable is not set in the config file.

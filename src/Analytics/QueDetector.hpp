@@ -33,6 +33,13 @@ public:
 
     /*!
      * \brief           Handles initialization.
+     *
+     * \details         Configurable algorithm parameters are:
+     *                      - maxSplineSegmentLength:       TODO: add description for this parameter here
+     *                      - velocityScaleFactor:          TODO: add description for this parameter here
+     *                      - splineLengthThreshold:        TODO: add description for this parameter here
+     *                      - maxRecursionDepth:            TODO: add description for this parameter here
+     *
      * \param settings  A configuration::ConfigurationManager object that potentially includes values for the
      *                  algorithm's constants.
      * \return          Returns false if the initialization fails, e.g. if a required variable is not set in the config file.

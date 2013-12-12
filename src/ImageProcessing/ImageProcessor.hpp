@@ -33,8 +33,10 @@ public:
     /*!
      * \brief          Initialize all image processing algorithms.
      * \details        Returns false if any of the sub algorithms fail during their initialization.
-     * \param settings TODO
-     * \return         TODO
+     *
+     * \details        This algorithm acts as an interface and has no configurable parameters:
+     *
+     * \return     True if successful.
      */
     bool initialize(configuration::ConfigurationManager & settings) override;
 

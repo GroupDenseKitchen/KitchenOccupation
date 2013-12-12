@@ -104,7 +104,7 @@ public:
 
     /*!
      * \brief   TODO
-     * \detials TODO
+     * \details TODO
      * \return  TODO
      */
     bool hasDoorMask();

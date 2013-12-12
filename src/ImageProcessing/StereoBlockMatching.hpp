@@ -39,8 +39,10 @@ public:
      * \brief      Initialize the algorithm.
      * \details    Returns false if initialization fails,
      *             e.g. if a required variable is not set.
-     * \param conf TODO
-     * \return     TODO
+     *
+     * \details    This alghorithm has no configurable parameters.
+     *
+     * \return     True if successful
      */
     bool initialize(configuration::ConfigurationManager &conf) override;
 

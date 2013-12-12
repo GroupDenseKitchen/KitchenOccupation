@@ -38,11 +38,24 @@ public:
     void process(FrameList &frames) override;
 
     /*!
-     * \brief      Initialize the algorithm.
-     * \details    Returns false if initialization fails,
-     *             e.g. if a required variables is not set.
-     * \param conf TODO
-     * \return     TODO
+     * \brief   Initialize the algorithm.
+     * \details Returns false if initialization fails, e.g. if a required variables is not set.
+     *
+     * \details Configurable algorithm parameters are:
+     *              - nMixtures:            Toggles the maximum number of mixture models per pixel.
+     *              - backgroundRatio:
+     *              - varThresholdGen:
+     *              - varThreshold:
+     *              - fVarInit:
+     *              - fCT:
+     *              - isShadowDetection:
+     *              - erotions:
+     *              - dilations:
+     *              - history:
+     *              - learningRate:
+     *              - downSamplingFactor:
+     *
+     * \return     True if successful.
      */
     bool initialize(configuration::ConfigurationManager &conf) override;
 

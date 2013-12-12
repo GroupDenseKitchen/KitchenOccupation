@@ -33,8 +33,11 @@ class Analytics : public Algorithm
         /*!
          * \brief          Initialize the Analytics module.
          * \details        Configurates which algorithms to be applied in which order.
+         *
+         * \details        This algorithm acts as an interface to a set of subalgorithms and has no configurable parameters.
+         *
          * \param settings TODO
-         * \return         TODO
+         * \return         True if successful.
          */
         bool initialize(configuration::ConfigurationManager & settings) override;
 
