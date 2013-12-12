@@ -4,13 +4,12 @@
 #include <cstdint>
 
 #include "../Utilities/utilities.hpp"
-#include "../Configuration/ConfigurationManager.hpp"
 
 #include <libfreenect.h>
 #include <libfreenect_sync.h>
 
 /*!
- *      \brief kinect contains functionality for reading rgb and depth images from a kinect 360 devise.
+ * \brief   The kinect namespace contains functionality for reading rgb and depth images from a kinect 360 device.
  */
 namespace kinect
 {
@@ -22,9 +21,9 @@ struct KinectFrame
 };
 
 /*!
- *  \brief     Handler for the kinect sensors.
- *  \version   0.1
- *  \date      2013-10-07
+ * \brief   Handler for the Kinect sensors.
+ * \details The class is a hardware interface for the Microsoft Kinect and contains functionality to convert
+ *          output RGB and depth streams into OpenCV images.
  */
 class KinectHandler
 {
@@ -40,11 +39,10 @@ public:
 	~KinectHandler();
 
     /*!
-     * \brief 	initialize	Initializes the Kinect sensor.
-     * \param 	settings 	A configuration object containing program settings. (not sure if needed)
-	 * \return 				True if any devices were found.
+     * \brief 	        Initializes the Kinect sensor.
+     * \return          True if any devices were found.
      */
-    bool initialize(configuration::ConfigurationManager& settings);
+    bool initialize();
 	
     /*!
      * \brief readFrame 	Returns a pointer to a KinectFrame containing the last images.
@@ -54,7 +52,8 @@ public:
     KinectFrame* readFrame(int deviceID);
 	
 	/*!
-	 * \brief getnDevices	The number of active devices
+     * \brief   getnDevices
+     * \return  The number of active devices.
 	 */
 	int getnDevices();
 

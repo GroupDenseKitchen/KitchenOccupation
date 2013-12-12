@@ -1,8 +1,8 @@
 %YAML:1.0
 hasGroundTruth: 0
 isDebug: 1
-runFromFile: 0
-useKinect: 1
+runFromFile: 1
+useKinect: 0
 nCameras: 1
 evalPrecisionThreshold: 50
 TrackingMaximumDistance: 2500.0
@@ -23,8 +23,8 @@ Evaluation:
 cameraPaths:
    - "/Users/erikfall/Dropbox/Dense Kitchen (1)/seq8.mp4"
 videoFilePaths:
-   - "../data/seq9/seq9-4.mp4"
+   - "../data/seq9/seq9-3.mp4"
 trackerGroundTruthPaths:
    - "../data/seq3/seq3GT.xml"
 entryExitGroundTruthPaths:
-   - "../data/seq9/seq9-4.yml"
+   - "../data/seq9/seq9-3.yml"

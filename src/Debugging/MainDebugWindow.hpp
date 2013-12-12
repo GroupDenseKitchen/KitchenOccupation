@@ -18,18 +18,20 @@
 #include "MainConfigurationWindow.hpp"
 #include "DebugViewWidget.hpp"
 #include "DebugViewGrid.hpp"
+#include "CalibrationWindow.hpp"
 
 #include <opencv2/core/core.hpp>
+
 
 namespace Ui {
 class MainDebugWindow;
 }
 
 /*!
- * \brief       The MainDebugWindow class is a debug interface to speed up development,
- *              testing and validation of image processing algorithms.
- * \version     0.1
- * \date        2013-12-06
+ * \brief   The MainDebugWindow class is a debug interface to speed up development,
+ *          testing and validation of image processing algorithms.
+ * \version 0.1
+ * \date    2013-12-12
  */
 class MainDebugWindow : public QMainWindow
 {
@@ -37,19 +39,19 @@ class MainDebugWindow : public QMainWindow
 
 public:
     /*!
-     * \brief Constructor
-     * \param parent
+     * \brief   Constructor
      */
     explicit MainDebugWindow(QWidget *parent = 0);
 
     /*!
-     * \brief Destructor
+     * \brief   Destructor
      */
     ~MainDebugWindow();
 
     /*!
-     * \brief Initializes the GUI with values specified in
-     * guiConfig.yml.
+     * \brief                Initializes the GUI with values specified in guiConfig.yml.
+     * \param mainConfigFile contains settings for the main program pipeline.
+     * \param guiConfigFile  contains settings for the GUI.
      */
     void init(std::string mainConfigFile, std::string guiConfigFile);
 
@@ -60,8 +62,7 @@ public:
 
 signals:
     /*!
-     * \brief updateDebugViews is used to send a fresh Frame to all sub-widgets and update their content.
-     * \param currentFrame
+     * \brief              updateDebugViews is used to send a fresh Frame to all sub-widgets and update their content.
      */
     void updateDebugViews( Frame currentFrame);
 
@@ -97,7 +98,8 @@ private:
     DenseKitchen* program;
 
     DebugViewGrid* debugViewGrid;
-    MainConfigurationWindow* configWindow;
+    MainConfigurationWindow* configurationWindow;
+    CalibrationWindow* calibrationWindow;
     std::map<std::string,DebugViewWidget*> debugViews;
 
     std::string guiConfigPath;
@@ -133,7 +135,7 @@ private:
     int timerDelay;
 
     bool isRecordToFiles;
-    cv::VideoWriter videoWriterRaw, videoWriterRawColor, videoWriterLiveSystem;
+    cv::VideoWriter * videoWriter;
 
     void keyPressEvent(QKeyEvent *);
     void closeEvent(QCloseEvent *);
@@ -164,6 +166,7 @@ private slots:
     void on_actionPause_triggered();
     void on_actionRestart_triggered();
     void on_actionConfigure_triggered();
+    void on_actionCalibrate_triggered();
 };
 
 #endif // MAINDEBUGWINDOW_HPP

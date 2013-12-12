@@ -11,48 +11,49 @@
 #include "../Configuration/ConfigurationManager.hpp"
 #include "TrackerEvaluator.hpp"
  
+/*!
+ *  \brief   The evaluation namespace contains functionality for system evaluation.
+ */
 namespace evaluation
 {
 
 /*!
- *  \brief     Evaluates system performance.
- *  \details   Evaluates system performance by comparing system output and some intermediate steps
- *             in the pipeline to pre-labeled ground truth.
+ * \brief     Evaluates system performance.
+ * \details   System performance is evaluated by comparing system output to pre-labeled ground truth data.
+ *            How performanced is measured is specified by the subalgorithm who inherit this class. Whhich sub algorithms
+ *            that are to be used is specified in a configurationManager object that is passed to the initialize function.
  */
-
-
-
 class Evaluation : public Algorithm
 {
 public:
 
     /*!
-     * \brief Empty constructor
+     * \brief   Empty constructor
      */
     Evaluation();
 
     /*!
-     * \brief Destructor
+     * \brief   Destructor
      */
     ~Evaluation();
 
     /*!
-     * \brief           Initializes the evaluation module
-     * \param settings  Configuration-object containing the location of the ground truth files and other relevant settings.
-     * \return          Returns true if successful.
+     * \brief          Initializes the evaluation module
+     * \param settings Configuration-object containing the location of the ground truth files.
+     * \return         True if successful.
      */
     bool initialize(configuration::ConfigurationManager& settings) override;
 
     /*!
-     * \brief Evaluates and updates the results for the system.
+     * \brief           Evaluates and updates the results for the system.
+     * \details         Is called upon after each iteration in order to calculate the different performance metrics
+     *                  by comparing the tracker system output to ground truth.
      * \param frameList The FrameList to be evaluated.
-     * \details Is called upon after each iteration in order to calculate the different performance metrics
-     *          by comparing the tracker system output to ground truth.
      */
     void process(FrameList& frames) override;
 
     /*!
-     * \brief Show stats in debug log.
+     * \brief   Print stats to the debug log.
      */
     void printToLog();
 

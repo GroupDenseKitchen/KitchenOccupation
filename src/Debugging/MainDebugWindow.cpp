@@ -17,13 +17,17 @@ MainDebugWindow::MainDebugWindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowTitle("DenseDebugger");
     isRecordToFiles = false;
+    videoWriter = 0;
 }
 
 MainDebugWindow::~MainDebugWindow()
 {
-    videoWriterRaw.release();
-    videoWriterRawColor.release();
-    videoWriterLiveSystem.release();
+    /*
+    for(int c = 0; c < program->getFrames()->getCurrent().getCameras().size()*3; c++) {
+        videoWriter[c].release();
+    }
+    delete [] videoWriter;
+    */
     delete ui;
 }
 
@@ -42,10 +46,16 @@ void MainDebugWindow::init(string mainConfigFile, string guiConfigFile)
     }
 
     // -------- Configuration Widget ---------------------
-    configWindow = new MainConfigurationWindow;
-    configWindow->initialize(program, "masks.yml");
+    configurationWindow = new MainConfigurationWindow;
+    configurationWindow->initialize(program, "masks.yml");
     connect(this, SIGNAL(updateDebugViews(Frame)),
-            configWindow, SLOT(updateWindow(Frame)));
+            configurationWindow, SLOT(updateWindow(Frame)));
+
+    // -------- Configuration Widget ---------------------
+    calibrationWindow = new CalibrationWindow;
+    calibrationWindow->initialize(program);
+    connect(this, SIGNAL(updateDebugViews(Frame)),
+            calibrationWindow, SLOT(updateWindow(Frame)));
 
     // -------- Camera/Step Selector Init ----------------
     cameraItemModel = new QStandardItemModel;
@@ -120,7 +130,7 @@ void MainDebugWindow::configureGUI(std::string guiConfigFile)
 
     debugViewGrid = new DebugViewGrid;
     debugViewGrid->initialize(2);
-    debugViewGrid->showMaximized();
+    debugViewGrid->show();
 
     // Display preset processingsteps
     for(unsigned int i = 0; i < presetCameraNumber.size(); i++){
@@ -195,7 +205,7 @@ void MainDebugWindow::popWindow(std::string stepKey, int cameraIndex){
 }
 
 void MainDebugWindow::updateGuiComponents(){
-    emit updateDebugViews(program->frames.getCurrent());
+    emit updateDebugViews(program->getFrames()->getCurrent());
     updateCameraSelector();
     updateLog();
     updateProfiler();
@@ -205,7 +215,7 @@ void MainDebugWindow::updateGuiComponents(){
 void MainDebugWindow::updateCameraSelector()
 {
     // Init camera and frame selector treeView
-    Frame& currentFrame = program->frames.getCurrent();
+    Frame& currentFrame = program->getFrames()->getCurrent();
 
     // Remove old tree
     cameraItemModel->removeRows(0, cameraItemModel->rowCount());
@@ -316,13 +326,39 @@ void MainDebugWindow::adaptColumnsToContent(QTreeView *tree, QStandardItemModel 
 
 void MainDebugWindow::restart()
 {
+    // Delete current instance
     delete program;
-    debugging::logObject.reset();
+    delete configurationWindow;
+    delete calibrationWindow;
 
+    debugging::logObject.reset();
     logItemModel->removeRows(0, logItemModel->rowCount());
 
+    // Re initialize
+    isRecordToFiles = false;
+    videoWriter = 0;
+
+    // -------- Instanciate Main Program ----------------
     program = new DenseKitchen;
-    program->initialize(mainConfigPath);
+    if(!program->initialize(this->mainConfigPath)){
+        LOG("MainDebugWindow initialization error", "program initialization failed");
+        debugging::logObject.dumpToConsole();
+        exit(-1);
+    }
+
+    // -------- Configuration Widget ---------------------
+    configurationWindow = new MainConfigurationWindow;
+    configurationWindow->initialize(program, "masks.yml");
+    connect(this, SIGNAL(updateDebugViews(Frame)),
+            configurationWindow, SLOT(updateWindow(Frame)));
+
+    // -------- Configuration Widget ---------------------
+    calibrationWindow = new CalibrationWindow;
+    calibrationWindow->initialize(program);
+    connect(this, SIGNAL(updateDebugViews(Frame)),
+            calibrationWindow, SLOT(updateWindow(Frame)));
+
+    isRunning = false;
     if(program->singleIteration()){
         updateGuiComponents();
     }
@@ -339,23 +375,27 @@ void MainDebugWindow::updateGUI()
 
     // Debug
     if(isRecordToFiles) {
-        if(!videoWriterRaw.isOpened()) {
+        if(videoWriter == 0 || !videoWriter[0].isOpened()) {
             // Video recorder
-             if(program->frames.size() > 0 && program->frames.getCurrent().getCameras().back().hasImage("rawImage")) {
-                videoWriterRaw = cv::VideoWriter("rawImage.avi", CV_FOURCC('D','I','V','X'), 30, program->frames.getCurrent().getCameras().back().getImage("rawImage").size());
-                videoWriterRawColor = cv::VideoWriter("rawColorImage.avi", CV_FOURCC('D','I','V','X'), 30, program->frames.getCurrent().getCameras().back().getImage("rawColorImage").size());
-                videoWriterLiveSystem = cv::VideoWriter("liveSystem.avi", CV_FOURCC('D','I','V','X'), 30, program->frames.getCurrent().getCameras().back().getImage("debugImage").size());
+             if(program->getFrames()->size() > 0 && program->getFrames()->getCurrent().getCameras().back().hasImage("rawImage")) {
+                 videoWriter = new cv::VideoWriter[program->getFrames()->getCurrent().getCameras().size()*3];
+                 for(int c = 0; c+2 < program->getFrames()->getCurrent().getCameras().size()*3; c += 3) {
+                     videoWriter[c] = cv::VideoWriter("rawImage"+std::to_string(c/3)+".avi", CV_FOURCC('D','I','V','X'), 30, program->getFrames()->getCurrent().getCameras()[c/3].getImage("rawImage").size());
+                     videoWriter[c+1] = cv::VideoWriter("rawColorImage"+std::to_string(c/3)+".avi", CV_FOURCC('D','I','V','X'), 30, program->getFrames()->getCurrent().getCameras()[c/3].getImage("rawColorImage").size());
+                     videoWriter[c+2] = cv::VideoWriter("liveSystem"+std::to_string(c/3)+".avi", CV_FOURCC('D','I','V','X'), 30, program->getFrames()->getCurrent().getCameras()[c/3].getImage("debugImage").size());
+                 }
              }
-
         }
         else
         {
-            if(program->frames.getCurrent().getCameras().back().hasImage("rawImage"))
-                videoWriterRaw.write(program->frames.getCurrent().getCameras().back().getImage("rawImage"));
-            if(program->frames.getCurrent().getCameras().back().hasImage("rawColorImage"))
-                videoWriterRawColor.write(program->frames.getCurrent().getCameras().back().getImage("rawColorImage"));
-            if(program->frames.getCurrent().getCameras().back().hasImage("debugImage"))
-                videoWriterLiveSystem.write(program->frames.getCurrent().getCameras().back().getImage("debugImage"));
+            for(int c = 0; c+2 < program->getFrames()->getCurrent().getCameras().size()*3; c += 3) {
+                if(program->getFrames()->getCurrent().getCameras()[c/3].hasImage("rawImage"))
+                    videoWriter[c].write(program->getFrames()->getCurrent().getCameras()[c/3].getImage("rawImage"));
+                if(program->getFrames()->getCurrent().getCameras()[c/3].hasImage("rawColorImage"))
+                    videoWriter[c+1].write(program->getFrames()->getCurrent().getCameras()[c/3].getImage("rawColorImage"));
+                if(program->getFrames()->getCurrent().getCameras()[c/3].hasImage("debugImage"))
+                    videoWriter[c+2].write(program->getFrames()->getCurrent().getCameras()[c/3].getImage("debugImage"));
+            }
         }
     }
 }
@@ -366,7 +406,7 @@ void MainDebugWindow::cameraSelectionUpdate(QModelIndex current, QModelIndex pre
         currentKey = current.data().toString().toStdString();
         currentCameraIndex = current.parent().row();
     }
-   emit updateDebugViews(program->frames.getCurrent());
+   emit updateDebugViews(program->getFrames()->getCurrent());
 }
 
 void MainDebugWindow::removeDebugViewWidget(std::string identifier)
@@ -386,6 +426,12 @@ void MainDebugWindow::keyPressEvent(QKeyEvent * e)
         } else {
             isRunning = true;
         }
+        break;
+    case Qt::Key_C:
+        configurationWindow->show();
+        break;
+    case Qt::Key_V:
+        calibrationWindow->show();
         break;
     case Qt::Key_F5:
         restart();
@@ -408,7 +454,8 @@ void MainDebugWindow::closeEvent(QCloseEvent * event)
             delete debugView->second;
         }
     delete debugViewGrid;
-    delete configWindow;
+    delete configurationWindow;
+    delete calibrationWindow;
     event->accept();
 }
 
@@ -497,7 +544,7 @@ void MainDebugWindow::on_expandDepthSpinBox_valueChanged(int arg1)
 
 void MainDebugWindow::on_configureButton_clicked()
 {
-    configWindow->show();
+    configurationWindow->show();
 }
 
 void MainDebugWindow::on_actionClear_triggered()
@@ -532,5 +579,10 @@ void MainDebugWindow::on_actionRestart_triggered()
 
 void MainDebugWindow::on_actionConfigure_triggered()
 {
-    configWindow->show();
+    configurationWindow->show();
+}
+
+void MainDebugWindow::on_actionCalibrate_triggered()
+{
+    calibrationWindow->show();
 }

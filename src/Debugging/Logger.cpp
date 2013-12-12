@@ -23,6 +23,7 @@ Logger::Logger()
     buildTime = __TIME__;
     iteration = 0;
     historyLength = 500;
+    maxLogEntrySize = 10000;
 }
 
 void Logger::append(LogEntry entry)
@@ -44,6 +45,9 @@ void Logger::append(LogEntry entry)
 
     entry.time = hour + ":" + minute + ":" + second;
     entry.date = std::to_string(timeInfo->tm_mday)+":"+std::to_string(timeInfo->tm_mon)+":"+std::to_string(timeInfo->tm_year);
+
+    if(logFile.size() > maxLogEntrySize)
+        logFile.pop_front();
     logFile.push_back(entry);
 }
 
@@ -83,7 +87,6 @@ void Logger::reset()
     logFile.clear();
     loopIterations.clear();
     iteration = 0;
-    historyLength = 0;
 }
 
 void Logger::dumpToConsole(void)

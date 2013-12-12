@@ -8,6 +8,7 @@ MainConfigurationWindow::MainConfigurationWindow(QWidget *parent) :
     ui(new Ui::MainConfigurationWindow)
 {
     ui->setupUi(this);
+    setWindowTitle("Configuration Window");
 }
 
 MainConfigurationWindow::~MainConfigurationWindow()
@@ -15,16 +16,16 @@ MainConfigurationWindow::~MainConfigurationWindow()
     delete ui;
 }
 
-void MainConfigurationWindow::initialize(DenseKitchen* mainProgram ,std::string filepath)
+void MainConfigurationWindow::initialize(DenseKitchen* mainProgram , std::string masksConfigFile)
 {
     this->mainProgram = mainProgram;
-    this->filePath = filepath;
+    this->masksConfigFile = masksConfigFile;
+    drawAsCircle = false;
     isDrawingCircle = false;
     circleRadius = 0;
     circleCenter = cv::Point(0,0);
     loadMaskFromFile();
     sendMasksToFrameList();
-
 }
 
 void MainConfigurationWindow::updateWindow(Frame currentFrame)
@@ -132,18 +133,18 @@ void MainConfigurationWindow::drawCheckPointCircles()
 
 void MainConfigurationWindow::sendMasksToFrameList()
 {
-    mainProgram->frames.setDoorMask(doorMask);
-    mainProgram->frames.setExclusionMask(exclusionMask);
-    mainProgram->frames.setCheckPointMaskSmall(checkpointMaskSmall);
-    mainProgram->frames.setCheckPointMaskMedium(checkpointMaskMedium);
-    mainProgram->frames.setCheckPointMaskLarge(checkpointMaskLarge);
+    mainProgram->getFrames()->setDoorMask(doorMask);
+    mainProgram->getFrames()->setExclusionMask(exclusionMask);
+    mainProgram->getFrames()->setCheckPointMaskSmall(checkpointMaskSmall);
+    mainProgram->getFrames()->setCheckPointMaskMedium(checkpointMaskMedium);
+    mainProgram->getFrames()->setCheckPointMaskLarge(checkpointMaskLarge);
 
     cv::Mat inclusionMask;
     inclusionMask.create(exclusionMask.rows, exclusionMask.cols, exclusionMask.type());
     inclusionMask.zeros(exclusionMask.rows, exclusionMask.cols, exclusionMask.type());
     cv::bitwise_not(exclusionMask, inclusionMask);
 
-    mainProgram->frames.setInclusionMask(inclusionMask);
+    mainProgram->getFrames()->setInclusionMask(inclusionMask);
 
     close();
 }
@@ -187,7 +188,7 @@ void MainConfigurationWindow::updateGUIImages()
 
 void MainConfigurationWindow::loadMaskFromFile()
 {
-    if(configFile.open(filePath, cv::FileStorage::READ)){
+    if(configFile.open(masksConfigFile, cv::FileStorage::READ)){
         readMasks(doorPolygons, "doorPolygons");
         readMasks(exclusionPolygons, "exclusionPolygons");
         configFile["circleCenterX"] >> circleCenter.x;
@@ -321,7 +322,7 @@ void MainConfigurationWindow::on_addAsCheckpointButton_clicked()
 
 void MainConfigurationWindow::on_saveMasksButton_clicked()
 {
-    configFile.open(filePath, cv::FileStorage::WRITE);
+    configFile.open(masksConfigFile, cv::FileStorage::WRITE);
     storeMask(doorPolygons, "doorPolygons");
     storeMask(exclusionPolygons, "exclusionPolygons");
     configFile << "circleCenterX" << circleCenter.x;

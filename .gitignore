@@ -4,6 +4,7 @@
 *.lof
 *.log
 *.out
+*.lot
 
 #unignore the cover pdf
 !*Cover/*

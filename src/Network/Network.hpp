@@ -12,52 +12,62 @@
     #include "KinectHandlerOpenNi.hpp"
 #endif // ifdef __APPLE__
 
-#include <QtNetwork/QtNetwork>
-#include <QByteArray>
 
 /*!
- *  \brief     Network contains all network and camera i/o functionality.
+ * \brief   The network namespace contains all system I/O functionality (sensors and web interface).
  */
 namespace network
 {
 /*!
- *  \brief     The Network is the interface to the network functionality.
- *  \version   0.1
- *  \date      2013-10-07
+ * \brief       The Network class handles all system I/O.
+ * \details     The Network class manages all system input/output, i.e. sampling the sensors and posting output data
+ *              on the web server specified by the configuration file. Currently, support exists for all OpenCV-compatible cameras
+ *              as well as the Microsoft Kinect depth sensor. The class is designed to be as modular as possible,
+ *              allowing for a relatively easy integration of new sensor types into the system.
+ *              The Network class also supports running several sensors in parallel.
  */
 class Network
 {
 public:
     /*!
-       \brief   Constructor.
-    */
+     * \brief   Constructor.
+     */
 	Network();
 
     /*!
-       \brief   Destructor.
-    */
+     * \brief   Destructor.
+     */
 	~Network();
 
     /*!
-     * \brief Initializes the network module.
-     * \param settings A configuration object containing program settings
+     * \brief          Initializes the network module.
+     * \details        The tries to initialize a Network object by opening up the necessary video streams specified by the
+     *                 settings parameter. If this for some reason is not possible,
+     *                 an error log message is created and the function retirns false.
+     * \param settings A configuration object containing program settings.
+     * \return         True if successful.
      */
     bool initialize(configuration::ConfigurationManager& settings);
 
+    /*!
+     * \brief   Destroys the video streams, thereby resetting the network module.
+     */
     void reset();
 
     /*!
-     * \brief dequeFrame returns a pointer to the latest frame.
-     * \return Returns zero if no frame is available.
+     * \brief dequeFrame Returns a pointer to the next frame.
+     * \details          Tries to sample the different vidoe streams and returns a pointer to a newly created frame object if
+     *                   all samplings are successful.
+     * \return           Returns zero if no frame is available.
      */
     Frame* dequeFrame(void);
 
     /*!
-     * \brief broadcastData Send data to the web server.
-     * \param frame         Frame whose data is to be broadcasted
-     * \details             The data that is presented on the web server is:
-     *                      - Number of people in/out in current frame
-     *                      - If there is a queue to enter the room or not.
+     * \brief       Send data to the web server.
+     * \details     The data that is presented on the web server is:
+     *              - Number of people currently in side the room.
+     *              - If there is a queue to enter the room or not.
+     * \param frame Frame whose data is to be broadcasted
      */
     void broadcastData(Frame* frame);
 
@@ -81,9 +91,7 @@ private:
     Timer timer;
     Frame nextFrame;
     std::vector<cv::VideoCapture> streams;
-    QUrl serverUrl;
 
-    QNetworkAccessManager* nwam;
 };
 
 }

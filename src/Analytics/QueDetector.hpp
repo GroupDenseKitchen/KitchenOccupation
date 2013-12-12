@@ -7,10 +7,7 @@
 #include "../Analytics/Que.hpp"
 #include "../Utilities/CameraObject.hpp"
 
-/*!
- *  \brief      statistics contains functionality for extracting usefull data and meta data after
- *              the image processing steps have been completed.
- */
+
 namespace statistics
 {
 
@@ -30,20 +27,32 @@ class QueDetector : public Algorithm
 {
 public:
     /*!
-     *  \brief      Constructor.
+     * \brief   Constructor.
      */
     QueDetector();
 
     /*!
-     *  \brief      Handles initialization.
-     *  \details    Returns false if initialization fails,
-     *              e.g. if a required variable is not set in the config file.
+     * \brief           Handles initialization.
+     *
+     * \details         Configurable algorithm parameters are:
+     *                      - maxSplineSegmentLength:       Spline subdivision stops when the longest segment
+     *                                                      in the spline drops below this length (in pixels).
+     *                      - velocityScaleFactor:          The scale factor applied to the velocity vectors
+     *                                                      when creating a spline. (To account for spline
+     *                                                      parametrization)
+     *                      - splineLengthThreshold:        Pairs of objects connected by a spline longer than
+     *                                                      this are not considered part of the same queue.
+     *                      - maxRecursionDepth:            Spline subdivisions are stopped at this depth of recursions.
+     *
+     * \param settings  A configuration::ConfigurationManager object that potentially includes values for the
+     *                  algorithm's constants.
+     * \return          Returns false if the initialization fails, e.g. if a required variable is not set in the config file.
      */
     bool initialize( configuration::ConfigurationManager &settings ) override;
 
     /*!
-     *  \brief      Performs the detection of queues.
-     *  \details    Sets queue visibility to true in each camera object where a queue is visible.
+     * \brief           Performs the algorithm.
+     * \param frames    A FrameList object containing the current and some of the previos frames.
      */
     void process( FrameList & frames ) override;
 

@@ -8,31 +8,38 @@
 namespace image_processing
 {
 /*!
- *  \brief   Process step which creates binary image using OpenCV function BackgroundModelMoG2.
+ * \brief   Process step which creates binary image using OpenCV function BackgroundModelMoG2.
+ * \details TODO
  */
 class StereoBlockMatching : public Algorithm
 {
 public:
     /*!
-       \brief   Constructor.
-    */
+     * \brief   Constructor.
+     */
     StereoBlockMatching();
 
     /*!
-       \brief   Destructor.
-    */
+     * \brief   Destructor.
+     */
     ~StereoBlockMatching();
 
     /*!
-       \brief   Performs the background modulation.
-    */
+     * \brief        Performs the background modulation.
+     * \details      TODO
+     * \param frames TODO
+     */
     void process(FrameList &frames) override;
 
     /*!
-       \brief   Initialize the algorithm.
-       \details Returns false if initialization fails,
-                e.g. if a required variable is not set
-    */
+     * \brief      Initialize the algorithm.
+     * \details    Returns false if initialization fails,
+     *             e.g. if a required variable is not set.
+     *
+     * \details    This alghorithm has no configurable parameters.
+     *
+     * \return     True if successful
+     */
     bool initialize(configuration::ConfigurationManager &conf) override;
 
 private:

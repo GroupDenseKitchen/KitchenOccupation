@@ -14,7 +14,6 @@
 #include "ImageProcessing/BackgroundModelMoG.hpp"
 #include "ImageProcessing/ForegroundRegionExtractorDefault.hpp"
 #include "ImageProcessing/TrackingBruteForce.hpp"
-#include "ImageProcessing/TrackingBruteForceLines.hpp"
 #include "ImageProcessing/EntryExitCounter.hpp"
 #include "ImageProcessing/CircleDetection.hpp"
 #include "ImageProcessing/kinectSegmentation.hpp"
@@ -30,53 +29,65 @@
 
 
 /*!
- *  \brief     Main program class.
- *  \details   It provides the interface for people detection and counting engine.
- *             Run in order: Init() once, readConfig(...) once, singleIteration() as many times as wished.
+ * \brief     Main program class.
+ * \details   This class provides the interface for people detection and counting engine.
+ *            Run in order: initialize() once and then, singleIteration() as many times as wished.
  */
-
 class DenseKitchen
 {
 public:
 
     /*!
-       \brief   Constructor.
-    */
+     * \brief   Constructor.
+     */
     DenseKitchen() { isInitialized = false; }
 
     /*!
-       \brief   Destructor.
-    */
+     * \brief   Destructor.
+     */
     ~DenseKitchen() {}
 
     /*!
-       \brief     Initialize the program using a settings file specified.
-       \return    Return false if any of its modules fail.
-    */
+     * \brief      Initialize the program using a specified configuration file.
+     * \details    Loads system settings and configures all the different program modules.
+     * \param path Path to the configuration file
+     * \return     Returns false if any of its modules fail.
+     */
     bool initialize(std::string path);
 
     /*!
-        \brief    Reset program completely.
-    */
+     * \brief    Reset program completely.
+     * \details  Clears all temporary system settings and variables.
+     */
     void reset();
 
     /*!
-       \brief     Run one iteration of the program.
-       \details   Deque one frame and perform person tracking and update the statistics.
-       \return    False if the program want to terminate, otherwise True.
-    */
+     * \brief     Run one iteration of the program.
+     * \details   Deque one frame, perform person tracking and update statistics.
+     * \return    False if the program wants to terminate, otherwise True.
+     */
     bool singleIteration();
 
-    FrameList frames;   //TODO: make private and provide interface (?)
+    /*!
+     * \brief   Get the current FrameList.
+     * \return  A pointer to the active FrameList.
+     */
+    FrameList* getFrames();
+
+    /*!
+     * \brief  Get the current settings.
+     * \return A pointer to the active settings.
+     */
+    configuration::ConfigurationManager* getSettings();
+
 private:
+    FrameList frames;
 
     bool isInitialized;
     bool isEvalInitialized;
 
     network::Network network;
     configuration::ConfigurationManager settings;
-    //
-    //evaluation::EntryExitEvaluation entryExitEvaluation;
 
     AlgorithmFactory algorithmFactory;
     image_processing::ImageProcessor imageProcessor;

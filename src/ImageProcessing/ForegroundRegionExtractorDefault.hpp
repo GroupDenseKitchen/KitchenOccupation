@@ -5,39 +5,42 @@
 #include "../Utilities/FrameList.hpp"
 #include "../Utilities/Algorithm.hpp"
 
-/*!
- *  \brief   Image processing contains functionality for the different
- *           states of image processing required for human detection and tracking.
- */
 namespace image_processing
 {
 /*!
- *  \brief     Process step which does foreground modulation, creates bounding boxes.
+ * \brief   Process step which does foreground modulation, creates bounding boxes.
+ * \details TODO
  */
 class ForegroundRegionExtractorDefault : public Algorithm
 {
 public:
 
     /*!
-       \brief   Constructor.
-    */
+     * \brief   Constructor.
+     */
     ForegroundRegionExtractorDefault();
 
     /*!
-       \brief   Destructor.
-    */
+     * \brief   Destructor.
+     */
     ~ForegroundRegionExtractorDefault();
 
     /*!
-       \brief   Initialize the algorithm.
-       \details Returns false if initialization fails,
-                e.g. if a required variable is not set in the config file.
-    */
+     * \brief          Initialize the algorithm.
+     * \details        Returns false if initialization fails,
+     *                 e.g. if a required variable is not set in the config file.
+     *
+     * \details        This algorithm has no configurable parameters.
+     *
+     * \return     True if successful.
+     */
     bool initialize(configuration::ConfigurationManager &settings) override;
 
     /*!
-       \brief   Performs the foreground modulation.
-    */
+     * \brief        Performs the foreground modulation.
+     * \details      TODO
+     * \param frames TODO
+     */
     void process(FrameList &frames) override;
 
 private:

@@ -6,49 +6,54 @@
 #include "../Utilities/Algorithm.hpp"
 #include "EntryExitCounter.hpp"
 
-/*!
- *  \brief   Image processing contains functionality for the different
- *           states of image processing required for human detection and tracking.
- */
 namespace image_processing
 {
 
 /*!
- *  \brief   Process step which tracks bounding boxes between frames.
+ * \brief   Process step which tracks bounding boxes between frames.
+ * \details TODO: DETAILED DESCRIPTION OF HOW THE TRACKER WORKS
  */
 class TrackingBruteForce : public Algorithm
 {
 public:
 
     /*!
-       \brief   Constructor.
-    */
+     * \brief   Constructor.
+     */
     TrackingBruteForce();
 
     /*!
-       \brief   Destructor.
-    */
+     * \brief   Destructor.
+     */
     ~TrackingBruteForce();
 
     /*!
-       \brief   Initialize the algorithm.
-       \details Returns false if initialization fails,
-                e.g. if a required variable is not set in the config file.
-    */
+     * \brief          Initialize the algorithm.
+     * \details        Returns false if initialization fails,
+     *                 e.g. if a required variable is not set in the config file.
+     *
+     * \details Configurable algorithm parameters are:
+     *              - maximumDistance:                The maximum distance a object can be considered to have moved since last frame.
+     *              - minimumLifeSpan:                The minimal time (in # frames) a potential object must have existed (and been tracked) before it is considered a real object.
+     *              - maximumTimeLostStill:           The maximum time (in # frames) a object is allowed to be lost before it is forgotton.
+     *
+     * \return     True if successful.
+     */
     bool initialize(configuration::ConfigurationManager &settings) override;
 
     /*!
-       \brief   Performs the tracking.
-    */
+     * \brief        Performs the tracking.
+     * \details      TODO
+     */
     void process(FrameList &frames) override;
 
 private:
     double maximumDistance; // Euclidian distance squared, in pixels
     int nextUniequeID;
-    int minimumLifeSpan;    // # Frames
-    int maximumTimeLost;    // # Frames
+    int minimumLifeSpan;            // # frames
+    int maximumTimeLost;            // # frames
     int maximumTimeLostStill;
-    int maximumTimeLostInDoorArea; //#Frames
+    int maximumTimeLostInDoorArea;  // # frames
 
     void setIfIsInCheckpointRegion(std::list<Object> &objects, cv::Mat maskOne, cv::Mat maskTwo, cv::Mat maskThree);
     void pairAndPopulate(std::list<Object> & candidatePrev, std::list<Object> & candidateCurr, std::vector<Object> & destination);

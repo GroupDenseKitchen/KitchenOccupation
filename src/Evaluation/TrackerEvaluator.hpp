@@ -12,40 +12,48 @@ using namespace std;
 namespace evaluation
 {
 /*!
- * \brief Tracker accuracy evaluator
+ * \brief   Tracker accuracy evaluator
  * \details Evaluates the performance of the tracker by comparing the output to
  *          ground truth data. Performance is measured using the MOTA and MOTP
- *          methods.
+ *          methods described in 2008 by Bernardin, K. and Stiefelhagen, R. in their paper:
+ *
+ *          "Evaluating Multiple Object Tracking Performance: The CLEAR MOT Metrics".
+ *          Interactive Systems Lab, Institut für Theoretische Informatik,
+ *          Universität Karlsruhe, 76131 Karlsruhe, Germany.
+ *
+ *
  */
 class TrackerEvaluator
 {
 public:
     /*!
-     * \brief Empty Constructor.
+     * \brief   Empty Constructor.
      */
     TrackerEvaluator();
 
     /*!
-     * \brief Destructor.
+     * \brief   Destructor.
      */
     ~TrackerEvaluator();
 
     /*!
-     * \brief Initializes the tracking module.
-     * \param groundTruthPath Path to ground truth xml-file.
-     * \param precisionThreshold Threshold for the MOTA/MOTP measurements.
-     * \return Returns true if successful.
+     * \brief                    Initializes the tracking module.
+     * \details                  The Tracker evaluator is initialized by reading the ground truth file using the
+     *                           rapidxml library.
+     * \param groundTruthPath    Path to ground truth xml-file.
+     * \param precisionThreshold Threshold for the MOTA/MOTP measurements (see paper).
+     * \return                   Returns true if successful.
      */
     bool initialize(std::string groundTruthPath, int precisionThresh);
 
     /*!
-     * \brief Calculates MOTA and MOTP for the CameraObject.
-     * \param camera The CameraObject in question.
+     * \brief     Calculates MOTA and MOTP for the CameraObject.
+     * \param cam The CameraObject in question.
      */
     void process(CameraObject &cam);
 
     /*!
-     * \brief Prints the MOTA and MOTP values.
+     * \brief          Prints the MOTA and MOTP values ro the debug log.
      * \param camIndex Index of the current camera.
      */
     void printToLog(unsigned int camIndex);

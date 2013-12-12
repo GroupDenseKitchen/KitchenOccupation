@@ -4,67 +4,77 @@
 #include "../Utilities/Algorithm.hpp"
 #include "../Utilities/utilities.hpp"
 
-/*!
- *  \brief     Evaluates systems entry/exit counter
- *  \details
- */
 
 namespace evaluation {
 
-    struct inOutEvent {
-        int in;
-        int out;
-    };
+/*!
+ * \brief   Describes how many people entered or exited the room in the current frame.
+ */
+struct inOutEvent {
+    int in;
+    int out;
+};
 
-    class EntryExitEvaluator : public Algorithm
-    {
-    public:
-        /*!
-         * \brief   Constructor.
-         */
-        EntryExitEvaluator();
+/*!
+ * \brief   Evaluates system counting performance.
+ * \details System performance is evaluated here by comparing the total number of people that
+ *          have exited the room to a pre-recorded ground truth file.
+ */
+class EntryExitEvaluator : public Algorithm
+{
+public:
+    /*!
+     * \brief   Constructor.
+     */
+    EntryExitEvaluator();
 
-        /*!
-         * \brief   Destructor.
-         */
-        ~EntryExitEvaluator();
+    /*!
+     * \brief   Destructor.
+     */
+    ~EntryExitEvaluator();
 
-        /*!
-         * \brief           Initializes the entryexitevaluation module
-         * \param settings  Configuration-object containing the location of the
-         *                  ground truth files and other relevant settings.
-         * \return          Returns true if successful.
-         */
-        bool initialize(configuration::ConfigurationManager &settings);// override;
+    /*!
+     * \brief          Initializes the entryexitevaluation module
+     * \details        The module is intitalized by loading all ground truth from files specified by
+     *                 the configurationManager object
+     * \param settings Configuration-object containing the location of the
+     *                 ground truth files and other relevant settings.
+     * \return         Returns true if successful, otherwise false.
+     */
+    bool initialize(configuration::ConfigurationManager &settings);// override;
 
-        /*!
-         * \brief   Evaluates and updates the results for the system.
-         * \param   frames The Frames to be evaluated.
-         * \details Is called upon after each iteration in order to
-         *          calculat the difference between the systems
-         *          entry/exit estimate and the ground truth
-         */
-        void process(FrameList & frames);// override;
+    /*!
+     * \brief        Evaluates and updates the results for the system.
+     * \details      Is called upon after each iteration in order to
+     *               calculate the difference between the systems
+     *               entry/exit estimate and the ground truth.
+     * \param frames The Frames to be evaluated.
+     */
+    void process(FrameList & frames);// override;
 
-        void printToLog(unsigned int cameraIndex);
+    /*!
+     * \brief             Prints entry/exit accuracy information to the debug log.
+     * \param cameraIndex Index of the camera where information is located.
+     */
+    void printToLog(unsigned int cameraIndex);
 
-    private:
-        std::vector<std::vector<inOutEvent>> groundTruth;
-        std::vector<std::vector<inOutEvent>> entryExitData; //används inte just nu...
-        int frameCount;
-        int numberOfFrames;
-        std::vector<int> prevEntered;
-        std::vector<int> prevExited;
-        std::vector<int> sumEntryGT;
-        std::vector<int> sumExitGT;
-        std::vector<int> diffEntries;
-        std::vector<int> diffExits;
-        std::vector<int> diffTotalOfPeople;
+private:
+    std::vector<std::vector<inOutEvent>> groundTruth;
+    std::vector<std::vector<inOutEvent>> entryExitData; //används inte just nu...
+    int frameCount;
+    int numberOfFrames;
+    std::vector<int> prevEntered;
+    std::vector<int> prevExited;
+    std::vector<int> sumEntryGT;
+    std::vector<int> sumExitGT;
+    std::vector<int> diffEntries;
+    std::vector<int> diffExits;
+    std::vector<int> diffTotalOfPeople;
 
-        float accuracyTot;
-        float accuracyIn;
-        float accuracyOut;
-    };
+    float accuracyTot;
+    float accuracyIn;
+    float accuracyOut;
+};
 
 } //namespace evaluation
 

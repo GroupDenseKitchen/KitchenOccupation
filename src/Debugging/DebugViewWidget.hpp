@@ -6,6 +6,7 @@
 #include <QWidget>
 #include <opencv2/core/core.hpp>
 
+
 namespace Ui {
 class DebugViewWidget;
 }
@@ -21,7 +22,6 @@ class DebugViewWidget : public QWidget
 public:
     /*!
      * \brief Constructor
-     * \param parent
      */
     explicit DebugViewWidget(QWidget *parent = 0);
 
@@ -31,20 +31,19 @@ public:
     ~DebugViewWidget();
 
     /*!
-     * \brief initialize sets up the widget, adding a label with the represented preocesses step and camera.
-     * \param processStepName
-     * \param camNumber
+     * \brief                 Sets up the widget, adding a label with the represented preocesses step and camera.
+     * \param processStepName is the name of a debug image set by the developer.
+     * \param camNumber       is number of the camera that the process step belongs to.
      */
     void initialize(const std::string processStepName, int camNumber);
 
     /*!
-     * \brief showImage converts the \ref cv::Mat into a \ref QImage and displays it.
+     * \brief   Converts the \ref cv::Mat into a \ref QImage and displays it.
      */
     void showImage();
 
     /*!
-     * \brief getIdentifier returns the process step and camera of the widget.
-     * \return
+     * \brief   Returns the process step and camera of the widget.
      */
     std::string getIdentifier();
 
