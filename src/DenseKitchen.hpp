@@ -53,7 +53,7 @@ public:
      * \param path Path to the configuration file
      * \return     Returns false if any of its modules fail.
      */
-    bool initialize(std::string path, bool reInitialize);
+    bool initialize(std::string path, bool reInitialize = false);
 
     /*!
      * \brief    Reset program completely without reading the config file.

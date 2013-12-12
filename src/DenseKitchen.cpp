@@ -1,6 +1,6 @@
 #include "DenseKitchen.hpp"
 
-bool DenseKitchen::initialize(std::string path, bool reInitialize = false) {
+bool DenseKitchen::initialize(std::string path, bool reInitialize) {
     isInitialized = true;
     isEvalInitialized = true;
 

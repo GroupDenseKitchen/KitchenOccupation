@@ -39,7 +39,7 @@ void MainDebugWindow::init(string mainConfigFile, string guiConfigFile)
     // -------- Instanciate Main Program ----------------
     program = new DenseKitchen;
     this->mainConfigPath = mainConfigFile;
-    if(!program->reInitialize()){
+    if(!program->initialize(this->mainConfigPath)){
         LOG("MainDebugWindow initialization error", "program initialization failed");
         debugging::logObject.dumpToConsole();
         exit(-1);
