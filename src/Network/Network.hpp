@@ -14,7 +14,7 @@
 
 
 /*!
- * \brief     the network namespace contains all system I/O functionality (sensors and web interface).
+ * \brief   The network namespace contains all system I/O functionality (sensors and web interface).
  */
 namespace network
 {

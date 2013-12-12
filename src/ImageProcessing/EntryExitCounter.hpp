@@ -5,10 +5,7 @@
 #include "../Utilities/FrameList.hpp"
 #include "../Utilities/Algorithm.hpp"
 
-/*!
- * \brief   TODO
- * \details TODO
- */
+
 namespace image_processing
 {
 /*!

@@ -7,7 +7,7 @@
 
 /*!
  * \brief    Statistical analysis
- * \details  Estimates the number of people, models, flows etc..
+ * \details  Estimates the number of people, models, flows etc.
  */
 namespace statistics
 {

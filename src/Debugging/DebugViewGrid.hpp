@@ -5,10 +5,7 @@
 #include <QCloseEvent>
 #include "DebugViewWidget.hpp"
 
-/*!
- * \brief   TODO
- * \details TODO
- */
+
 namespace Ui {
 class DebugViewGrid;
 }

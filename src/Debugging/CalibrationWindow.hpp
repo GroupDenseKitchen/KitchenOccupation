@@ -9,10 +9,7 @@
 
 #include <opencv2/core/core.hpp>
 
-/*!
- * \brief   TODO
- * \details TODO
- */
+
 namespace Ui {
 class CalibrationWindow;
 }

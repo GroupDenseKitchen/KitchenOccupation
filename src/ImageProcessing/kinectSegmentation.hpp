@@ -5,6 +5,7 @@
 #include "../Utilities/FrameList.hpp"
 #include "../Utilities/Algorithm.hpp"
 
+
 namespace image_processing
 {
 
