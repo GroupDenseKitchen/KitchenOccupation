@@ -73,6 +73,7 @@ public:
      * \return A pointer to the active FrameList.
      */
     FrameList* getFrames();
+    configuration::ConfigurationManager* getSettings();
 
 private:
     FrameList frames;

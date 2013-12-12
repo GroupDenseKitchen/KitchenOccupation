@@ -22,10 +22,12 @@ MainDebugWindow::MainDebugWindow(QWidget *parent) :
 
 MainDebugWindow::~MainDebugWindow()
 {
+    /*
     for(int c = 0; c < program->getFrames()->getCurrent().getCameras().size()*3; c++) {
         videoWriter[c].release();
     }
     delete [] videoWriter;
+    */
     delete ui;
 }
 
@@ -44,10 +46,10 @@ void MainDebugWindow::init(string mainConfigFile, string guiConfigFile)
     }
 
     // -------- Configuration Widget ---------------------
-    configWindow = new MainConfigurationWindow;
-    configWindow->initialize(program, "masks.yml");
+    configurationWindow = new MainConfigurationWindow;
+    configurationWindow->initialize(program, "masks.yml");
     connect(this, SIGNAL(updateDebugViews(Frame)),
-            configWindow, SLOT(updateWindow(Frame)));
+            configurationWindow, SLOT(updateWindow(Frame)));
 
     // -------- Configuration Widget ---------------------
     calibrationWindow = new CalibrationWindow;
@@ -128,7 +130,7 @@ void MainDebugWindow::configureGUI(std::string guiConfigFile)
 
     debugViewGrid = new DebugViewGrid;
     debugViewGrid->initialize(2);
-    debugViewGrid->showMaximized();
+    debugViewGrid->show();
 
     // Display preset processingsteps
     for(unsigned int i = 0; i < presetCameraNumber.size(); i++){
@@ -324,13 +326,39 @@ void MainDebugWindow::adaptColumnsToContent(QTreeView *tree, QStandardItemModel 
 
 void MainDebugWindow::restart()
 {
+    // Delete current instance
     delete program;
-    debugging::logObject.reset();
+    delete configurationWindow;
+    delete calibrationWindow;
 
+    debugging::logObject.reset();
     logItemModel->removeRows(0, logItemModel->rowCount());
 
+    // Re initialize
+    isRecordToFiles = false;
+    videoWriter = 0;
+
+    // -------- Instanciate Main Program ----------------
     program = new DenseKitchen;
-    program->initialize(mainConfigPath);
+    if(!program->initialize(this->mainConfigPath)){
+        LOG("MainDebugWindow initialization error", "program initialization failed");
+        debugging::logObject.dumpToConsole();
+        exit(-1);
+    }
+
+    // -------- Configuration Widget ---------------------
+    configurationWindow = new MainConfigurationWindow;
+    configurationWindow->initialize(program, "masks.yml");
+    connect(this, SIGNAL(updateDebugViews(Frame)),
+            configurationWindow, SLOT(updateWindow(Frame)));
+
+    // -------- Configuration Widget ---------------------
+    calibrationWindow = new CalibrationWindow;
+    calibrationWindow->initialize(program, "masks.yml");
+    connect(this, SIGNAL(updateDebugViews(Frame)),
+            calibrationWindow, SLOT(updateWindow(Frame)));
+
+    isRunning = false;
     if(program->singleIteration()){
         updateGuiComponents();
     }
@@ -399,6 +427,12 @@ void MainDebugWindow::keyPressEvent(QKeyEvent * e)
             isRunning = true;
         }
         break;
+    case Qt::Key_C:
+        configurationWindow->show();
+        break;
+    case Qt::Key_V:
+        calibrationWindow->show();
+        break;
     case Qt::Key_F5:
         restart();
         break;
@@ -420,7 +454,7 @@ void MainDebugWindow::closeEvent(QCloseEvent * event)
             delete debugView->second;
         }
     delete debugViewGrid;
-    delete configWindow;
+    delete configurationWindow;
     delete calibrationWindow;
     event->accept();
 }
@@ -510,7 +544,7 @@ void MainDebugWindow::on_expandDepthSpinBox_valueChanged(int arg1)
 
 void MainDebugWindow::on_configureButton_clicked()
 {
-    configWindow->show();
+    configurationWindow->show();
 }
 
 void MainDebugWindow::on_actionClear_triggered()
@@ -545,7 +579,7 @@ void MainDebugWindow::on_actionRestart_triggered()
 
 void MainDebugWindow::on_actionConfigure_triggered()
 {
-    configWindow->show();
+    configurationWindow->show();
 }
 
 void MainDebugWindow::on_actionCalibrate_triggered()

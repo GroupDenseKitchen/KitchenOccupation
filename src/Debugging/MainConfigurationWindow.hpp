@@ -47,6 +47,7 @@ public:
      * \param filepath    TODO
      */
     void initialize(DenseKitchen* mainProgram , std::string filepath);
+    void sendMasksToFrameList();
 
 public slots:
     /*!
@@ -68,7 +69,7 @@ private:
     void drawPolygonsToMat(cv::Mat targetMat, const cv::Point** polygonPtrPtr, int numberOfPoints[], cv::Scalar color);
     void drawPolygonsToMasks();
     void drawCheckPointCircles();
-    void sendMasksToFrameList();
+
 
     QVector<cv::Point> polygon;
     QVector<QVector<cv::Point>> doorPolygons;

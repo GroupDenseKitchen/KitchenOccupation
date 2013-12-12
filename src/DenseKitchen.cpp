@@ -127,4 +127,9 @@ FrameList* DenseKitchen::getFrames()
     return &frames;
 }
 
+configuration::ConfigurationManager *DenseKitchen::getSettings()
+{
+    return &settings;
+}
+
 
