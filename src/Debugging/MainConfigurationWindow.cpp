@@ -16,16 +16,16 @@ MainConfigurationWindow::~MainConfigurationWindow()
     delete ui;
 }
 
-void MainConfigurationWindow::initialize(DenseKitchen* mainProgram ,std::string filepath)
+void MainConfigurationWindow::initialize(DenseKitchen* mainProgram , std::string masksConfigFile)
 {
     this->mainProgram = mainProgram;
-    this->filePath = filepath;
+    this->masksConfigFile = masksConfigFile;
+    drawAsCircle = false;
     isDrawingCircle = false;
     circleRadius = 0;
     circleCenter = cv::Point(0,0);
     loadMaskFromFile();
     sendMasksToFrameList();
-
 }
 
 void MainConfigurationWindow::updateWindow(Frame currentFrame)
@@ -188,7 +188,7 @@ void MainConfigurationWindow::updateGUIImages()
 
 void MainConfigurationWindow::loadMaskFromFile()
 {
-    if(configFile.open(filePath, cv::FileStorage::READ)){
+    if(configFile.open(masksConfigFile, cv::FileStorage::READ)){
         readMasks(doorPolygons, "doorPolygons");
         readMasks(exclusionPolygons, "exclusionPolygons");
         configFile["circleCenterX"] >> circleCenter.x;
@@ -322,7 +322,7 @@ void MainConfigurationWindow::on_addAsCheckpointButton_clicked()
 
 void MainConfigurationWindow::on_saveMasksButton_clicked()
 {
-    configFile.open(filePath, cv::FileStorage::WRITE);
+    configFile.open(masksConfigFile, cv::FileStorage::WRITE);
     storeMask(doorPolygons, "doorPolygons");
     storeMask(exclusionPolygons, "exclusionPolygons");
     configFile << "circleCenterX" << circleCenter.x;

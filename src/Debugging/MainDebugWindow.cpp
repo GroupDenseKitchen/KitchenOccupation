@@ -53,7 +53,7 @@ void MainDebugWindow::init(string mainConfigFile, string guiConfigFile)
 
     // -------- Configuration Widget ---------------------
     calibrationWindow = new CalibrationWindow;
-    calibrationWindow->initialize(program, "masks.yml");
+    calibrationWindow->initialize(program);
     connect(this, SIGNAL(updateDebugViews(Frame)),
             calibrationWindow, SLOT(updateWindow(Frame)));
 
@@ -354,7 +354,7 @@ void MainDebugWindow::restart()
 
     // -------- Configuration Widget ---------------------
     calibrationWindow = new CalibrationWindow;
-    calibrationWindow->initialize(program, "masks.yml");
+    calibrationWindow->initialize(program);
     connect(this, SIGNAL(updateDebugViews(Frame)),
             calibrationWindow, SLOT(updateWindow(Frame)));
 

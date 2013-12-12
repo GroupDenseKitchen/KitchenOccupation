@@ -15,12 +15,8 @@ class CalibrationWindow;
 }
 
 /*!
- * \brief   The CalibrationWindow class is a window where you can cnfigure
- *          different settings in the system.
- * \details Especially masks used to define doors and
- *          exceptions for a camera. The door mask is used to check if a person is
- *          currently in a doorway and the exception mask is used to speed up and harden
- *          the system by defining ares that are not interesrting for the system.
+ * \brief   The CalibrationWindow class is a window where calibrates the threshold level for the system.
+ * \details This threshold level is used to adjust the system for the current installation height of the camera.
  */
 class CalibrationWindow : public QWidget
 {
@@ -38,18 +34,14 @@ public:
     ~CalibrationWindow();
 
     /*!
-     * \brief             initialize sets up the \ref CalibrationWindow
-     * \details           TODO
-     * \param mainProgram TODO
-     * \param filepath    TODO
+     * \brief initialize sets up the \ref CalibrationWindow
+     * \param mainProgram is a pointer to the main program.
      */
-    void initialize(DenseKitchen* mainProgram , std::string filepath);
+    void initialize(DenseKitchen* mainProgram);
 
 public slots:
     /*!
-     * \brief              TODO
-     * \details            TODO
-     * \param currentFrame TODO
+     * \brief updateWindow recievs a \ref Frame and updates the windows accordingly.
      */
     void updateWindow(Frame currentFrame);
 

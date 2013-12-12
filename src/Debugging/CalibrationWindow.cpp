@@ -17,10 +17,9 @@ CalibrationWindow::~CalibrationWindow()
     delete ui;
 }
 
-void CalibrationWindow::initialize(DenseKitchen* mainProgram ,std::string filepath)
+void CalibrationWindow::initialize(DenseKitchen* mainProgram )
 {
     this->mainProgram = mainProgram;
-    this->filePath = filepath;
     if(mainProgram->getSettings()->hasInt("lowestDistanceOverFloor")){
         thresholdValue = mainProgram->getSettings()->getInt("lowestDistanceOverFloor");
     } else {
