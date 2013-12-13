@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
 		fakeMask = frames->getCurrent().
 				   getCameras()[0].
 				   getImage("rawImage").clone();
-		fakeMask.setTo(cv::Scalar(0,0,0));
+		fakeMask.setTo(cv::Scalar(255,255,255));
 	}	
 
 	//checkpoint masks
@@ -116,16 +116,31 @@ int main(int argc, char *argv[])
 	frames->setDoorMask(fakeMask.clone());	
 	frames->setExclusionMask(fakeMask.clone());
 
+   cv::VideoWriter vw("outfile.mov",CV_FOURCC('D','I','V','X'), 30, 
+	frames->getCurrent().
+	getCameras()[0].getImage("rawImage").size());
+	int counter = 0;
    while(iterOK){
 	iterOK = dk.singleIteration();
+
+	if(frames->getCurrent().getCameras()[0].hasImage("rawImage")){
+	//vw.write(frames->getCurrent().
+	//	 getCameras()[0].getImage("rawImage"));
+	}
+
+
 	if(iterOK){
-		printf("iteration success! \n");
+		printf("iteration %d success! \n",counter);
    	}else{
 		printf("error iterating, dying! \n");
 		exit(-1);
    	}
+	counter = counter + 1;
+
   }
 
+   printf("did: %d frames of work \n",counter);
+   //vw.release();
 
    return 0;
 #endif
