@@ -17,6 +17,7 @@ IF(APPLE)
     INCLUDE_DIRECTORIES(/usr/local/include/)
     INCLUDE_DIRECTORIES(/usr/local/include/libfreenect)
     SET (CMAKE_CXX_FLAGS "-stdlib=libc++ -std=c++11")
+    FIND_PACKAGE(CURL REQUIRED)
 ENDIF()
 
 IF(WIN32)
@@ -60,22 +61,23 @@ IF(WIN32)
 
         IF(headless)
             INCLUDE_DIRECTORIES($ENV{CURL_INCLUDE_DIR})
-            FIND_LIBRARY( CURL_LIBS
-            NAMES libcurl_imp
-            HINTS $ENV{CURL_LIBS}
-            PATH_SUFFIXES lib)
-        MESSAGE( STATUS "CURL_LIBS: " ${CURL_LIBS} )
+            FIND_LIBRARY( CURL_LIBRARIES
+                NAMES libcurl_imp
+                HINTS $ENV{CURL_LIBS}
+                PATH_SUFFIXES lib)
+        MESSAGE( STATUS "CURL_LIBS: " ${CURL_LIBRARIES} )
         ENDIF()
     ENDIF()
 ENDIF()
 
+
 # Tell CMake to run moc when necessary:
 IF(NOT headless)
- set(CMAKE_AUTOMOC ON)
+ SET(CMAKE_AUTOMOC ON)
 ENDIF()
 # As moc files are generated in the binary dir, tell CMake
 # to always look for includes there:
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 #move the configurationfile to the build dir
 CONFIGURE_FILE(../conf/dense_conf.yml dense_conf.yml COPYONLY)
@@ -126,7 +128,8 @@ TARGET_LINK_LIBRARIES (dense_kitchen
     # ExtLib
     ${OpenCV_LIBS}
     ${OPENNI2_LIBS}
-    ${CURL_LIBS}
+    #${CURL_LIBS}
+    ${CURL_LIBRARIES}
 )
 
 

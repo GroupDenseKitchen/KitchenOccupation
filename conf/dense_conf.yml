@@ -20,10 +20,10 @@ Analytics:
 Evaluation:
    - EntryExitEvaluator
 cameraPaths:
-   - "/home/gustav/KitchenOccupation/data/seq9/seq9-4.mp4"
+   - "/Users/gustavhager/Desktop/TSBB11/project/data/seq9/seq9-4.mp4"
 videoFilePaths:
-   - "../data/seq9/seq9-3.mp4"
+   - "/Users/gustavhager/Desktop/TSBB11/project/data/seq9/seq9-3.mp4"
 trackerGroundTruthPaths:
-  - "/home/gustav/KitchenOccupation/data/seq9/seq9-4GT.xml"
+  - "/Users/gustavhager/Desktop/TSBB11/project/data/seq9/seq9-4GT.xml"
 entryExitGroundTruthPaths:
-  - "../data/seq9/seq9-3.yml"
+  - "/Users/gustavhager/Desktop/TSBB11/project/data/seq9/seq9-3.yml"

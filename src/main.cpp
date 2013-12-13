@@ -10,8 +10,10 @@
   #include "Debugging/MainDebugWindow.hpp"
   #include <QApplication>
   #include <QtCore>
+#else
+  #include "Utilities/masking.hpp"
 #endif
-
+/*
 cv::FileStorage configFile;
 std::vector<cv::Point> polygon;
 std::vector<std::vector<cv::Point> > doorPolygons;
@@ -144,6 +146,7 @@ void sendMasksToFrameList(DenseKitchen* mainProgram)
     mainProgram->getFrames()->setInclusionMask(inclusionMask);
 
 }
+*/
 
 /*
 mainProgram->getFrames()->setDoorMask(doorMask);
@@ -152,6 +155,10 @@ mainProgram->getFrames()->setCheckPointMaskSmall(checkpointMaskSmall);
 mainProgram->getFrames()->setCheckPointMaskMedium(checkpointMaskMedium);
 mainProgram->getFrames()->setCheckPointMaskLarge(checkpointMaskLarge);
 */
+
+#ifdef HEADLESS
+  using namespace masking;
+#endif
 
 int main(int argc, char *argv[])
 {
