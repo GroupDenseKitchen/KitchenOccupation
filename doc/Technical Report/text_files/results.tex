@@ -1,15 +1,15 @@
-In this section the results of the project is summarized and the evaluation results are presented.
+The system results were obtained by evaluating against two recorded sequences from two different kitchens. The sequences were labeled manually using a self-developed labeling program.
 
 \subsection{Evaluation Scores}
-In table \ref{tab:evaluation_performance} below the video clips chosen for the evaluation are presented, along with the achieved accuracy measurements. Training data set is a sequence of 30 minutes, where the first 5 minutes was used when training and developing the system . Evaluation data 1 is a sequence of 30 minutes. 
+In table \ref{tab:evaluation_performance} below the video clips chosen for the evaluation are presented, along with the achieved accuracy measurements. Training data set is a sequence of 30 minutes, where the first 5 minutes was used when training and developing the system . Evaluation data 1 is a sequence of 30 minutes.
 
 \begin{table}[h]
 \centering
 	\begin{tabular}{r | c | c | c | c | c | c }
 		\emph{Sequence Name}		&  Total entered (GT) & \emph{$A_{in}$} & Total exited (GT) & \emph{$A_{out}$} & \emph{$A_{bias}$}\\
 		\hline \hline
-		Training data			& 108 (108) & 101 (104) & 0.99 & 0.97 & 0.99 \\
-		Evaluation data 1		& 122 (141) & 0.87 & 77 (91) & 0.85 & 0.98 \\
+		Training data			& 108 (108) & 101 (104) & 0.99 & 0.97 & -0.01 \\
+		Evaluation data 1		& 122 (141) & 0.87 & 77 (91) & 0.85 & 0.02 \\
 		\end{tabular}
 	\caption[System performance]{\textit{Counting performance according to the evaluation metric as described in section \ref{sec:evaluation}.}}
 	\label{tab:evaluation_performance}
@@ -89,6 +89,6 @@ In table \ref{tab:evaluation_performance} below the video clips chosen for the e
 \end{figure}
 
 \subsection{Discussion}
-The performance of the training data set is very good. This is a sequence of 30 minutes, where only the first 5  was used in development. Evaluation data 1 performed worse, which can be explained by that the camera of this sequence was placed badly and didn't cover the entry area completely. 
+The performance of the training data set is very good. This is a sequence of 30 minutes, where only the first 5 was used for tuning. The system performed worse on the sequence "evaluation data 1", but that is probably explained by the fact that the sensor was a bit misplaced, making parts of the upper door area on one side to be outside of the field of view. The reason no more data sets were used was simply that no more time was available.
 
 
