@@ -1,1 +1,26 @@
-Erik...
+Available configuration settings is checkpoint circles, door mask area, exclusion mask and grayscale height threshold settings. 
+
+The circles should be placed so persons walking into the room inevitable will pass all three lines. They should also be a little more inside the room compared to the door mask area. A good placement is illustrated in figure Z. Note that the red, most inner circle, includes the upper corners of the door frame. Too small inner circle will cause people to miss it and therefore not detected. 
+
+The door mask should cover the area close to the door where people appear. It is important to make this area big enough, rather too big than too small. It should not cover the upper, most distant, part of the red circle, figure Z illustrates this. 
+
+Exclusion masks should cover areas where people can not walk or appear. This could be areas like tables or areas behind the door (walls in this case), figure Ö illustrates this. Note that for long use movable furniture should not be excluded. 
+
+This threshold level is used to adjust the system for the current installation height of the camera. It sets a configuration parameter called lowestDistanceOverFloor: This is the limit of how short a person can be. The threshold should be set so that a normal person’s chest height is not removed by the thresholding. 
+
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\linewidth]{images/boxcat.jpg}
+	\caption[Circle placment]{\textit{Left image shows the prefered placement of the circles. Right image shows the prefered placement of the door mask, the door mask is the green area. }}
+	\label{fig:circlePlacement}  %Skapar referens till figuren
+\end{figure}
+
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\linewidth]{images/boxcat.jpg}
+	\caption[Exclusion mask]{\textit{Exclusion mask is the red area, which covers areas where people can not walk or appear.
+}}
+	\label{fig:exclusionMask}  %Skapar referens till figuren
+\end{figure}
