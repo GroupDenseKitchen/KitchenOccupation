@@ -12,11 +12,11 @@ namespace image_processing
 /*!
  * \brief       Require a depth image "rawImage" in the current frame for each camera, where darker is closer and black means undefined. Produces a vector of detected objects stored in the current frame for each camera.
  * \details     The algorithm perform the following steps:\n
- *                  1) The depth image is converted to gray scale and inverted except for the black color (and some margin: distanceToCameraMargin). Now darker is further away.
- *                  2) All values below lowestDistanceOverFloor is set to zero (black).
- *                  3) Contours are found in the image, any contour with an area less than minimalHumanArea is ignored.
- *                  4) Opening, Closening and Gaussian blurring is performed.
- *                  5) The maximum value in each contour is found and all values in respective contour less than headHeightMargin below the region max is set to zero, the rest form a combined binary mask.
+ *                  1) The depth image is converted to gray scale and inverted except for the black color (and some margin: distanceToCameraMargin). Now darker is further away.\n
+ *                  2) All values below lowestDistanceOverFloor is set to zero (black).\n
+ *                  3) Contours are found in the image, any contour with an area less than minimalHumanArea is ignored.\n
+ *                  4) Opening, Closening and Gaussian blurring is performed.\n
+ *                  5) The maximum value in each contour is found and all values in respective contour less than headHeightMargin below the region max is set to zero, the rest form a combined binary mask.\n
  *                  6) Contours are found on the binary mask and each contour larger than minimalHeadArea is added as a potentially detected human to the current frame (of the processed camera), together with its center of mass and contour.
  */
 class KinectSegmentation : public Algorithm
@@ -42,7 +42,7 @@ public:
      * \details    Returns false if initialization fails,
      *             e.g. if a required variable is not set.
      *
-     *  \details   Configurable algorithm parameters are:
+     * \details    Configurable algorithm parameters are:
      *              - headHeightMargin:         The interval croped from the top of the detected head and downwards. Affects the possibility of detecting shorter persons very close to long persons.
      *              - lowestDistanceOverFloor:  The limit of how short a person can be.
      *              - distanceToCameraMargin:   A margin length from the camera lens to the highest person possible to detect.

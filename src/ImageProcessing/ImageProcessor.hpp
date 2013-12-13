@@ -13,7 +13,6 @@ namespace image_processing
 {
 /*!
  * \brief   The Image Processor is the interface to the image processing functionality.
- * \details TODO
  */
 class ImageProcessor : public Algorithm
 {
@@ -40,15 +39,13 @@ public:
     bool initialize(configuration::ConfigurationManager & settings) override;
 
     /*!
-     * \brief   TODO
-     * \details TODO
+     * \brief   Clear all sub algorithms.
      */
     void reset();
 
     /*!
-     * \brief        Perform all image processing algorithms in order.
-     * \details      TODO
-     * \param frames TODO
+     * \brief        Perform all image processing algorithms in the proper order.
+     * \param frames Current FrameList object.
      */
     void process(FrameList &frames) override;
 };

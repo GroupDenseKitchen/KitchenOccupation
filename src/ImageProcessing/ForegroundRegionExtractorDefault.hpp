@@ -9,7 +9,7 @@ namespace image_processing
 {
 /*!
  * \brief   Process step which does foreground modulation, creates bounding boxes.
- * \details TODO
+ * \details Creates bounding boxes in a binary image using OpenCV's built in functions findContours and boundingRect.
  */
 class ForegroundRegionExtractorDefault : public Algorithm
 {
@@ -30,16 +30,15 @@ public:
      * \details        Returns false if initialization fails,
      *                 e.g. if a required variable is not set in the config file.
      *
-     * \details        This algorithm has no configurable parameters.
+     * \details        Sets the minimal area for a bounding box.
      *
-     * \return     True if successful.
+     * \return         True if successful.
      */
     bool initialize(configuration::ConfigurationManager &settings) override;
 
     /*!
      * \brief        Performs the foreground modulation.
-     * \details      TODO
-     * \param frames TODO
+     * \details      Process step which does foreground modulation, creates bounding boxes
      */
     void process(FrameList &frames) override;
 

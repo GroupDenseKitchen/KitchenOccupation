@@ -13,7 +13,6 @@ namespace image_processing
     {
         CONFIG(settings, lowThreshold, "lowThreshold", 100);
         CONFIG(settings, highThreshold, "highThreshold", 200);
-        CONFIG(settings, houghThreshold, "houghThreshold", 59);
         CONFIG(settings, kernelSize, "kernelSize", 3);
         CONFIG(settings, downSamplingFactor, "downSamplingFactor", 4);
         CONFIG(settings, averageCircleFilterSize, "circleFilterSize", 35);
@@ -26,7 +25,6 @@ namespace image_processing
         cv::createTrackbar("detectionThreshold", "Sliders", &detectionThreshold,60000, [](int,void*){});
         cv::createTrackbar("Low thresh", "Sliders", &lowThreshold,255, [](int,void*){});
         cv::createTrackbar("High thresh", "Sliders", &highThreshold,255, [](int,void*){});
-        cv::createTrackbar("Hough thresh", "Sliders", &houghThreshold,255, [](int,void*){});
         cv::createTrackbar("Circle size", "Sliders", &averageCircleFilterSize,101, [](int,void*){});
         cv::createTrackbar("Circle thickness", "Sliders", &circleFilterRadiusDifference,10, [](int,void*){});
 
