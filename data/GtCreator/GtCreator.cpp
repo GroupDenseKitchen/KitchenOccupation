@@ -149,11 +149,8 @@ int main()
                 videoFile.set(CV_CAP_PROP_POS_FRAMES, currentFrame);
             }
             else{
-                entries.push_back(entryFrame);
-                exits.push_back(exitFrame);
-                entryFrame = 0;
-                exitFrame = 0;
-                videoFile.set(CV_CAP_PROP_POS_FRAMES, currentFrame-1);
+
+                videoFile.set(CV_CAP_PROP_POS_FRAMES, currentFrame);
             }
 
 
