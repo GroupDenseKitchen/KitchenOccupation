@@ -1,13 +1,6 @@
-Available configuration settings is checkpoint circles, door mask area, exclusion mask and grayscale height threshold settings. 
+The system can be configured using the GUI. Available configuration settings is checkpoint circles, door mask area, exclusion mask and grayscale height threshold settings. 
 
 The circles should be placed so persons walking into the room inevitable will pass all three lines. They should also be more inside the room compared to the door mask area. A good placement is illustrated in figure \ref{fig:circlePlacement}. Note that the red, most inner circle, includes the upper corners of the door frame. Too small inner circle will cause people to miss it and therefore not detected. 
-
-The door mask should cover the area close to the door where people appear. It is important to make this area big enough, rather too big than too small. It can, but should not cover the upper, most distant, part of the red circle, figure \ref{fig:doorMask} illustrates this.
-
-Exclusion masks should cover areas where people can not walk or appear. This could be areas like tables or areas behind the door (walls in this case), figure \ref{fig:exMask} illustrates this. Note that for long usage of the system, movable furniture should not be excluded. 
-
-This threshold level is used to adjust the system for the current installation height of the camera. It sets a configuration parameter called lowestDistanceOverFloor: This is the limit of how short a person can be. The threshold should be set so that a normal person’s chest height is not removed by the thresholding. ALEX(ELLER NGN ANNAN) FIXA FIGUR HÄR OCH FÖRKLARA MER KANSKE. KANSKE  INTE SKA STÅ HÄR ENS, KANSKE UNDER CALIBRATE THE SYSTEM?
-
 
 \begin{figure}[H]
 	\centering
@@ -16,7 +9,8 @@ This threshold level is used to adjust the system for the current installation h
 	\label{fig:circlePlacement}  %Skapar referens till figuren
 \end{figure}
 
-
+\newpage
+The door mask should cover the area close to the door where people appear. It is important to make this area big enough, rather too big than too small. It can, but should not cover the upper, most distant, part of the red circle, figure \ref{fig:doorMask} illustrates this.
 
 \begin{figure}[H]
 	\centering
@@ -24,6 +18,9 @@ This threshold level is used to adjust the system for the current installation h
 	\caption[Exclusion mask]{\textit{The prefered placement of the door mask, the door mask is the green area.}}
 	\label{fig:doorMask}  %Skapar referens till figuren
 \end{figure}
+
+\newpage
+Exclusion masks should cover areas where people can not walk or appear. This could be areas like tables or areas behind the door (walls in this case), figure \ref{fig:exMask} illustrates this. Note that for long usage of the system, movable furniture should not be excluded.
 
 \begin{figure}[H]
 	\centering
