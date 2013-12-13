@@ -16,7 +16,7 @@ public:
 
     /*!
      * \brief              Constructor.
-     * \param framesToKeep TODO
+     * \param framesToKeep The last framesToKeep frames are saved in the FrameList object.
      */
     FrameList(int framesToKeep = 10);
 
@@ -62,7 +62,6 @@ public:
 
     /*!
      * \brief       Set the exclusion mask
-     * \details     TODO
      * \param TODO
      */
     void setExclusionMask(const cv::Mat &value);
