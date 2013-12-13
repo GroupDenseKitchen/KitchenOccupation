@@ -64,18 +64,6 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="stepBackwardButton">
-            <property name="font">
-             <font>
-              <family>Helvetica</family>
-             </font>
-            </property>
-            <property name="text">
-             <string>Step Backward</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="popWindowButton">
             <property name="font">
              <font>
@@ -83,14 +71,7 @@
              </font>
             </property>
             <property name="text">
-             <string>Pop Windwow</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="configureButton">
-            <property name="text">
-             <string>Configure</string>
+             <string>Pop Window</string>
             </property>
            </widget>
           </item>
@@ -102,10 +83,26 @@
             <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
-              <height>40</height>
+              <height>0</height>
              </size>
             </property>
            </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="logoLabel">
+            <property name="minimumSize">
+             <size>
+              <width>96</width>
+              <height>96</height>
+             </size>
+            </property>
+            <property name="autoFillBackground">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>

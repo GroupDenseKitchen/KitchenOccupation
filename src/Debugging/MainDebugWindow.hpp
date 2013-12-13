@@ -145,7 +145,6 @@ private slots:
     void on_runButton_clicked();
     void on_pauseButton_clicked();
     void on_stepForwardButton_clicked();
-    void on_stepBackwardButton_clicked();
 
     void on_tagFilterLineEdit_textEdited(const QString &arg1);
     void on_timeFilterLineEdit_textEdited(const QString &arg1);
@@ -158,7 +157,6 @@ private slots:
     void on_autoAdaptLogCheckBox_clicked(bool checked);
     void on_expandDepthSpinBox_valueChanged(int arg1);
 
-    void on_configureButton_clicked();
     void on_actionClear_triggered();
     void on_actionSave_grid_configuration_triggered();
 
