@@ -27,57 +27,43 @@ public:
 
     /*!
      * \brief   Get the current (latest) Frame.
-     * \details TODO
-     * \return  TODO
      */
     Frame &getCurrent();
 
     /*!
      * \brief   Get the previous (previously latest) Frame.
-     * \details TODO
-     * \return  TODO
      */
     Frame &getPrevious();
 
     /*!
      * \brief   Weather there are two or more frames.
-     * \details TODO
-     * \return  TODO
      */
     bool hasPrevious();
 
     /*!
      * \brief          Append the FrameList with the latest Frame.
-     * \details        TODO
-     * \param newFrame TODO
      */
     void append(Frame newFrame);
 
     /*!
      * \brief   Get the number of frames in history.
-     * \details TODO
-     * \return  TODO
      */
     int size() { return (int)frames.size(); }
 
     /*!
      * \brief   Get the current frame counter.
-     * \details TODO
-     * \return  TODO
      */
     int getFrameCount() { return (int)frameCounter; }
 
     /*!
      * \brief   TODO
-     * \details TODO
-     * \return  TODO
      */
     cv::Mat getExclusionMask() const;
 
     /*!
-     * \brief       TODO
+     * \brief       Set the exclusion mask
      * \details     TODO
-     * \param value TODO
+     * \param TODO
      */
     void setExclusionMask(const cv::Mat &value);
 
