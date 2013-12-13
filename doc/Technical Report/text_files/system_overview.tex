@@ -14,7 +14,7 @@ The system runs and has been tested on Windows, Mac OS X, and Linux. It has  run
 The whole system can be configured by editing the plain text YAML configuration files. Among other things, it is possible to set what image processing algorithms should be run, in what order to run them and the value of most parameters. Many components in the Debug GUI, camera settings and important file paths are also set in the configuration files. 
 
 \subsection{Modular software architecture}
-The software has a modular and easily extendable design, where each module is responsible for a specific domain of the system. The architecture of the system is that of a pipeline of algorithms, where data pertaining to the latest few frames is piped through each pipeline step by the main program. The order is specified in a configuration file and set in place during program initialisation. The frame data consists of both raw sensor data and computed data from the different pipeline steps. 
+The software has a modular and easily extendable design, where each module is responsible for a specific domain of the system. The architecture of the system is that of a pipeline of algorithms, where data pertaining to the latest few frames is piped through each pipeline step by the main program. The order is specified in a configuration file and set in place during program initialization. The frame data consists of both raw sensor data and computed data from the different pipeline steps. 
 
 \subsubsection{Network module}
 The network module manages all system input/output, i.e. sampling the sensors and posting output data on the web server specified by the configuration file. Currently, support exists for all OpenCV-compatible cameras as well as the Microsoft Kinect depth sensor. The module is designed to be as modular as possible, allowing for a relatively easy integration of new sensor types into the system. The network module also supports running several sensors in parallel. 
@@ -26,7 +26,7 @@ The image processing module handles all processing that is done directly on any 
 The statistics module handles computation and processing that is not done directly on RGB or depth data. This includes counting the number of entering and exiting objects, using object attributes to infer the presence of queues and all data aggregation. 
 
 \subsubsection{Evaluation module}
-The evaluation module handles the evaluation of the algorithm pipeline by comparison between its results and the ground truth on labelled data sets.  
+The evaluation module handles the evaluation of the algorithm pipeline by comparison between its results and the ground truth on labeled data sets.  
 
 \subsection{Debugging and configuration GUI}
 The system includes a debugging and configuration GUI where the results from each of the process steps can be viewed in real time, and one step at a time. It can also be used to assist in tuning and calibrating the system, and is necessary for proper set up of a new sensor/room. 
