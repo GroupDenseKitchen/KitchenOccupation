@@ -1,26 +1,41 @@
-The system can be configured using the GUI. Available configuration settings is checkpoint circles, door mask area, exclusion mask and grayscale height threshold settings. 
+Before the system can run properly some masks needs to be defined. These are used to:
 
-The circles should be placed so persons walking into the room inevitable will pass all three lines. They should also be more inside the room compared to the door mask area. A good placement is illustrated in figure \ref{fig:circlePlacement}. Note that the red, most inner circle, includes the upper corners of the door frame. A too small inner circle will cause people to miss it and will therefore not be detected. 
+\begin{itemize}
+\item Define doors
+\item Define non-interesting areas
+\item Define entering checkpoints
+\end{itemize}
+
+These are adjusted in the Configure Window found under the System tab in the menu bar.
+
+\subsubsection{Checkpoint circles}
+The first thing to do is to insert three circles that are used as checkpoints when the system is counting people. All three circles needs to be passed before the system accepts it as and enter or exit. To draw a circle, check the circle check box. Place the cursor where want the center of your circle to be. Now press the mouse and move the cursor to adjust the radius. Three circles are automatically drawn and they should cover the door as shown in figure \ref{fig:circlePlacement} below.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{images/Manual2.png}
-	\caption[Circle placment]{\textit{A prefered placement of the circles. }}
+	\caption[Circle placment]{\textit{A preferred placement of the checkpoint circles. }}
 	\label{fig:circlePlacement}  %Skapar referens till figuren
 \end{figure}
 
 \newpage
-The door mask should cover the area close to the door where people appear. It is important to make this area big enough, rather too big than too small. It can, but should not cover the upper, most distant, part of the red circle, figure \ref{fig:doorMask} illustrates this.
+\subsubsection{Door mask}
+The door mask should cover the entire door with some surrounding in front of the door. It is better to make this area too big rather than to small since people entering the room need to appear inside of this mask in order to be counted. A good example is shown in figure \ref{fig:doorMask} below. 
+
+To add a door mask press New Polygon. Now a draw the mask by clicking in the image which adds control points to the mask. To undo press Ctrl + Z. When the mask is done press Add as door.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{images/Manual3.png}
-	\caption[Exclusion mask]{\textit{The prefered placement of the door mask, the door mask is the green area.}}
+	\caption[Exclusion mask]{\textit{The preferred placement of the door mask is showed in green.}}
 	\label{fig:doorMask}  %Skapar referens till figuren
 \end{figure}
 
 \newpage
-Exclusion masks should cover areas where people can not walk or appear. This could be areas like tables or areas behind the door (walls in this case), figure \ref{fig:exMask} illustrates this. Note that for long usage of the system, movable furniture should not be excluded.
+\subsubsection{Exclusion mask}
+Exclusion masks should cover areas that should be completely ignored by system e.g. where people can not walk or appear. This can be areas like tables or areas above the door (walls in this case). This is illustrated in figure \ref{fig:exMask} below. Note that for long usage of the system, movable furniture should not be excluded.
+
+To add an exclusion mask press New Polygon. Now a draw the mask by clicking in the image which adds control points to the mask. To undo press Ctrl + Z. When the mask is done press Add as exclusion.
 
 \begin{figure}[H]
 	\centering
@@ -28,7 +43,6 @@ Exclusion masks should cover areas where people can not walk or appear. This cou
 	\caption[Exclusion mask]{\textit{Exclusion mask is marked as red. It covers areas where people can not walk or appear.}}
 	\label{fig:exMask}  %Skapar referens till figuren
 \end{figure}
-
 
 \newpage
 \subsection{Config file}
