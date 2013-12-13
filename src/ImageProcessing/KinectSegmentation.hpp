@@ -35,7 +35,7 @@ public:
     /*!
      * \brief   The processing step of the Kinect Segmentation of human heads (and other large enough tall objects).
      */
-    void process(FrameList &frames) override;
+    void process(FrameList &frames);
 
     /*!
      * \brief      Initialize the algorithm.
@@ -51,7 +51,7 @@ public:
      *
      * \return     True if successful.
      */
-    bool initialize(configuration::ConfigurationManager &conf) override;
+    bool initialize(configuration::ConfigurationManager &conf);
 
 private:
     float maxIntensity;

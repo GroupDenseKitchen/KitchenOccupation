@@ -73,6 +73,7 @@ namespace configuration
         if (hasString(name)) {
             return stringMap[name];
         } else {
+	    printf("did not find variable %s \n",name.c_str());
             LOG("Settings Error", "Variable not found, use the \"hasString\" function first");
             return "";
         }
@@ -83,6 +84,7 @@ namespace configuration
         if (hasStringSeq(name)) {
             return stringSeqMap[name];
         } else {
+	    printf("did not find variable %s \n",name.c_str());
             LOG("Settings Error", "Variable not found, use the \"hasStringSeq\" function first");
             std::vector<std::string> emptyVec;
             return emptyVec;
@@ -124,6 +126,7 @@ namespace configuration
             configFile.open(filePath,cv::FileStorage::READ);
         }
         catch (cv::Exception& e) {
+	    printf("error opening configuration file! \n");
             LOG("Settings Error", "Error reading configuration file " << filePath);
             return false;
         }
@@ -133,6 +136,7 @@ namespace configuration
             nodes = configFile.root();
         }
         catch (cv::Exception& e) {
+	    printf("error reading configuration file! \n");
             LOG("Settings Error", "Error reading configuration file " << filePath);
             return false;
         }

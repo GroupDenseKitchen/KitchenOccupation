@@ -1,6 +1,15 @@
-CMAKE_MINIMUM_REQUIRED (VERSION 2.8.8)
+CMAKE_MINIMUM_REQUIRED (VERSION 2.8.7)
 # Dense kitchen project
 PROJECT(dense_kitchen)
+
+OPTION(headless "headless" OFF)
+
+
+IF(headless)
+   MESSAGE( STATUS "Headless build enabled" )
+  ADD_DEFINITIONS(-DHEADLESS)
+ENDIF()
+
 
 IF(APPLE)
     # Apple specific
@@ -8,6 +17,7 @@ IF(APPLE)
     INCLUDE_DIRECTORIES(/usr/local/include/)
     INCLUDE_DIRECTORIES(/usr/local/include/libfreenect)
     SET (CMAKE_CXX_FLAGS "-stdlib=libc++ -std=c++11")
+    FIND_PACKAGE(CURL REQUIRED)
 ENDIF()
 
 IF(WIN32)
@@ -48,14 +58,26 @@ IF(WIN32)
         MESSAGE( STATUS "OPENNI2_LIBS: " ${OPENNI2_LIBS} )
 
         cmake_policy(SET CMP0020 NEW) # Remove cmake warnings
+
+        IF(headless)
+            INCLUDE_DIRECTORIES($ENV{CURL_INCLUDE_DIR})
+            FIND_LIBRARY( CURL_LIBRARIES
+                NAMES libcurl_imp
+                HINTS $ENV{CURL_LIBS}
+                PATH_SUFFIXES lib)
+        MESSAGE( STATUS "CURL_LIBS: " ${CURL_LIBRARIES} )
+        ENDIF()
     ENDIF()
 ENDIF()
 
+
 # Tell CMake to run moc when necessary:
-set(CMAKE_AUTOMOC ON)
+IF(NOT headless)
+ SET(CMAKE_AUTOMOC ON)
+ENDIF()
 # As moc files are generated in the binary dir, tell CMake
 # to always look for includes there:
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 #move the configurationfile to the build dir
 CONFIGURE_FILE(../conf/mainConfig.yml mainConfig.yml COPYONLY)
@@ -64,15 +86,21 @@ CONFIGURE_FILE(../conf/masks.yml masks.yml COPYONLY)
 CONFIGURE_FILE(../resources/GDKmini.png GDKmini.png COPYONLY)
 
 # Load external libraries
-find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
+IF(NOT headless)
+	find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
+ENDIF()
+
 find_package(OpenCV REQUIRED HINTS ${OPENCV_HINTS})
 MESSAGE( STATUS "OPENCV_INCLUDE_DIRS: " ${OpenCV_INCLUDE_DIRS} )
 MESSAGE( STATUS "OPENCV_LIB_DIR: " ${OpenCV_LIB_DIR} )
 
 # Include
-INCLUDE_DIRECTORIES(${Qt5Core_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES(${Qt5Gui_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES(${Qt5Widgets_INCLUDE_DIRS})
+IF(NOT headless)
+  INCLUDE_DIRECTORIES(${Qt5Core_INCLUDE_DIRS})
+  INCLUDE_DIRECTORIES(${Qt5Gui_INCLUDE_DIRS})
+  INCLUDE_DIRECTORIES(${Qt5Widgets_INCLUDE_DIRS})
+ENDIF()
+
 INCLUDE_DIRECTORIES(${OpenCV_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES(${OPENNI2_INCLUDE_DIR})
 
@@ -98,12 +126,17 @@ TARGET_LINK_LIBRARIES (dense_kitchen
     Network
     Statistics
     Utilities
-	Evaluation
+    Evaluation
     # ExtLib
     ${OpenCV_LIBS}
     ${OPENNI2_LIBS}
+    #${CURL_LIBS}
+    ${CURL_LIBRARIES}
 )
+
 
 # Activate Qt for project
 # Must be the last line in this file, else { FAIL }
+IF(NOT headless)
 qt5_use_modules(dense_kitchen Core Gui Widgets)
+ENDIF()

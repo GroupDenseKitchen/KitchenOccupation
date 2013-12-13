@@ -49,6 +49,7 @@ void Logger::append(LogEntry entry)
     if(logFile.size() > maxLogEntrySize)
         logFile.pop_front();
     logFile.push_back(entry);
+    printf("%s \n",entry.toString().c_str());
 }
 
 std::string Logger::getLastEntry( std::string format )

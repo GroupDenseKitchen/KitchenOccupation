@@ -36,7 +36,7 @@ public:
      *
      * \return     True if successful.
      */
-    bool initialize(configuration::ConfigurationManager & settings) override;
+    bool initialize(configuration::ConfigurationManager & settings);
 
     /*!
      * \brief   Clear all sub algorithms.
@@ -47,7 +47,7 @@ public:
      * \brief        Perform all image processing algorithms in the proper order.
      * \param frames Current FrameList object.
      */
-    void process(FrameList &frames) override;
+    void process(FrameList &frames);
 };
 }
 

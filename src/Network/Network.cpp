@@ -5,15 +5,56 @@ namespace network
 
 Network::Network() {}
 
-Network::~Network() {}
+Network::~Network()
+{
+#ifdef HEADLESS
+    if (curlInitialized) {
+        curl_easy_cleanup(curl);
+        curl_global_cleanup();
+    }
+#endif
+}
 
 bool Network::initialize(configuration::ConfigurationManager& settings)
 {
+#ifdef HEADLESS
+    if (!settings.hasString("webServerUrl")) {
+        LOG("Network Warning", "no serverUrl specified");
+        curlInitialized = false;
+    } else {
+        curlInitialized = true;
+
+        curl_global_init(CURL_GLOBAL_ALL);
+
+      curl = curl_easy_init();
+      if(curl) {
+
+            struct curl_slist *headers = NULL;
+
+            headers = curl_slist_append(headers, "Accept: application/json");
+            headers = curl_slist_append(headers, "Content-Type: application/json");
+            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers );
+
+            //curl_easy_setopt(curl, CURLOPT_VERBOSE, CURLINFO_HEADER_OUT);
+
+            curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "PUT");
+            curl_easy_setopt(curl, CURLOPT_URL, settings.getString("webServerUrl").c_str());
+            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+      } else {
+          curlInitialized = false;
+          curl_easy_cleanup(curl);
+          curl_global_cleanup();
+          LOG("Network Warning", "Could not initialize curl, network communication disabled");
+      }
+
+    }
+#endif //HEADLESS
 
     firstFrame = true;
 
     // Check if the necessary variables are available
     if (!settings.hasBool("runFromFile")) {
+	printf("run from file undefined in config \n");
         LOG("Network Error", "Boolean \"runFromFile\" undefined in config file.");
         return false;
     } else {
@@ -21,6 +62,7 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
     }
 
     if (!settings.hasBool("useKinect")) {
+	printf("use kinect undefined in config file \n");
         LOG("Network Error", "Boolean \"useKinect\" undefined in config file.");
         return false;
     } else {
@@ -37,6 +79,7 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
     bool hasValidSettings = (runFromFile && hasFilePaths) || (!runFromFile && hasCamPaths);
 
     if(!hasValidSettings) {
+	printf("settings invalid! \n");
         LOG("Network Error", "std::vector<std::string> \"videoFilePaths\" or \"cameraPaths\" undefined in config file.");
         return false;
     }
@@ -55,8 +98,6 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
     } else {
         return initNetworkCameras(settings, cameraPaths);
     }
-
-
 }
 
 bool Network::initNetworkCameras(configuration::ConfigurationManager& settings,
@@ -118,9 +159,31 @@ Frame* Network::dequeFrame()
     }
 }
 
-void Network::broadcastData(Frame *frame)
+void Network::broadcastData(Frame& frame)
 {
-    //TODO: stub
+
+#ifdef HEADLESS
+    if (curlInitialized) {
+        char data[1337];
+        int queStatus = frame.getQueStatus();
+        int totalPopulation = 0;
+        for(unsigned int n = 0; n < frame.getCameras().size(); n++) {
+            std::string currentRoomID = frame.getCameras()[n].getRoomID();
+            totalPopulation = totalPopulation + frame.getPopulationInRoomID(currentRoomID);
+        }
+
+        sprintf(data, "{\"queStatus\" : \"%d\", \"numOccupants\" : \"%d\"}", queStatus, totalPopulation);
+            if(curl) {
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
+            //printf("%s \n",data);
+
+            /* Perform the request, res will get the return code */
+            res = curl_easy_perform(curl);
+        }
+    }
+#else
+    LOG("Network Message", "Due to conflicts with the Qt core library, communication with the server is impossible with the GUI enabled.")
+#endif
 }
 
 
@@ -138,6 +201,7 @@ Frame *Network::getFileFrame()
         {
             cam.setRoomID(std::to_string(i));
             cam.addImage("rawImage", rawImage);
+	    cam.addImage("debugImage",rawImage.clone());
             frame->addCamera(cam);
             frame->setMomentaryFps(streams[i].get(CV_CAP_PROP_FPS));
         } else {

@@ -37,7 +37,7 @@ class Analytics : public Algorithm
          * \param settings Configuration settings for all subalgorithms
          * \return         True if successful.
          */
-        bool initialize(configuration::ConfigurationManager & settings) override;
+        bool initialize(configuration::ConfigurationManager & settings);
 
         /*!
          * \brief   Reset the analytics interface
@@ -50,7 +50,7 @@ class Analytics : public Algorithm
          * \details      Pass the frame list to each analytics algorithm in order
          * \param frames
          */
-        void process(FrameList &frames) override;
+        void process(FrameList &frames);
 
     private:
 

@@ -1,7 +1,5 @@
 #include "CircleDetection.hpp"
 
-#include <QDebug>
-
 namespace image_processing
 {
 
@@ -88,7 +86,7 @@ namespace image_processing
                 camera.addImage( imageName, circleMap );
             }
 
-            qDebug() << cv::norm(accCircles, cv::NORM_INF);
+            //qDebug() << cv::norm(accCircles, cv::NORM_INF);
             cv::namedWindow("Accumulated filters",cv::WINDOW_NORMAL);
             cv::imshow("Accumulated filters",accCircles*(1.0/50000));
 

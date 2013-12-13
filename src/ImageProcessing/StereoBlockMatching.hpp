@@ -31,7 +31,7 @@ public:
      *  \details        Hirschmuller, H. Stereo Processing by Semiglobal Matching and Mutual Information, PAMI(30), No. 2, February 2008, pp. 328-341
      *  \param frames   The current FrameList
      */
-    void process(FrameList &frames) override;
+    void process(FrameList &frames);
 
     /*!
      * \brief      Initialize the algorithm.
@@ -42,7 +42,7 @@ public:
      *
      * \return     True if successful
      */
-    bool initialize(configuration::ConfigurationManager &conf) override;
+    bool initialize(configuration::ConfigurationManager &conf);
 
 private:
     int cameraAmount;

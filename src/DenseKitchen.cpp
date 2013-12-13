@@ -3,7 +3,7 @@
 bool DenseKitchen::initialize(std::string path) {
     isInitialized = true;
     isEvalInitialized = true;
-
+    counter = 0;
     PROFILER_ITERATION_START();
     algorithmFactory.clear();
 
@@ -32,31 +32,39 @@ bool DenseKitchen::initialize(std::string path) {
         LOG("DenseKitchen initialization error", "settings file read error! path: \"" << path << "\"");
         isInitialized = false;
     }
+    printf("read config file \n");
     if(!network.initialize(settings)) {
+	printf("error initing network! \n");
         LOG("DenseKitchen initialize error", "Network module could not be initialized!");
         isInitialized = false;
     }
     if(!imageProcessor.populateSubAlgorithms(settings, "ImageProcessor", algorithmFactory)) {
+	printf("error populating image processor \n");
         LOG("DenseKitchen initialize error", "Image processor failed when populating sub algorighms");
         isInitialized = false;
     }
     if(!analytics.populateSubAlgorithms(settings, "Analytics", algorithmFactory)) {
+	printf("error populating analytics \n");
         LOG("DenseKitchen initialize error", "Satisitics failed when populating sub algorighms");
         isInitialized = false;
     }
     if(!evaluator.populateSubAlgorithms(settings, "Evaluation", algorithmFactory)) {
+	printf("error populating  evaluation \n");
         LOG("DenseKitchen initialize error", "Satisitics failed when populating sub algorighms");
         isEvalInitialized = false;
     }
     if(!imageProcessor.initialize(settings)) {
+	printf("error initing image processor \n");
         LOG("DenseKitchen initialize error", "ImageProcessor could not be initialized!");
         isInitialized = false;
     }
     if(!analytics.initialize(settings)) {
+	printf("error initing analytics \n");
         LOG("DenseKitchen initialize error", "Statisitics could not be initialized!");
         isInitialized = false;
     }
     if(!evaluator.initialize(settings)) {
+	printf("error initing evaluation \n");
         LOG("DenseKitchen initialize error", "Statisitics could not be initialized!");
          isEvalInitialized = false;
     }
@@ -83,7 +91,7 @@ void DenseKitchen::reset()
 bool DenseKitchen::singleIteration() {
 
     bool iterationSuccess = true;
-
+    counter++;
     if(isInitialized) {
         PROFILER_ITERATION_START();
             PROFILER_START("Network deque");
@@ -107,7 +115,9 @@ bool DenseKitchen::singleIteration() {
                     PROFILER_END();
                     //evaluator.printToLog(); // Prints MOTA & MOTP for every frame.
                 }
-                //network.broadcastData(currentFrame);
+
+                network.broadcastData(frames.getCurrent());
+
             } else {
                 if (isEvalInitialized) {
                     evaluator.printToLog();

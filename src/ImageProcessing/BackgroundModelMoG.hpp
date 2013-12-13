@@ -31,7 +31,7 @@ public:
      * \details      Creates a binary image, "foregroundMask", and performs erotions and dilations on the generated binary image.
      * \param frames Requires that each camera's latest frame contains a RGB-image called "rawImage".
      */
-    void process(FrameList &frames) override;
+    void process(FrameList &frames);
 
     /*!
      * \brief   Initialize the algorithm.
@@ -59,7 +59,7 @@ public:
      *
      * \return     True if successful.
      */
-    bool initialize(configuration::ConfigurationManager &conf) override;
+    bool initialize(configuration::ConfigurationManager &conf);
 
 private:
     int cameraAmount;

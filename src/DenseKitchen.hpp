@@ -6,7 +6,6 @@
 #include "Configuration/ConfigurationManager.hpp"
 #include "Utilities/Algorithm.hpp"
 
-#include <QtCore/QtCore>
 
 // Include algorithms here
 #include "ImageProcessing/ImageProcessor.hpp"
@@ -15,7 +14,7 @@
 #include "ImageProcessing/TrackingBruteForce.hpp"
 #include "ImageProcessing/EntryExitCounter.hpp"
 #include "ImageProcessing/CircleDetection.hpp"
-#include "ImageProcessing/kinectSegmentation.hpp"
+#include "ImageProcessing/KinectSegmentation.hpp"
 #include "ImageProcessing/StereoBlockMatching.hpp"
 #include "Analytics/Analytics.hpp"
 #include "Analytics/FlowEstimator.hpp"
@@ -94,6 +93,8 @@ private:
     evaluation::Evaluation evaluator;
 
     std::string configPath;
+
+    int counter;
 
 };
 

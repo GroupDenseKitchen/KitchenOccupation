@@ -40,7 +40,7 @@ public:
     /*!
      * \brief        Performs the process step, counts people.
      */
-    void process(FrameList &frames) override;
+    void process(FrameList &frames);
 
     /*!
      * \brief      Initialize the algorithm.
@@ -49,7 +49,7 @@ public:
      *
      * \details    This algorithm has no configurable parameters.
      */
-    bool initialize(configuration::ConfigurationManager &conf) override;
+    bool initialize(configuration::ConfigurationManager &conf);
 
 private:
     int totalPopulation;

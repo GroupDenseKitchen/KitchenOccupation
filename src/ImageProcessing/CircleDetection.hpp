@@ -44,7 +44,7 @@ public:
      *
      * \return     True if successful.
      */
-    bool initialize(configuration::ConfigurationManager &settings) override;
+    bool initialize(configuration::ConfigurationManager &settings);
 
     /*!
      * \brief        Uses Canny edge detector on each image channel.
@@ -52,7 +52,7 @@ public:
      *               detect circes and ellipses. The result is thresholded and high enough values are used as
      *               person hypotheses.
      */
-    void process(FrameList &frames) override;
+    void process(FrameList &frames);
 
 private:
     void makeCircleFilters(std::vector<cv::Mat> & filters, int circleThickness, int avgFilterSize);

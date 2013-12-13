@@ -1,5 +1,4 @@
 #include "KinectSegmentation.hpp"
-#include <QDebug>
 
 namespace image_processing
 {

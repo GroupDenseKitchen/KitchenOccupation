@@ -35,13 +35,13 @@ public:
      *
      * \return         True if successful.
      */
-    bool initialize(configuration::ConfigurationManager &settings) override;
+    bool initialize(configuration::ConfigurationManager &settings);
 
     /*!
      * \brief        Performs the foreground modulation.
      * \details      Process step which does foreground modulation, creates bounding boxes
      */
-    void process(FrameList &frames) override;
+    void process(FrameList &frames);
 
 private:
     cv::Mat foregroundMask;

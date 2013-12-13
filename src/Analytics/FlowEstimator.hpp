@@ -45,7 +45,7 @@ public:
      * \brief        Performs the process step.
      * \details      Compute flow of detected objects passing trough the door as pepole per frame
      */
-    void process(FrameList &frames) override;
+    void process(FrameList &frames);
 
     /*!
      * \brief      Initialize the algorithm.
@@ -54,7 +54,7 @@ public:
      *
      * \details    This algorithm has no configurable parameters
      */
-     bool initialize(configuration::ConfigurationManager &conf) override;
+     bool initialize(configuration::ConfigurationManager &conf);
 
 private:
      std::vector<CameraFlow> cameraFlowVector; //vector to separate flow for different cameras.
