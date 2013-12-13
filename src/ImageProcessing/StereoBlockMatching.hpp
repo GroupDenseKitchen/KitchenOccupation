@@ -8,8 +8,7 @@
 namespace image_processing
 {
 /*!
- * \brief   Process step which creates binary image using OpenCV function BackgroundModelMoG2.
- * \details TODO
+ * \brief   Process step which creates a depth map from a stereo image pair.
  */
 class StereoBlockMatching : public Algorithm
 {
@@ -25,9 +24,12 @@ public:
     ~StereoBlockMatching();
 
     /*!
-     * \brief        Performs the background modulation.
-     * \details      TODO
-     * \param frames TODO
+     *  \brief          Performs stereo block matching using stereo block matching.
+     *  \details        The stereo block matching algrothm used is the OpenCV semi-global block matcher (cv::StereoSGBM)
+     *                  This algortihm is based on one defined by Hirschmuller, H in 2008.
+     *
+     *  \details        Hirschmuller, H. Stereo Processing by Semiglobal Matching and Mutual Information, PAMI(30), No. 2, February 2008, pp. 328-341
+     *  \param frames   The current FrameList
      */
     void process(FrameList &frames) override;
 
