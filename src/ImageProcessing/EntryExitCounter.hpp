@@ -18,7 +18,11 @@ bool isInsidePolygon(cv::Mat mask, cv::Point2d point);
 
 /*!
  * \brief   Process step which determines if objects are lost in an entry area, creates bounding boxes.
- * \details TODO
+ * \details Registers if objects enters and exits the room the objects has to fulfill some requirements.
+ *          To be considered as entered, an object has to be created for the first time in the set door
+ *          area and pass the three circle lines and be elevated to a real object. To be registered as
+ *          exited an object has to be a real object and disappear inside the door area, while also at
+ *          least once passed the three lines.
  */
 class EntryExitCounter : public Algorithm
 {
@@ -35,8 +39,6 @@ public:
 
     /*!
      * \brief        Performs the process step, counts people.
-     * \details      TODO
-     * \param frames TODO
      */
     void process(FrameList &frames) override;
 
