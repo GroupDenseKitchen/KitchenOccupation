@@ -23,7 +23,6 @@ class DebugViewGrid : public QWidget
 public:
     /*!
      * \brief        Constructor
-     * \param parent TODO
      */
     explicit DebugViewGrid(QWidget *parent = 0);
 
@@ -33,22 +32,17 @@ public:
     ~DebugViewGrid();
 
     /*!
-     * \brief          Initialize takes the desired number of columns and sets up the auto-adaption.
-     * \details        TODO
-     * \param nColumns TODO
+     * \brief          Initialize takes the desired number of columns in the \ref DebugViewGrid and sets up the auto-adaption.
      */
     void initialize(int nColumns);
 
     /*!
      * \brief        Inserts an \ref DebugViewWidget in the grid.
-     * \details      TODO
-     * \param widget TODO
      */
     void addWidget(DebugViewWidget* widget);
 
     /*!
      * \brief   Removes everything that is currently in the grid.
-     * \details TODO
      */
     void clearGrid();
 

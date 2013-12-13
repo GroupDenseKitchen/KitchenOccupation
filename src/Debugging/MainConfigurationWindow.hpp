@@ -16,11 +16,11 @@ class MainConfigurationWindow;
 
 /*!
  * \brief   The MainConfigurationWindow class is a window where you can cnfigure
- *          different settings in the system. Especially masks used to define doors and
+ *          different settings in the system.
+ * \details Especially masks used to define doors and
  *          exceptions for a camera. The door mask is used to check if a person is
  *          currently in a doorway and the exception mask is used to speed up and harden
  *          the system by defining ares that are not interesrting for the system.
- * \details TODO
  */
 class MainConfigurationWindow : public QWidget
 {
@@ -38,26 +38,24 @@ public:
     ~MainConfigurationWindow();
 
     /*!
-     * \brief             initialize sets up the \ref MainConfigurationWindow
-     * \details           TODO
-     * \param mainProgram TODO
-     * \param filepath    TODO
+     * \brief initialize sets up the \ref MainConfigurationWindow
+     * \param mainProgram is a poninter to the main program.
+     * \param masksConfigFile contains the coordinates for the masks used by the system.
      */
-    void initialize(DenseKitchen* mainProgram , std::string filepath);
-    void sendMasksToFrameList();
+    void initialize(DenseKitchen* mainProgram , std::string masksConfigFile);
+
 
 public slots:
+
     /*!
-     * \brief              TODO
-     * \details            TODO
-     * \param currentFrame TODO
+     * \brief updateWindow recieves a frame and updates the content in the \ref MainConfigurationWindow.
      */
     void updateWindow(Frame currentFrame);
 
 private:
     Ui::MainConfigurationWindow *ui;
     DenseKitchen* mainProgram;
-    std::string filePath;
+    std::string masksConfigFile;
 
     void storeImageLocally(const cv::Mat &image);
 
@@ -88,6 +86,7 @@ private:
     QImage qImage;
 
     void loadMaskFromFile();
+    void sendMasksToFrameList();
     void storeMask(QVector<QVector<cv::Point> > polygons, std::string nodeName);
     bool readMasks(QVector<QVector<cv::Point> > &polygons, std::string nodeName);
 

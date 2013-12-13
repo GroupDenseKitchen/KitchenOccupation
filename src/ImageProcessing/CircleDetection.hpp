@@ -6,7 +6,6 @@
 #include "../Utilities/Algorithm.hpp"
 #include "../Utilities/CameraObject.hpp"
 
-
 namespace image_processing
 {
 

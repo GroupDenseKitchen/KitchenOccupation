@@ -62,9 +62,10 @@ private:
     int nDevices;
 
     openni::Device device;
-    openni::VideoStream depth, color;
     openni::Status rc;
     openni::VideoStream** streams;
+    openni::VideoStream** depthStreams;
+    openni::VideoStream** colorStreams;
 
     openni::VideoFrameRef depthFrame, colorFrame;
     int changedIndex;

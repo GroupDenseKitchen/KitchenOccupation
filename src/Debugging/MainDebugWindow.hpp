@@ -22,10 +22,7 @@
 
 #include <opencv2/core/core.hpp>
 
-/*!
- * \brief   TODO
- * \details TODO
- */
+
 namespace Ui {
 class MainDebugWindow;
 }
@@ -33,9 +30,8 @@ class MainDebugWindow;
 /*!
  * \brief   The MainDebugWindow class is a debug interface to speed up development,
  *          testing and validation of image processing algorithms.
- * \details TODO
  * \version 0.1
- * \date    2013-12-06
+ * \date    2013-12-12
  */
 class MainDebugWindow : public QMainWindow
 {
@@ -43,8 +39,7 @@ class MainDebugWindow : public QMainWindow
 
 public:
     /*!
-     * \brief        Constructor
-     * \param parent TODO
+     * \brief   Constructor
      */
     explicit MainDebugWindow(QWidget *parent = 0);
 
@@ -55,9 +50,8 @@ public:
 
     /*!
      * \brief                Initializes the GUI with values specified in guiConfig.yml.
-     * \details              TODO
-     * \param mainConfigFile TODO
-     * \param guiConfigFile  TODO
+     * \param mainConfigFile contains settings for the main program pipeline.
+     * \param guiConfigFile  contains settings for the GUI.
      */
     void init(std::string mainConfigFile, std::string guiConfigFile);
 
@@ -69,8 +63,6 @@ public:
 signals:
     /*!
      * \brief              updateDebugViews is used to send a fresh Frame to all sub-widgets and update their content.
-     * \details            TODO
-     * \param currentFrame TODO
      */
     void updateDebugViews( Frame currentFrame);
 
@@ -153,7 +145,6 @@ private slots:
     void on_runButton_clicked();
     void on_pauseButton_clicked();
     void on_stepForwardButton_clicked();
-    void on_stepBackwardButton_clicked();
 
     void on_tagFilterLineEdit_textEdited(const QString &arg1);
     void on_timeFilterLineEdit_textEdited(const QString &arg1);
@@ -166,7 +157,6 @@ private slots:
     void on_autoAdaptLogCheckBox_clicked(bool checked);
     void on_expandDepthSpinBox_valueChanged(int arg1);
 
-    void on_configureButton_clicked();
     void on_actionClear_triggered();
     void on_actionSave_grid_configuration_triggered();
 

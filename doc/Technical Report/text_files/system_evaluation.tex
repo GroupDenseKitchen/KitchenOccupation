@@ -1,4 +1,4 @@
-In order to measure performance some form of performance metric need to be defined, and test data and training data needed to be collected from several different settings. A program for manually labeling these data sequences was also created and is delivered with the project.
+In order to measure performance some form of performance metric need to be defined, and test data and training data needed to be collected from several system use cases.
 
 \subsection{Ground Truth}
 The evaluation needs access to some sort of ground truth which defines the best possible achievable counter output. Currently the ground truth files consist of arrays with each values for each frame denoting how many people entered or exited in that specific frame. Since the focus of the system lies on maintaining a correct count over some time, the exact moment when a person exits the room is of less importance.
@@ -18,8 +18,8 @@ A_{out} = 1 - |\frac{\sum_{frames}{out_{Est}}-\sum_{frames}out_{GT}}{\sum_{frame
 \end{equation} 
 
 \begin{equation}
-\label{eq:occupacy_accuracy}
-A_{in-out} = 1 - |\frac{(\sum_{frames}{in_{Est}-\sum_{frames}out_{Est}})-(\sum_{frames}{in_{GT}-\sum_{frames}out_{GT}})}{\sum_{frames}in_{GT}+out_{GT}}| 
+\label{eq:occupancy_bias}
+A_{bias} = \frac{(\sum_{frames}{in_{Est}-\sum_{frames}out_{Est}})-(\sum_{frames}{in_{GT}-\sum_{frames}out_{GT}})}{\sum_{frames}in_{GT}+out_{GT}} 
 \end{equation} 
 
 

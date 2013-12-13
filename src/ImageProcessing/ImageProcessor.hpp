@@ -8,7 +8,6 @@
 /*!
  * \brief   Image processing contains functionality for the different
  *          states of image processing required for human detection and tracking.
- * \details TODO
  */
 namespace image_processing
 {
