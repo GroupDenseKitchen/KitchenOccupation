@@ -14,6 +14,7 @@ namespace image_processing
         CONFIG(settings, maximumDistance, "TrackingMaximumDistance",                4000);
         CONFIG(settings, minimumLifeSpan, "TrackingMinimumLifeSpan",                  15);   //Currently # Frames, should be in ms...
         CONFIG(settings, maximumTimeLostInDoorArea, "MaximumTimeLostInDoorArea",       9);   //Currently # Frames, should be in ms...
+        CONFIG(settings, maximumTimeLostStill, "MaximumTimeLostInDoorArea",          100);
 
         return isInitialized;
     }
