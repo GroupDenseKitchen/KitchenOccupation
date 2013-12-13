@@ -14,6 +14,7 @@
     #include "KinectHandlerOpenNi.hpp"
 #endif // ifdef __APPLE__
 
+//#include <curl/curl.h>
 
 /*!
  * \brief     the network namespace contains all system I/O functionality (sensors and web interface).
@@ -79,7 +80,6 @@ private:
     bool loadVideoFiles(configuration::ConfigurationManager& settings,
                         std::vector<std::string> filePaths);
 
-
     Frame* getFileFrame();
     Frame* getNetworkCamFrame();
     Frame* getKinectFrame();
@@ -93,6 +93,10 @@ private:
     Timer timer;
     Frame nextFrame;
     std::vector<cv::VideoCapture> streams;
+
+//    CURL *curl;
+//    CURLcode res;
+//    bool curlInitialized
 
 };
 
