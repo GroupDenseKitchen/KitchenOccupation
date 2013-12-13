@@ -30,7 +30,8 @@ public:
      * \details        Returns false if initialization fails,
      *                 e.g. if a required variable is not set in the config file.
      *
-     * \details        Sets the minimal area for a bounding box.
+     * \details Configurable algorithm parameters are:
+     *              - minimalArea: Sets the minimal area for a bounding box.
      *
      * \return         True if successful.
      */

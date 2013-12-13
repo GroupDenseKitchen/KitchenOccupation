@@ -43,7 +43,7 @@ public:
      *             e.g. if a required variable is not set.
      *
      * \details    Configurable algorithm parameters are:
-     *              - headHeightMargin:         The interval croped from the top of the detected head and downwards. Affects the possibility of detecting shorter persons very close to long persons.
+     *              - headHeightMargin:         The height interval croped from the top of the detected head and downwards. Affects the possibility of detecting shorter persons very close to long persons.
      *              - lowestDistanceOverFloor:  The limit of how short a person can be.
      *              - distanceToCameraMargin:   A margin length from the camera lens to the highest person possible to detect.
      *              - minimalHumanArea:         The minimal area required of a human, for it to be possible to detect.

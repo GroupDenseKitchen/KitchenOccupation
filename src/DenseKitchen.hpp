@@ -4,7 +4,6 @@
 #include "Utilities/utilities.hpp"
 #include "Network/Network.hpp"
 #include "Configuration/ConfigurationManager.hpp"
-#include "Debugging/Debug.hpp"
 #include "Utilities/Algorithm.hpp"
 
 #include <QtCore/QtCore>
