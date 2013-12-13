@@ -10,7 +10,7 @@ void createConfigFile(std::string cfgFile)
     // Open file
     cv::FileStorage textFile(cfgFile,cv::FileStorage::WRITE);
     // Add data to file
-    textFile << "videoFilePath" << "/Users/erikfall/Desktop/name.mp4";
+    textFile << "videoFilePath" << "/Users/erikfall/Desktop/EvalClip.mp4";
     textFile << "GTDataFilePath" << "/Users/erikfall/Desktop/Eval.yml";
     // Saves file
     textFile.release();
@@ -39,13 +39,13 @@ int main()
     int exitFrame = 0;
     std::vector<int> entries;
     std::vector<int> exits;
-    entries.reserve(videoFile.get(CV_CAP_PROP_FRAME_COUNT));
-    exits.reserve(videoFile.get(CV_CAP_PROP_FRAME_COUNT));
+
 
     if (videoFile.isOpened()) {
         // While frames left
         while (videoFile.read(frame)) {
-            int currentFrame = videoFile.get(CV_CAP_PROP_POS_FRAMES);
+            double currentFrame = videoFile.get(CV_CAP_PROP_POS_FRAMES);
+
 
             // Print entries and exits in frame
             std::string text = "", text1 = "", text2 = "";
@@ -87,13 +87,57 @@ int main()
                 exits.pop_back();
                 videoFile.set(CV_CAP_PROP_POS_FRAMES, currentFrame-1);
             }
+            else if (c == '<'){ //Back faster
+                entryFrame = entries.back();
+                exitFrame = exits.back();
+                entries.pop_back();
+                exits.pop_back();
+
+                entryFrame = entries.back();
+                exitFrame = exits.back();
+                entries.pop_back();
+                exits.pop_back();
+
+                entryFrame = entries.back();
+                exitFrame = exits.back();
+                entries.pop_back();
+                exits.pop_back();
+
+                entryFrame = entries.back();
+                exitFrame = exits.back();
+                entries.pop_back();
+                exits.pop_back();
+
+                videoFile.set(CV_CAP_PROP_POS_FRAMES, currentFrame-4);
+            }
             // To step forward, using x
             else if (c == 'x'){
                 entries.push_back(entryFrame);
                 exits.push_back(exitFrame);
                 entryFrame = 0;
                 exitFrame = 0;
+                videoFile.set(CV_CAP_PROP_POS_FRAMES, currentFrame+1);
             }
+            else if (c == 'c'){  // forward faster!
+                entries.push_back(entryFrame);
+                exits.push_back(exitFrame);
+                entryFrame = 0;
+                exitFrame = 0;
+                entries.push_back(entryFrame);
+                exits.push_back(exitFrame);
+                entries.push_back(entryFrame);
+                exits.push_back(exitFrame);
+                entries.push_back(entryFrame);
+                exits.push_back(exitFrame);
+                entries.push_back(entryFrame);
+                exits.push_back(exitFrame);
+                entries.push_back(entryFrame);
+                exits.push_back(exitFrame);
+                entries.push_back(entryFrame);
+                exits.push_back(exitFrame);
+                videoFile.set(CV_CAP_PROP_POS_FRAMES, currentFrame+7);
+            }
+
             // Someone exits, using -
             else if(c == '-'){
                 exitFrame = exitFrame + 1;
@@ -109,6 +153,7 @@ int main()
                 exits.push_back(exitFrame);
                 entryFrame = 0;
                 exitFrame = 0;
+                videoFile.set(CV_CAP_PROP_POS_FRAMES, currentFrame-1);
             }
 
 
