@@ -40,12 +40,17 @@ The config file used by the algorithm pipeline is called \textit{dense\_conf.yml
 	    \textbf{Variable} & \textbf{Algorithm/Program-part} & \textbf{Description} \\ \hline
 	    runFromFile & Network & If set to 1, the video sources are files found in the paths \textit{videoFilePaths}.  \\ \hline
 	    videoFilePaths & Network & The paths to the video files used if running from file.  \\ \hline
-	    useKinect & Network & If set to 1, the video sources are from Microsof Kinect cameras. \\ \hline
+	    useKinect & Network & If set to 1, the video sources are from Microsoft Kinect cameras. \\ \hline
 	    TrackingMaximumDistance & Tracking & The maximum distance an object can be considered to have moved since last frame. \\ \hline
 	    TrackingMinimzumLifeSpan & Tracking & The minimal time (in \# frames) a potential object must have existed (and been tracked) before it is considered a real object. \\ \hline
 	    TrackingMaximumTimeLost & Tracking & The maximum time (in \# frames) an object is allowed to be lost before it is forgotten. \\ \hline
 	    lowestDistanceOverFloor & Kinect Segmentation & The limit (height units) of how short a person can be. Set this variable using the GUI calibration utility described previously. \\ \hline
 	    webServerUrl & Network & The address to the web service to which results are reported. \\ \hline
+	    
+	    lowOccupancyThreshold & Queue Severity Estimation & If there are more people than this and less than highOccupancyThreshold, queue severity will be set to 1 (medium). Setting these value is optional but recommended for rooms where an overwhelming proportion of the occupants will be in a queue (e.g. rooms without places for sitting). If no values are set the severity is solely determined by visible queues. \\ \hline
+	    
+	    highOccupancyThreshold & Queue Severity Estimation & If there are more people than this, queue severity is 2 (high). This value must be higher than lowOccupancyThreshold if set. \\ \hline
+	    
 	\end{tabular}
 	\label{table:commonVariables}
 	\caption{The most useful and common variables in the current pipeline.}
