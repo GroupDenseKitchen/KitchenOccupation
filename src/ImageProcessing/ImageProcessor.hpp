@@ -8,13 +8,11 @@
 /*!
  * \brief   Image processing contains functionality for the different
  *          states of image processing required for human detection and tracking.
- * \details TODO
  */
 namespace image_processing
 {
 /*!
  * \brief   The Image Processor is the interface to the image processing functionality.
- * \details TODO
  */
 class ImageProcessor : public Algorithm
 {
@@ -33,21 +31,21 @@ public:
     /*!
      * \brief          Initialize all image processing algorithms.
      * \details        Returns false if any of the sub algorithms fail during their initialization.
-     * \param settings TODO
-     * \return         TODO
+     *
+     * \details        This algorithm acts as an interface and has no configurable parameters:
+     *
+     * \return     True if successful.
      */
     bool initialize(configuration::ConfigurationManager & settings);
 
     /*!
-     * \brief   TODO
-     * \details TODO
+     * \brief   Clear all sub algorithms.
      */
     void reset();
 
     /*!
-     * \brief        Perform all image processing algorithms in order.
-     * \details      TODO
-     * \param frames TODO
+     * \brief        Perform all image processing algorithms in the proper order.
+     * \param frames Current FrameList object.
      */
     void process(FrameList &frames);
 };

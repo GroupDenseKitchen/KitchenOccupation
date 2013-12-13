@@ -8,6 +8,7 @@ MainConfigurationWindow::MainConfigurationWindow(QWidget *parent) :
     ui(new Ui::MainConfigurationWindow)
 {
     ui->setupUi(this);
+    setWindowTitle("Configuration Window");
 }
 
 MainConfigurationWindow::~MainConfigurationWindow()
@@ -15,16 +16,16 @@ MainConfigurationWindow::~MainConfigurationWindow()
     delete ui;
 }
 
-void MainConfigurationWindow::initialize(DenseKitchen* mainProgram ,std::string filepath)
+void MainConfigurationWindow::initialize(DenseKitchen* mainProgram , std::string masksConfigFile)
 {
     this->mainProgram = mainProgram;
-    this->filePath = filepath;
+    this->masksConfigFile = masksConfigFile;
+    drawAsCircle = false;
     isDrawingCircle = false;
     circleRadius = 0;
     circleCenter = cv::Point(0,0);
     loadMaskFromFile();
     sendMasksToFrameList();
-
 }
 
 void MainConfigurationWindow::updateWindow(Frame currentFrame)
@@ -144,8 +145,6 @@ void MainConfigurationWindow::sendMasksToFrameList()
     cv::bitwise_not(exclusionMask, inclusionMask);
 
     mainProgram->getFrames()->setInclusionMask(inclusionMask);
-
-    close();
 }
 
 void MainConfigurationWindow::updateGUIImages()
@@ -187,7 +186,7 @@ void MainConfigurationWindow::updateGUIImages()
 
 void MainConfigurationWindow::loadMaskFromFile()
 {
-    if(configFile.open(filePath, cv::FileStorage::READ)){
+    if(configFile.open(masksConfigFile, cv::FileStorage::READ)){
         readMasks(doorPolygons, "doorPolygons");
         readMasks(exclusionPolygons, "exclusionPolygons");
         configFile["circleCenterX"] >> circleCenter.x;
@@ -288,7 +287,7 @@ void MainConfigurationWindow::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_Return:
     case Qt::Key_Enter:
-
+        on_applyButton_clicked();
     default:
         break;
     }
@@ -321,7 +320,7 @@ void MainConfigurationWindow::on_addAsCheckpointButton_clicked()
 
 void MainConfigurationWindow::on_saveMasksButton_clicked()
 {
-    configFile.open(filePath, cv::FileStorage::WRITE);
+    configFile.open(masksConfigFile, cv::FileStorage::WRITE);
     storeMask(doorPolygons, "doorPolygons");
     storeMask(exclusionPolygons, "exclusionPolygons");
     configFile << "circleCenterX" << circleCenter.x;
@@ -398,12 +397,14 @@ bool MainConfigurationWindow::readMasks(QVector<QVector<cv::Point>> &polygons, s
 void MainConfigurationWindow::on_clearAllButton_clicked()
 {
     doorPolygons.clear();
-    doorMask.create(640, 480, CV_8UC3);
-    doorMask.zeros(640, 480, CV_8UC3);
+    doorMask = cv::Mat::zeros(640, 480, CV_8UC3);
     exclusionPolygons.clear();
-    exclusionMask.create(640, 480, CV_8UC3);
-    exclusionMask.zeros(640, 480, CV_8UC3);
+    exclusionMask = cv::Mat::zeros(640, 480, CV_8UC3);
     polygon.clear();
+
+    circleCenter = cv::Point(0,0);
+    circleRadius = 0;
+
     updateGUIImages();
 }
 
@@ -415,6 +416,7 @@ void MainConfigurationWindow::on_cancelButton_clicked()
 void MainConfigurationWindow::on_applyButton_clicked()
 {
     sendMasksToFrameList();
+    close();
 }
 
 void MainConfigurationWindow::on_circleCheckBox_clicked(bool checked)

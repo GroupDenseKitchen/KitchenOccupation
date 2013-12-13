@@ -52,7 +52,6 @@ class ConfigurationManager
 
         /*!
          * \brief      Checks availability of a double-type property.
-         * \details    TODO
          * \param name Name of requested property.
          * \return     Returns true if specified property exists.
          */
@@ -67,7 +66,6 @@ class ConfigurationManager
 
         /*!
          * \brief      Checks availability of a vector<string>-type property.
-         * \details    TODO
          * \param item Name of requested property.
          * \return     Returns true if specified property exists.
          */
@@ -124,7 +122,6 @@ class ConfigurationManager
 
         /*!
          * \brief       Sets value of double with key "name".
-         * \details     TODO
          * \param name  Name of the double variable in question.
          * \param value New value of the double variable in question.
          */
@@ -145,43 +142,47 @@ class ConfigurationManager
         void setStringSeq(std::string name, std::vector<std::string> value);
 
         /*!
-         * \brief          Sets variable if it exists otherwise return false.
-         * \param name     The name of the variable
-         * \param variable The variable value
-         * \return         True if variable already existed.
+         * \brief               Sets variable if it exists otherwise, sets it to devaultValue.
+         * \param name          The name of the variable
+         * \param variable      The variable value
+         * \param variable      The default variable value
+         * \return              True if variable already existed, false if it was assigned to defaultValue.
          */
-        bool configure(std::string name, bool &variable);
+        bool configure(std::string name, bool &variable, bool defaultValue);
 		
         /*!
-         * \brief          Sets variable if it exists otherwise return false.
-         * \param name     The name of the variable
-         * \param variable The variable value
-         * \return         True if variable already existed.
+         * \brief               Sets variable if it exists otherwise, sets it to devaultValue.
+         * \param name          The name of the variable
+         * \param variable      The variable value
+         * \param variable      The default variable value
+         * \return              True if variable already existed, false if it was assigned to defaultValue.
          */
-        bool configure(std::string name, int &variable);
+        bool configure(std::string name, int &variable, int defaultValue);
 		
         /*!
-         * \brief          Sets variable if it exists otherwise return false.
-         * \param name     The name of the variable
-         * \param variable The variable value
-         * \return         True if variable already existed.
+         * \brief               Sets variable if it exists otherwise, sets it to devaultValue.
+         * \param name          The name of the variable
+         * \param variable      The variable value
+         * \param variable      The default variable value
+         * \return              True if variable already existed, false if it was assigned to defaultValue.
          */
-        bool configure(std::string name, double &variable);
+        bool configure(std::string name, double &variable, double defaultValue);
 		
         /*!
-         * \brief          Sets variable if it exists otherwise return false.
-         * \param name     The name of the variable
-         * \param variable The variable value
-         * \return         True if variable already existed.
+         * \brief               Sets variable if it exists otherwise, sets it to devaultValue.
+         * \param name          The name of the variable
+         * \param variable      The variable value
+         * \param variable      The default variable value
+         * \return              True if variable already existed, false if it was assigned to defaultValue.
          */
-        bool configure(std::string name, std::string &variable);
+        bool configure(std::string name, std::string &variable, std::string defaultValue);
 
         /*!
          * \brief          Writes all stored settings in the configuration manager to file.
          * \param filePath Location and name of output file.
          * \return         Returns true if successful.
          */
-        bool writeToFile(std::string filePath);
+        bool writeToFile();
 
     private:
 
@@ -197,6 +198,7 @@ class ConfigurationManager
 
         int nCameras;                   // Number of cameras/video files.
 
+        std::string cfgFilePath;
         std::string videoFilePath;      // Location of video file(s).
         std::string groundTruthPath;    // Location of ground truth data for specified video
 

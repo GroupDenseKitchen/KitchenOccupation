@@ -39,7 +39,7 @@ public:
 
     /*!
      * \brief          Initializes the evaluation module
-     * \param settings Configuration-object containing the location of the ground truth files and other relevant settings.
+     * \param settings Configuration-object containing the location of the ground truth files.
      * \return         True if successful.
      */
     bool initialize(configuration::ConfigurationManager& settings);

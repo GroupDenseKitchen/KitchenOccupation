@@ -11,7 +11,7 @@ FrameList::FrameList(int framesToKeep) : framesToKeep(framesToKeep){
 }
 
 FrameList::~FrameList(){
-    //TODO stub
+
 }
 
 Frame &FrameList::getCurrent(){

@@ -4,10 +4,7 @@
 #include "../Utilities/utilities.hpp"
 #include "../Utilities/Object.hpp"
 
-/*!
- * \brief    Statistical analysis.
- * \details  Estimates the number of people, models, flows etc..
- */
+
 namespace statistics
 {
 

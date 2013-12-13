@@ -6,24 +6,21 @@
 
 /*!
  * \brief   Debugging utilities.
- * \details TODO
+ * \details Contains debugging and logging functionality, primarely a logging system and a profiler.
  */
 namespace debugging
 {
 /*!
- * \brief   A log entry is a container of log information.
- * \details TODO
- * \version 0.1
- * \date    2013-10-07
+ * \brief   A log entry is a container of a log information message.
  */
 struct LogEntry
 {
     /*!
      * \brief                 Constructor.
-     * \param tag             TODO
-     * \param message         TODO
-     * \param callingFunction TODO
-     * \param fileName        TODO
+     * \param tag             Is a string useful for filtering. Could be a name or identifier.
+     * \param message         A log message.
+     * \param callingFunction The name of the function or method in which the logging is called.
+     * \param fileName        The name of the file in which the logging is called.
      */
     LogEntry(std::string tag, std::string message, std::string callingFunction, std::string fileName,
              std::string lineNumber) :
@@ -32,9 +29,7 @@ struct LogEntry
 
     /*!
      * \brief        Get a string with default format or with specified formating.
-     * \details      TODO
-     * \param format TODO
-     * \return       TODO
+     * \details      Format keywords are the field names with a %-prefix (see the default format below).
      */
     std::string toString(std::string format = "[%tag]%message\n(%file::%function@%line)[%time]");
 
@@ -49,9 +44,7 @@ struct LogEntry
 
 /*!
  * \brief   A profiler entry is a container of profiler information.
- * \details TODO
- * \version 0.1
- * \date    2013-10-11
+ * \details It contain a tag (name), time for the entire node in milliseconds and subdivisions stored as children which ar other ProfilerEntry objects.
  */
 struct ProfilerEntry
 {
@@ -63,16 +56,13 @@ struct ProfilerEntry
 
     /*!
      * \brief        Contructor.
-     * \param tag    TODO
-     * \param begun  TODO
-     * \param parent TODO
+     * \param tag    Is a string useful for filtering. May be a name or identifier.
      */
     ProfilerEntry(std::string tag, int64 begun, ProfilerEntry * parent) : tag(tag), begun(begun), parent(parent) {}
 };
 
 /*!
  * \brief   LogEntry iterator
- * \details TODO
  */
 typedef std::deque<LogEntry>::iterator LogIterator;
 
@@ -81,8 +71,6 @@ typedef std::deque<LogEntry>::iterator LogIterator;
  *          under the alias 'logObject'.
  * \details Logger manages LogEnty's and provides an interface
  *          for easy readouts of log entries.
- * \version 0.1
- * \date    2013-10-07
  */
 class Logger
 {
@@ -100,140 +88,106 @@ public:
 
     /*!
      * \brief   Add a log entry and give it a time stamp.
-     * \details TODO
-     * \param   TODO
      */
     void append(LogEntry);
 
     /*!
      * \brief   Pop a log entry.
-     * \details TODO
-     * \return  TODO
      */
     LogEntry pop();
 
     /*!
      * \brief       Get a specific log entry.
-     * \details     TODO
-     * \param index TODO
-     * \return      TODO
      * \warning     index must be between 0 and size()-1
      */
     LogEntry get(int index) { return logFile[index];  }
 
     /*!
      * \brief   The number of stored log entries.
-     * \details TODO
-     * \return  TODO
      */
     int size()              { return (int)logFile.size();  }
 
     /*!
      * \brief   Weather or not no log entries exist.
-     * \details TODO
-     * \return  TODO
      */
     bool isEmpty()          { return logFile.empty(); }
 
     /*!
      * \brief   Remove all log entries.
-     * \details TODO
      */
     void clear();
 
     /*!
-     * \brief   TODO
-     * \details TODO
+     * \brief   Calls clear() and resets iteration counter.
      */
     void reset();
 
     /*!
      * \brief   Get the begin iterator for the log entries.
-     * \details TODO
-     * \return  TODO
      */
     LogIterator begin()     { return logFile.begin(); }
 
     /*!
      * \brief   Get the end iterator for the log entries.
-     * \details TODO
-     * \return  TODO
      */
     LogIterator end()       { return logFile.end();   }
 
     /*!
      * \brief        Getter for the most recent log entry as a string,
      *               with a varity of formating options for the string content.
-     * \details      TODO
-     * \param format TODO
-     * \return       TODO
+     * \details      Format keywords are the field names with a %-prefix (see the default format below).
      */
     std::string getLastEntry(std::string format = "[%tag]%msg(%file::%function@%line)[%time]");
 
     /*!
      * \brief   Empties the log into a vector of strings.
-     * \details TODO
-     * \return  TODO
      */
     std::vector<std::string> flushLog();
 
     /*!
      * \brief   Empties the log and dumps all entries as strings in the console.
-     * \details TODO
      */
     void dumpToConsole();
 
     /*!
      * \brief   Pop the oldest profiler entry
-     * \details TODO
-     * \return  TODO
      */
     ProfilerEntry popProfiler();
 
     /*!
      * \brief   Get the number of profiler entries.
-     * \details TODO
-     * \return  TODO
      */
     int profilerSize();
 
     /*!
      * \brief   Initiate a new iteration for the profiler.
-     * \details TODO
      */
     void profilerBeginIteration();
 
     /*!
      * \brief   Finalize an iteration for the profiler.
-     * \details TODO
      */
     void profilerEndIteration();
 
     /*!
      * \brief     Initiate a new section for the profiler.
-     * \details   TODO
-     * \param tag TODO
      */
     void profilerBeginSection(std::string tag);
 
     /*!
-     * \brief   Inalize a section for the profiler.
-     * \details TODO
+     * \brief   Initialize a section for the profiler.
      */
     void profilerEndSection();
 
     /*!
      * \brief   Get the most recent iteration from the profiler.
-     * \details TODO
-     * \return  TODO
      */
     ProfilerEntry * getLatestIteration() { return &loopIterations.back(); }
 
     /*!
      * \brief       Dump a specific iteration from the profiler.
-     * \details     TODO
-     * \param pe    TODO
-     * \param depth TODO
+     * \param pe    Using the node pe as root when dumping its entire profiler tree..
+     * \param depth The number of subdivisions to dump. 0 means all of them.
      */
     void profilerDumpSectionToConsole(ProfilerEntry * pe, int depth = 0);
 
@@ -273,10 +227,29 @@ extern Logger logObject;
     );                                                  \
 }
 
+/*!
+ * \brief         MACRO used for starting a new profiler iteration session.
+ */
 #define PROFILER_ITERATION_START() debugging::logObject.profilerBeginIteration();
+
+/*!
+ * \brief         MACRO used for ending a profiler iteration session.
+ */
 #define PROFILER_ITERATION_END()   debugging::logObject.profilerEndIteration();
+
+/*!
+ * \brief         MACRO used for starting a new profiler subsection.
+ */
 #define PROFILER_START(tag)        debugging::logObject.profilerBeginSection(tag);
+
+/*!
+ * \brief         MACRO used for ending a profiler subsection.
+ */
 #define PROFILER_END()             debugging::logObject.profilerEndSection();
+
+/*!
+ * \brief         MACRO used for dumping the latest profiler iteration to console.
+ */
 #define PROFILER_DUMP()            debugging::logObject.profilerDumpSectionToConsole(debugging::logObject.getLatestIteration());
 
 }

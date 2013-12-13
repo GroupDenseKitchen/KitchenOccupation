@@ -5,15 +5,11 @@
 #include "../Utilities/FrameList.hpp"
 #include "../Utilities/Algorithm.hpp"
 
-/*!
- * \brief   TODO
- * \details TODO
- */
+
 namespace statistics
 {
 /*!
  * \brief   Stuct which is used for a vector with pair values, people entered in a specific frame number.
- * \details TODO
  */
 struct flowVectorPair {
     flowVectorPair(int _flow,unsigned int _frameCount);
@@ -23,7 +19,6 @@ struct flowVectorPair {
 
 /*!
  * \brief   Stuct which is used for a vector with pair values.
- * \details TODO
  */
 struct CameraFlow {
     std::vector<flowVectorPair> inFlow;
@@ -31,8 +26,7 @@ struct CameraFlow {
 };
 
 /*!
- * \brief   Process step which calculates the flow in  and out through the door.
- * \details TODO
+ * \brief   Process step which calculates the flow of pepole through the door.
  */
 class FlowEstimator : public Algorithm
 { 
@@ -49,8 +43,7 @@ public:
 
     /*!
      * \brief        Performs the process step.
-     * \details      TODO
-     * \param frames TODO
+     * \details      Compute flow of detected objects passing trough the door as pepole per frame
      */
     void process(FrameList &frames);
 
@@ -58,12 +51,13 @@ public:
      * \brief      Initialize the algorithm.
      * \details    Returns false if initialization fails,
      *             e.g. if a required variable is not set.
-     * \param conf TODO
+     *
+     * \details    This algorithm has no configurable parameters
      */
      bool initialize(configuration::ConfigurationManager &conf);
 
 private:
-     std::vector<CameraFlow> cameraFlowVector;//vector to separate flow for different cameras.
+     std::vector<CameraFlow> cameraFlowVector; //vector to separate flow for different cameras.
      bool isSetup;
 };
 }

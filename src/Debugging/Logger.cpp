@@ -85,8 +85,7 @@ void Logger::clear()
 
 void Logger::reset()
 {
-    logFile.clear();
-    loopIterations.clear();
+    clear();
     iteration = 0;
 }
 

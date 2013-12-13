@@ -21,7 +21,7 @@
 *sublime-*
 build/*
 lib/*
-
+*.swp*
 *build*
 
 #something QT adds

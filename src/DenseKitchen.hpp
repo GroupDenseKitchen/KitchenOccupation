@@ -4,7 +4,6 @@
 #include "Utilities/utilities.hpp"
 #include "Network/Network.hpp"
 #include "Configuration/ConfigurationManager.hpp"
-#include "Debugging/Debug.hpp"
 #include "Utilities/Algorithm.hpp"
 
 
@@ -68,10 +67,16 @@ public:
     bool singleIteration();
 
     /*!
-     * \brief getFrames
-     * \return A pointer to the active FrameList.
+     * \brief   Get the current FrameList.
+     * \return  A pointer to the active FrameList.
      */
     FrameList* getFrames();
+
+    /*!
+     * \brief  Get the current settings.
+     * \return A pointer to the active settings.
+     */
+    configuration::ConfigurationManager* getSettings();
 
 private:
     FrameList frames;

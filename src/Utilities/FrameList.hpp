@@ -16,7 +16,7 @@ public:
 
     /*!
      * \brief              Constructor.
-     * \param framesToKeep TODO
+     * \param framesToKeep The last framesToKeep frames are saved in the FrameList object.
      */
     FrameList(int framesToKeep = 10);
 
@@ -27,155 +27,126 @@ public:
 
     /*!
      * \brief   Get the current (latest) Frame.
-     * \details TODO
-     * \return  TODO
      */
     Frame &getCurrent();
 
     /*!
      * \brief   Get the previous (previously latest) Frame.
-     * \details TODO
-     * \return  TODO
      */
     Frame &getPrevious();
 
     /*!
      * \brief   Weather there are two or more frames.
-     * \details TODO
-     * \return  TODO
      */
     bool hasPrevious();
 
     /*!
      * \brief          Append the FrameList with the latest Frame.
-     * \details        TODO
-     * \param newFrame TODO
      */
     void append(Frame newFrame);
 
     /*!
      * \brief   Get the number of frames in history.
-     * \details TODO
-     * \return  TODO
      */
     int size() { return (int)frames.size(); }
 
     /*!
      * \brief   Get the current frame counter.
-     * \details TODO
-     * \return  TODO
      */
     int getFrameCount() { return (int)frameCounter; }
 
     /*!
-     * \brief   TODO
-     * \details TODO
-     * \return  TODO
+     * \brief   Returns a matrix the binary exclusion mask.
      */
     cv::Mat getExclusionMask() const;
 
     /*!
-     * \brief       TODO
-     * \details     TODO
-     * \param value TODO
+     * \brief       Defines the exclusion mask (an area of the image set to constant zero).
+     * \param value A binary mask.
      */
     void setExclusionMask(const cv::Mat &value);
 
     /*!
-     * \brief   TODO
-     * \details TODO
-     * \return  TODO
+     * \brief   Query if an exclusion mask exists.
+     * \return  True if exists
      */
     bool hasExclusionMask();
 
     /*!
-     * \brief   TODO
-     * \details TODO
-     * \return  TODO
+     * \brief   Get the doorway.
+     * \return  A binary mask defining the doorway.
      */
     cv::Mat getDoorMask() const;
 
     /*!
-     * \brief       TODO
-     * \details     TODO
-     * \param value TODO
+     * \brief       Defines the doorway.
+     * \param value A binary mask.
      */
     void setDoorMask(const cv::Mat &value);
 
     /*!
-     * \brief   TODO
-     * \detials TODO
-     * \return  TODO
+     * \brief   Query if a door mask exists.
+     * \return  True if exists
      */
     bool hasDoorMask();
 
     /*!
-     * \brief   TODO
-     * \details TODO
-     * \return  TODO
+     * \brief   Returns the inverse of the exclusion mask
+     * \return  The inclusionMask.
      */
     cv::Mat getInclusionMask() const;
 
     /*!
-     * \brief       TODO
-     * \details     TODO
-     * \param value TODO
+     * \brief       Sets the inclusion mask.
+     * \param value A binary image.
      */
     void setInclusionMask(const cv::Mat &value);
 
     /*!
-     * \brief   TODO
-     * \details TODO
-     * \return  TODO
+     * \brief   Query if an inclusion mask exists.
+     * \return  True if an inclusion mask exists.
      */
     bool hasInclusionMask();
 
     /*!
-     * \brief   TODO
-     * \details TODO
-     * \return  TODO
+     * \brief   Query if checkpoint masks are set.
+     * \return  True if checkpoint masks exist.
      */
     bool hasCheckPointMasks();
 
     /*!
-     * \brief   TODO
-     * \details TODO
-     * \return  TODO
+     * \brief   Returns the smallest checkpoint mask.
+     * \return  A binary image containing the small checkpoint mask.
      */
     cv::Mat getCheckPointMaskSmall() const;
 
     /*!
-     * \brief       TODO
-     * \details     TODO
-     * \param value TODO
+     * \brief       Returns the smallest checkpoint mask.
+     * \param value A binary image containing the small checkpoint mask.
      */
     void setCheckPointMaskSmall(const cv::Mat &value);
 
     /*!
-     * \brief   TODO
-     * \details TODO
-     * \return  TODO
+     * \brief   Returns the smallest checkpoint mask.
+     * \return  A binary image containing the medium checkpoint mask.
      */
     cv::Mat getCheckPointMaskMedium() const;
 
     /*!
-     * \brief       TODO
-     * \details     TODO
-     * \param value TODO
+     * \brief   Returns the smallest checkpoint mask.
+     * \param   A binary image containing the medium checkpoint mask.
      */
     void setCheckPointMaskMedium(const cv::Mat &value);
 
     /*!
-     * \brief   TODO
-     * \details TODO
-     * \return  TODO
+     * \brief   Returns the smallest checkpoint mask.
+     * \return  A binary image containing the large checkpoint mask.
      */
     cv::Mat getCheckPointMaskLarge() const;
 
     /*!
-     * \brief       TODO
-     * \details     TODO
-     * \param value TODO
+     * \brief       Returns the smallest checkpoint mask.
+     * \param value A binary image containing the large checkpoint mask.
      */
     void setCheckPointMaskLarge(const cv::Mat &value);
 

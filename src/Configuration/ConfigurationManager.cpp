@@ -93,6 +93,7 @@ namespace configuration
 
     void ConfigurationManager::setBool(std::string name, bool value)
     {
+
         intBoolMap[name] = value;
     }
 
@@ -181,46 +182,63 @@ namespace configuration
                       nErrors << " errors out of a total " << nItemsRead << " attempts.");
         nErrors = 0;
         nItemsRead = 0;
+        cfgFilePath = filePath;
 
         configFile.release();
         return true;
 
     }
 
-    bool ConfigurationManager::configure(std::string name, bool &variable) {
-        if(!hasBool(name))
+    bool ConfigurationManager::configure(std::string name, bool& variable, bool defaultValue) {
+        if(!hasBool(name)) {
+            setBool(name, defaultValue);
+            variable = defaultValue;
             return false;
+        }
         variable = getBool(name);
         return true;
     }
 
-    bool ConfigurationManager::configure(std::string name, int &variable) {
-        if(!hasInt(name))
+    bool ConfigurationManager::configure(std::string name, int& variable, int defaultValue) {
+        if(!hasInt(name)) {
+            setInt(name, defaultValue);
+            variable = defaultValue;
             return false;
+        }
         variable = getInt(name);
         return true;
     }
-    bool ConfigurationManager::configure(std::string name, double &variable) {
-        if(!hasDouble(name))
+
+    bool ConfigurationManager::configure(std::string name, double& variable, double defaultValue) {
+        if(!hasDouble(name)) {
+            setDouble(name, defaultValue);
+            variable = defaultValue;
             return false;
+        }
         variable = getDouble(name);
         return true;
     }
-    bool ConfigurationManager::configure(std::string name, std::string &variable) {
-        if(!hasString(name))
+    bool ConfigurationManager::configure(std::string name, std::string& variable, std::string defaultValue) {
+        if(!hasString(name)) {
+            setString(name, defaultValue);
+            variable = defaultValue;
             return false;
+        }
         variable = getString(name);
         return true;
     }
 
-    bool ConfigurationManager::writeToFile(std::string filePath)
+    bool ConfigurationManager::writeToFile()
     {
         cv::FileStorage file;
+        std::string outputPath = cfgFilePath;
+        //replaceString(outputPath, ".yml", "_out.yml");
+
         try {
-            file.open(filePath, cv::FileStorage::WRITE);
+            file.open(outputPath, cv::FileStorage::WRITE);
         }
         catch (cv::Exception& e) {
-            LOG("Configuration Error", "Error opening file for writing at: " << filePath << ".");
+            LOG("Configuration Error", "Error opening file for writing at: " << outputPath << ".");
             return false;
         }
 
@@ -231,7 +249,7 @@ namespace configuration
             }
             catch (cv::Exception& e) {
                 LOG("Configuration Error", "Error writing int named: " << intBool->first <<
-                                           " with value: " << intBool->second << " to file " << filePath << ".");
+                                           " with value: " << intBool->second << " to file " << outputPath << ".");
             }
         }
 
@@ -242,7 +260,7 @@ namespace configuration
             }
             catch (cv::Exception& e) {
                 LOG("Configuration Error", "Error writing double named: " << dbl->first <<
-                                           " with value: " << dbl->second << " to file " << filePath << ".");
+                                           " with value: " << dbl->second << " to file " << outputPath << ".");
             }
         }
 
@@ -253,7 +271,7 @@ namespace configuration
             }
             catch (cv::Exception& e) {
                 LOG("Configuration Error", "Error writing string named: " << str->first <<
-                                           " with value: " << str->second << " to file " << filePath << ".");
+                                           " with value: " << str->second << " to file " << outputPath << ".");
             }
         }
 
@@ -264,7 +282,7 @@ namespace configuration
             }
             catch (cv::Exception& e) {
                 LOG("Configuration Error", "Error writing string sequence named: " << stringSeq->first <<
-                                           " to file " << filePath << ".");
+                                           " to file " << outputPath << ".");
             }
         }
 
