@@ -14,7 +14,9 @@
     #include "KinectHandlerOpenNi.hpp"
 #endif // ifdef __APPLE__
 
-//#include <curl/curl.h>
+#ifdef HEADLESS
+    #include <curl/curl.h>
+#endif
 
 /*!
  * \brief     the network namespace contains all system I/O functionality (sensors and web interface).
@@ -72,7 +74,7 @@ public:
      *              - If there is a queue to enter the room or not.
      * \param frame Frame whose data is to be broadcasted
      */
-    void broadcastData(Frame* frame);
+    void broadcastData(Frame &frame);
 
 private:
     bool initNetworkCameras(configuration::ConfigurationManager& settings,
@@ -93,10 +95,11 @@ private:
     Timer timer;
     Frame nextFrame;
     std::vector<cv::VideoCapture> streams;
-
-//    CURL *curl;
-//    CURLcode res;
-//    bool curlInitialized
+#ifdef HEADLESS
+    CURL *curl;
+    CURLcode res;
+ #endif
+    bool curlInitialized;
 
 };
 

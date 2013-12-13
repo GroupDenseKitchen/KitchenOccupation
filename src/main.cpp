@@ -19,6 +19,69 @@ std::vector<std::vector<cv::Point> > exclusionPolygons;
 bool drawAsCircle, isDrawingCircle;
 cv::Point circleCenter;
 int circleRadius;
+cv::Mat doorMask, exclusionMask, imageWithMask, checkpointMaskSmall, checkpointMaskMedium, checkpointMaskLarge;
+
+void drawPolygonsToMat(cv::Mat targetMat, const cv::Point **polygonPtrPtr, int numberOfPoints[], cv::Scalar color)
+{
+    fillPoly( targetMat,
+              polygonPtrPtr,
+              numberOfPoints,
+              1,
+              color,
+              8 );
+}
+
+void drawPolygons(std::string maskType, std::vector<std::vector<cv::Point> > polygons, cv::Scalar color)
+{
+    for(int i = 0; i < polygons.size(); i++){
+        const cv::Point* polygonPtr = polygons[i].data();
+        const cv::Point** polygonPtrPtr = &polygonPtr;
+
+        int numberOfPoints[] = {polygons[i].size()};
+
+        //drawPolygonsToMat(imageWithMask, polygonPtrPtr, numberOfPoints, color);
+
+        if(maskType == "doorPolygons"){
+            drawPolygonsToMat(doorMask, polygonPtrPtr, numberOfPoints, cv::Scalar(255,255,255));
+        } else if(maskType == "exclusionPolygons") {
+            drawPolygonsToMat(exclusionMask, polygonPtrPtr, numberOfPoints, cv::Scalar(255,255,255));
+        }
+    }
+}
+void drawCheckPointCircles()
+{
+    cv::circle(checkpointMaskSmall,  circleCenter, circleRadius,       cv::Scalar(255,255,255),-1); //Small
+    cv::circle(checkpointMaskMedium, circleCenter, 1.1*circleRadius,   cv::Scalar(255,255,255),-1); //Medium
+    cv::circle(checkpointMaskLarge,  circleCenter, 1.2*circleRadius,   cv::Scalar(255,255,255),-1); //Large
+}
+
+void drawPolygon(std::vector<cv::Point> polygon, cv::Scalar color)
+{
+    const cv::Point* polygonPtr = polygon.data();
+    const cv::Point** polygonPtrPtr = &polygonPtr;
+
+    int numberOfPoints[] = {polygon.size()};
+
+    drawPolygonsToMat(imageWithMask, polygonPtrPtr, numberOfPoints, color);
+}
+
+void drawPolygonsToMasks()
+{
+    //imageWithMask = matImage.clone();
+
+    doorMask = cv::Mat::zeros(480, 640, CV_8UC3);
+    exclusionMask = cv::Mat::zeros(480, 640, CV_8UC3);
+
+    checkpointMaskSmall = cv::Mat::zeros(480, 640, CV_8UC3);
+    checkpointMaskMedium = cv::Mat::zeros(480, 640, CV_8UC3);
+    checkpointMaskLarge = cv::Mat::zeros(480, 640, CV_8UC3);
+
+    drawCheckPointCircles();
+    drawPolygons("exclusionPolygons", exclusionPolygons, cv::Scalar(255,45,70));
+    drawPolygons("doorPolygons", doorPolygons, cv::Scalar(63,232,41));
+    //drawPolygon(polygon, cv::Scalar(255,218,56));
+}
+
 
 bool readMasks(std::vector<std::vector<cv::Point> > &polygons, std::string nodeName)
 {
@@ -65,6 +128,22 @@ void loadMaskFromFile()
     configFile.release();
     //sendMasksToFrameList();
 }
+void sendMasksToFrameList(DenseKitchen* mainProgram)
+{
+    mainProgram->getFrames()->setDoorMask(doorMask);
+    mainProgram->getFrames()->setExclusionMask(exclusionMask);
+    mainProgram->getFrames()->setCheckPointMaskSmall(checkpointMaskSmall);
+    mainProgram->getFrames()->setCheckPointMaskMedium(checkpointMaskMedium);
+    mainProgram->getFrames()->setCheckPointMaskLarge(checkpointMaskLarge);
+
+    cv::Mat inclusionMask;
+    inclusionMask.create(exclusionMask.rows, exclusionMask.cols, exclusionMask.type());
+    inclusionMask.zeros(exclusionMask.rows, exclusionMask.cols, exclusionMask.type());
+    cv::bitwise_not(exclusionMask, inclusionMask);
+
+    mainProgram->getFrames()->setInclusionMask(inclusionMask);
+
+}
 
 /*
 mainProgram->getFrames()->setDoorMask(doorMask);
@@ -84,20 +163,29 @@ int main(int argc, char *argv[])
     debugProgram.show();
 
     return a.exec();
-#else    
+#else
+
+    loadMaskFromFile();
+    drawPolygonsToMasks();
    DenseKitchen dk = DenseKitchen();
+
    bool ok = dk.initialize("dense_conf.yml");
+
+
    if(ok == false){
 	printf("error initing ! \n");
 	exit(-1);
    }else{
-	printf("INIT SUCCESS, NOW RUNNING!!! \n");
+
+        printf("INIT SUCCESS, NOW RUNNING!!! \n");
    }
    
    bool iterOK = true;
 
+
    	//run the acual program
    	iterOK = dk.singleIteration();
+
 	FrameList* frames = dk.getFrames();
 	cv::Mat fakeMask;
 	if(frames->getCurrent().getCameras().size() > 0){
@@ -108,13 +196,7 @@ int main(int argc, char *argv[])
 		fakeMask.setTo(cv::Scalar(255,255,255));
 	}	
 
-	//checkpoint masks
-	frames->setCheckPointMaskSmall(fakeMask.clone());
-	frames->setCheckPointMaskMedium(fakeMask.clone());
-	frames->setCheckPointMaskLarge(fakeMask.clone());	
-   	frames->setInclusionMask(fakeMask.clone());	
-	frames->setDoorMask(fakeMask.clone());	
-	frames->setExclusionMask(fakeMask.clone());
+    sendMasksToFrameList(&dk);
 
    cv::VideoWriter vw("outfile.mov",CV_FOURCC('D','I','V','X'), 30, 
 	frames->getCurrent().

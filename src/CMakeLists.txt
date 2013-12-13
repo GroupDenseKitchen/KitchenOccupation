@@ -57,6 +57,15 @@ IF(WIN32)
         MESSAGE( STATUS "OPENNI2_LIBS: " ${OPENNI2_LIBS} )
 
         cmake_policy(SET CMP0020 NEW) # Remove cmake warnings
+
+        IF(headless)
+            INCLUDE_DIRECTORIES($ENV{CURL_INCLUDE_DIR})
+            FIND_LIBRARY( CURL_LIBS
+            NAMES libcurl_imp
+            HINTS $ENV{CURL_LIBS}
+            PATH_SUFFIXES lib)
+        MESSAGE( STATUS "CURL_LIBS: " ${CURL_LIBS} )
+        ENDIF()
     ENDIF()
 ENDIF()
 
@@ -117,7 +126,9 @@ TARGET_LINK_LIBRARIES (dense_kitchen
     # ExtLib
     ${OpenCV_LIBS}
     ${OPENNI2_LIBS}
+    ${CURL_LIBS}
 )
+
 
 # Activate Qt for project
 # Must be the last line in this file, else { FAIL }

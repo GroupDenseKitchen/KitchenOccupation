@@ -3,7 +3,7 @@
 bool DenseKitchen::initialize(std::string path) {
     isInitialized = true;
     isEvalInitialized = true;
-
+    counter = 0;
     PROFILER_ITERATION_START();
     algorithmFactory.clear();
     /*
@@ -87,7 +87,7 @@ void DenseKitchen::reset()
 bool DenseKitchen::singleIteration() {
 
     bool iterationSuccess = true;
-
+    counter++;
     if(isInitialized) {
         PROFILER_ITERATION_START();
             PROFILER_START("Network deque");
@@ -111,7 +111,9 @@ bool DenseKitchen::singleIteration() {
                     PROFILER_END();
                     //evaluator.printToLog(); // Prints MOTA & MOTP for every frame.
                 }
-                //network.broadcastData(currentFrame);
+
+                network.broadcastData(frames.getCurrent());
+
             } else {
                 if (isEvalInitialized) {
                     evaluator.printToLog();

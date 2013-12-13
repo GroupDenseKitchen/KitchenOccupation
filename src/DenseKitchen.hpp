@@ -89,6 +89,8 @@ private:
 
     std::string configPath;
 
+    int counter;
+
 };
 
 #endif
