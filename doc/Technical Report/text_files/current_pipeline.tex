@@ -1,17 +1,56 @@
-This section describes the image processing pipleine that is delvired with the system and that has yielded the best performance so far.
+This section describes the image processing pipeline that is delivered with the system and that has yielded the best performance so far.
 
 \subsection{Sensors}
-After reading several papers on single camera top-down view people counting and implementing the methods described in said papers, the realization was made that, in order to be able to solve the problem described in section \ref{sec:introduction}, some form of depth information would be necessary. Both stereo and Kinect-style sensors were considered. However due to time limitations and a customer desire to run the system on cheap hardware, the Microsoft Kinect sensor was chosen.
+After reading several papers on single camera top-down view people counting and implementing the methods described in said papers, the realisation was made that, in order to be able to solve the problem described in section \ref{sec:introduction}, some form of depth information would be necessary. Both stereo and Kinect-style sensors were considered. However due to time limitations and a customer desire to run the system on cheap hardware, the Microsoft Kinect sensor was chosen.
 
 \subsection{Image processing}
-The human segmentation is based on the assumption that the human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ more than a head in height.\\
-\\
-Only distances far above ground is considered which naturally segment between tall objects, providing a similar situation as acquired in \ref{sec:bg_subtraction} but with more distinguishable objects and without the problem of losing still objects. How well people are distinguished can be improved by ignoring even closer depths, but with the risk of missing shorter persons. An additional trick is done in order to detect at least some people still occluded by standing to close together. This is done by a second segmentation... (not done)
+The human segmentation is based on the assumption that human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ much more than a head in height. It is realised by a series of threshold and morphological operations, contour drawing and searches for local maxima. The output from some of the steps in the segmentation algorithm can be seen in \ref{fig:image_processing_steps}.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\linewidth]{images/image_processing_steps.png}
+	\caption[Image processing steps]{\textit{Image processing steps.\\
+		Top left: Raw depth image.\\ 
+		Top right: Image after first threshold operation.\\ 
+		Bottom left: Contour drawing and local maxima detection.\\ 
+		Bottom right: Segmented human heads.}}
+	\label{fig:image_processing_steps}  %Skapar referens till figuren
+\end{figure}
 
 \subsection{Tracking and counting}
-The tracking algorithm performs six different steps for each frame iteration. The tracker has a list with objects from the last frame and a list with current objects found by earlier image processing steps. The tracker pairs closest objects with each other from previous frame to the current frame. \\ \\
-To register if objects enters and exits the room the objects has to fulfill some requirements. To be considered as entered, an object has to be created for the first time in the set door area and pass three circle lines and by that be elevated to a real object. To be registered as exited an object has to be a real object and disappear inside the door area, while also at least once passed the three lines.
+The tracking algorithm performs six different steps for each frame iteration. The tracker has a list with objects from the last frame and a list with current objects found by earlier image processing steps. The tracker pairs closest objects with each other from previous frame to the current frame. 
+\\ \\
+To register if objects enter and exit the room the objects has to fulfill some requirements. To be considered as entered, an object has to be found in a set door area, pass three circle lines and have existed a set amount of frames. To be registered as exited an object has to have existed a set amount of frames and disappear inside the door area, while also at least once passed the three lines. Exaples of these circle lines and door area can be seen in \ref{fig:entry_exit}.
 
-\subsection{Queue detection}
-Information about: how do i detect queue?
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.8\linewidth]{images/entry_exit_circles.png}
+	\caption[Entry exit circles]{\textit{Entry and exit counting. Thre circes are used to decide when a person has entered. The green area is the door area.}}
+	\label{fig:entry_exit}  %Skapar referens till figuren
+\end{figure}
+
+
+\subsection{Queue severity estimation}
+Queues are detected by using the positions and velocities, which are calculated using a simple Kalman filter, of all visible persons. This information is used to draw splines between each of the visible persons. Two people are then considered to be in a queue if a short enough spline can be drawn between them. The result is that persons that stand still or move slowly along the same path are considered to be in a queue. Examples of this can be seen in \ref{fig:visible_queue} and \ref{fig:no_queue}.
+\\ \\
+Queue severity is estimated by considering the proportion of frames with visible queues, and optionally the amount of people inside the room, over a set time interval. 
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.9\linewidth]{images/visibleQueue.png}
+  \caption{Persons close together and moving slowly and thus in the same queue.}
+  \label{fig:visible_queue}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.9\linewidth]{images/noQueue.png}
+  \caption{Persons moving in different directions and therefore not in a queue.}
+  \label{fig:no_queue}
+\end{subfigure}
+\caption[Queue detection]{\textit{Detection of queues using splines.}}
+\label{fig:queue_detection}
+\end{figure}
+
+
 

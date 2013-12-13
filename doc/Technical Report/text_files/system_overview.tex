@@ -8,7 +8,7 @@ The system counts the people entering and leaving a room, presents a classificat
 \end{figure}
 
 \subsection{Platform and hardware requirements}
-The system runs and has been tested on Windows, Mac OS X, and Linux. It has  run at real time frame rates on a Linux virtual machine with as low as ----- insert the smallest processing power tested on VM -----. It has not been tested on any embedded devices but should work given that the device has sufficient processing power. Care must be taken when considering embedded devices so that the USB module can handle the data volumes needed to stream both RGB and depth images from the Kinect device at 30 fps. 
+The system runs and has been tested on Windows, Mac OS X, and Linux. It has  run at real time frame rates on a Linux virtual machine with 512 MB RAM but has not been tested on any embedded devices. It however should work given that the device has sufficient processing power. Care must be taken when considering embedded devices so that the USB module can handle the data volumes needed to stream depth images from the Kinect device at 30 fps. 
 
 \subsection{Configuration}
 The whole system can be configured by editing the plain text YAML configuration files. Among other things, it is possible to set what image processing algorithms should be run, in what order to run them and the value of most parameters. Many components in the Debug GUI, camera settings and important file paths are also set in the configuration files. 
