@@ -6,7 +6,7 @@ After reading several papers on single camera top-down view people counting and 
 \subsection{Image processing}
 The human segmentation is based on the assumption that the human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ more than a head in height.\\
 \\
-Only distances far above ground is considered which naturally segment between tall objects, providing a similar situation as acquired in \ref{sec:bg_subtraction} but with more distinguishable objects and without the problem of losing still objects. 
+Only distances far above ground is considered which naturally segment between tall objects, providing a similar situation as acquired in \ref{sec:bg_subtraction} but with more distinguishable objects and without the problem of losing still objects. How well people are distinguished can be improved by ignoring even closer depths, but with the risk of missing shorter persons. An additional trick is done in order to detect at least some people still occluded by standing to close together. This is done by a second segmentation... (not done)
 
 \subsection{Tracking and counting}
 Information about tracking (Kalman filter) and people counting (different area and such)
