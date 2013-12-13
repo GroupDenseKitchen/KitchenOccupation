@@ -1,7 +1,6 @@
 #ifndef DEBUGVIEWWIDGET_HPP
 #define DEBUGVIEWWIDGET_HPP
 
-#include "CvImageWidget.hpp"
 #include "../Utilities/Frame.hpp"
 #include <QWidget>
 #include <opencv2/core/core.hpp>

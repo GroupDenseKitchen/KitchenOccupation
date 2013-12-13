@@ -21,9 +21,9 @@ Analytics:
 Evaluation:
    - EntryExitEvaluator
 cameraPaths:
-   - "/Users/erikfall/Dropbox/Dense Kitchen (1)/seq8.mp4"
+   - "/Users/Niko/Dropbox/Liu/TSBB11/Dense Kitchen/seq11.mp4"
 videoFilePaths:
-   - "../data/seq9/seq9-3.mp4"
+   - "/Users/Niko/Dropbox/Liu/TSBB11/Dense Kitchen/seq11.mp4"
 trackerGroundTruthPaths:
    - "../data/seq3/seq3GT.xml"
 entryExitGroundTruthPaths:

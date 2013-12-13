@@ -1,7 +1,7 @@
-In order to measure performance some form of performance metric need to be defined, and test data and training data needed to be collected from several system use cases.
+In order to measure performance a performance metric needs to be defined, and test data and training data needs to be collected from several system use cases. The number of people entering and exiting is thoroughly evaluated according to the below described criteria. However, because the queue severity estimation is poorly defined, this part of the system has only been visually inspected to ensure reasonable results. 
 
 \subsection{Ground Truth}
-The evaluation needs access to some sort of ground truth which defines the best possible achievable counter output. Currently the ground truth files consist of arrays with each values for each frame denoting how many people entered or exited in that specific frame. Since the focus of the system lies on maintaining a correct count over some time, the exact moment when a person exits the room is of less importance.
+The evaluation needs access to ground truth data, which defines the best possible achievable counter output. Currently the ground truth files consist of arrays with values for each frame denoting how many people entered or exited in that specific frame. Since the focus of the system lies on maintaining a correct count over some time, the exact moment when a person exits the room is deemphasized.
 
 \subsection{Evaluation Metric}
 Reading several papers on the subject of people counting it became clear that no standard for measuring people counting performance exists. In the absence of such a standard the below measurement methods were chosen since they are thought to provide an accuracy measurement of the outputs the customer is most likely to be interested in (total number of people using the room, and total number of people currently in the room).
