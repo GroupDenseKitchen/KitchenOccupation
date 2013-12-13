@@ -32,27 +32,25 @@ public:
      * \details Returns false if initialization fails, e.g. if a required variables is not set.
      *
      * \details Configurable algorithm parameters are:
-     *              - lowThreshold:                 TODO: add description for this parameter here
-     *              - highThreshold:                TODO: add description for this parameter here
-     *              - houghThreshold:               TODO: add description for this parameter here
-     *              - kernelSize:                   TODO: add description for this parameter here
-     *              - downSamplingFactor:           TODO: add description for this parameter here
-     *              - averageCircleFilterSize:      TODO: add description for this parameter here
-     *              - circleFilterRadiusDifference: TODO: add description for this parameter here
-     *              - maskOutForeground:            TODO: add description for this parameter here
-     *              - detectionThreshold:           TODO: add description for this parameter here
+     *              - lowThreshold:                 Lower threshold for the Canny edge detection algorithm.
+     *              - highThreshold:                Upper threshold for the Canny edge detection algorithm.
+     *              - kernelSize:                   Kernel size for the smoothing step inte Canny algorithm.
+     *              - downSamplingFactor:           x and y axis scale factor for image downsampling.
+     *              - averageCircleFilterSize:      Average size of the hough circle filter.
+     *              - circleFilterRadiusDifference: Diversity of circle filter size.
+     *              - maskOutForeground:            Toggle if background subtraction is to be used or not.
+     *              - detectionThreshold:           Voting threshold. A voting score higher than detectionThreshold is needed to
+     *                                              genereate a detection.
      *
      * \return     True if successful.
      */
     bool initialize(configuration::ConfigurationManager &settings) override;
 
     /*!
-     * \brief        Uses Canny edge detector on each of the image channels, combines them,
-     *               and convolves the result with a kernel designed to detect circes and
-     *               ellipses. The result is thresholded and high enough values are used as
+     * \brief        Uses Canny edge detector on each image channel.
+     * \details      Combines them individual per-channel Canny output and convolves the result with a kernel designed to
+     *               detect circes and ellipses. The result is thresholded and high enough values are used as
      *               person hypotheses.
-     * \details      TODO
-     * \param frames TODO
      */
     void process(FrameList &frames) override;
 
