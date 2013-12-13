@@ -44,7 +44,6 @@ public:
     /*!
      * \brief        Performs the process step.
      * \details      Compute flow of detected objects passing trough the door as pepole per frame
-     * \param frames TODO
      */
     void process(FrameList &frames) override;
 
@@ -54,8 +53,6 @@ public:
      *             e.g. if a required variable is not set.
      *
      * \details    This algorithm has no configurable parameters
-     *
-     * \param conf TODO
      */
      bool initialize(configuration::ConfigurationManager &conf) override;
 
