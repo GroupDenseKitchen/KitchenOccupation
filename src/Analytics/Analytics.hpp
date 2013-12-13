@@ -14,8 +14,6 @@ namespace statistics
 /*!
  * \brief   The Analytics is the interface to statistical analysis of Frames.
  * \details Performs higher level analysis of the frame data, like estimating queue length etc
- * \version 0.1
- * \date    2013-10-07
  */
 class Analytics : public Algorithm
 {
