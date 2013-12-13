@@ -52,7 +52,6 @@ class ConfigurationManager
 
         /*!
          * \brief      Checks availability of a double-type property.
-         * \details    TODO
          * \param name Name of requested property.
          * \return     Returns true if specified property exists.
          */
@@ -67,7 +66,6 @@ class ConfigurationManager
 
         /*!
          * \brief      Checks availability of a vector<string>-type property.
-         * \details    TODO
          * \param item Name of requested property.
          * \return     Returns true if specified property exists.
          */
@@ -124,7 +122,6 @@ class ConfigurationManager
 
         /*!
          * \brief       Sets value of double with key "name".
-         * \details     TODO
          * \param name  Name of the double variable in question.
          * \param value New value of the double variable in question.
          */
