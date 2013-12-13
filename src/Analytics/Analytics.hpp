@@ -13,7 +13,7 @@ namespace statistics
 {
 /*!
  * \brief   The Analytics is the interface to statistical analysis of Frames.
- * \details TODO
+ * \details Performs higher level analysis of the frame data, like estimating queue length etc
  * \version 0.1
  * \date    2013-10-07
  */
@@ -36,21 +36,21 @@ class Analytics : public Algorithm
          *
          * \details        This algorithm acts as an interface to a set of subalgorithms and has no configurable parameters.
          *
-         * \param settings TODO
+         * \param settings Configuration settings for all subalgorithms
          * \return         True if successful.
          */
         bool initialize(configuration::ConfigurationManager & settings) override;
 
         /*!
-         * \brief   TODO
-         * \details TODO
+         * \brief   Reset the analytics interface
+         * \details Not currently implemented
          */
         void reset();
 
         /*!
          * \brief        Perform all Statistics algorithms in order.
-         * \details      TODO
-         * \param frames TODO
+         * \details      Pass the frame list to each analytics algorithm in order
+         * \param frames
          */
         void process(FrameList &frames) override;
 
