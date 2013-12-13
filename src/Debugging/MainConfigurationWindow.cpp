@@ -145,8 +145,6 @@ void MainConfigurationWindow::sendMasksToFrameList()
     cv::bitwise_not(exclusionMask, inclusionMask);
 
     mainProgram->getFrames()->setInclusionMask(inclusionMask);
-
-    close();
 }
 
 void MainConfigurationWindow::updateGUIImages()
@@ -289,7 +287,7 @@ void MainConfigurationWindow::keyPressEvent(QKeyEvent *e)
         break;
     case Qt::Key_Return:
     case Qt::Key_Enter:
-
+        on_applyButton_clicked();
     default:
         break;
     }
@@ -399,12 +397,14 @@ bool MainConfigurationWindow::readMasks(QVector<QVector<cv::Point>> &polygons, s
 void MainConfigurationWindow::on_clearAllButton_clicked()
 {
     doorPolygons.clear();
-    doorMask.create(640, 480, CV_8UC3);
-    doorMask.zeros(640, 480, CV_8UC3);
+    doorMask = cv::Mat::zeros(640, 480, CV_8UC3);
     exclusionPolygons.clear();
-    exclusionMask.create(640, 480, CV_8UC3);
-    exclusionMask.zeros(640, 480, CV_8UC3);
+    exclusionMask = cv::Mat::zeros(640, 480, CV_8UC3);
     polygon.clear();
+
+    circleCenter = cv::Point(0,0);
+    circleRadius = 0;
+
     updateGUIImages();
 }
 
@@ -416,6 +416,7 @@ void MainConfigurationWindow::on_cancelButton_clicked()
 void MainConfigurationWindow::on_applyButton_clicked()
 {
     sendMasksToFrameList();
+    close();
 }
 
 void MainConfigurationWindow::on_circleCheckBox_clicked(bool checked)

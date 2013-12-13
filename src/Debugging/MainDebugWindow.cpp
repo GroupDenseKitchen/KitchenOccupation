@@ -115,6 +115,11 @@ void MainDebugWindow::init(string mainConfigFile, string guiConfigFile)
     profilerTree->setColumnWidth(1, 80);
     profilerTree->setColumnWidth(2, 80);
 
+    // ------ Logo -------------------------------------
+    QImage logo;
+    logo.load("GDKmini.png");
+    ui->logoLabel->setPixmap(QPixmap::fromImage(logo));
+
     // ------ Timer -------------------------------------
     timer = new QTimer;
     connect(timer, SIGNAL(timeout()), this, SLOT(updateGUI()));
@@ -508,13 +513,6 @@ void MainDebugWindow::on_stepForwardButton_clicked()
     if(program->singleIteration()){
         updateGuiComponents();
     }
-
-}
-
-void MainDebugWindow::on_stepBackwardButton_clicked()
-{
-    isRunning = false;
-    // TODO
 }
 
 void MainDebugWindow::on_popWindowButton_clicked()
@@ -540,11 +538,6 @@ void MainDebugWindow::on_expandDepthSpinBox_valueChanged(int arg1)
 {
     profilerExpandDepth = arg1;
     profilerTree->expandToDepth(profilerExpandDepth);
-}
-
-void MainDebugWindow::on_configureButton_clicked()
-{
-    configurationWindow->show();
 }
 
 void MainDebugWindow::on_actionClear_triggered()
