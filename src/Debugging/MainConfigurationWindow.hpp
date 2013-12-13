@@ -108,7 +108,6 @@ private slots:
     void on_clearAllButton_clicked();
     void on_cancelButton_clicked();
     void on_applyButton_clicked();
-    void on_addAsCheckpointButton_clicked();
     void on_circleCheckBox_clicked(bool checked);
 
 };

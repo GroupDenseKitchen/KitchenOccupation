@@ -313,11 +313,6 @@ void MainConfigurationWindow::on_addAsExclusionButton_clicked()
     updateGUIImages();
 }
 
-void MainConfigurationWindow::on_addAsCheckpointButton_clicked()
-{
-
-}
-
 void MainConfigurationWindow::on_saveMasksButton_clicked()
 {
     configFile.open(masksConfigFile, cv::FileStorage::WRITE);
