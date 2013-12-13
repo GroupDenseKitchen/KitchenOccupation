@@ -35,7 +35,8 @@ public:
      * \details Configurable algorithm parameters are:
      *              - maximumDistance:                The maximum distance a object can be considered to have moved since last frame.
      *              - minimumLifeSpan:                The minimal time (in # frames) a potential object must have existed (and been tracked) before it is considered a real object.
-     *              - maximumTimeLostStill:           The maximum time (in # frames) a object is allowed to be lost before it is forgotton.
+     *              - maximumTimeLostStill:           The maximum time (in # frames) a object is allowed to be lost before it is forgotten.
+     *              - maximumTimeLostStill:           The maximum time (in # frames) a object is allowed to be lost in the door area before it is forgotten.
      *
      * \return     True if successful.
      */
