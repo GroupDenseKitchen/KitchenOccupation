@@ -7,7 +7,6 @@
 #include <opencv2/core/core.hpp>
 #include <algorithm>
 #include <math.h>
-#include <QDebug>
 
 namespace image_processing{
 
@@ -16,13 +15,45 @@ struct FlowVector{
     cv::Point2f flow;
 };
 
+
+/*!
+ * \brief       Computes the optical flow and does some basic segmentation based on it.
+ * \details     The algorithm performs the following steps \n
+ *              1) The algorithm converts the image to grayscale
+ *              2) The algorithm runs a keypoint detector
+ *              3) The algorithm tracks the points over a few frames
+ *              4) Re-run the detector when to many points have been lost
+ *              5) Average the flow vectors blockwise
+ *              The algorithm does not:
+ *              1) Compute an acual segmentation
+ *              2) Run fast enough to be practical
+ */
 class OpticalFlowSegmentation : public Algorithm
 {
 public:
+    /*!
+     * \brief constructor
+     */
     OpticalFlowSegmentation();
+    /*!
+     * \brief destructor
+     */
     ~OpticalFlowSegmentation();
 
+    /*!
+     * \brief   The processing performs an optical flow calculation and averages the resulting vectors blockwise
+     */
     void process(FrameList &frames) override;
+    /*!
+     * \brief      Initialize the algorithm.
+     * \details    Returns false if initialization fails,
+     *             e.g. if a required variable is not set.
+     *
+     *  \details   Configurable algorithm parameters are:
+     *             This algorigthm does not have any configurable parameters
+     *
+     * \return     True if successful.
+     */
     bool initialize(configuration::ConfigurationManager &settings) override;
 private:
     void getOpticalFlow(cv::Mat current, cv::Mat prev);
