@@ -203,7 +203,7 @@ int main(int argc, char *argv[])
     drawPolygonsToMasks();
    DenseKitchen dk = DenseKitchen();
 
-   bool ok = dk.initialize("dense_conf.yml");
+   bool ok = dk.initialize("mainConfig.yml");
 
 
    if(ok == false){

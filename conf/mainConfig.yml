@@ -22,8 +22,8 @@ Evaluation:
 cameraPaths:
    - "/Users/gustavhager/Desktop/TSBB11/project/data/seq9/seq9-4.mp4"
 videoFilePaths:
-   - "/Users/gustavhager/Desktop/TSBB11/project/data/seq9/seq9-3.mp4"
+   - "../data/seq9/seq9-3.mp4"
 trackerGroundTruthPaths:
   - "/Users/gustavhager/Desktop/TSBB11/project/data/seq9/seq9-4GT.xml"
 entryExitGroundTruthPaths:
-  - "/Users/gustavhager/Desktop/TSBB11/project/data/seq9/seq9-3.yml"
+  - "../seq9/seq9-3.yml"
