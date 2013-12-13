@@ -4,7 +4,9 @@ This section describes the image processing pipleine that is delvired with the s
 After reading several papers on single camera top-down view people counting and implementing the methods described in said papers, the realization was made that, in order to be able to solve the problem described in section \ref{sec:introduction}, some form of depth information would be necessary. Both stereo and Kinect-style sensors were considered. However due to time limitations and a customer desire to run the system on cheap hardware, the Microsoft Kinect sensor was chosen.
 
 \subsection{Image processing}
-Information about the current image processing steps, thresholding etc etc.
+The human segmentation is based on the assumption that the human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ more than a head in height.\\
+\\
+Only distances far above ground is considered which naturally segment between tall objects, providing a similar situation as acquired in \ref{sec:bg_subtraction} but with more distinguishable objects and without the problem of losing still objects. How well people are distinguished can be improved by ignoring even closer depths, but with the risk of missing shorter persons. An additional trick is done in order to detect at least some people still occluded by standing to close together. This is done by a second segmentation... (not done)
 
 \subsection{Tracking and counting}
 Information about tracking (Kalman filter) and people counting (different area and such)

@@ -58,8 +58,8 @@ Style2*=-- ,Style3*=$\circ$ ,Style4*=\tiny$\blacksquare$ )
 
 \fancyhf{}
 \fancyhead[LE, RO]{\thepage}
-\fancyhead[RE]{TSBB15 2013: User's Manual}
-\fancyhead[LO]{Object Tracking in Image Sequences}
+\fancyhead[RE]{TSBB15 2013: User Manual}
+\fancyhead[LO]{Kitchen Occupation}
 
 \fancypagestyle{plain}{ %
 \fancyhf{} % remove everything
@@ -137,27 +137,30 @@ Style2*=-- ,Style3*=$\circ$ ,Style4*=\tiny$\blacksquare$ )
 \pagenumbering{arabic}
 
 \newpage
-\section{Introduction??}
+\section{Introduction}
 \label{sec:introduction}
 \input{text_files/introduction.tex}
-
 \newpage
-\section{System Setup}
-\label{sec:}
-\input{text_files/system_setup.tex}
-
+\section{Installing the system}
+\label{sec:installation}
+\input{text_files/systemInstallation.tex}
 \newpage
-\section{The User Interface}
-\label{sec:evaluation}
-\input{text_files/user_interface.tex}
-
+\section{Calibrating the system}
+\label{sec:calibration}
+\input{text_files/systemCalibration.tex}
 \newpage
-\section{Configuring the System}
-\label{sec:current_pipeline}
-\input{text_files/configuration.tex}
+\section{Configuration the system}
+\label{sec:configuration}
+\input{text_files/systemConfiguration.tex}
+\newpage
 
 
-
+% Force a blank page so the bibliography starts on a new page.
+% Comment out if not necessary
+%\newpage
+\thispagestyle{fancy}
+\mbox{}
+\input{text_files/bibliography.tex}
 
 
 
