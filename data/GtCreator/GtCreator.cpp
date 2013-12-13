@@ -10,8 +10,8 @@ void createConfigFile(std::string cfgFile)
     // Open file
     cv::FileStorage textFile(cfgFile,cv::FileStorage::WRITE);
     // Add data to file
-    textFile << "videoFilePath" << "../seq3/seq3.mp4";
-    textFile << "GTDataFilePath" << "../seq3/seq3EntryExitGT.yml";
+    textFile << "videoFilePath" << "/Users/erikfall/Desktop/name.mp4";
+    textFile << "GTDataFilePath" << "/Users/erikfall/Desktop/Eval.yml";
     // Saves file
     textFile.release();
 }
@@ -45,12 +45,12 @@ int main()
     if (videoFile.isOpened()) {
         // While frames left
         while (videoFile.read(frame)) {
-            int actualFrame = videoFile.get(CV_CAP_PROP_POS_FRAMES);
+            int currentFrame = videoFile.get(CV_CAP_PROP_POS_FRAMES);
 
             // Print entries and exits in frame
             std::string text = "", text1 = "", text2 = "";
             std::stringstream s, s1, s2;
-            s << actualFrame;
+            s << currentFrame;
             s1 << entryFrame;
             s2 << exitFrame;
             text = "Frame number: " + s.str();
@@ -65,45 +65,53 @@ int main()
             cv::putText(frame, text, pos, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
             cv::putText(frame, text1, pos1, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
             cv::putText(frame, text2, pos2, fontFace, fontScale, cv::Scalar(255,0,0), thickness, 8);
-
             cv::imshow("MahVidyaWindow",frame);
+
+
+
+
 
             c = cv::waitKey(0); // Wait for any key to be pressed
 
             // To exit the program, using esc
-            if (c == 27){
+            if (c == 'q'){
                 entries.push_back(entryFrame);
                 exits.push_back(exitFrame);
                 break;
             }
             // To back one step, using z
-            else if (c == 122){               
+            else if (c == 'z'){
                 entryFrame = entries.back();
                 exitFrame = exits.back();
                 entries.pop_back();
                 exits.pop_back();
-                actualFrame = videoFile.set(CV_CAP_PROP_POS_FRAMES, actualFrame-2);
+                videoFile.set(CV_CAP_PROP_POS_FRAMES, currentFrame-1);
             }
             // To step forward, using x
-            else if (c == 120){
+            else if (c == 'x'){
                 entries.push_back(entryFrame);
                 exits.push_back(exitFrame);
                 entryFrame = 0;
                 exitFrame = 0;
             }
             // Someone exits, using -
-            else if(c == 45){
+            else if(c == '-'){
                 exitFrame = exitFrame + 1;
-                actualFrame = videoFile.set(CV_CAP_PROP_POS_FRAMES, actualFrame-1);
+                videoFile.set(CV_CAP_PROP_POS_FRAMES, currentFrame);
             }
             // Someone enters, using +
-            else if (c == 43){
+            else if (c == '+'){
                 entryFrame = entryFrame + 1;
-                actualFrame = videoFile.set(CV_CAP_PROP_POS_FRAMES, actualFrame-1);
+                videoFile.set(CV_CAP_PROP_POS_FRAMES, currentFrame);
             }
-            // To ignore all other keys
-            else
-                actualFrame = videoFile.set(CV_CAP_PROP_POS_FRAMES, actualFrame-1);
+            else{
+                entries.push_back(entryFrame);
+                exits.push_back(exitFrame);
+                entryFrame = 0;
+                exitFrame = 0;
+            }
+
+
 
         }
 
