@@ -10,6 +10,9 @@
 
 namespace image_processing{
 
+/*!
+ * \brief Represent optical flow in a single point.
+ */
 struct FlowVector{
     cv::Point2f pos;
     cv::Point2f flow;

@@ -12,7 +12,6 @@ namespace debugging
 {
 /*!
  * \brief   A log entry is a container of a log information message.
- * \date    2013-10-07
  */
 struct LogEntry
 {
@@ -46,7 +45,6 @@ struct LogEntry
 /*!
  * \brief   A profiler entry is a container of profiler information.
  * \details It contain a tag (name), time for the entire node in milliseconds and subdivisions stored as children which ar other ProfilerEntry objects.
- * \date    2013-10-11
  */
 struct ProfilerEntry
 {
@@ -73,7 +71,6 @@ typedef std::deque<LogEntry>::iterator LogIterator;
  *          under the alias 'logObject'.
  * \details Logger manages LogEnty's and provides an interface
  *          for easy readouts of log entries.
- * \date    2013-10-07
  */
 class Logger
 {

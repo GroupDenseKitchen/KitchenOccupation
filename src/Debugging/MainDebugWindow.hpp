@@ -30,8 +30,6 @@ class MainDebugWindow;
 /*!
  * \brief   The MainDebugWindow class is a debug interface to speed up development,
  *          testing and validation of image processing algorithms.
- * \version 0.1
- * \date    2013-12-12
  */
 class MainDebugWindow : public QMainWindow
 {
