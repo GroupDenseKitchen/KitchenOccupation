@@ -22,7 +22,7 @@ The first thing to do is to insert three circles that are used as checkpoints wh
 \subsubsection{Door mask}
 The door mask should cover the entire door with some surrounding in front of the door. It is better to make this area too big rather than too small since people entering the room need to appear inside of this mask in order to be counted. A good example is shown in figure \ref{fig:doorMask} below. 
 
-To add a door mask press New Polygon. Now draw the mask by clicking in the image which adds control points to the mask, forming a polygon. To undo press Ctrl + Z. When the mask is done press Add as door.
+To add a door mask press \textit{New Polygon}. Now draw the mask by clicking in the image which adds control points to the mask, forming a polygon. To undo press Ctrl + Z. When the mask is done press \textit{Add as door}.
 
 \begin{figure}[H]
 	\centering
@@ -35,7 +35,7 @@ To add a door mask press New Polygon. Now draw the mask by clicking in the image
 \subsubsection{Exclusion mask}
 Exclusion masks should cover areas that should be completely ignored by system e.g. where people can not walk or appear. This can be areas like tables or areas above the door (walls in this case). This is illustrated in figure \ref{fig:exMask} below. Note that for long usage of the system, movable furniture should not be excluded.
 
-To add an exclusion mask press New Polygon. Now draw the mask by clicking in the image which adds control points to the mask, forming a polygon. To undo press Ctrl + Z. When the mask is done press Add as exclusion.
+To add an exclusion mask press \textit{New Polygon}. Now draw the mask by clicking in the image which adds control points to the mask, forming a polygon. To undo press Ctrl + Z. When the mask is done press \textit{Add as exclusion}.
 
 \begin{figure}[H]
 	\centering
@@ -45,8 +45,8 @@ To add an exclusion mask press New Polygon. Now draw the mask by clicking in the
 \end{figure}
 
 \newpage
-\subsection{Config file}
-The config file used by the algorithm pipeline is called \textit{dense\_conf.yml}. In it any configurable variable in any algorithm currently selected to be in the pipeline can be specified. The pipeline itself can also be specified, allowing fo rapid swapping of algorithms. The most useful variables in the current pipeline are shown in table \ref{table:commonVariables}.\\
+\subsection{Configuration file}
+The config file used by the algorithm pipeline is called \textit{mainConf.yml}. In it any configurable variable in any algorithm currently selected to be in the pipeline can be specified. The pipeline itself can also be specified, allowing fo rapid swapping of algorithms. The most useful variables in the current pipeline are shown in table \ref{table:commonVariables}.\\
 
 \begin{table}[hbt]
 	\begin{tabular}{ | l | l | p{7.5cm} | }
