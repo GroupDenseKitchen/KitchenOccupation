@@ -45,29 +45,86 @@ void StereoBlockMatching::process(FrameList &frames)
             cv::Mat rawImageLeft = leftCam.getImage("rawImage");
             cv::Mat rawImageRight = rightCam.getImage("rawImage");
 
-            cv::Mat stereoDepthMap;
+            cv::Mat leftGray;
+            cv::Mat rightGray;
 
-            cv::StereoSGBM blockMatcher;
-            blockMatcher.SADWindowSize = 5;
-            blockMatcher.numberOfDisparities = 192;
-            blockMatcher.preFilterCap = 4;
-            blockMatcher.minDisparity = -64;
-            blockMatcher.uniquenessRatio = 1;
-            blockMatcher.speckleWindowSize = 150;
-            blockMatcher.speckleRange = 2;
-            blockMatcher.disp12MaxDiff = 10;
-            blockMatcher.fullDP = false;
-            blockMatcher.P1 = 600;
-            blockMatcher.P2 = 2400;
+            cv::cvtColor(rawImageLeft, leftGray, CV_RGB2GRAY);
+            cv::cvtColor(rawImageRight, rightGray, CV_RGB2GRAY);
 
-            //cv::flip(rawImageLeft,rawImageLeft,1);
+            bool SGBM = false;
+            bool BM = true;
 
-            blockMatcher(rawImageLeft, rawImageRight, stereoDepthMap);
+            if(SGBM){
+                // ------ Stereo SGBM ----------------------------
+                cv::StereoSGBM stereoSGBM;
+                stereoSGBM.minDisparity = -64;
+                stereoSGBM.numberOfDisparities = 192;
+                stereoSGBM.SADWindowSize = 5;
+                stereoSGBM.preFilterCap = 4;
+                stereoSGBM.uniquenessRatio = 1;
+                stereoSGBM.P1 = 600;
+                stereoSGBM.P2 = 2400;
+                stereoSGBM.speckleWindowSize = 150;
+                stereoSGBM.speckleRange = 2;
+                stereoSGBM.disp12MaxDiff = 10;
+                stereoSGBM.fullDP = false;
 
-            normalize(stereoDepthMap, stereoDepthMap, 0, 255, CV_MINMAX, CV_8U);
+                cv::Mat stereoDepthSGBM;
+                stereoSGBM(leftGray, rightGray, stereoDepthSGBM);
+                normalize(stereoDepthSGBM, stereoDepthSGBM, 0, 255, CV_MINMAX, CV_8U);
+                leftCam.addImage("StereoSGBM", stereoDepthSGBM);
 
-            leftCam.addImage("stereoDepthMap", stereoDepthMap);
-            rightCam.addImage("stereoDepthMap", stereoDepthMap);
+            }
+            if(BM){
+                // ------ Stereo SG ------------------------------
+
+                cv::StereoBM stereoBM;
+
+                stereoBM.state->minDisparity = -64;
+                stereoBM.state->numberOfDisparities = 192;
+                stereoBM.state->SADWindowSize = 5;
+                stereoBM.state->preFilterSize = 5;
+                stereoBM.state->preFilterCap = 61;
+                stereoBM.state->textureThreshold = 507;
+                stereoBM.state->uniquenessRatio = 0;
+                stereoBM.state->speckleWindowSize = 0;
+                stereoBM.state->speckleRange = 8;
+                stereoBM.state->disp12MaxDiff = 1;
+
+/*
+                int preset = CV_STEREO_BM_BASIC;
+                int nDisparities = 128;
+                int SADWindowSize = 5;
+                stereoBM.init(preset, nDisparities, SADWindowSize);
+                */
+
+
+                cv::Mat stereoDepthBM;
+                stereoBM(leftGray, rightGray, stereoDepthBM);
+                normalize(stereoDepthBM, stereoDepthBM, 0, 255, CV_MINMAX, CV_8U);
+                leftCam.addImage("StereoBM", stereoDepthBM);
+/*
+                cv::Mat diffImage;
+                diffImage = leftGray - rightGray;
+                leftCam.addImage("Diff Image", diffImage);
+
+                cv::Mat gaussianBlured;
+                cv::blur(stereoDepthMap, gaussianBlured, cv::Size(5,5));
+                leftCam.addImage("Gaussian Blured", gaussianBlured);
+
+                cv::Mat medianBlured;
+                cv::medianBlur(stereoDepthMap, medianBlured, 21);
+                leftCam.addImage("Median Blured", medianBlured);
+
+                cv::Mat bilateralFiltered;
+                int diameter = 10;
+                double sigmaColor = 150;
+                double sigmaSpace = 150;
+                cv::bilateralFilter(stereoDepthMap, bilateralFiltered, diameter, sigmaColor, sigmaSpace);
+                leftCam.addImage("Bilateral Filtered", bilateralFiltered);
+                */
+            }
+
             n++;
         }
     } else {
