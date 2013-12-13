@@ -1,8 +1,4 @@
 %YAML:1.0
-timerDelay: 10
-isRunning: 0
-autoAdaptLog: 0
-autoAdaptProfiler: 0
-profilerExpandDepth: 0
-popAllWindows: 1
-recordToFiles: 0
+presetCameraNumber: [ 0 ]
+presetStepName:
+   - rawImage

@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainDebugWindow debugProgram;
-    debugProgram.init("dense_conf.yml", "guiConfig.yml");
+    debugProgram.init("mainConfig.yml", "guiConfig.yml");
     debugProgram.show();
 
     return a.exec();

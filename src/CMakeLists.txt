@@ -58,8 +58,9 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 #move the configurationfile to the build dir
-CONFIGURE_FILE(../conf/dense_conf.yml dense_conf.yml COPYONLY)
+CONFIGURE_FILE(../conf/mainConfig.yml mainConfig.yml COPYONLY)
 CONFIGURE_FILE(../conf/guiConfig.yml guiConfig.yml COPYONLY)
+CONFIGURE_FILE(../conf/masks.yml masks.yml COPYONLY)
 CONFIGURE_FILE(../resources/GDKmini.png GDKmini.png COPYONLY)
 
 # Load external libraries
