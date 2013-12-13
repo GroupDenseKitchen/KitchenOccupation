@@ -9,7 +9,8 @@ The human segmentation is based on the assumption that the human heads are disti
 Only distances far above ground is considered which naturally segment between tall objects, providing a similar situation as acquired in \ref{sec:bg_subtraction} but with more distinguishable objects and without the problem of losing still objects. How well people are distinguished can be improved by ignoring even closer depths, but with the risk of missing shorter persons. An additional trick is done in order to detect at least some people still occluded by standing to close together. This is done by a second segmentation... (not done)
 
 \subsection{Tracking and counting}
-Information about tracking (Kalman filter) and people counting (different area and such)
+The tracking algorithm performs six different steps for each frame iteration. The tracker has a list with objects from the last frame and a list with current objects found by earlier image processing steps. The tracker pairs closest objects with each other from previous frame to the current frame. \\ \\
+To register if objects enters and exits the room the objects has to fulfill some requirements. To be considered as entered, an object has to be created for the first time in the set door area and pass three circle lines and by that be elevated to a real object. To be registered as exited an object has to be a real object and disappear inside the door area, while also at least once passed the three lines.
 
 \subsection{Queue detection}
 Information about: how do i detect queue?
