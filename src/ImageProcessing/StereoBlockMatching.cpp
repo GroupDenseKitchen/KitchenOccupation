@@ -91,19 +91,14 @@ void StereoBlockMatching::process(FrameList &frames)
                 stereoBM.state->speckleRange = 8;
                 stereoBM.state->disp12MaxDiff = 1;
 
-/*
-                int preset = CV_STEREO_BM_BASIC;
-                int nDisparities = 128;
-                int SADWindowSize = 5;
-                stereoBM.init(preset, nDisparities, SADWindowSize);
-                */
-
 
                 cv::Mat stereoDepthBM;
                 stereoBM(leftGray, rightGray, stereoDepthBM);
                 normalize(stereoDepthBM, stereoDepthBM, 0, 255, CV_MINMAX, CV_8U);
                 leftCam.addImage("StereoBM", stereoDepthBM);
-/*
+
+                // Clean up alternatives
+                /*
                 cv::Mat diffImage;
                 diffImage = leftGray - rightGray;
                 leftCam.addImage("Diff Image", diffImage);
