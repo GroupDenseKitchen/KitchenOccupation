@@ -77,7 +77,7 @@ public:
     void broadcastData(Frame &frame);
 
 private:
-    bool initNetworkCameras(configuration::ConfigurationManager& settings,
+    bool initOpenCVCameras(configuration::ConfigurationManager& settings,
                             std::vector<std::string> cameraPaths);
     bool loadVideoFiles(configuration::ConfigurationManager& settings,
                         std::vector<std::string> filePaths);

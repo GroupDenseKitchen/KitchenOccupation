@@ -96,15 +96,20 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
     if (runFromFile) {
         return loadVideoFiles(settings, filePaths);
     } else {
-        return initNetworkCameras(settings, cameraPaths);
+        return initOpenCVCameras(settings, cameraPaths);
     }
 }
 
-bool Network::initNetworkCameras(configuration::ConfigurationManager& settings,
+bool Network::initOpenCVCameras(configuration::ConfigurationManager& settings,
                                  std::vector<std::string> cameraPaths)
 {
     for (unsigned int i = 0; i < cameraPaths.size(); i++) {
-        cv::VideoCapture cam(cameraPaths[i]);
+        cv::VideoCapture cam;
+        if (cameraPaths[i].length() > 11) {
+            cam.open(cameraPaths[i]);
+        } else {
+            cam.open(atoi(cameraPaths[i].c_str()));
+        }
         if (cam.isOpened()) {
             streams.push_back(cam);
         } else {
@@ -182,7 +187,7 @@ void Network::broadcastData(Frame& frame)
         }
     }
 #else
-    LOG("Network Message", "Due to conflicts with the Qt core library, communication with the server is impossible with the GUI enabled.")
+    //LOG("Network Message", "Due to conflicts with the Qt core library, communication with the server is impossible with the GUI enabled.")
 #endif
 }
 
