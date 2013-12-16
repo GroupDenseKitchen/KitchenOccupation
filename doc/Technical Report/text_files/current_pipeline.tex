@@ -9,7 +9,7 @@ The human segmentation is based on the assumption that human heads are distingui
 \begin{figure}[htb]
 	\centering
 	\includegraphics[width=\linewidth]{images/image_processing_steps.png}
-	\caption[Image processing steps]{\textit{Image processing steps.\\
+	\caption[Image processing steps]{\textit{Image processing steps. The figure shows the results from four of the processing steps in the image processing pipeline.\\
 		Top left: Raw depth image.\\ 
 		Top right: Image after first threshold operation.\\ 
 		Bottom left: Contour drawing and local maxima detection.\\ 
@@ -41,16 +41,18 @@ Queue severity is estimated by considering the proportion of frames with visible
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=0.9\linewidth]{images/visibleQueue.png}
-  \caption{Persons close together and moving slowly and thus in\\ the same queue.}
+  \caption{When persons are close together and moving slowly, \\
+  			 they are connected by short splines and thus considered\\
+  			  to be in a queue.}
   \label{fig:visible_queue}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=0.9\linewidth]{images/noQueue.png}
-  \caption{Persons moving in different directions and therefore\\ not in a queue.}
+  \caption{Persons moving in different directions, with large velocity, are connected by longer splines, and are thus not considered to be in a queue.}
   \label{fig:no_queue}
 \end{subfigure}
-\caption[Queue detection]{\textit{Detection of queues using splines.}}
+\caption[Queue detection]{\textit{Detection of queues using splines. The images show the result of the queue detection steps in two different cases.}}
 \label{fig:queue_detection}
 \end{figure}
 
