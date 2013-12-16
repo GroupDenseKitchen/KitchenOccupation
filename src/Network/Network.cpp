@@ -206,7 +206,7 @@ Frame *Network::getFileFrame()
         {
             cam.setRoomID(std::to_string(i));
             cam.addImage("rawImage", rawImage);
-	    cam.addImage("debugImage",rawImage.clone());
+            cam.addImage("debugImage",rawImage.clone());
             frame->addCamera(cam);
             frame->setMomentaryFps(streams[i].get(CV_CAP_PROP_FPS));
         } else {
@@ -265,6 +265,7 @@ Frame *Network::getKinectFrame()
         CameraObject cam;
         kinectFrame = kinects.readFrame(i);
         if (kinectFrame) {
+            cam.setRoomID(std::to_string(i));
             cam.addImage("rawImage", kinectFrame->depthImage);
             cam.addImage("rawColorImage", kinectFrame->bgrImage.clone());
             cam.addImage("debugImage", kinectFrame->bgrImage);
