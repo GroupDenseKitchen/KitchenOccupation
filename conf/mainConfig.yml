@@ -6,8 +6,8 @@ useKinect: 0
 nCameras: 1
 evalPrecisionThreshold: 50
 TrackingMaximumDistance: 2500.0
-TrackingMinimzumLifeSpan: 10
-TrackingMaximumTimeLost: 10
+TrackingMinimumLifeSpan: 7
+TrackingMaximumTimeLost: 3
 webServerUrl: "http://api.densekitchen.bloip.se/api/roomstate/1"
 ImageProcessor:
    - KinectSegmentation
@@ -22,7 +22,7 @@ Evaluation:
 cameraPaths:
    - "/Users/gustavhager/Desktop/TSBB11/project/data/seq9/seq9-4.mp4"
 videoFilePaths:
-   - "../data/seq9/seq9-3.mp4"
+   - "../data/seq10/seq10-3.mp4"
 trackerGroundTruthPaths:
   - "/Users/gustavhager/Desktop/TSBB11/project/data/seq9/seq9-4GT.xml"
 entryExitGroundTruthPaths:
