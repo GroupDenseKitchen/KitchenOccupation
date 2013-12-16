@@ -285,6 +285,7 @@ Frame *Network::getKinectFrame()
         }
     }
     timer.reset();
+    frame->initRoomPopulations(frame->getCameras());
     return frame;
 }
 
