@@ -89,6 +89,18 @@
 \end{block}
 
 %----------------------------------------------------------------------------------------
+%	INTRODUCTION
+%----------------------------------------------------------------------------------------
+            
+%\begin{block}{Introduction ??}
+%
+%\begin{itemize}
+%\item The Linköping University IT department wants to be able to measure room usage intensity, primarily the student kitchens, but also other spaces. In order enable informed decisions to be made on where to invest in e.g. a new kitchen
+%\end{itemize}
+
+%\end{block}
+
+%----------------------------------------------------------------------------------------
 %	Hardware setup
 %----------------------------------------------------------------------------------------
 
@@ -99,10 +111,13 @@
 \begin{itemize}
 \item Hardware setup.
 \begin{itemize}
-\item Stuff about the setup.
+\item Require one or several Microsoft Kinect cameras (one over each entrance).
+\item Require power....
+\item Require a computational device with internet connection...
 \end{itemize}
 \item Portability.
 \begin{itemize}
+\item Cross platform. Support most UNIX-like systems and Windows.
 \item Stuff about supported sensors and platforms.
 \end{itemize}
 \end{itemize}
@@ -111,7 +126,7 @@
 \begin{column}{.43\textwidth} % The second subdivided column within the first main column
 \centering
 \begin{figure}
-\includegraphics[width=0.8\linewidth]{placeholder.jpg}
+\includegraphics[width=1.0\linewidth]{system_overview.png}
 \caption{Figure caption}
 \end{figure}
 \end{column}
@@ -133,28 +148,22 @@
 %----------------------------------------------------------------------------------------
 
 \begin{block}{Software}
-
+Built in C++ but very modular, extendable and configurable.
 \begin{itemize}
-\item The software pipeline
+\item Modular
 \begin{itemize}
-\item Suspendisse potenti. Fusce a est eget turpis rhoncus varius sed sed dui. Cras justo nibh, bibendum a cursus eget, consequat et dui. Maecenas vel nisl elit, sed dignissim dolor. 
-\item In hac habitasse platea dictumst.
-\end{itemize}
-
-\item The GUIs
-\begin{itemize}
-\item Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. 
-\item Proin in nisi diam.
-\item Nam ultricies pellentesque nunc, ultrices volutpat nisl ultrices a.
-\end{itemize}
-
-\item Configuration 
-\begin{itemize}
-\item Duis semper lorem eget dui dignissim porttitor.
-\item Nulla facilisi. In ullamcorper lorem quis dolor.
+\item Algorithms have a very clear general interface to the rest of the pipeline.
+\item Multiple algorithms of the same type could be developed in parallel with minimal interface compliance effort.
+\item An entire new computer vision approach could be switched to at the end of the project, entirely painless.
 \end{itemize}
 \end{itemize}
-
+\begin{itemize}
+\item Configurable
+\begin{itemize}
+\item The entire pipeline can be reconfigured in the config file, including and rearranging algorithms as well as specifying their parameters without recompiling.
+\item Possible to automate tests of hundreds of configurations, changing both algorithms and algorithm parameters.
+\end{itemize}
+\end{itemize}
 \end{block}
 
 %----------------------------------------------------------------------------------------
@@ -214,18 +223,29 @@
 \begin{block}{Image Processing}
 
 \begin{itemize}
-\item Human segmentation.
-\begin{itemize}
-\item The human segmentation is based on the assumption that human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ much more than a head in height. The later assumption seem to hold more often than one might think, as supported by over 5 hours of test data. The segmentation is realized by a series of threshold and morphological operations, gaussian blurring, contour drawing and searches for local maxima's. 
-\end{itemize}
+\item Human segmentation.\\
+The human segmentation is based on the assumption that human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ much more than a head in height. The later assumption seem to hold more often than one might think, as supported by over 5 hours of test data. The segmentation is realized by a series of threshold and morphological operations, gaussian blurring, contour drawing and searches for local maxima's. 
+\begin{figure}
+\includegraphics[width=1.0\linewidth]{KinectSegmentationIllustration_occlusionHandling_horizontal.png}
+\caption{Occlusion handling}
+\end{figure}
+
 \item Tracking and counting.
 \begin{itemize}
 \item{The tracker pairs objects with each other from previous frame to the next. Pairs closest matching objects. Handles occlution, outliers and noise.}
 \item{Counting is done using user specified checkpoint lines and a door area.}
+\begin{figure}
+\includegraphics[width=0.5\linewidth]{trackingExample.png}
+\caption{Figure caption}
+\end{figure}
 \end{itemize}
 \item Queue detection.
 \begin{itemize}
 \item{detecting queues}
+\begin{figure}
+\includegraphics[width=0.5\linewidth]{visibleQueue.png}
+\caption{Figure caption}
+\end{figure}
 \end{itemize}
 \end{itemize}
 
@@ -276,14 +296,14 @@ A_{out} = 1 - |\frac{\sum_{frames}{out_{Est}}-\sum_{frames}out_{GT}}{\sum_{frame
 
 %------------------------------------------------
 
-\begin{block}{Results: Figure}
+%\begin{block}{Results: Figure}
 
-\begin{figure}
-\includegraphics[width=0.8\linewidth]{placeholder.jpg}
-\caption{Resulting accuracy}
-\end{figure}
+%\begin{figure}
+%\includegraphics[width=0.8\linewidth]{placeholder.jpg}
+%\caption{Resulting accuracy}
+%\end{figure}
 
-\end{block}
+%\end{block}
 
 %----------------------------------------------------------------------------------------
 %	CONCLUSION
