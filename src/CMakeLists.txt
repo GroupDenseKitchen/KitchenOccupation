@@ -67,6 +67,7 @@ IF(WIN32)
                 HINTS $ENV{CURL_LIBS}
                 PATH_SUFFIXES lib)
         MESSAGE( STATUS "CURL_LIBS: " ${CURL_LIBRARIES} )
+        ADD_DEFINITIONS(-DUSECURL)
         ENDIF()
     ENDIF()
 ENDIF()
