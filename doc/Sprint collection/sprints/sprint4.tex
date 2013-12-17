@@ -1,8 +1,8 @@
 \section{Review of Sprint 4}
 \label{sec:sprint4}
 \large Period: 2013-12-02 -- 2013-12-13 \\ 
-\large Est. time: ?? hours, meetings included.
-\large Time spent: ?? hours, meetings included.
+\large Est. time: 330 hours, meetings included.
+\large Time spent: 365 hours, meetings included.
 
 \subsection{Sprint backlog}
 The main focus of this sprint is to put the entire system together, make a performance evaluation and create all the necessary documents. As much of the work is documentation, more work will take place in smaller groups, hence there are fewer people designated to specific items.
@@ -13,10 +13,10 @@ These are the items created in the previous sprints that are picked up in this o
 \subsubsection{Sprint review collection}
 Provide a collection of sprint reviews that together with the spreadsheet describe the project work, result and planning. This item was created during the first sprint.
 
-\subsubsection{Make the kinect stream live on Mac OS X}
+\subsubsection{Make the Kinect stream live on Mac OS X}
 Make it possible for the system to use the kinect sensor as an input on Mac OS X.
 
-\subsubsection{Make the kinect stream live on Windows}
+\subsubsection{Make the Kinect stream live on Windows}
 Make it possible for the system to use the kinect sensor as an input on Windows.
 
 
@@ -27,7 +27,7 @@ Make it possible for the system to use the kinect sensor as an input on Windows.
 
 \itemtable
 {
-	\additem{Create figures for the report/DOxygen code reference manual. E.g. intermadiate algorithm steps and a nice visualization of system performance.}{\textbf{Everyone}}
+	\additem{Create figures for the report/DOxygen code reference manual. E.g. intermediate algorithm steps and a nice visualization of system performance.}{\textbf{Everyone}}
 	\additem{Collect an evaluation data set}{\textbf{Everyone}}
 	\additem{Write a system overview for the webpage and DOxygen manual.}{\textbf{Everyone}}
 	\additem{Perform a complete system test on both platforms, running both live and from file.}{\textbf{Everyone}}
@@ -38,12 +38,15 @@ Make it possible for the system to use the kinect sensor as an input on Windows.
 	\additem{Create a non-GUI version of the program.}{\textbf{GH}}
 	\additem{Improve the presentation of evaluation performance.}{\textbf{Everyone}}
 	\additem{Send info about the number of people in the room over the network.}{\textbf{Everyone}}
+	\additem{Add a Kalman tracker for velocity estimation to improve qeue detection}{Everyone}
 	\additem{Finalize queue detection.}{\textbf{Everyone}}
 	\additem{Put together queue information over time.}{\textbf{Everyone}}
 	\additem{Investigate the situation in the demo room.}{\textbf{Everyone}}
 	\additem{Make the kinect run live on OS X.}{\textbf{Everyone}}
 	\additem{Make the kinect run live on Windows.}{\textbf{Everyone}}
 	\additem{Make the system more robust vs different sensor placements.}{\textbf{Everyone}}
+	\additem{Go over the DOxygent comments and clean up the code.}{\textbf{Everyone}}
+	\additem{Add content to the technical report.}{\textbf{Everyone}}
 
 	
 	
@@ -54,15 +57,16 @@ Make it possible for the system to use the kinect sensor as an input on Windows.
 \newpage
 
 \subsection{Result}
-The results from this sprint are eventually presented here
+The results of this sprint can be considered nothing more than excellent, as everything that absolutely needed to be finished by the time of the deadline was finished by the time of the deadline. Only a few new features were added and most of the time was spent hardening the system.
 
 \subsubsection{Solutions we ended up using}
-
+We ended up creating a GUI-free version of the system designed to run on some form of embedded system. A nice calibration GUI was added to simplify system installation. Finally we ended up using libcurl as the network API, since it it is more light-weight than the Qt network module.
 
 \subsubsection{What did we do well?}
-
+The most important thing that went well was the fact that everything was finished before the deadline.
 
 \subsubsection{What improvements are necessary?}
+No improvements are really necessary before the final seminar and as long as everyone works as hard as they did in order to create the final version of the report and system, the final presentation is likely to be a success.
 
 
 \newpage
@@ -70,24 +74,26 @@ The results from this sprint are eventually presented here
 \resulttable
 {
 
-	\addresult{Create figures for the report/DOxygen code reference manual. E.g. intermadiate algorithm steps and a nice visualization of system performance.}{\textbf{Everyone}}
-	\addresult{Done, three new data sets of various quality have been recorded.}{\textbf{Everyone}}
-	\addresult{In pogress: Write a system overview for the webpage and DOxygen manual.}{\textbf{Everyone}}
-	\addresult{In progress: Perform a complete system test on both platforms, running both live and from file.}{\textbf{Everyone}}
-	\addresult{Not done. Create a manual for the debug GUI.}{\textbf{Everyone}}
-	\addresult{Not done. Create a manual for the installation procedure.}{\textbf{Everyone}}
-	\addresult{Discarded, things work just fine. Revise the requirement on multiple kinects.}{\textbf{Everyone}}
-	\addresult{Not done. Add content to the web page.}{\textbf{Everyone}}
-	\addresult{In progress: Create a non-GUI version of the program.}{\textbf{GH}}
-	\addresult{Done: Improve the presentation of evaluation performance.}{\textbf{Everyone}}
-	\addresult{In progress: Send info about the number of people in the room over the network.}{\textbf{Everyone}}
-	\addresult{Done: Finalize queue detection.}{\textbf{Everyone}}
-	\addresult{Done: Put together queue information over time.}{\textbf{Everyone}}
-	\addresult{Done: Investigate the situation in the demo room.}{\textbf{Everyone}}
-	\addresult{Done: Make the kinect run live on OS X.}{\textbf{Everyone}}
-	\addresult{Done: Make the kinect run live on Windows.}{\textbf{Everyone}}
-	\addresult{-Ish Make the system more robust vs different sensor placements.}{\textbf{Everyone}}
-	
+	\addresult{Done, we are not 100\% happy with the data sets but they are good enough.}{NW, EF, MT, AS}
+	\addresult{Done, three new data sets of various quality have been recorded. However som more would still be great.}{MT, NW, MS, AS}
+	\addresult{Partly done, a short overview is added to DOxygen but none to the website.}{MS}
+	\addresult{In progress: Perform a complete system test on both platforms, running both live and from file.}{MT, NW}
+	\addresult{Done: Create a manual for the debug GUI.}{AS}
+	\addresult{Done: Create a manual for the installation procedure.}{AS, MT}
+	\addresult{Discarded, things work just fine. Revise the requirement on multiple kinects.}{--}
+	\addresult{Not done, no content is on the webpage yet.}{--}
+	\addresult{Done: Create a non-GUI version of the program.}{GH}
+	\addresult{Done: Improve the presentation of evaluation performance.}{EF, MR}
+	\addresult{Done: Information about room occupancy and queue is transmitted over the internet.}{MS}
+	\additem{Add a Kalman tracker for velocity estimation to improve qeue detection}{MR, MT}
+	\addresult{Done: Finalize queue detection.}{NW}
+	\addresult{Done: Put together queue information over time.}{NW}
+	\addresult{Done: Investigate the situation in the demo room.}{MT, AS}
+	\addresult{Done: Make the kinect run live on OS X.}{NW, GH}
+	\addresult{Done: Make the kinect run live on Windows.}{AS, MS}
+	\addresult{In progress: Make the system more robust vs different sensor placements.}{\textbf{Everyone}}
+	\addresult{Go over the DOxygent comments and clean up the code.}{\textbf{Everyone}}
+	\addresult{Add content to the technical report.}{\textbf{Everyone}}	
 
 }
 
@@ -95,6 +101,18 @@ The results from this sprint are eventually presented here
 No new backlog items are created since this is the final sprint of the project, however there are some more things that are in need of an overview before the project demo and presentation. These items are listed below.
 
 \subsubsection{New backlog item 1}
-Info aboutthis backlog item.
+Create a poster to present the work on the final seminar.
+
+\subsubsection{New backlog item 2}
+Create a presentation for the final seminar.
+
+\subsubsection{New backlog item 3}
+Create content for the web page.
+
+\subsubsection{New backlog item 4}
+Collect more data.
+
+\subsubsection{New backlog item 5}
+Prepare a live demo.
 
 

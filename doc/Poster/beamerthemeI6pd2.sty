@@ -9,7 +9,8 @@
 
 \setbeamercolor{headline}{fg=tabutter,bg=black}
 \setbeamercolor{footline}{fg=tabutter, bg=ta3gray}
-\setbeamerfont{footline}{size=\large,series=\tt}
+%\setbeamerfont{footline}{size=\large,series=\tt}%original
+\setbeamerfont{footline}{size=\large}
 \setbeamercolor{separation line}{bg=ta2orange}
 \setbeamercolor{title in headline}{fg=tabutter}
 \setbeamercolor{author in headline}{fg=ta2orange}
@@ -127,7 +128,8 @@
   
   \leavevmode%
   \begin{beamercolorbox}[ht=4ex,leftskip=1em,rightskip=1em]{author in head/foot}%
-    \texttt{\leftfoot}
+	\leftfoot
+	%\texttt{\leftfoot} %original
     \hfill
     \texttt{\rightfoot}
     \vskip1ex

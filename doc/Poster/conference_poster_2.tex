@@ -21,7 +21,9 @@
 
 \documentclass[final,hyperref={pdfpagelabels=false}]{beamer}
 
-\usepackage[orientation=portrait,size=a1,scale=1.4]{beamerposter} % Use the beamerposter package for laying out the poster with a portrait orientation and an a0 paper size
+\usepackage[orientation=portrait,size=a0,scale=1.4]{beamerposter} % Use the beamerposter package for laying out the poster with a portrait orientation and an a0 paper size
+
+\usepackage[utf8]{inputenc} % Enable åäö
 
 \usetheme{I6pd2} % Use the I6pd2 theme supplied with this template
 
@@ -30,7 +32,7 @@
 \usepackage{amsmath,amsthm,amssymb,latexsym} % For including math equations, theorems, symbols, etc
 
 %\usepackage{times}\usefonttheme{professionalfonts}  % Uncomment to use Times as the main font
-%\usefonttheme[onlymath]{serif} % Uncomment to use a Serif font within math environments
+\usefonttheme[onlymath]{serif} % Uncomment to use a Serif font within math environments
 
 \boldmath % Use bold for everything within the math environment
 
@@ -46,17 +48,27 @@
 
 \title{\huge Kitchen Occupation} % Poster title
 
-\author{Group Dense Kitchen} % Author(s)
+\author{People counting using depth sensors.} % Author(s)
 
-\institute{Department of Electrical Engineering, Link\"{o}öping University} % Institution(s)
+\institute{Department of Electrical Engineering, Linköping University} % Institution(s)
 
 %----------------------------------------------------------------------------------------
 %	FOOTER TEXT
 %----------------------------------------------------------------------------------------
 
-\newcommand{\leftfoot}{ASDF} % Left footer text
+\newcommand{\leftfoot}{
 
-\newcommand{\rightfoot}{http://www.densekitchen.bloip.se} % Right footer text
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill} } c c c c c c c}
+Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson & Mattias Tiger & Nikolaus West
+\end{tabular*}
+
+} % Left footer text
+
+\newcommand{\rightfoot}{} %{http://www.densekitchen.bloip.se} % Right footer text
+
+%--------------------------- added packages ---------------------------------------------
+\usepackage{subcaption}
+\usepackage{float}
 
 %----------------------------------------------------------------------------------------
 
@@ -90,83 +102,98 @@
 %	INTRODUCTION
 %----------------------------------------------------------------------------------------
             
-\begin{block}{Introduction}
+%\begin{block}{Introduction ??}
+%
+%\begin{itemize}
+%\item The Linköping University IT department wants to be able to measure room usage intensity, primarily the student kitchens, but also other spaces. In order enable informed decisions to be made on where to invest in e.g. a new kitchen
+%\end{itemize}
 
-\begin{itemize}
-\item The Linköping university IT department wants to be able to measure room usage intensity, promarily the student kitchens, but also other spaces. In order to provide make sure enough resources are spent on 
-\end{itemize}
-
-\end{block}
+%\end{block}
 
 %----------------------------------------------------------------------------------------
 %	Hardware setup
 %----------------------------------------------------------------------------------------
 
-\begin{block}{The system}
+\begin{block}{System}
+	\begin{columns} % Subdivide the first main column
+		\begin{column}{.54\textwidth} % The first subdivided column within the first main column
+			\begin{itemize}
+				\item Hardware setup
+				\begin{itemize}
+					\item One or several Microsoft Kinect cameras and a computational device with Internet connection is required, as well as access to the power grid.
+				\end{itemize}
+				\item Portability
+				\begin{itemize}
+					\item Cross platform in the sense that we support most UNIX-like systems and Windows.
+				\end{itemize}							
+			\end{itemize}
+		\end{column}
+			
+		\begin{column}{.43\textwidth} % The second subdivided column within the first main column
+			\centering
+			\begin{figure}
+				\includegraphics[width=0.9\linewidth]{system_overview.png}
+				\caption{System Overview}
+			\end{figure}
+		\end{column}
+	\end{columns} % End of the subdivision
 
-\begin{columns} % Subdivide the first main column
-\begin{column}{.54\textwidth} % The first subdivided column within the first main column
-\begin{itemize}
-\item Hardware setup.
-\begin{itemize}
-\item Stuff about the setup.
-\end{itemize}
-\item Portability.
-\begin{itemize}
-\item Stuff about supported sensors and platforms.
-\end{itemize}
-\end{itemize}
-\end{column}
+\end{block}
 
-\begin{column}{.43\textwidth} % The second subdivided column within the first main column
-\centering
+%----------------------------------------------------------------------------------------
+%	Image Processing
+%----------------------------------------------------------------------------------------
+
+\begin{block}{Image Processing}
+\begin{itemize}
+	\item Human segmentation
+	\begin{itemize}
+	\item The human segmentation is based on the assumption that human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ much more than a head in height (see figure). The later assumption seem to hold more often than one might think, as supported by over 5 hours of test data. The segmentation is realized by a series of threshold and morphological operations, Gaussian blurring, contour drawing and searches for local maxima's (see figure).
+	\end{itemize}
+\end{itemize}
 \begin{figure}
-\includegraphics[width=0.8\linewidth]{placeholder.jpg}
-\caption{Figure caption}
+	\includegraphics[width=0.9\linewidth]{humanSegmentationSteps.png}
+	\caption{Human segmentation steps}
 \end{figure}
-\end{column}
-\end{columns} % End of the subdivision
+\begin{figure}
+	\includegraphics[width=0.9\linewidth]{KinectSegmentationIllustration_occlusionHandling_horizontal.png}
+	\caption{Occlusion handling}
+\end{figure}
 
 \begin{itemize}
-\item Performance requirements.
-\begin{itemize}
-\item Herpa derpa derpa.
-\item derp herrrp derp.
-\item Walla.
+	\item Tracking and counting.
+	\begin{itemize}
+		\item{The tracker pairs objects with each other from previous frame to the next. Pairs closest matching objects. Handles occlusion, outliers and noise.}
+		\item{Counting is done using user specified checkpoint lines and a door area.}
+	\end{itemize}
+	
+	\item Queue detection.
+	\begin{itemize}
+		\item Queues are detected using Bézier splines based on object velocities.
+		\item Queue severity is based on averaging detected queues over a few frames.
+	\end{itemize}
 \end{itemize}
-\end{itemize}
+
+\begin{figure}
+%\centering
+\begin{subfigure}{.5\textwidth}
+\centering
+\includegraphics[width=0.9\linewidth]{trackingExample.png}
+\caption{\centering Newly found potential objects(red), lost 
+		 objects(blue) and objects(green)}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+\centering
+\includegraphics[width=0.9\linewidth]{visibleQueue.png}
+\caption{\centering A detected queue, illustrated using the spline connecting the persons.}
+\end{subfigure}
+\end{figure}
 
 \end{block}
 
 %----------------------------------------------------------------------------------------
-%	Software system
-%----------------------------------------------------------------------------------------
 
-\begin{block}{Software}
-
-\begin{itemize}
-\item The software pipeline
-\begin{itemize}
-\item Suspendisse potenti. Fusce a est eget turpis rhoncus varius sed sed dui. Cras justo nibh, bibendum a cursus eget, consequat et dui. Maecenas vel nisl elit, sed dignissim dolor. 
-\item In hac habitasse platea dictumst.
-\end{itemize}
-
-\item The GUIs
-\begin{itemize}
-\item Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. 
-\item Proin in nisi diam.
-\item Nam ultricies pellentesque nunc, ultrices volutpat nisl ultrices a.
-\end{itemize}
-
-\item Configuration 
-\begin{itemize}
-\item Duis semper lorem eget dui dignissim porttitor.
-\item Nulla facilisi. In ullamcorper lorem quis dolor.
-\end{itemize}
-\end{itemize}
-
-\end{block}
-
+% ----- NEW COLUMN ---------------------------------------------
 
 \end{column} % End of the first column
 
@@ -174,40 +201,81 @@
  
 \begin{column}{.465\textwidth} % The second column
 
+% ----- NEW COLUMN ---------------------------------------------
+
+
+
+
 %----------------------------------------------------------------------------------------
-%	Pepole counting
+%	Software system
 %----------------------------------------------------------------------------------------
 
-\begin{block}{Image Processing}
-
+\begin{block}{Software}
 \begin{itemize}
-\item The depth images.
-\begin{itemize}
-\item Duis ante erat, bibendum nec tempus nec, interdum quis est. Nulla at mollis tortor. Phasellus quis leo dolor, aliquam laoreet orci $X$ Donec dapibus sagittis neque eu nec, interdum quis est. $Y_n, n=1,\cdots,N$ ndum nec tempus nec, interd
-\begin{align*}
-X \rightarrow r(X) & = \arg \max_{c} \Big\{ \max_n \big\{ \sum_{x_i \in X} \delta(x_i,Y_{n,c})\big\} \Big\} 
-\end{align*}
-\item Cras faucibus scelerisque cursus. Proin ut vestibulum augue. $\delta(x_i,Y_{n,c})$
+	\item Built in C++ in a very modular, extendable and configurable way.
 \end{itemize}
-\item Tracking and counting.
-\begin{itemize}
-\item{tracking and counting stuff}
+	\begin{itemize}
+		\item Modular
+		\begin{itemize}
+			\item Algorithms have a very clear general interface to the rest of the pipeline.
+			\item Multiple algorithms of the same type could be developed in parallel with minimal interface compliance effort.
+			\item An entire new computer vision approach could be switched to at the end of the project, entirely painless.
+		\end{itemize}
+	\end{itemize}
+	\begin{itemize}
+		\item Configurable
+	\begin{itemize}
+		\item The entire pipeline can be reconfigured in the configuration file: including, removing and rearranging algorithms, as well as specifying their parameters, without recompiling.
+		\item It is possible to automate tests of hundreds of configurations, changing both algorithms and algorithm parameters.
+	\end{itemize}
 \end{itemize}
-\item Queue detection.
-\begin{itemize}
-\item{detecting queues}
-\end{itemize}
-\end{itemize}
-
 \end{block}
 
 %----------------------------------------------------------------------------------------
+%	User Interface
+%----------------------------------------------------------------------------------------
 
+\begin{block}{Configuration \& debugging GUI}
+
+\begin{columns} % Subdivide the first main column
+\begin{column}{.54\textwidth} % The first subdivided column within the first main column
+
+\begin{itemize}
+\item Transparent and flexible pipeline overview.
+\item Automatic online low-level profiling of every module.
+\item Configuration interface (see figure)
+
+\begin{itemize}
+\item Doors (green)
+\item Entering checkpoints (circles)
+\item Exclusions (red)
+\end{itemize}
+\end{itemize}
+
+\end{column}
+
+\begin{column}{.43\textwidth} % The second subdivided column within the first main column
+\centering
+\begin{figure}
+\includegraphics[width=0.985\linewidth]{PosterConfigCrop.png}
+\label{fig:Config}
+\caption{Visualization of configurables}
+\end{figure}
+\end{column}
+\end{columns} % End of the subdivision
+
+\begin{figure}
+\includegraphics[width=0.9\linewidth]{PosterDebuggerCrop.png}
+\caption{Main GUI window}
+\end{figure}
+
+\end{block}
 
 
 %----------------------------------------------------------------------------------------
 %	RESULTS
 %----------------------------------------------------------------------------------------
+
 
 \begin{block}{Results: Table}
 
@@ -215,37 +283,44 @@ X \rightarrow r(X) & = \arg \max_{c} \Big\{ \max_n \big\{ \sum_{x_i \in X} \delt
 \item Final system performance
 \end{itemize}
 
-\begin{table}
-\begin{tabular}{l l l l l}
-\toprule
-\textbf{Sequence} & \textbf{Entries (GT)} & \textbf{Accuracy} & \textbf{Exits (GT)} & \textbf{Accuracy}\\
-\midrule
-1 (23464 frames) & 108 (108) & 97\% & 101 (104) & 97\% \\
-2 (23464 frames) & 145 (123) & 97\% & 123 (333) & 97\% \\
-3 (23464 frames) & 123 (124) & 97\% & 124 (124) & 97\% \\
-\bottomrule
-\end{tabular}
-\caption{System performance in the three evaluation sequences}
+\begin{equation}
+\label{eq:in_accuracy}
+A_{in} = 1 - |\frac{\sum_{frames}{in_{Est}}-\sum_{frames}{in_{GT}}}{\sum_{frames}in_{GT}}|
+\end{equation} 
+
+\begin{equation}
+\label{eq:out_accuracy}
+A_{out} = 1 - |\frac{\sum_{frames}{out_{Est}}-\sum_{frames}out_{GT}}{\sum_{frames}out_{GT}}| 
+\end{equation} 
+
+
+\begin{table}[h]
+\centering
+	\begin{tabular}{r | c | c | c | c | c | c }
+		\emph{Sequence Name}		&  Total entered (GT) & \emph{$A_{in}$} & Total exited (GT) & \emph{$A_{out}$} \\
+		\hline \hline
+		Data seq. 1			& 108 (108) people & 99 \% & 101 (104) people & 97 \% \\
+		Data seq. 2			& 122 (141) people & 87 \% & 77 (91) people & 85 \%  \\
+		\end{tabular}
+	\caption{System performance in the two evaluation sequences}
 \end{table}
 
-
 \begin{itemize}
-\item Sollicitudin Vel Orci
-\item Maecenas Ultricies Feugiat Velit Non Mattis.
+\item Data seq. 1 \& Data seq. 2 are two data sequences of 30 minutes each. 
 \end{itemize}
      
 \end{block}
 
 %------------------------------------------------
 
-\begin{block}{Results: Figure}
+%\begin{block}{Results: Figure}
 
-\begin{figure}
-\includegraphics[width=0.8\linewidth]{placeholder.jpg}
-\caption{Resulting accuracy}
-\end{figure}
+%\begin{figure}
+%\includegraphics[width=0.8\linewidth]{placeholder.jpg}
+%\caption{Resulting accuracy}
+%\end{figure}
 
-\end{block}
+%\end{block}
 
 %----------------------------------------------------------------------------------------
 %	CONCLUSION
@@ -254,10 +329,8 @@ X \rightarrow r(X) & = \arg \max_{c} \Big\{ \max_n \big\{ \sum_{x_i \in X} \delt
 \begin{block}{Conclusion}
 
 \begin{itemize}
-\item The system provides high-precision people counting using the Microsoft Kinect sensors.
-\item Nulla eu erat a urna laoreet auctor id a turpis. Nam mollis tristique neque eu luctus. Suspendisse rutrum congue nisi sed convallis. 
-\item Aenean id neque dolor.
-\item Opet volutpat ligula. Duis semper lorem eget dui dignissim porttitor. Nulla facilisi. In ullamcorper lorem quis dolor iaculis nec egestas enim ultricies. Cras ut mauris elit, ut lacinia dui. Proin in ante et libero hendrerit iaculis.
+\item The system provides high-precision real time people counting using the Microsoft Kinect sensor at low computational cost on a 2Ghz low-end CPU.
+\item The software architecture enables fast implementing and testing of different algorithms. It enable a very lightweight and high-performing vision pipeline. 
 \end{itemize}
 
 \end{block}
@@ -306,7 +379,7 @@ X \rightarrow r(X) & = \arg \max_{c} \Big\{ \max_n \big\{ \sum_{x_i \in X} \delt
 
 \end{column} % End of the second column
 
-\begin{column}{.015\textwidth}\end{column} % Empty spacer column
+\begin{column}{.02\textwidth}\end{column} % Empty spacer column
 
 \end{columns} % End of all the columns in the poster
 

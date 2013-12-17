@@ -51,12 +51,12 @@ void KinectSegmentation::process(FrameList &frames)
          cv::Mat grayImage;
          cv::cvtColor(rawImage, grayImage, CV_BGR2GRAY);
          cv::threshold(grayImage, grayImage, lowestDistanceOverFloor, 255, 4);
-         camera.addImage("GrayImage", grayImage);
+         camera.addImage("Thresholded Image", grayImage);
 
          // Invert and threshold => Darker is further away and black is unkown or thresholded out pixels
          cv::Mat correctedGrayImage = 255-grayImage;
          cv::threshold(correctedGrayImage, correctedGrayImage, 255-distanceToCameraMargin, 255, 4);
-         camera.addImage("correctedGrayImage", correctedGrayImage);
+         camera.addImage("Inverted Image", correctedGrayImage);
 
          // Find contours
          std::vector<std::vector<cv::Point> > contours;
@@ -70,14 +70,14 @@ void KinectSegmentation::process(FrameList &frames)
                  drawContours( contourMat, contours, i, cv::Scalar(255), 2, 8, hierarchy, 0, cv::Point() );
              }
          }
-         camera.addImage("contourMat",contourMat);
+         camera.addImage("Contours",contourMat);
 
          // Generate a binary mask of all maximal regions (a nicer foreground map)
          cv::Mat debugImage = correctedGrayImage.clone();
          cv::Mat maxRegionMask = cv::Mat::zeros(correctedGrayImage.size(), correctedGrayImage.type());
          generateMaxRegionMask(maxRegionMask, correctedGrayImage, contours, minimalHumanArea, debugImage);
-         camera.addImage("maxRegionMask", maxRegionMask);
-         camera.addImage("MaxRegionDebug", debugImage);
+         camera.addImage("MaxRegion Mask", maxRegionMask);
+         camera.addImage("MaxRegion Image", debugImage);
 
 
          // Detect individual humans (mostly their heads) and give each a random color. (debugging)
@@ -97,7 +97,7 @@ void KinectSegmentation::process(FrameList &frames)
                  camera.getObjects().push_back(Object(contours[i], boundingBox, centerOfMass, area));
              }
          }
-         camera.addImage("individualHumans", individualHumans);
+         camera.addImage("Contour Area Filtering", individualHumans);
          n++;
 
          // Calculate histogram
