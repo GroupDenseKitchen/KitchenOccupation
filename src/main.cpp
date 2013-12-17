@@ -56,8 +56,8 @@ int main(int argc, char *argv[])
     return a.exec();
 #else
 
-    loadMaskFromFile();
-    drawPolygonsToMasks();
+   loadMaskFromFile();
+   drawPolygonsToMasks();
    DenseKitchen dk = DenseKitchen();
 
    bool ok = dk.initialize("mainConfig.yml");

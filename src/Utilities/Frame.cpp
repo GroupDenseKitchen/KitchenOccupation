@@ -77,6 +77,7 @@ bool Frame::hasID(std::string &_currID){
     }
     return false;
 }
+
 void Frame::setPopulationInRoomID(int _newVal,std::string &_currID){
     for(unsigned int n = 0; n < populations.size(); n++){
         if(populations[n].roomID.compare(_currID) == 0){

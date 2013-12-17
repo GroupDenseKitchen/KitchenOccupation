@@ -14,7 +14,7 @@
     #include "KinectHandlerOpenNi.hpp"
 #endif // ifdef __APPLE__
 
-#ifdef HEADLESS
+#ifdef USECURL
     #include <curl/curl.h>
 #endif
 
@@ -82,6 +82,9 @@ private:
     bool loadVideoFiles(configuration::ConfigurationManager& settings,
                         std::vector<std::string> filePaths);
 
+    int framesSinceLastPush;
+    char lastBroadcastState[1337];
+
     Frame* getFileFrame();
     Frame* getNetworkCamFrame();
     Frame* getKinectFrame();
@@ -95,7 +98,7 @@ private:
     Timer timer;
     Frame nextFrame;
     std::vector<cv::VideoCapture> streams;
-#ifdef HEADLESS
+#ifdef USECURL
     CURL *curl;
     CURLcode res;
  #endif

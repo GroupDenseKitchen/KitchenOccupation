@@ -7,7 +7,7 @@ Network::Network() {}
 
 Network::~Network()
 {
-#ifdef HEADLESS
+#ifdef USECURL
     if (curlInitialized) {
         curl_easy_cleanup(curl);
         curl_global_cleanup();
@@ -17,7 +17,8 @@ Network::~Network()
 
 bool Network::initialize(configuration::ConfigurationManager& settings)
 {
-#ifdef HEADLESS
+    framesSinceLastPush = 0;
+#ifdef USECURL
     if (!settings.hasString("webServerUrl")) {
         LOG("Network Warning", "no serverUrl specified");
         curlInitialized = false;
@@ -48,7 +49,7 @@ bool Network::initialize(configuration::ConfigurationManager& settings)
       }
 
     }
-#endif //HEADLESS
+#endif //CURL
 
     firstFrame = true;
 
@@ -166,8 +167,8 @@ Frame* Network::dequeFrame()
 
 void Network::broadcastData(Frame& frame)
 {
-
-#ifdef HEADLESS
+    
+#ifdef USECURL
     if (curlInitialized) {
         char data[1337];
         int queStatus = frame.getQueStatus();
@@ -176,14 +177,21 @@ void Network::broadcastData(Frame& frame)
             std::string currentRoomID = frame.getCameras()[n].getRoomID();
             totalPopulation = totalPopulation + frame.getPopulationInRoomID(currentRoomID);
         }
-
         sprintf(data, "{\"queStatus\" : \"%d\", \"numOccupants\" : \"%d\"}", queStatus, totalPopulation);
-            if(curl) {
-            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
-            //printf("%s \n",data);
 
-            /* Perform the request, res will get the return code */
-            res = curl_easy_perform(curl);
+        //check if the state changed, if it did not, don't bother sending any data
+        if(strcmp(lastBroadcastState,data) == 0){
+            return;
+        }else{
+            //remember the data we sent
+            strcpy(lastBroadcastState,data);
+        
+            if(curl) {
+                curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
+
+                /* Perform the request, res will get the return code */
+                res = curl_easy_perform(curl);
+            }
         }
     }
 #else

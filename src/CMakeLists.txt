@@ -18,6 +18,7 @@ IF(APPLE)
     INCLUDE_DIRECTORIES(/usr/local/include/libfreenect)
     SET (CMAKE_CXX_FLAGS "-stdlib=libc++ -std=c++11")
     FIND_PACKAGE(CURL REQUIRED)
+    ADD_DEFINITIONS(-DUSECURL)
 ENDIF()
 
 IF(WIN32)

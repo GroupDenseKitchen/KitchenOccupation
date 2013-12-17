@@ -34,37 +34,37 @@ bool DenseKitchen::initialize(std::string path) {
     }
     printf("read config file \n");
     if(!network.initialize(settings)) {
-	printf("error initing network! \n");
+        //printf("error initing network! \n");
         LOG("DenseKitchen initialize error", "Network module could not be initialized!");
         isInitialized = false;
     }
     if(!imageProcessor.populateSubAlgorithms(settings, "ImageProcessor", algorithmFactory)) {
-	printf("error populating image processor \n");
+        //printf("error populating image processor \n");
         LOG("DenseKitchen initialize error", "Image processor failed when populating sub algorighms");
         isInitialized = false;
     }
     if(!analytics.populateSubAlgorithms(settings, "Analytics", algorithmFactory)) {
-	printf("error populating analytics \n");
+        //printf("error populating analytics \n");
         LOG("DenseKitchen initialize error", "Satisitics failed when populating sub algorighms");
         isInitialized = false;
     }
     if(!evaluator.populateSubAlgorithms(settings, "Evaluation", algorithmFactory)) {
-	printf("error populating  evaluation \n");
+        //printf("error populating  evaluation \n");
         LOG("DenseKitchen initialize error", "Satisitics failed when populating sub algorighms");
         isEvalInitialized = false;
     }
     if(!imageProcessor.initialize(settings)) {
-	printf("error initing image processor \n");
+        //printf("error initing image processor \n");
         LOG("DenseKitchen initialize error", "ImageProcessor could not be initialized!");
         isInitialized = false;
     }
     if(!analytics.initialize(settings)) {
-	printf("error initing analytics \n");
+        //printf("error initing analytics \n");
         LOG("DenseKitchen initialize error", "Statisitics could not be initialized!");
         isInitialized = false;
     }
     if(!evaluator.initialize(settings)) {
-	printf("error initing evaluation \n");
+        //printf("error initing evaluation \n");
         LOG("DenseKitchen initialize error", "Statisitics could not be initialized!");
          isEvalInitialized = false;
     }
