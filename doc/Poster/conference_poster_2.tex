@@ -159,24 +159,24 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 \end{itemize}
 \begin{figure}
 	\includegraphics[width=0.9\linewidth]{humanSegmentationSteps.png}
-	\caption{\centering \textit{Figure 2:} Upper row from the left: Raw input image, thresholded image, ??? image. \newline 
-			 			 Bottom row from the left: ?? image, ?? image, ??? image. }
+	\caption{\centering \textit{Figure 2:} Upper row from the left: Raw input image, Thresholded, Refined depth image. \newline 
+			 			 Bottom row from the left: Local Maxima detection, Head thresholding, Segmented heads. }
 \end{figure}
 \begin{figure}
 	\includegraphics[width=0.9\linewidth]{KinectSegmentationIllustration_occlusionHandling_horizontal.png}
-	\caption{\textit{Figure 3:} From left: Input raw image, Occlusion after thresholding, Successful segmentation}
+	\caption{\textit{Figure 3:} From left: Raw imput image, Occlusion after thresholding, Successful segmentation}
 \end{figure}
 
 \begin{itemize}
-	\item Tracking and counting (figure 4).
+	\item Tracking and counting (figure 4)
 	\begin{itemize}
 		\item{The tracker pairs objects with each other from previous frame to the next. Pairs closest matching objects. Handles occlusion, outliers and noise.}
 		\item{Counting is done using user specified checkpoint lines and a door area.}
 	\end{itemize}
 	
-	\item Queue detection.
+	\item Queue detection (figure 5)
 	\begin{itemize}
-		\item Objects connected by short Bézier curves, which has been fit to the objects' positions and velocities, are considered in a queue. (fig 4).
+		\item Objects connected by short Bézier curves, which has been fit to the objects' positions and velocities, are considered in a queue.
 		\item Queue severity is determined by queue detection frequency.
 	\end{itemize}
 \end{itemize}
@@ -225,7 +225,7 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 		\item Modular
 		\begin{itemize}
 			\item Algorithms have a very clear general interface to the rest of the pipeline.
-			\item Multiple algorithms of the same type could be developed in parallel with minimal interface compliance effort.
+			\item Multiple algorithms of the same type were developed in parallel, with minimal effort on interface compliance.
 			\item An entire new computer vision approach could be switched to at the end of the project with minimal effort.
 		\end{itemize}
 	\end{itemize}
@@ -248,8 +248,8 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 \begin{column}{.54\textwidth} % The first subdivided column within the first main column
 
 \begin{itemize}
-\item Transparent and flexible pipeline overview (figure 7).
-\item Automatic on-line low-level profiling of every module (figure 7).
+\item Transparent and flexible pipeline overview (figure 7)
+\item Automatic on-line low-level profiling of every module (figure 7)
 \item Configuration interface (figure 6)
 
 \begin{itemize}
