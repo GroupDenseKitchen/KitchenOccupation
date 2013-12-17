@@ -115,17 +115,10 @@ Erik Fall Gustav Häger Malin Rudin Alexander Sjöholm Martin Svensson Mattias T
 \begin{columns} % Subdivide the first main column
 \begin{column}{.54\textwidth} % The first subdivided column within the first main column
 \begin{itemize}
-\item Hardware setup.
-\begin{itemize}
-\item Require one or several Microsoft Kinect cameras (one over each entrance).
-\item Require power....
-\item Require a computational device with internet connection...
-\end{itemize}
-\item Portability.
-\begin{itemize}
-\item Cross platform. Support most UNIX-like systems and Windows.
-\item Stuff about supported sensors and platforms.
-\end{itemize}
+\item Hardware setup\\
+One or several Microsoft Kinect cameras and a computational device with Internet connection is required, as well as access to the power grid.
+\item Portability\\
+Cross platform in the sense that we support most UNIX-like systems and Windows.
 \end{itemize}
 \end{column}
 
@@ -137,15 +130,6 @@ Erik Fall Gustav Häger Malin Rudin Alexander Sjöholm Martin Svensson Mattias T
 \end{figure}
 \end{column}
 \end{columns} % End of the subdivision
-
-\begin{itemize}
-\item Performance requirements.
-\begin{itemize}
-\item Herpa derpa derpa.
-\item derp herrrp derp.
-\item Walla.
-\end{itemize}
-\end{itemize}
 
 \end{block}
 
@@ -206,7 +190,7 @@ Built in C++ but very modular, extendable and configurable.
 \end{columns} % End of the subdivision
 
 \begin{figure}
-\includegraphics[width=\linewidth]{PosterDebuggerCrop.png}
+\includegraphics[width=0.8\linewidth]{PosterDebuggerCrop.png}
 \caption{}
 \end{figure}
 
@@ -232,12 +216,17 @@ Built in C++ but very modular, extendable and configurable.
 
 \begin{itemize}
 \item Human segmentation.\\
-The human segmentation is based on the assumption that human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ much more than a head in height. The later assumption seem to hold more often than one might think, as supported by over 5 hours of test data. The segmentation is realized by a series of threshold and morphological operations, gaussian blurring, contour drawing and searches for local maxima's. 
+The human segmentation is based on the assumption that human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ much more than a head in height. The later assumption seem to hold more often than one might think, as supported by over 5 hours of test data. The segmentation is realized by a series of threshold and morphological operations, gaussian blurring, contour drawing and searches for local maxima's.
+\end{itemize}
 \begin{figure}
-\includegraphics[width=1.0\linewidth]{KinectSegmentationIllustration_occlusionHandling_horizontal.png}
+\includegraphics[width=0.8\linewidth]{humanSegmentationSteps.png}
+\caption{Human segmentation steps}
+\end{figure}
+\begin{figure}
+\includegraphics[width=0.8\linewidth]{KinectSegmentationIllustration_occlusionHandling_horizontal.png}
 \caption{Occlusion handling}
 \end{figure}
-
+\begin{itemize}
 \item Tracking and counting.
 \begin{columns}
 \begin{column}{0.45\textwidth}
