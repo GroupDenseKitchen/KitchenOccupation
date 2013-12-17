@@ -193,8 +193,8 @@ X \rightarrow r(X) & = \arg \max_{c} \Big\{ \max_n \big\{ \sum_{x_i \in X} \delt
 \end{itemize}
 \item Tracking and counting.
 \begin{itemize}
-\item{The tracker pairs objects with each other from previous frame to the current frame. Pairs closest matching objects, includes error handling.}
-\item{Counting is done using checkpoint lines and a door area.}
+\item{The tracker pairs objects with each other from previous frame to the next. Pairs closest matching objects. Handles occlution, outliers and noise.}
+\item{Counting is done using user specified checkpoint lines and a door area.}
 \end{itemize}
 \item Queue detection.
 \begin{itemize}
