@@ -115,28 +115,25 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 %----------------------------------------------------------------------------------------
 
 \begin{block}{System}
-
 	\begin{columns} % Subdivide the first main column
 		\begin{column}{.54\textwidth} % The first subdivided column within the first main column
 			\begin{itemize}
-				\item Hardware setup.
+				\item Hardware setup
 				\begin{itemize}
-					\item Require one or several Microsoft Kinect cameras (one over each entrance).
-					\item Require power....
-					\item Require a computational device with internet connection...
+					\item One or several Microsoft Kinect cameras and a computational device with Internet connection is required, as well as access to the power grid.
 				\end{itemize}
-				\item Portability.
+				\item Portability
 				\begin{itemize}
-					\item Cross platform. Support most UNIX-like systems and Windows.
-				\end{itemize}
+					\item Cross platform in the sense that we support most UNIX-like systems and Windows.
+				\end{itemize}							
 			\end{itemize}
 		\end{column}
 			
 		\begin{column}{.43\textwidth} % The second subdivided column within the first main column
 			\centering
 			\begin{figure}
-				\includegraphics[width=1.0\linewidth]{system_overview.png}
-				\caption{Figure caption}
+				\includegraphics[width=0.9\linewidth]{system_overview.png}
+				\caption{System Overview}
 			\end{figure}
 		\end{column}
 	\end{columns} % End of the subdivision
@@ -144,25 +141,93 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 \end{block}
 
 %----------------------------------------------------------------------------------------
+%	Image Processing
+%----------------------------------------------------------------------------------------
+
+\begin{block}{Image Processing}
+\begin{itemize}
+	\item Human segmentation
+	\begin{itemize}
+	\item The human segmentation is based on the assumption that human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ much more than a head in height (see figure). The later assumption seem to hold more often than one might think, as supported by over 5 hours of test data. The segmentation is realized by a series of threshold and morphological operations, gaussian blurring, contour drawing and searches for local maxima's (see figure).
+	\end{itemize}
+\end{itemize}
+\begin{figure}
+	\includegraphics[width=0.9\linewidth]{humanSegmentationSteps.png}
+	\caption{Human segmentation steps}
+\end{figure}
+\begin{figure}
+	\includegraphics[width=0.9\linewidth]{KinectSegmentationIllustration_occlusionHandling_horizontal.png}
+	\caption{Occlusion handling}
+\end{figure}
+
+\begin{itemize}
+	\item Tracking and counting.
+	\begin{itemize}
+		\item{The tracker pairs objects with each other from previous frame to the next. Pairs closest matching objects. Handles occlusion, outliers and noise.}
+		\item{Counting is done using user specified checkpoint lines and a door area.}
+	\end{itemize}
+	
+	\item Queue detection.
+	\begin{itemize}
+		\item Queues are detected using Bézier? splines based on object velocities.
+		\item Queue severity is estimated by ...<???>...
+	\end{itemize}
+\end{itemize}
+
+\begin{figure}
+%\centering
+\begin{subfigure}{.5\textwidth}
+\centering
+\includegraphics[width=0.9\linewidth]{trackingExample.png}
+\caption{\centering Newly found potential objects(red), lost 
+		 objects(blue) and objects(green)}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+\centering
+\includegraphics[width=0.9\linewidth]{visibleQueue.png}
+\caption{\centering A detected queue, illustrated using the spline connecting the persons.}
+\end{subfigure}
+\end{figure}
+
+\end{block}
+
+%----------------------------------------------------------------------------------------
+
+% ----- NEW COLUMN ---------------------------------------------
+
+\end{column} % End of the first column
+
+\begin{column}{.03\textwidth}\end{column} % Empty spacer column
+ 
+\begin{column}{.465\textwidth} % The second column
+
+% ----- NEW COLUMN ---------------------------------------------
+
+
+
+
+%----------------------------------------------------------------------------------------
 %	Software system
 %----------------------------------------------------------------------------------------
 
 \begin{block}{Software}
-Built in C++ but very modular, extendable and configurable.
 \begin{itemize}
-\item Modular
-\begin{itemize}
-\item Algorithms have a very clear general interface to the rest of the pipeline.
-\item Multiple algorithms of the same type could be developed in parallel with minimal interface compliance effort.
-\item An entire new computer vision approach could be switched to at the end of the project, entirely painless.
+	\item Built in C++ but very modular, extendable and configurable.
 \end{itemize}
-\end{itemize}
-\begin{itemize}
-\item Configurable
-\begin{itemize}
-\item The entire pipeline can be reconfigured in the config file, including and rearranging algorithms as well as specifying their parameters without recompiling.
-\item Possible to automate tests of hundreds of configurations, changing both algorithms and algorithm parameters.
-\end{itemize}
+	\begin{itemize}
+		\item Modular
+		\begin{itemize}
+			\item Algorithms have a very clear general interface to the rest of the pipeline.
+			\item Multiple algorithms of the same type could be developed in parallel with minimal interface compliance effort.
+			\item An entire new computer vision approach could be switched to at the end of the project, entirely painless.
+		\end{itemize}
+	\end{itemize}
+	\begin{itemize}
+		\item Configurable
+	\begin{itemize}
+		\item The entire pipeline can be reconfigured in the config file, including and rearranging algorithms as well as specifying their parameters without recompiling.
+		\item Possible to automate tests of hundreds of configurations, changing both algorithms and algorithm parameters.
+	\end{itemize}
 \end{itemize}
 \end{block}
 
@@ -170,7 +235,7 @@ Built in C++ but very modular, extendable and configurable.
 %	User Interface
 %----------------------------------------------------------------------------------------
 
-\begin{block}{Dense Debugger}
+\begin{block}{Program GUI}
 
 \begin{columns} % Subdivide the first main column
 \begin{column}{.54\textwidth} % The first subdivided column within the first main column
@@ -201,70 +266,10 @@ Built in C++ but very modular, extendable and configurable.
 
 \begin{figure}
 \includegraphics[width=0.8\linewidth]{PosterDebuggerCrop.png}
-\caption{}
+\caption{Main GUI window}
 \end{figure}
 
 \end{block}
-
-% ----- NEW COLUMN ---------------------------------------------
-
-\end{column} % End of the first column
-
-\begin{column}{.03\textwidth}\end{column} % Empty spacer column
- 
-\begin{column}{.465\textwidth} % The second column
-
-% ----- NEW COLUMN ---------------------------------------------
-
-%----------------------------------------------------------------------------------------
-%	Pepole counting
-%----------------------------------------------------------------------------------------
-
-\begin{block}{Image Processing}
-
-
-
-\begin{itemize}
-	\item Human segmentation.\\
-	The human segmentation is based on the assumption that human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ much more than a head in height. The later assumption seem to hold more often than one might think, as supported by over 5 hours of test data. The segmentation is realized by a series of threshold and morphological operations, gaussian blurring, contour drawing and searches for local maxima's. 
-\end{itemize}
-\begin{figure}
-	\includegraphics[width=1.0\linewidth]{KinectSegmentationIllustration_occlusionHandling_horizontal.png}
-	\caption{Occlusion handling}
-\end{figure}
-
-\begin{itemize}
-	\item Tracking and counting.
-	\begin{itemize}
-		\item{The tracker pairs objects with each other from previous frame to the next. Pairs closest matching objects. Handles occlusion, outliers and noise.}
-		\item{Counting is done using user specified checkpoint lines and a door area.}
-	\end{itemize}
-	
-	\item Queue detection.
-	\begin{itemize}
-		\item detecting queues
-	\end{itemize}
-\end{itemize}
-
-\begin{figure}
-%\centering
-\begin{subfigure}{.5\textwidth}
-\centering
-\includegraphics[width=0.9\linewidth]{trackingExample.png}
-\caption{\centering Newly found potential objects(red), lost 
-		 object(blue) and an object(green)}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-\centering
-\includegraphics[width=0.9\linewidth]{visibleQueue.png}
-\caption{\centering Figure caption}
-\end{subfigure}
-\end{figure}
-
-\end{block}
-
-%----------------------------------------------------------------------------------------
-
 
 
 %----------------------------------------------------------------------------------------
@@ -326,7 +331,6 @@ A_{out} = 1 - |\frac{\sum_{frames}{out_{Est}}-\sum_{frames}out_{GT}}{\sum_{frame
 \begin{itemize}
 \item The system provides high-precision people counting using the Microsoft Kinect sensors.
 \item The software architecture enables fast implementing and testing of different algorithms.
-\item SOMETHING MORE
 \end{itemize}
 
 \end{block}
