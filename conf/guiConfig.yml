@@ -1,4 +1,5 @@
 %YAML:1.0
 presetCameraNumber: [ 0 ]
+recordToFile: 1
 presetStepName:
    - rawImage
