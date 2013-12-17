@@ -148,7 +148,7 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 \begin{itemize}
 	\item Human segmentation
 	\begin{itemize}
-	\item The human segmentation is based on the assumption that human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ much more than a head in height (see figure). The later assumption seem to hold more often than one might think, as supported by over 5 hours of test data. The segmentation is realized by a series of threshold and morphological operations, gaussian blurring, contour drawing and searches for local maxima's (see figure).
+	\item The human segmentation is based on the assumption that human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ much more than a head in height (see figure). The later assumption seem to hold more often than one might think, as supported by over 5 hours of test data. The segmentation is realized by a series of threshold and morphological operations, Gaussian blurring, contour drawing and searches for local maxima's (see figure).
 	\end{itemize}
 \end{itemize}
 \begin{figure}
@@ -169,8 +169,8 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 	
 	\item Queue detection.
 	\begin{itemize}
-		\item Queues are detected using Bézier curves using object velocities.
-		\item Queue severity is calculated averaging detected queues over a few frames
+		\item Queues are detected using Bézier splines based on object velocities.
+		\item Queue severity is based on averaging detected queues over a few frames.
 	\end{itemize}
 \end{itemize}
 
@@ -235,15 +235,15 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 %	User Interface
 %----------------------------------------------------------------------------------------
 
-\begin{block}{Program GUI}
+\begin{block}{Configuration \& debugging GUI}
 
 \begin{columns} % Subdivide the first main column
 \begin{column}{.54\textwidth} % The first subdivided column within the first main column
 
 \begin{itemize}
 \item Transparent and flexible pipeline overview.
-\item Online low-level profiling for every module.
-\item Configuration interface
+\item Automatic online low-level profiling of every module.
+\item Configuration interface (see figure)
 
 \begin{itemize}
 \item Doors (green)
@@ -257,7 +257,7 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 \begin{column}{.43\textwidth} % The second subdivided column within the first main column
 \centering
 \begin{figure}
-\includegraphics[width=\linewidth]{PosterConfigCrop.png}
+\includegraphics[width=0.985\linewidth]{PosterConfigCrop.png}
 \label{fig:Config}
 \caption{Visualization of configurables}
 \end{figure}
@@ -265,7 +265,7 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 \end{columns} % End of the subdivision
 
 \begin{figure}
-\includegraphics[width=0.8\linewidth]{PosterDebuggerCrop.png}
+\includegraphics[width=0.9\linewidth]{PosterDebuggerCrop.png}
 \caption{Main GUI window}
 \end{figure}
 
@@ -329,8 +329,8 @@ A_{out} = 1 - |\frac{\sum_{frames}{out_{Est}}-\sum_{frames}out_{GT}}{\sum_{frame
 \begin{block}{Conclusion}
 
 \begin{itemize}
-\item The system provides high-precision people counting using the Microsoft Kinect sensors.
-\item The software architecture enables fast implementing and testing of different algorithms.
+\item The system provides high-precision real time people counting using the Microsoft Kinect sensor at low computational cost on a 2Ghz low-end CPU.
+\item The software architecture enables fast implementing and testing of different algorithms. It enable a very lightweight and high-performing vision pipeline. 
 \end{itemize}
 
 \end{block}
