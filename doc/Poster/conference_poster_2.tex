@@ -154,7 +154,7 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 \begin{itemize}
 	\item Human segmentation
 	\begin{itemize}
-	\item The human segmentation is based on the assumption that human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ much more than a head in height (figure 3). The segmentation is realized by a series of threshold and morphological operations, Gaussian blurring, contour drawing and searches for local maxima's (figure 2).
+	\item Human segmentation is based on the assumption that human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ radically in height (figure 3). It is realized by a series of threshold and morphological operations, Gaussian blurring, contour drawing and searches for local maxima's (figure 2).
 	\end{itemize}
 \end{itemize}
 \begin{figure}
@@ -176,8 +176,8 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 	
 	\item Queue detection.
 	\begin{itemize}
-		\item Queues are detected using Bézier splines based on object velocities (fig 4).
-		\item Queue severity is based on averaging detected queues over a few frames.
+		\item Objects connected by short Bézier curves, which has been fit to the objects' positions and velocities, are considered in a queue. (fig 4).
+		\item Queue severity is determined by queue detection frequency.
 	\end{itemize}
 \end{itemize}
 
@@ -337,7 +337,7 @@ A_{out} = 1 - |\frac{\sum_{frames}{out_{Est}}-\sum_{frames}out_{GT}}{\sum_{frame
 
 \begin{itemize}
 \item The system provides high-precision real time people counting using the Microsoft Kinect sensor at low computational cost on a 2Ghz low-end CPU.
-\item The software architecture enables fast implementing and testing of different algorithms. It enable a very lightweight and high-performing vision pipeline. 
+\item The software architecture enables fast implementing and testing of different algorithms. It gives a very lightweight and high-performing vision pipeline. 
 \end{itemize}
 \vspace*{0.011\textheight} % Manual alignment, change this factor if re-alignment is needed.
 \end{block}
