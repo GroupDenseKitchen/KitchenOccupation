@@ -40,8 +40,18 @@
 
 \graphicspath{{figures/}} % Location of the graphics files
 
-\usecaptiontemplate{\small\structure{\insertcaptionname~\insertcaptionnumber: }\insertcaption} % A fix for figure numbering
+%--------------------------- added packages ---------------------------------------------
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
 
+%----------------------------------------------------------------------------------------
+
+
+%\usecaptiontemplate{\small\structure{\insertcaptionname \insertcaptionnumber: }\insertcaption} % A fix for figure numbering
+\usecaptiontemplate{\insertcaptionname ~\insertcaptionnumber: \insertcaption}
+\usepackage[labelformat=empty]{caption}		% (tack Häger!)
+\usepackage[labelformat=empty]{subcaption} % Removes autolabelstuff, label manually!
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION 
 %----------------------------------------------------------------------------------------
@@ -57,7 +67,7 @@
 %----------------------------------------------------------------------------------------
 
 \newcommand{\leftfoot}{
-
+\vspace*{-0.004\textheight}
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill} } c c c c c c c}
 Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson & Mattias Tiger & Nikolaus West
 \end{tabular*}
@@ -66,11 +76,7 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 
 \newcommand{\rightfoot}{} %{http://www.densekitchen.bloip.se} % Right footer text
 
-%--------------------------- added packages ---------------------------------------------
-\usepackage{subcaption}
-\usepackage{float}
 
-%----------------------------------------------------------------------------------------
 
 \begin{document}
 
@@ -118,7 +124,7 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 	\begin{columns} % Subdivide the first main column
 		\begin{column}{.54\textwidth} % The first subdivided column within the first main column
 			\begin{itemize}
-				\item Hardware setup
+				\item Hardware setup (figure 1)
 				\begin{itemize}
 					\item One or several Microsoft Kinect cameras and a computational device with Internet connection is required, as well as access to the power grid.
 				\end{itemize}
@@ -133,7 +139,7 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 			\centering
 			\begin{figure}
 				\includegraphics[width=0.9\linewidth]{system_overview.png}
-				\caption{System Overview}
+				\caption{\centering \textit{Figure 1:} Rough system overview with main components.}
 			\end{figure}
 		\end{column}
 	\end{columns} % End of the subdivision
@@ -148,20 +154,21 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 \begin{itemize}
 	\item Human segmentation
 	\begin{itemize}
-	\item The human segmentation is based on the assumption that human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ much more than a head in height (see figure). The later assumption seem to hold more often than one might think, as supported by over 5 hours of test data. The segmentation is realized by a series of threshold and morphological operations, Gaussian blurring, contour drawing and searches for local maxima's (see figure).
+	\item The human segmentation is based on the assumption that human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ much more than a head in height (figure 3). The segmentation is realized by a series of threshold and morphological operations, Gaussian blurring, contour drawing and searches for local maxima's (figure 2).
 	\end{itemize}
 \end{itemize}
 \begin{figure}
 	\includegraphics[width=0.9\linewidth]{humanSegmentationSteps.png}
-	\caption{Human segmentation steps}
+	\caption{\centering \textit{Figure 2:} Upper row from the left: Raw input image, thresholded image, ??? image. \newline 
+			 			 Bottom row from the left: ?? image, ?? image, ??? image. }
 \end{figure}
 \begin{figure}
 	\includegraphics[width=0.9\linewidth]{KinectSegmentationIllustration_occlusionHandling_horizontal.png}
-	\caption{Occlusion handling}
+	\caption{\textit{Figure 3:} From left: Input raw image, Occlusion after thresholding, Successful segmentation}
 \end{figure}
 
 \begin{itemize}
-	\item Tracking and counting.
+	\item Tracking and counting (figure 4).
 	\begin{itemize}
 		\item{The tracker pairs objects with each other from previous frame to the next. Pairs closest matching objects. Handles occlusion, outliers and noise.}
 		\item{Counting is done using user specified checkpoint lines and a door area.}
@@ -169,7 +176,7 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 	
 	\item Queue detection.
 	\begin{itemize}
-		\item Queues are detected using Bézier splines based on object velocities.
+		\item Queues are detected using Bézier splines based on object velocities (fig 4).
 		\item Queue severity is based on averaging detected queues over a few frames.
 	\end{itemize}
 \end{itemize}
@@ -179,13 +186,13 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 \begin{subfigure}{.5\textwidth}
 \centering
 \includegraphics[width=0.9\linewidth]{trackingExample.png}
-\caption{\centering Newly found potential objects(red), lost 
+\caption{\centering \textit{Figure 4:} Newly found potential objects(red), lost 
 		 objects(blue) and objects(green)}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
 \centering
 \includegraphics[width=0.9\linewidth]{visibleQueue.png}
-\caption{\centering A detected queue, illustrated using the spline connecting the persons.}
+\caption{\centering \textit{Figure 5:} A detected queue, illustrated using the spline connecting the persons.}
 \end{subfigure}
 \end{figure}
 
@@ -212,21 +219,21 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 
 \begin{block}{Software}
 \begin{itemize}
-	\item Built in C++ in a very modular, extendable and configurable way.
+	\item Built in C++ in a very modular, extendable and configurable fashion.
 \end{itemize}
 	\begin{itemize}
 		\item Modular
 		\begin{itemize}
 			\item Algorithms have a very clear general interface to the rest of the pipeline.
 			\item Multiple algorithms of the same type could be developed in parallel with minimal interface compliance effort.
-			\item An entire new computer vision approach could be switched to at the end of the project, entirely painless.
+			\item An entire new computer vision approach could be switched to at the end of the project with minimal effort.
 		\end{itemize}
 	\end{itemize}
 	\begin{itemize}
 		\item Configurable
 	\begin{itemize}
-		\item The entire pipeline can be reconfigured in the configuration file: including, removing and rearranging algorithms, as well as specifying their parameters, without recompiling.
-		\item It is possible to automate tests of hundreds of configurations, changing both algorithms and algorithm parameters.
+		\item The entire pipeline can be reconfigured from file. This includes addition, removal and rearrangement of algorithms, and parameter values.
+		\item It is possible to automate tests of hundreds of configurations, changing both algorithms and algorithm parameters without re-compiling.
 	\end{itemize}
 \end{itemize}
 \end{block}
@@ -235,20 +242,20 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 %	User Interface
 %----------------------------------------------------------------------------------------
 
-\begin{block}{Configuration \& debugging GUI}
+\begin{block}{Configuration \& Debugging GUI}
 
 \begin{columns} % Subdivide the first main column
 \begin{column}{.54\textwidth} % The first subdivided column within the first main column
 
 \begin{itemize}
-\item Transparent and flexible pipeline overview.
-\item Automatic online low-level profiling of every module.
-\item Configuration interface (see figure)
+\item Transparent and flexible pipeline overview (figure 7).
+\item Automatic on-line low-level profiling of every module (figure 7).
+\item Configuration interface (figure 6)
 
 \begin{itemize}
 \item Doors (green)
 \item Entering checkpoints (circles)
-\item Exclusions (red)
+\item Excluded areas (red)
 \end{itemize}
 \end{itemize}
 
@@ -259,14 +266,14 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 \begin{figure}
 \includegraphics[width=0.985\linewidth]{PosterConfigCrop.png}
 \label{fig:Config}
-\caption{Visualization of configurables}
+\caption{\textit{Figure 6:} Visualization of configurables}
 \end{figure}
 \end{column}
 \end{columns} % End of the subdivision
 
 \begin{figure}
 \includegraphics[width=0.9\linewidth]{PosterDebuggerCrop.png}
-\caption{Main GUI window}
+\caption{\centering \textit{Figure 7:} Main GUI window with the different processing steps, (top left), profiling information (top right) and log messages (bottom)}
 \end{figure}
 
 \end{block}
@@ -280,7 +287,7 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 \begin{block}{Results: Table}
 
 \begin{itemize}
-\item Final system performance
+\item Final system performance and equations used during evaluation.
 \end{itemize}
 
 \begin{equation}
@@ -332,7 +339,7 @@ A_{out} = 1 - |\frac{\sum_{frames}{out_{Est}}-\sum_{frames}out_{GT}}{\sum_{frame
 \item The system provides high-precision real time people counting using the Microsoft Kinect sensor at low computational cost on a 2Ghz low-end CPU.
 \item The software architecture enables fast implementing and testing of different algorithms. It enable a very lightweight and high-performing vision pipeline. 
 \end{itemize}
-
+\vspace*{0.011\textheight} % Manual alignment, change this factor if re-alignment is needed.
 \end{block}
 
 %----------------------------------------------------------------------------------------
