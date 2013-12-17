@@ -21,7 +21,9 @@
 
 \documentclass[final,hyperref={pdfpagelabels=false}]{beamer}
 
-\usepackage[orientation=portrait,size=a0,scale=1.4]{beamerposter} % Use the beamerposter package for laying out the poster with a portrait orientation and an a0 paper size
+\usepackage[orientation=portrait,size=a1,scale=1.4]{beamerposter} % Use the beamerposter package for laying out the poster with a portrait orientation and an a0 paper size
+
+\usepackage[utf8]{inputenc} % Enable åäö
 
 \usetheme{I6pd2} % Use the I6pd2 theme supplied with this template
 
@@ -30,7 +32,7 @@
 \usepackage{amsmath,amsthm,amssymb,latexsym} % For including math equations, theorems, symbols, etc
 
 %\usepackage{times}\usefonttheme{professionalfonts}  % Uncomment to use Times as the main font
-%\usefonttheme[onlymath]{serif} % Uncomment to use a Serif font within math environments
+\usefonttheme[onlymath]{serif} % Uncomment to use a Serif font within math environments
 
 \boldmath % Use bold for everything within the math environment
 
@@ -46,7 +48,7 @@
 
 \title{\huge Kitchen Occupation} % Poster title
 
-\author{Group Dense Kitchen} % Author(s)
+\author{People counting using depth sensors.} % Author(s)
 
 \institute{Department of Electrical Engineering, Link\"{o}öping University} % Institution(s)
 
@@ -54,9 +56,9 @@
 %	FOOTER TEXT
 %----------------------------------------------------------------------------------------
 
-\newcommand{\leftfoot}{http://www.densekitchen.bloip.se} % Left footer text
+\newcommand{\leftfoot}{Created by: Erik Fall, Gustav H\"ager, Malin Rudin, Alexander Sj\"oholm, Martin Svensson, Mattias Tiger and Nikolaus West} % Left footer text
 
-\newcommand{\rightfoot}{herp@derp.com} % Right footer text
+\newcommand{\rightfoot}{} %{http://www.densekitchen.bloip.se} % Right footer text
 
 %----------------------------------------------------------------------------------------
 
@@ -90,10 +92,10 @@
 %	INTRODUCTION
 %----------------------------------------------------------------------------------------
             
-\begin{block}{Introduction}
+\begin{block}{Introduction ??}
 
 \begin{itemize}
-\item The Linköping university IT department wants to be able to measure room usage intensity, promarily the student kitchens, but also other spaces. In order to provide make sure enough resources are spent on 
+\item The Linköping University IT department wants to be able to measure room usage intensity, primarily the student kitchens, but also other spaces. In order enable informed decisions to be made on where to invest in e.g. a new kitchen
 \end{itemize}
 
 \end{block}
@@ -191,7 +193,8 @@ X \rightarrow r(X) & = \arg \max_{c} \Big\{ \max_n \big\{ \sum_{x_i \in X} \delt
 \end{itemize}
 \item Tracking and counting.
 \begin{itemize}
-\item{tracking and counting stuff}
+\item{The tracker pairs objects with each other from previous frame to the next. Pairs closest matching objects. Handles occlution, outliers and noise.}
+\item{Counting is done using user specified checkpoint lines and a door area.}
 \end{itemize}
 \item Queue detection.
 \begin{itemize}
@@ -209,42 +212,38 @@ X \rightarrow r(X) & = \arg \max_{c} \Big\{ \max_n \big\{ \sum_{x_i \in X} \delt
 %	RESULTS
 %----------------------------------------------------------------------------------------
 
+
 \begin{block}{Results: Table}
 
 \begin{itemize}
-\item Ased Aliquet Luctus Lectus
+\item Final system performance
 \end{itemize}
 
-\begin{table}
-\begin{tabular}{l l l}
-\toprule
-\textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2}\\
-\midrule
-Treatment 1 & 0.0003262 & 0.562 \\
-Treatment 2 & 0.0015681 & 0.910 \\
-Treatment 3 & 0.0009271 & 0.296 \\
-\bottomrule
-\end{tabular}
-\caption{Table caption}
+\begin{equation}
+\label{eq:in_accuracy}
+A_{in} = 1 - |\frac{\sum_{frames}{in_{Est}}-\sum_{frames}{in_{GT}}}{\sum_{frames}in_{GT}}|
+\end{equation} 
+
+\begin{equation}
+\label{eq:out_accuracy}
+A_{out} = 1 - |\frac{\sum_{frames}{out_{Est}}-\sum_{frames}out_{GT}}{\sum_{frames}out_{GT}}| 
+\end{equation} 
+
+
+\begin{table}[h]
+\centering
+	\begin{tabular}{r | c | c | c | c | c | c }
+		\emph{Sequence Name}		&  Total entered (GT) & \emph{$A_{in}$} & Total exited (GT) & \emph{$A_{out}$} \\
+		\hline \hline
+		Data seq. 1			& 108 (108) people & 99 \% & 101 (104) people & 97 \% \\
+		Data seq. 2			& 122 (141) people & 87 \% & 77 (91) people & 85 \%  \\
+		\end{tabular}
+	\caption{System performance in the two evaluation sequences}
 \end{table}
 
 \begin{itemize}
-\item Sollicitudin Vel Orci
-\item Maecenas Ultricies Feugiat Velit Non Mattis.
+\item Data seq. 1 \& Data seq. 2 are two data sequences of 30 minutes each. 
 \end{itemize}
-
-\begin{table}
-\begin{tabular}{l l l}
-\toprule
-\textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2}\\
-\midrule
-Treatment 1 & 0.0003262 & 0.562 \\
-Treatment 2 & 0.0015681 & 0.910 \\
-Treatment 3 & 0.0009271 & 0.296 \\
-\bottomrule
-\end{tabular}
-\caption{Table caption}
-\end{table}
      
 \end{block}
 
@@ -266,7 +265,7 @@ Treatment 3 & 0.0009271 & 0.296 \\
 \begin{block}{Conclusion}
 
 \begin{itemize}
-\item awesome
+\item The system provides high-precision people counting using the Microsoft Kinect sensors.
 \item Nulla eu erat a urna laoreet auctor id a turpis. Nam mollis tristique neque eu luctus. Suspendisse rutrum congue nisi sed convallis. 
 \item Aenean id neque dolor.
 \item Opet volutpat ligula. Duis semper lorem eget dui dignissim porttitor. Nulla facilisi. In ullamcorper lorem quis dolor iaculis nec egestas enim ultricies. Cras ut mauris elit, ut lacinia dui. Proin in ante et libero hendrerit iaculis.
