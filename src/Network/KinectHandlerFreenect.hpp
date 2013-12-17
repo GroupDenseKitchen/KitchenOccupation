@@ -4,9 +4,12 @@
 #include <cstdint>
 
 #include "../Utilities/utilities.hpp"
+#include "../Utilities/Timer.hpp"
 
 #include <libfreenect.h>
 #include <libfreenect_sync.h>
+
+#include <unistd.h>
 
 /*!
  * \brief   The kinect namespace contains functionality for reading rgb and depth images from a kinect 360 device.
@@ -60,6 +63,7 @@ public:
 
 private:
     int nDevices;
+    Timer samplingTimer;
 
 
 };

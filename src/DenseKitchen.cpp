@@ -65,7 +65,7 @@ bool DenseKitchen::initialize(std::string path) {
     }
     if(!evaluator.initialize(settings)) {
 	printf("error initing evaluation \n");
-        LOG("DenseKitchen initialize error", "Statisitics could not be initialized!");
+        LOG("DenseKitchen initialize error", "Evaluator could not be initialized!");
          isEvalInitialized = false;
     }
     PROFILER_ITERATION_END();
