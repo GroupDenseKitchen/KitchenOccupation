@@ -32,7 +32,7 @@
 \usepackage{amsmath,amsthm,amssymb,latexsym} % For including math equations, theorems, symbols, etc
 
 %\usepackage{times}\usefonttheme{professionalfonts}  % Uncomment to use Times as the main font
-%\usefonttheme[onlymath]{serif} % Uncomment to use a Serif font within math environments
+\usefonttheme[onlymath]{serif} % Uncomment to use a Serif font within math environments
 
 \boldmath % Use bold for everything within the math environment
 
@@ -193,7 +193,8 @@ X \rightarrow r(X) & = \arg \max_{c} \Big\{ \max_n \big\{ \sum_{x_i \in X} \delt
 \end{itemize}
 \item Tracking and counting.
 \begin{itemize}
-\item{tracking and counting stuff}
+\item{The tracker pairs objects with each other from previous frame to the current frame. Pairs closest matching objects, includes error handling.}
+\item{Counting is done using checkpoint lines and a door area.}
 \end{itemize}
 \item Queue detection.
 \begin{itemize}
@@ -211,29 +212,37 @@ X \rightarrow r(X) & = \arg \max_{c} \Big\{ \max_n \big\{ \sum_{x_i \in X} \delt
 %	RESULTS
 %----------------------------------------------------------------------------------------
 
+
 \begin{block}{Results: Table}
 
 \begin{itemize}
 \item Final system performance
 \end{itemize}
 
-\begin{table}
-\begin{tabular}{l l l l l}
-\toprule
-\textbf{Sequence} & \textbf{Entries (GT)} & \textbf{Accuracy} & \textbf{Exits (GT)} & \textbf{Accuracy}\\
-\midrule
-1 (23464 frames) & 108 (108) & 97\% & 101 (104) & 97\% \\
-2 (23464 frames) & 145 (123) & 97\% & 123 (333) & 97\% \\
-3 (23464 frames) & 123 (124) & 97\% & 124 (124) & 97\% \\
-\bottomrule
-\end{tabular}
-\caption{System performance in the three evaluation sequences}
+\begin{equation}
+\label{eq:in_accuracy}
+A_{in} = 1 - |\frac{\sum_{frames}{in_{Est}}-\sum_{frames}{in_{GT}}}{\sum_{frames}in_{GT}}|
+\end{equation} 
+
+\begin{equation}
+\label{eq:out_accuracy}
+A_{out} = 1 - |\frac{\sum_{frames}{out_{Est}}-\sum_{frames}out_{GT}}{\sum_{frames}out_{GT}}| 
+\end{equation} 
+
+
+\begin{table}[h]
+\centering
+	\begin{tabular}{r | c | c | c | c | c | c }
+		\emph{Sequence Name}		&  Total entered (GT) & \emph{$A_{in}$} & Total exited (GT) & \emph{$A_{out}$} \\
+		\hline \hline
+		Data seq. 1			& 108 (108) people & 99 \% & 101 (104) people & 97 \% \\
+		Data seq. 2			& 122 (141) people & 87 \% & 77 (91) people & 85 \%  \\
+		\end{tabular}
+	\caption{System performance in the two evaluation sequences}
 \end{table}
 
-
 \begin{itemize}
-\item Sollicitudin Vel Orci
-\item Maecenas Ultricies Feugiat Velit Non Mattis.
+\item Data seq. 1 \& Data seq. 2 are two data sequences of 30 minutes each. 
 \end{itemize}
      
 \end{block}
