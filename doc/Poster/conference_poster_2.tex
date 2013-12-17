@@ -66,6 +66,10 @@ Erik Fall Gustav Häger Malin Rudin Alexander Sjöholm Martin Svensson Mattias T
 
 \newcommand{\rightfoot}{} %{http://www.densekitchen.bloip.se} % Right footer text
 
+%--------------------------- added packages ---------------------------------------------
+\usepackage{subcaption}
+\usepackage{float}
+
 %----------------------------------------------------------------------------------------
 
 \begin{document}
@@ -115,10 +119,23 @@ Erik Fall Gustav Häger Malin Rudin Alexander Sjöholm Martin Svensson Mattias T
 \begin{columns} % Subdivide the first main column
 \begin{column}{.54\textwidth} % The first subdivided column within the first main column
 \begin{itemize}
+<<<<<<< HEAD
 \item Hardware setup\\
 One or several Microsoft Kinect cameras and a computational device with Internet connection is required, as well as access to the power grid.
 \item Portability\\
 Cross platform in the sense that we support most UNIX-like systems and Windows.
+=======
+\item Hardware setup.
+\begin{itemize}
+\item Require one or several Microsoft Kinect cameras (one over each entrance).
+\item Require power....
+\item Require a computational device with internet connection...
+\end{itemize}
+\item Portability.
+\begin{itemize}
+\item Cross platform. Support most UNIX-like systems and Windows.
+\end{itemize}
+>>>>>>> Cleaned up the poster
 \end{itemize}
 \end{column}
 
@@ -215,48 +232,41 @@ Built in C++ but very modular, extendable and configurable.
 
 
 \begin{itemize}
-\item Human segmentation.\\
-The human segmentation is based on the assumption that human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ much more than a head in height. The later assumption seem to hold more often than one might think, as supported by over 5 hours of test data. The segmentation is realized by a series of threshold and morphological operations, gaussian blurring, contour drawing and searches for local maxima's.
+	\item Human segmentation.\\
+	The human segmentation is based on the assumption that human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ much more than a head in height. The later assumption seem to hold more often than one might think, as supported by over 5 hours of test data. The segmentation is realized by a series of threshold and morphological operations, gaussian blurring, contour drawing and searches for local maxima's. 
 \end{itemize}
 \begin{figure}
-\includegraphics[width=0.8\linewidth]{humanSegmentationSteps.png}
-\caption{Human segmentation steps}
+	\includegraphics[width=1.0\linewidth]{KinectSegmentationIllustration_occlusionHandling_horizontal.png}
+	\caption{Occlusion handling}
 \end{figure}
-\begin{figure}
-\includegraphics[width=0.8\linewidth]{KinectSegmentationIllustration_occlusionHandling_horizontal.png}
-\caption{Occlusion handling}
-\end{figure}
-\begin{itemize}
-\item Tracking and counting.
-\begin{columns}
-\begin{column}{0.45\textwidth}
-\begin{itemize}
-\item{The tracker pairs objects with each other from previous frame to the next. Pairs closest matching objects. Handles occlution, outliers and noise.}
-\item{Counting is done using user specified checkpoint lines and a door area.}
-\end{itemize}
-\end{column}
-\begin{column}{0.45\textwidth}
-\begin{figure}
-\includegraphics[width=1\linewidth]{trackingExample.png}
-\caption{Newly found potential objects(red), lost object(blue) and an object(green)}
-\end{figure}
-\end{column}
-\end{columns}
 
-\item Queue detection.
-\begin{columns}
-\begin{column}{0.45\textwidth}
 \begin{itemize}
-\item{detecting queues}
+	\item Tracking and counting.
+	\begin{itemize}
+		\item{The tracker pairs objects with each other from previous frame to the next. Pairs closest matching objects. Handles occlusion, outliers and noise.}
+		\item{Counting is done using user specified checkpoint lines and a door area.}
+	\end{itemize}
+	
+	\item Queue detection.
+	\begin{itemize}
+		\item{detecting queues}
+	\end{itemize}
 \end{itemize}
-\end{column}
-\begin{column}{0.45\textwidth}
+
 \begin{figure}
-\includegraphics[width=1\linewidth]{visibleQueue.png}
-\caption{Figure caption}
+%\centering
+\begin{subfigure}{.5\textwidth}
+\centering
+\includegraphics[width=0.9\linewidth]{trackingExample.png}
+\caption{\centering Newly found potential objects(red), lost 
+		 object(blue) and an object(green)}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+\centering
+\includegraphics[width=0.9\linewidth]{visibleQueue.png}
+\caption{\centering Figure caption}
+\end{subfigure}
 \end{figure}
-\end{column}
-\end{columns}
 
 \end{itemize}
 \end{block}
@@ -373,7 +383,7 @@ A_{out} = 1 - |\frac{\sum_{frames}{out_{Est}}-\sum_{frames}out_{GT}}{\sum_{frame
 
 \end{column} % End of the second column
 
-\begin{column}{.015\textwidth}\end{column} % Empty spacer column
+\begin{column}{.02\textwidth}\end{column} % Empty spacer column
 
 \end{columns} % End of all the columns in the poster
 
