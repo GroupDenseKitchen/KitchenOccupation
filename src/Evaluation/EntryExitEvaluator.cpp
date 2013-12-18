@@ -1,5 +1,4 @@
 #include "EntryExitEvaluator.hpp"
-#include "QDebug"
 
 namespace evaluation {
 
@@ -80,11 +79,6 @@ bool EntryExitEvaluator::initialize(configuration::ConfigurationManager &setting
     accuracyTot = 0;
     save = 10; //save every 10th frame
     return true;
-}
-
-int round(float x)
-{
-    return std::floor(x + 0.5);
 }
 
 void EntryExitEvaluator::process(FrameList &frames)
