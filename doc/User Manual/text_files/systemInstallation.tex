@@ -9,13 +9,13 @@ There are two versions of the software, one with a calibration and configuration
 \item masks.yml
 \end{itemize}
 
-When running the GUI version there is exists an additional configuration file specifically for the GUI:
+When running the GUI version there is also an additional configuration file specifically for the GUI:
 
 \begin{itemize}
 \item guiConfig.yml
 \end{itemize}
 
-Default versions of these files are located in the conf folder. When the GUI version is run these files are generated and stored next to the executable. If desired these can be copy to the conf folder and act as defaults in the future.
+Default versions of these files are located in the \textit{conf} folder. When the GUI version is run these files are generated and stored next to the executable. If desired these can be copied to the \textit{conf} folder and act as defaults in the future.
 
 Linux, OS X or Windows is required on the machine running the software. At least one Kinect camera must be connected before starting the program. Some software libraries are required to compile the program, these are listed in table \ref{reqSoftware} below. \\
 
@@ -23,12 +23,12 @@ Linux, OS X or Windows is required on the machine running the software. At least
 \begin{center}
   \begin{tabular}{ | l | l | }
     \hline
-    \textbf{Software} & \textbf{Comments} \\ \hline
-    OpenCV2 & Needed for general image processing  \\ \hline
-    libFreenect & Needed for communication with Kinect on Linux and OS X systems  \\ \hline
-    OpenNI & Needed for communication with Kinect on Windows systems  \\ \hline
-    libCurl & Needed to send HTTP requests to the report API \\ \hline
-    QT5 & Needed for the GUI code, not used in headless variant \\ \hline
+    \textbf{Software} & \textbf{Purpose} \\ \hline
+    OpenCV2 & General image processing  \\ \hline
+    libFreenect & Communication with Kinect on Linux and OS X systems  \\ \hline
+    OpenNI2 & Communication with Kinect on Windows systems  \\ \hline
+    libCurl & Sending HTTP requests to the report API \\ \hline
+    QT5 & GUI functionality. Not used in headless variant \\ \hline
   \end{tabular}
   \label{reqSoftware}
   \caption{Required software libraries.}
