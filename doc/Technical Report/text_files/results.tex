@@ -16,19 +16,39 @@ In table \ref{tab:evaluation_performance} below the video clips chosen for the e
 	\label{tab:evaluation_performance}
 \end{table}
 
-Plots of ground truth comparison and accuracy for the evaluation sequences can be found in figure \ref{fig:R-kitchen entries}, \ref{fig:R-kitchen exits}, \ref{fig:B25-kitchen entries}, \ref{fig:B25-kitchen exits}, \ref{fig:U-kitchen entries} and \ref{fig:U-kitchen exits}.
+Plots of ground truth comparison and accuracy for the evaluation sequences can be found in figures \ref{fig:R-kitchen example} to \ref{fig:U-kitchen exits}.
 \newpage
+
+
 \begin{figure}[H]
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.1\linewidth]{images/EntriesTest.png}
+  \includegraphics[width=0.9\linewidth]{images/R-kitchen1.png}
+  \caption{Example depth image from the R-kitchen data set}
+  \label{fig:sub1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.9\linewidth]{images/R-kitchen2.png}
+  \caption{An other, more crowded example depth image}
+  \label{fig:sub2}
+\end{subfigure}
+\caption[R-kitchen exits]{\textit{Example depth images from the R-kitchen data set}}
+\label{fig:R-kitchen example}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth]{images/EntriesTest.png}
   \caption{Measured entries and ground truth}
   \label{fig:sub1}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.1\linewidth]{images/AccEntriesTest.png}
+  \includegraphics[width=1.0\linewidth]{images/AccEntriesTest.png}
   \caption{Accuracy}
   \label{fig:sub2}
 \end{subfigure}
@@ -40,32 +60,52 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.1\linewidth]{images/ExitsTest.png}
+  \includegraphics[width=1.0\linewidth]{images/ExitsTest.png}
   \caption{Measured exits and ground truth}
   \label{fig:sub1}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.1\linewidth]{images/AccExitsTest.png}
+  \includegraphics[width=1.0\linewidth]{images/AccExitsTest.png}
   \caption{Accuracy}
   \label{fig:sub2}
 \end{subfigure}
 \caption[R-kitchen exits]{\textit{R-Kitchen data. Plot of measured exits, ground truth and accuracy}}
 \label{fig:R-kitchen exits}
 \end{figure}
+
+
 \newpage
 
 \begin{figure}[H]
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.1\linewidth]{images/entriesGTB25.png}
+  \includegraphics[width=0.9\linewidth]{images/B25-Kitchen-color.png}
+  \caption{An example color image taken from the B25-kitchen data set}
+  \label{fig:sub1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.9\linewidth]{images/B25FOLK.png}
+  \caption{An example depth image}
+  \label{fig:sub2}
+\end{subfigure}
+\caption[R-kitchen exits]{\textit{Example color and depth images from the B25-kithcen data set}}
+\label{fig:B25-kitchen example}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth]{images/entriesGTB25.png}
   \caption{Measured entries and ground truth}
   \label{fig:sub1}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.1\linewidth]{images/accInB25.png}
+  \includegraphics[width=1.0\linewidth]{images/accInB25.png}
   \caption{Accuracy}
   \label{fig:sub2}
 \end{subfigure}
@@ -73,7 +113,7 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
 \label{fig:B25-kitchen entries}
 \end{figure}
 
-\begin{figure}[]
+\begin{figure}[h]
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
@@ -96,6 +136,24 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
+  \includegraphics[width=0.9\linewidth]{images/U-Kitchen-color.png}
+  \caption{An example color image taken from the U-kitchen data set}
+  \label{fig:sub1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.9\linewidth]{images/UFolk.png}
+  \caption{An example depth image}
+  \label{fig:sub2}
+\end{subfigure}
+\caption[R-kitchen exits]{\textit{Example color and depth images from the U-kitchen data set}}
+\label{fig:U-kitchen example}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
   \includegraphics[width=1.1\linewidth]{images/entriesGTU.png}
   \caption{Measured entries and ground truth}
   \label{fig:sub1}
@@ -110,7 +168,7 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
 \label{fig:U-kitchen entries}
 \end{figure}
 
-\begin{figure}[]
+\begin{figure}[h]
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
