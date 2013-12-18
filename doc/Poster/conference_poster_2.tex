@@ -128,19 +128,25 @@ Objectives
 
 \begin{block}{
 \vspace*{-0.002\textheight}
-System
+System Properties
 }
 	\begin{columns} % Subdivide the first main column
 		\begin{column}{.54\textwidth} % The first subdivided column within the first main column
 			\begin{itemize}
-				\item Hardware setup (figure 1)
-				\begin{itemize}
-					\item One or several Microsoft Kinect cameras and a computational device with Internet connection is required.
-				\end{itemize}
-				\item Portability
-				\begin{itemize}
-					\item Cross platform in the sense that we support most UNIX-like systems and Windows.
-				\end{itemize}							
+				\item Modular and easily configurable image processing pipeline.
+				\item User-friendly debugging and configuration interfaces.
+%				\begin{itemize}
+				
+%				\end{itemize}
+				\item Hardware consists of several Microsoft Kinect cameras and a computational device (figure 1).			
+%				\item Hardware setup (figure 1)
+%				\begin{itemize}
+%					\item One or several Microsoft Kinect cameras and a computational device.
+%				\end{itemize}
+				\item Cross-platform in  the sense that most UNIX-like and Windows systems are supported.
+%				\begin{itemize}
+%					\item Cross platform in the sense that we support most UNIX-like systems and Windows.
+%				\end{itemize}							
 			\end{itemize}
 		\end{column}
 			
@@ -166,7 +172,7 @@ Image Processing Pipeline
 \begin{itemize}
 	\item Human segmentation
 	\begin{itemize}
-	\item Human segmentation is based on the assumption that human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ radically in height (figure 3). It is realized by a series of threshold and morphological operations, Gaussian blurring, contour drawing and searches for local maxima's (figure 2).
+	\item Human segmentation is based on the assumption that human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ radically in height (figure 3). It is achieved by a series of thresholdings, morphological operations, smoothings, contour drawings and searches for local maxima (figure 2).
 	\end{itemize}
 \end{itemize}
 \begin{figure}
@@ -182,13 +188,15 @@ Image Processing Pipeline
 \begin{itemize}
 	\item Tracking and counting (figure 4)
 	\begin{itemize}
-		\item{The tracker pairs objects with each other from previous frame to the next. Pairs closest matching objects. Handles occlusion, outliers and noise.}
-		\item{Counting is done using user specified checkpoint lines and a door area.}
+		\item Objects are paired with their closest matching object from the previous frame. Occlusion, outliers and noise are handled.
+		
+		%\item{The tracker pairs objects with each other from previous frame to the next. Pairs closest matching objects. Handles %occlusion, outliers and noise.}
+		\item{Counting is done using user-specified checkpoint lines and a door area.}
 	\end{itemize}
 	
 	\item Queue detection (figure 5)
 	\begin{itemize}
-		\item Objects connected by short Bézier curves, which has been fit to the objects' positions and velocities, are considered in a queue.
+		\item Objects connected by short Bézier curves, which has been fit to the objects' positions and velocities, are considered to be in a queue.
 		\item Queue severity is determined by queue detection frequency.
 	\end{itemize}
 \end{itemize}
@@ -198,8 +206,8 @@ Image Processing Pipeline
 \begin{subfigure}{.5\textwidth}
 \centering
 \includegraphics[width=0.9\linewidth]{trackingExample.png}
-\caption{\centering \textit{Figure 4:} Newly found potential objects(red), lost 
-		 objects(blue) and objects(green)}
+\caption{\centering \textit{Figure 4:} Newly found potential objects (red), lost 
+		 objects (blue) and objects (green)}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
 \centering
@@ -241,7 +249,7 @@ Software
 		\begin{itemize}
 			\item Algorithms have a very clear general interface to the rest of the pipeline.
 			\item Multiple algorithms of the same type were developed in parallel, with minimal effort on interface compliance.
-			\item An entire new computer vision approach could be switched to at the end of the project with minimal effort.
+			\item Allowed the entire computer vision approach to be switched near the end of the project with minimal effort.
 		\end{itemize}
 	\end{itemize}
 	\begin{itemize}
@@ -267,7 +275,7 @@ Configuration \& Debugging GUI
 
 \begin{itemize}
 \item Transparent and flexible pipeline overview (figure 7)
-\item Automatic on-line low-level profiling of every module (figure 7)
+\item Automatic on-line low-level profiling of every system module (figure 7)
 \item Configuration interface (figure 6)
 
 \begin{itemize}
@@ -291,7 +299,7 @@ Configuration \& Debugging GUI
 
 \begin{figure}
 \includegraphics[width=0.9\linewidth]{PosterDebuggerLogo.png}
-\caption{\centering \textit{Figure 7:} Main GUI window with the different processing steps, (top left), profiling information (top right) and log messages (bottom)}
+\caption{\centering \textit{Figure 7:} Main GUI window with the different processing steps (top left), profiling information for system modules (top right) and log messages (bottom)}
 \end{figure}
 
 \end{block}
