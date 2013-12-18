@@ -19,7 +19,7 @@ The human segmentation is based on the assumption that human heads are distingui
 
 \newpage
 \subsection{Tracking and counting}
-The tracking algorithm performs six different steps for each frame iteration. The tracker has a list objects found by earlier image processing steps and one list of objects passed from the previous frame. Tracking is done by pairing closest objects with each other, from previous frame to the current frame. Objects need to live for a predetermine configurable amount of frames before it will be counted. This will prevent false flickering objects from generating false entries. Lost objects are also kept alive for some frames, this enables objects to be lost and found. Figure \ref{fig:trackingexample} illustrates how objects are seen as real objects, lost objects or potential objects, depending on their lifetime. 
+The tracking algorithm performs six different steps for each frame iteration. The tracker has a list objects found by earlier image processing steps and one list of objects passed from the previous frame. Tracking is done by pairing closest objects with each other, from previous frame to the current frame. Objects need to live for a predetermine configurable amount of frames before it will be counted. This prevent false flickering objects from generating false entries. Lost objects are also kept alive for some frames, this enables objects to be lost and found. Figure \ref{fig:trackingexample} illustrates how objects are seen as real objects, lost objects or potential objects, depending on their lifetime. 
 
 \begin{figure}[htb]
 	\centering
