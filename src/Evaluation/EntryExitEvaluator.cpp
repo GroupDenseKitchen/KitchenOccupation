@@ -12,10 +12,6 @@ EntryExitEvaluator::~EntryExitEvaluator()
 {
 }
 
-int round(float x) {
-    return std::floor(x+0.5);
-}
-
 bool EntryExitEvaluator::initialize(configuration::ConfigurationManager &settings)
 {
     // Reads ground truth from files.
