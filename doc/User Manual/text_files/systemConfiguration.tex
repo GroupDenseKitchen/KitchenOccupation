@@ -1,37 +1,39 @@
-Before the system can run properly some masks needs to be defined. These are used to:
+Before the system can run properly some masks needs to be specified. These are used to define:
 
 \begin{itemize}
-\item Define doors
-\item Define non-interesting areas
-\item Define entering checkpoints
+\item Doors
+\item Entering checkpoints
+\item Non-interesting areas
+
 \end{itemize}
 
-These are adjusted in the Configure Window found under the System tab in the menu bar.
+These are adjusted in the Configure Window found under the \textit{System} tab in the menu bar.
 
-\subsubsection{Checkpoint circles}
-The first thing to do is to insert three circles that are used as checkpoints when the system is counting people. All three circles needs to be passed before the system accepts it as and enter or exit. To draw a circle, check the \textit{Circle} check box. Place the cursor where want the center of your circle to be. Now press the mouse and move the cursor to adjust the radius. Three circles are automatically drawn and they should cover the door as shown in figure \ref{fig:circlePlacement} below.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\linewidth]{images/Manual2.png}
-	\caption[Circle placment]{\textit{A preferred placement of the checkpoint circles. }}
-	\label{fig:circlePlacement}  %Skapar referens till figuren
-\end{figure}
-
-\newpage
 \subsubsection{Door mask}
-The door mask should cover the entire door with some surrounding in front of the door. It is better to make this area too big rather than too small since people entering the room need to appear inside of this mask in order to be counted. A good example is shown in figure \ref{fig:doorMask} below. 
+The first thing to do is to insert the door mask which should cover the entire door with some surrounding in front of the door. It is better to make this area too big rather than too small since people entering the room need to appear inside of this mask in order to be counted. A good example is shown in figure \ref{fig:doorMask} below. 
 
 To add a door mask press \textit{New Polygon}. Now draw the mask by clicking in the image which adds control points to the mask, forming a polygon. To undo press Ctrl + Z. When the mask is done press \textit{Add as door}.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\linewidth]{images/Manual3.png}
-	\caption[Exclusion mask]{\textit{The preferred placement of the door mask is showed in green.}}
+	\includegraphics[width=\linewidth]{images/Conf2.png}
+	\caption[Door mask placement]
+	{\textit{The preferred placement of the door mask is showed in green.}}
 	\label{fig:doorMask}  %Skapar referens till figuren
 \end{figure}
-
 \newpage
+
+\subsubsection{Checkpoint circles}
+ Next, add three circles that are used as checkpoints when the system is counting people. All three circles needs to be passed by a person before the system accepts it as and enter or exit. To draw a circle, check the \textit{Circle} check box. Place the cursor where want the center of your circle to be. Now press the mouse and move the cursor to adjust the radius. Three circles are automatically drawn and they should cover the door as shown in figure \ref{fig:circlePlacement} below.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{images/Conf3.png}
+	\caption[Checkpoint circles placement]{\textit{A preferred placement of the checkpoint circles. }}
+	\label{fig:circlePlacement}  %Skapar referens till figuren
+\end{figure}
+\newpage
+
 \subsubsection{Exclusion mask}
 Exclusion masks should cover areas that should be completely ignored by system e.g. where people can not walk or appear. This can be areas like tables or areas above the door (walls in this case). This is illustrated in figure \ref{fig:exMask} below. Note that for long usage of the system, movable furniture should not be excluded.
 
@@ -39,13 +41,14 @@ To add an exclusion mask press \textit{New Polygon}. Now draw the mask by clicki
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\linewidth]{images/Manual1.png}
-	\caption[Exclusion mask]{\textit{Exclusion mask is marked as red. It covers areas where people can not walk or appear.}}
+	\includegraphics[width=\linewidth]{images/Conf4.png}
+	\caption[Exclusion mask placement]{\textit{Exclusion mask is marked as red. It covers areas where people can not walk or appear.}}
 	\label{fig:exMask}  %Skapar referens till figuren
 \end{figure}
 
 \newpage
 \subsection{Configuration file}
+\label{sec:ConfigurationFile}
 The config file used by the algorithm pipeline is called \textit{mainConf.yml}. In it any configurable variable in any algorithm currently selected to be in the pipeline can be specified. The pipeline itself can also be specified, allowing fo rapid swapping of algorithms. The most useful variables in the current pipeline are shown in table \ref{table:commonVariables}.\\
 
 \begin{table}[hbt]
