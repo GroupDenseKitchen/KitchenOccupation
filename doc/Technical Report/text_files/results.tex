@@ -16,8 +16,8 @@ In table \ref{tab:evaluation_performance} below the video clips chosen for the e
 	\label{tab:evaluation_performance}
 \end{table}
 
-Plots of ground truth comparison and accuracy for the evaluation sequences can be found in figure \ref{fig:R-kitchen entries}, \ref{fig:R-kitchen exits}, \ref{fig:B25-kitchen entries} and \ref{fig:B25-kitchen exits}.
-
+Plots of ground truth comparison and accuracy for the evaluation sequences can be found in figure \ref{fig:R-kitchen entries}, \ref{fig:R-kitchen exits}, \ref{fig:B25-kitchen entries}, \ref{fig:B25-kitchen exits}, \ref{fig:U-kitchen entries} and \ref{fig:U-kitchen exits}.
+\newpage
 \begin{figure}[H]
 \centering
 \begin{subfigure}{.5\textwidth}
@@ -35,9 +35,8 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
 \caption[R-kitchen entries]{\textit{R-Kitchen data. Plot of measured entries, ground truth and accuracy}}
 \label{fig:R-kitchen entries}
 \end{figure}
-\newpage
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
@@ -54,7 +53,7 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
 \caption[R-kitchen exits]{\textit{R-Kitchen data. Plot of measured exits, ground truth and accuracy}}
 \label{fig:R-kitchen exits}
 \end{figure}
-
+\newpage
 
 \begin{figure}[H]
 \centering
@@ -74,7 +73,7 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
 \label{fig:B25-kitchen entries}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[]
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
@@ -91,6 +90,7 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
 \caption[B25-kitchen exits]{\textit{B25-Kitchen data. Plot of measured exits, ground truth and accuracy}}
 \label{fig:B25-kitchen exits}
 \end{figure}
+\newpage
 
 \begin{figure}[H]
 \centering
@@ -106,11 +106,11 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
   \caption{Accuracy}
   \label{fig:sub2}
 \end{subfigure}
-\caption[B25-kitchen entries]{\textit{U-Kitchen data. Plot of measured entries, ground truth and accuracy}}
-\label{fig:B25-kitchen entries}
+\caption[U-kitchen entries]{\textit{U-Kitchen data. Plot of measured entries, ground truth and accuracy}}
+\label{fig:U-kitchen entries}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[]
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
@@ -124,9 +124,10 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
   \caption{Accuracy}
   \label{fig:sub2}
 \end{subfigure}
-\caption[B25-kitchen exits]{\textit{U-Kitchen data. Plot of measured exits, ground truth and accuracy}}
-\label{fig:B25-kitchen exits}
+\caption[U-kitchen exits]{\textit{U-Kitchen data. Plot of measured exits, ground truth and accuracy}}
+\label{fig:U-kitchen exits}
 \end{figure}
+\newpage
 
 \subsection{Queue Detection}
 Below in figure \ref{fig:Queue Detection}, several screenshots from the queue detection steps are shown. Several difficult cases are shown to be handled gracefully. The main difficulty is when the small field of view gives situations where a queue is present but only one queuing person is detected at one time. However, this is usually handled well by the queue severity estimation, as the thresholds for the proportion of frames with detected queues can be calibrated to account for these results, given that several queuing persons are in view at simultaneously sometimes. 
@@ -172,7 +173,7 @@ Below in figure \ref{fig:Queue Detection}, several screenshots from the queue de
 \caption[Queues]{\textit{Depth data images from the R-Kitchen, with green boxes showing detected objects,blue dots showing object centers, blue lines from the centers showing estimated velocities, and white curves showing the fitted Beziér splines.}}
 \label{fig:Queue Detection}
 \end{figure}
-
+\newpage
 \subsection{Discussion}
 The performance of the R-Kitchen and U-Kitchen sets are very good. The R-Kitchen set is a sequence of 30 minutes, where only the first 5 was used for tuning. The system performed worse on the B25-Kitchen sequence, but that is probably explained by the fact that the sensor was a bit misplaced, making parts of the upper door area on one side to be outside of the field of view, as well as the lack of room-calibration. The reason no more data sets were used was simply that no more time was available.
 
