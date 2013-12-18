@@ -1,9 +1,9 @@
-The system counts the people entering and leaving a room, presents a classification of the severity of potential queues to enter the room, and sends this information to a web server over a REST api. To be able to do this, a Microsoft Kinect is placed over each entrance to the room, and is connected to the computation device that runs the system software for that room. A debug/configuration GUI can be used to calibrate and configure the software. This produces configuration files that are used by the system. Further tuning and configuration can be done by editing the configuration files. 
+The system counts the people entering and leaving a room, presents a classification of the severity of potential queues to enter the room, and sends this information to a web server over a REST API. To be able to do this, a Microsoft Kinect is placed over each entrance to the room, and is connected to the computation device that runs the system software for that room. A debug/configuration GUI can be used to calibrate and configure the software. This produces configuration files that are used by the system. Further tuning and configuration can be done by editing the configuration files. A system overview can be seen in figure \ref{fig:system_overview} below.
 
 \begin{figure}[htb]
 	\centering
 	\includegraphics[width=\linewidth]{images/system_overview.pdf}
-	\caption[Overview of the entire system]{\textit{System overview. One Microsoft Kinect (green objects) is placed over each entry to the room (doors). The Kinects are connected to a computation device (between the Kinects above), which communicates to a server over the internet.}}
+	\caption[Overview of the entire system]{\textit{System overview. One Microsoft Kinect (green objects) is placed over each entry to the room (doors). The Kinects are connected to a computation device (between the Kinects above), which communicates to a server over the Internet.}}
 	\label{fig:system_overview}  %Skapar referens till figuren
 \end{figure}
 
@@ -29,4 +29,4 @@ The statistics module handles computation and processing that is not done direct
 The evaluation module handles the evaluation of the algorithm pipeline by comparison between its results and the ground truth on labeled data sets.  
 
 \subsection{Debugging and configuration GUI}
-The system includes a debugging and configuration GUI where the results from each of the process steps can be viewed in real time, and one step at a time. It can also be used to assist in tuning and calibrating the system, and is necessary for proper set up of a new sensor/room. 
+The system includes a debugging and configuration GUI where the results from each of the process steps can be viewed in real time, and one step at a time. It can also be used to assist in tuning and calibrating the system, and is necessary for proper setup of a new sensor and room. 
