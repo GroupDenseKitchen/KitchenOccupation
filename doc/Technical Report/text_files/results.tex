@@ -90,7 +90,54 @@ In table \ref{tab:evaluation_performance} below the video clips chosen for the e
 \label{fig:Exits evaluation}
 \end{figure}
 
+\subsection{Queue Detection}
+Below in figure \ref{fig:Queue Detection}, several screenshots from the queue detection steps are shown. Several difficult cases are shown to be handled gracefully. The main difficulty is when the small field of view gives situations where a queue is present but only one queuing person is detected at one time. However, this is usually handled well by the queue severity estimation, as the thresholds for the proportion of frames with detected queues can be calibrated to account for these results, given that several queuing persons are in view at simultaneously sometimes. 
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.4\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth]{images/queueDetected3.png}
+  \caption{A queue of stationary persons is detected.}
+  \label{fig:sub1}
+\end{subfigure}
+\begin{subfigure}{.4\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth]{images/queueDetected1.png}
+  \caption{A queue is detected with unsure direction.}
+  \label{fig:sub2}
+\end{subfigure} 
+\begin{subfigure}{.4\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth]{images/queueDetected2.png}
+  \caption{The individuals on his/her way out is not counted in the queue.}
+  \label{fig:sub3}
+\end{subfigure}
+\begin{subfigure}{.4\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth]{images/noQueue1.png}
+  \caption{Correctly, no queue is detected since both detected objects are moving in opposite directions.}
+  \label{fig:sub4}
+\end{subfigure}
+\begin{subfigure}{.4\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth]{images/noQueue2.png}
+  \caption{Correctly, no queue is detected since both detected objects are moving too fast.}
+  \label{fig:sub5}
+\end{subfigure} 
+\begin{subfigure}{.4\textwidth}
+  \centering
+  \includegraphics[width=1.0\linewidth]{images/queueNotDetected.png}
+  \caption{Incorrectly, no queue is detected due to that the next person's head is not in view.}
+  \label{fig:sub6}
+\end{subfigure}%
+\caption[Queues]{\textit{Depth data images from the R-Kitchen, with green boxes showing detected objects,blue dots showing object centers, blue lines from the centers showing estimated velocities, and white curves showing the fitted Beziér splines.}}
+\label{fig:Queue Detection}
+\end{figure}
+
 \subsection{Discussion}
 The performance of the R-Kitchen and U-Kitchen sets are very good. The R-Kitchen set is a sequence of 30 minutes, where only the first 5 was used for tuning. The system performed worse on the B25-Kitchen sequence, but that is probably explained by the fact that the sensor was a bit misplaced, making parts of the upper door area on one side to be outside of the field of view, as well as the lack of room-calibration. The reason no more data sets were used was simply that no more time was available.
+
+The queue detection and severity estimation in general worked as expected but performed worse for more sparse queues, in combination with a small field of view.  
 
 
