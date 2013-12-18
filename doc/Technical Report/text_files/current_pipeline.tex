@@ -41,7 +41,7 @@ To register if objects enter or exit the room the objects has to fulfill some re
 \newpage
 
 \subsection{Queue severity estimation}
-Queues are detected by using the positions and velocities, which are calculated using a simple Kalman filter, of all visible persons. This information is used to draw splines between each of the visible persons. Two people are then considered to be in a queue if a short enough spline can be drawn between them. The result is that persons that stand still or move slowly along the same path are considered to be in a queue. Examples of this can be seen in \ref{fig:visible_queue} and \ref{fig:no_queue}.
+Queues are detected by using the positions and velocities, which are calculated using a simple Kalman filter, of all visible persons. This information is used to draw splines between each of the visible persons. Two people are then considered to be in a queue if a short enough spline can be drawn between them. The result is that persons that stand still or move slowly along the same path are considered to be in a queue. Examples of this can be seen in figure \ref{fig:visible_queue} and \ref{fig:no_queue}.
 \\ \\
 Queue severity is estimated by considering the proportion of frames with visible queues, and optionally the amount of people inside the room, over a set time interval. 
 \begin{figure}[H]

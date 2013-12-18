@@ -1,4 +1,4 @@
-The system results were obtained by evaluating against two recorded sequences from two different kitchens. The sequences were labeled manually using a self-developed labeling program.
+The system results were obtained by evaluating against three recorded sequences from three different kitchens. The sequences were labeled manually using a self-developed labeling program.
 
 \subsection{Evaluation Scores}
 In table \ref{tab:evaluation_performance} below the video clips chosen for the evaluation are presented, along with the achieved accuracy measurements. The first 5 minutes of the data set R-Kitchen was used when tuning and developing the system. The data set B25-Kitchen show how robust our system is, since the system wasn't calibrated for the specific room and the camera was slightly miss-placed. The majority of the errors was confirmed to depend on these two factors by ocular inspection.
@@ -16,6 +16,8 @@ In table \ref{tab:evaluation_performance} below the video clips chosen for the e
 	\label{tab:evaluation_performance}
 \end{table}
 
+Plots of ground truth comparison and accuracy for the evaluation sequences can be found in figure \ref{fig:R-kitchen entries}, \ref{fig:R-kitchen exits}, \ref{fig:B25-kitchen entries} and \ref{fig:B25-kitchen exits}.
+
 \begin{figure}[H]
 \centering
 \begin{subfigure}{.5\textwidth}
@@ -31,7 +33,7 @@ In table \ref{tab:evaluation_performance} below the video clips chosen for the e
   \label{fig:sub2}
 \end{subfigure}
 \caption[R-kitchen entries]{\textit{R-Kitchen data. Plot of measured entries, ground truth and accuracy}}
-\label{fig:Entries Training data}
+\label{fig:R-kitchen entries}
 \end{figure}
 \newpage
 
@@ -50,7 +52,7 @@ In table \ref{tab:evaluation_performance} below the video clips chosen for the e
   \label{fig:sub2}
 \end{subfigure}
 \caption[R-kitchen exits]{\textit{R-Kitchen data. Plot of measured exits, ground truth and accuracy}}
-\label{fig:Exits Training data}
+\label{fig:R-kitchen exits}
 \end{figure}
 
 
@@ -69,7 +71,7 @@ In table \ref{tab:evaluation_performance} below the video clips chosen for the e
   \label{fig:sub2}
 \end{subfigure}
 \caption[B25-kitchen entries]{\textit{B25-Kitchen data. Plot of measured entries, ground truth and accuracy}}
-\label{fig:Entries evaluation}
+\label{fig:B25-kitchen entries}
 \end{figure}
 
 \begin{figure}[H]
@@ -87,7 +89,7 @@ In table \ref{tab:evaluation_performance} below the video clips chosen for the e
   \label{fig:sub2}
 \end{subfigure}
 \caption[B25-kitchen exits]{\textit{B25-Kitchen data. Plot of measured exits, ground truth and accuracy}}
-\label{fig:Exits evaluation}
+\label{fig:B25-kitchen exits}
 \end{figure}
 
 \subsection{Discussion}
