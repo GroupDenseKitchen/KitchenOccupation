@@ -1,15 +1,16 @@
 The system results were obtained by evaluating against two recorded sequences from two different kitchens. The sequences were labeled manually using a self-developed labeling program.
 
 \subsection{Evaluation Scores}
-In table \ref{tab:evaluation_performance} below the video clips chosen for the evaluation are presented, along with the achieved accuracy measurements. Training data set is a sequence of 30 minutes, where the first 5 minutes was used when training and developing the system . Evaluation data 1 is a sequence of 30 minutes.
+In table \ref{tab:evaluation_performance} below the video clips chosen for the evaluation are presented, along with the achieved accuracy measurements. The first 5 minutes of the data set R-Kitchen was used when tuning and developing the system. The data set B25-Kitchen show how robust our system is, since the system wasn't calibrated for the specific room and the camera was slightly miss-placed. The majority of the errors was confirmed to depend on these two factors by ocular inspection.
 
 \begin{table}[h]
 \centering
-	\begin{tabular}{r | c | c | c | c | c | c }
-		\emph{Sequence Name}		&  Total entered (GT) & \emph{$A_{in}$} & Total exited (GT) & \emph{$A_{out}$} & \emph{$A_{bias}$}\\
+	\begin{tabular}{r | c | c | c | c | c | c | c }
+	\emph{Sequence Name}		&  Total entered (GT) & \emph{$A_{in}$} & Total exited (GT) & \emph{$A_{out}$} & length \\
 		\hline \hline
-		Training data			& 108 (108) people & 99 \% & 101 (104) people & 97 \% & -1 \% \\
-		Evaluation data 1		& 122 (141) people & 87 \% & 77 (91) people & 85 \% & 2 \% \\
+		R-Kitchen			& 108 (108) people & 99 \% & 101 (104) people & 97 \% & 30 min\\
+		B25-Kitchen			& 122 (141) people & 87 \% & 77 (91) people & 85 \% & 30 min \\
+		U-Kitchen			& 127 (122) people & 96 \% & 136 (135) people & 99 \% & 30 min  \\
 		\end{tabular}
 	\caption[System performance]{\textit{Counting performance according to the evaluation metric as described in section \ref{sec:evaluation}.}}
 	\label{tab:evaluation_performance}
@@ -23,15 +24,17 @@ In table \ref{tab:evaluation_performance} below the video clips chosen for the e
   \caption{Measured entries and ground truth}
   \label{fig:sub1}
 \end{subfigure}%
+\newpage
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=1.1\linewidth]{images/AccEntriesTest.png}
   \caption{Accuracy}
   \label{fig:sub2}
 \end{subfigure}
-\caption[Entries training]{\textit{Training data. Plot of measured entries, ground truth and accuracy}}
+\caption[Entries training]{\textit{R-Kitchen data. Plot of measured entries, ground truth and accuracy}}
 \label{fig:Entries Training data}
 \end{figure}
+\newpage
 
 \begin{figure}[H]
 \centering
@@ -47,7 +50,7 @@ In table \ref{tab:evaluation_performance} below the video clips chosen for the e
   \caption{Accuracy}
   \label{fig:sub2}
 \end{subfigure}
-\caption[Entries training]{\textit{Training data. Plot of measured exits, ground truth and accuracy}}
+\caption[Entries training]{\textit{R-Kitchen data. Plot of measured exits, ground truth and accuracy}}
 \label{fig:Exits Training data}
 \end{figure}
 
@@ -66,7 +69,7 @@ In table \ref{tab:evaluation_performance} below the video clips chosen for the e
   \caption{Accuracy}
   \label{fig:sub2}
 \end{subfigure}
-\caption[Entries evaluation]{\textit{Evaluation data 1. Plot of measured entries, ground truth and accuracy}}
+\caption[Entries evaluation]{\textit{B25-Kitchen data. Plot of measured entries, ground truth and accuracy}}
 \label{fig:Entries evaluation}
 \end{figure}
 
@@ -84,11 +87,11 @@ In table \ref{tab:evaluation_performance} below the video clips chosen for the e
   \caption{Accuracy}
   \label{fig:sub2}
 \end{subfigure}
-\caption[Entries evaluation]{\textit{Evaluation data 1. Plot of measured exits, ground truth and accuracy}}
+\caption[Entries evaluation]{\textit{B25-Kitchen data. Plot of measured exits, ground truth and accuracy}}
 \label{fig:Exits evaluation}
 \end{figure}
 
 \subsection{Discussion}
-The performance of the training data set is very good. This is a sequence of 30 minutes, where only the first 5 was used for tuning. The system performed worse on the sequence "evaluation data 1", but that is probably explained by the fact that the sensor was a bit misplaced, making parts of the upper door area on one side to be outside of the field of view. The reason no more data sets were used was simply that no more time was available.
+The performance of the R-Kitchen and U-Kitchen sets are very good. The R-Kitchen set is a sequence of 30 minutes, where only the first 5 was used for tuning. The system performed worse on the B25-Kitchen sequence, but that is probably explained by the fact that the sensor was a bit misplaced, making parts of the upper door area on one side to be outside of the field of view, as well as the lack of room-calibration. The reason no more data sets were used was simply that no more time was available.
 
 
