@@ -1,4 +1,5 @@
 #include "EntryExitEvaluator.hpp"
+#include "QDebug"
 
 namespace evaluation {
 
@@ -11,6 +12,12 @@ EntryExitEvaluator::~EntryExitEvaluator()
 {
 }
 
+#ifndef __APPLE__
+int round(float x) {
+    return std::floor(x+0.5);
+}
+#endif
+
 bool EntryExitEvaluator::initialize(configuration::ConfigurationManager &settings)
 {
     // Reads ground truth from files.
@@ -22,6 +29,7 @@ bool EntryExitEvaluator::initialize(configuration::ConfigurationManager &setting
     if(gtExists) {
         entryExitGtPaths = settings.getStringSeq("entryExitGroundTruthPaths");
     } else {
+        LOG("EntryExitEvauator", "Ground truth specified in \"entryExitGroundTruthPaths:\"");
         return false;
     }
 
@@ -43,7 +51,7 @@ bool EntryExitEvaluator::initialize(configuration::ConfigurationManager &setting
         // Save the ground truth values in groundTrouth.
         std::vector<inOutEvent> currentCamera;
         inOutEvent inOut;
-        //std::cout << in.size();
+        std::cout << in.size();
         for(std::vector<int>::size_type n = 0; n != in.size(); n++) {
             inOut.in = in[n];
             inOut.out = out[n];
@@ -67,13 +75,22 @@ bool EntryExitEvaluator::initialize(configuration::ConfigurationManager &setting
         diffTotalOfPeople.push_back(0);
     }
     numberOfFrames = minFrameCount;
+    accuracyIn = 0;
+    accuracyOut = 0;
+    accuracyTot = 0;
+    save = 10; //save every 10th frame
     return true;
+}
+
+int round(float x)
+{
+    return std::floor(x + 0.5);
 }
 
 void EntryExitEvaluator::process(FrameList &frames)
 {
     frameCount++;
-    if (frameCount >= numberOfFrames) {
+    if (frameCount > numberOfFrames) {
         return;
     }
 
@@ -95,9 +112,21 @@ void EntryExitEvaluator::process(FrameList &frames)
         prevEntered[i] = frames.getCurrent().getCameras()[i].getEntered();
         prevExited[i] = frames.getCurrent().getCameras()[i].getExited();
 
+
+
         // Sum ground truth enties and exits
         sumEntryGT[i] = sumEntryGT[i] + groundTruth[i][frameCount].in;
         sumExitGT[i] = sumExitGT[i] + groundTruth[i][frameCount].out;
+
+        //---------- Save data -----------
+        if(save == 10) {
+        saveAccuracyToFile(prevEntered[i], "/Users/erikfall/Desktop/entMeas.csv");
+        saveAccuracyToFile(prevExited[i], "/Users/erikfall/Desktop/exiMeas.csv");
+
+        saveAccuracyToFile(sumEntryGT[i], "/Users/erikfall/Desktop/entryGT.csv");
+        saveAccuracyToFile(sumExitGT[i], "/Users/erikfall/Desktop/exitGT.csv");
+        //--------------------------------
+        }
 
 
         //Accuracy computation
@@ -136,9 +165,9 @@ void EntryExitEvaluator::process(FrameList &frames)
                 cv::Point2d pos5(140,40);
                 cv::Point2d pos6(140,60);
 
-                accIn      = "Accuracy In:      " + std::to_string(int(std::floor(accuracyIn*100 + 0.5))) + " %";
-                accOut     = "Accuracy Out:     " + std::to_string(int(std::floor(accuracyOut*100 + 0.5))) + " %";
-                accTotDiff = "Accuracy TotDiff: " + std::to_string(int(std::floor(accuracyTot*100 + 0.5))) + " %";
+                accIn      = "Accuracy In:      " + std::to_string(int(round(accuracyIn*100))) + " %";
+                accOut     = "Accuracy Out:     " + std::to_string(int(round(accuracyOut*100))) + " %";
+                accTotDiff = "Accuracy TotDiff: " + std::to_string(int(round(accuracyTot*100))) + " %";
                 GTIn       = "(" + std::to_string(sumEntryGT[i]) + ")";
                 GTOut      = "(" + std::to_string(sumExitGT[i]) + ")";
                 GTTotal    = "(" + std::to_string(sumEntryGT[i] - sumExitGT[i]) + ")";
@@ -151,7 +180,26 @@ void EntryExitEvaluator::process(FrameList &frames)
                 putText(debugIm, GTTotal,    pos6, fontFace, fontScale, cv::Scalar(0,255,0), thickness, 8);
             }
         }
+
+        if(save == 10) {
+        saveAccuracyToFile(accuracyIn, "/Users/erikfall/Desktop/accuracyIn.csv");
+        saveAccuracyToFile(accuracyOut, "/Users/erikfall/Desktop/accuracyOut.csv");
+        saveAccuracyToFile(accuracyTot, "/Users/erikfall/Desktop/accuracyTot.csv");
+        }
+        if(save == 10) {
+            save = 0;
+        }
+        ++ save;
+
     }
+}
+
+void EntryExitEvaluator::saveAccuracyToFile(float value, std::string filepath)
+{
+    std::ofstream myfile;
+     myfile.open(filepath,std::ios_base::app);
+     myfile << value << ",";
+     myfile.close();
 }
 
 void EntryExitEvaluator::printToLog(unsigned int cameraIndex)

@@ -9,7 +9,7 @@ highOccupancyThreshold: 2147483647
 historyLength: 1800
 isDebug: 0
 lowOccupancyThreshold: 2147483647
-lowestDistanceOverFloor: 57
+lowestDistanceOverFloor: 65
 maxRecursionDepth: 10
 minimalHeadArea: 225
 minimalHumanArea: 2500
@@ -32,12 +32,11 @@ ImageProcessor:
    - KinectSegmentation
    - TrackingBruteForce
    - EntryExitCounter
-   - EntryExitEvaluator
 cameraPaths:
-   - "../data/seq9/seq9-3.mp4"
+   - "/Users/gustavhager/Desktop/TSBB11/project/data/seq12.mp4"
 entryExitGroundTruthPaths:
-   - "../data/seq9/seq9-3.yml"
+   - "../seq9/seq9-3.yml"
 trackerGroundTruthPaths:
-   - /Users/gustavhager/Desktop/TSBB11/project/data/GTseq14
+   - "/Users/gustavhager/Desktop/TSBB11/project/data/seq9/seq9-4GT.xml"
 videoFilePaths:
-   - "../data/seq12/seq12.mp4"
+   - "../data/seq14.mp4"

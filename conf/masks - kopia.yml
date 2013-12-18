@@ -1,0 +1,19 @@
+%YAML:1.0
+doorPolygons00: [ 30, 307 ]
+doorPolygons01: [ 189, 265 ]
+doorPolygons02: [ 425, 261 ]
+doorPolygons03: [ 582, 311 ]
+doorPolygonsCount: [ 4 ]
+exclusionPolygons00: [ 638, 81 ]
+exclusionPolygons01: [ 638, 325 ]
+exclusionPolygons02: [ 7, 318 ]
+exclusionPolygons03: [ 8, 258 ]
+exclusionPolygons04: [ 92, 264 ]
+exclusionPolygons05: [ 34, 289 ]
+exclusionPolygons06: [ 42, 303 ]
+exclusionPolygons07: [ 592, 306 ]
+exclusionPolygons08: [ 589, 111 ]
+exclusionPolygonsCount: [ 9 ]
+circleCenterX: 318
+circleCenterY: 391
+circleRadius: 198

@@ -14,6 +14,8 @@ KinectHandler::~KinectHandler()
 
 bool KinectHandler::initialize()
 {
+    samplingTimer.reset();
+
     freenect_context *f_ctx;
     if (freenect_init(&f_ctx, NULL) < 0) {
             LOG("Kinect handler error","freenect_init() failed\n");
@@ -31,6 +33,14 @@ bool KinectHandler::initialize()
 KinectFrame* KinectHandler::readFrame(int deviceID)
 {
     KinectFrame* frame = new KinectFrame;
+    double timeEllapsed = samplingTimer.getMicroseconds();
+    double timeLeft = 1000000/30.0 - timeEllapsed;
+    if (timeLeft > 0 ){
+        useconds_t timeleftuint = timeLeft;
+        std::cout << "Time left: " << timeleftuint << ", Time ellapsed:  " << timeEllapsed << std::endl;
+        usleep( timeleftuint );
+    }
+    samplingTimer.reset();
 
     // ------------ Depth ---------------
     std::uint16_t *depthData = 0;
