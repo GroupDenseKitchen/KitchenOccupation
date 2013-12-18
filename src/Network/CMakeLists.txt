@@ -8,7 +8,7 @@ ENDIF()
 
 IF(WIN32)
     # Windows specific
-    MESSAGE("Windows detected, building crippled version")
+    MESSAGE("Windows detected, kickin' ass")
     add_library(Network Network.cpp KinectHandlerOpenNi.cpp)
 ENDIF()
 
