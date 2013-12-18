@@ -9,7 +9,7 @@ highOccupancyThreshold: 2147483647
 historyLength: 1800
 isDebug: 0
 lowOccupancyThreshold: 2147483647
-lowestDistanceOverFloor: 57
+lowestDistanceOverFloor: 194
 maxRecursionDepth: 10
 minimalHeadArea: 225
 minimalHumanArea: 2500
@@ -18,8 +18,8 @@ runFromFile: 1
 useKinect: 0
 TrackingMaximumDistance: 2500.
 headHeightMargin: 7.
-highQueThreshold: 6.6666666666666663e-001
-lowQueThreshold: 3.3333333333333331e-001
+highQueThreshold: 6.6666666666666663e-01
+lowQueThreshold: 3.3333333333333331e-01
 maxSplineSegmentLength: 5.
 splineLengthThreshold: 600.
 velocityScaleFactor: 2.
@@ -32,12 +32,11 @@ ImageProcessor:
    - KinectSegmentation
    - TrackingBruteForce
    - EntryExitCounter
-   - EntryExitEvaluator
 cameraPaths:
    - "/Users/gustavhager/Desktop/TSBB11/project/data/seq12.mp4"
 entryExitGroundTruthPaths:
-   - "../data/GTseq14.yml"
+   - "../seq9/seq9-3.yml"
 trackerGroundTruthPaths:
-   - /Users/gustavhager/Desktop/TSBB11/project/data/GTseq14
+   - "/Users/gustavhager/Desktop/TSBB11/project/data/seq9/seq9-4GT.xml"
 videoFilePaths:
-   - "../data/seq14.mp4"
+   - "../data/seq10/seq14.mp4"

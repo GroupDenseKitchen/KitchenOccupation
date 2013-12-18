@@ -305,19 +305,16 @@ A_{out} = 1 - |\frac{\sum_{frames}{out_{Est}}-\sum_{frames}out_{GT}}{\sum_{frame
 
 \begin{table}[h]
 \centering
-	\begin{tabular}{r | c | c | c | c | c | c }
-		\emph{Sequence Name}		&  Total entered (GT) & \emph{$A_{in}$} & Total exited (GT) & \emph{$A_{out}$} \\
+	\begin{tabular}{r | c | c | c | c | c | c | c }
+		\emph{Sequence Name}		&  Total entered (GT) & \emph{$A_{in}$} & Total exited (GT) & \emph{$A_{out}$} & length \\
 		\hline \hline
-		Data seq. 1			& 108 (108) people & 99 \% & 101 (104) people & 97 \% \\
-		Data seq. 2			& 122 (141) people & 87 \% & 77 (91) people & 85 \%  \\
+		R-Kitchen			& 108 (108) people & 99 \% & 101 (104) people & 97 \% & 30 min\\
+		B25-Kitchen			& 122 (141) people & 87 \% & 77 (91) people & 85 \% & 30 min \\
+		U-Kitchen			& 127 (122) people & 96 \% & 136 (135) people & 99 \% & 30 min  \\
 		\end{tabular}
 	\caption{System performance in the two evaluation sequences}
 \end{table}
-
-\begin{itemize}
-\item Data seq. 1 \& Data seq. 2 are two data sequences of 30 minutes each. 
-\end{itemize}
-     
+    
 \end{block}
 
 %------------------------------------------------
@@ -338,10 +335,11 @@ A_{out} = 1 - |\frac{\sum_{frames}{out_{Est}}-\sum_{frames}out_{GT}}{\sum_{frame
 \begin{block}{Conclusion}
 
 \begin{itemize}
-\item The system provides high-precision real time people counting using the Microsoft Kinect sensor at low computational cost on a 2Ghz low-end CPU.
-\item The software architecture enables fast implementing and testing of different algorithms. It gives a very lightweight and high-performing vision pipeline. 
+\item The system provides high-precision real time people counting using the Microsoft Kinect sensor at low computational cost. (2GHz low-end CPU)
+\item Very simple assumptions are enough to get good results in practice.
+\item The software architecture enables fast implementing and testing of different algorithms. It gives a very lightweight and high-performing vision pipeline.
 \end{itemize}
-\vspace*{0.012\textheight} % Manual alignment, change this factor if re-alignment is needed.
+\vspace*{0.0\textheight} % Manual alignment, change this factor if re-alignment is needed.
 \end{block}
 
 %----------------------------------------------------------------------------------------
