@@ -85,7 +85,7 @@ The following libraries are needed to compile the program
 
 For the acual build process you need:
 * A c++11 capable compiler (clang/gcc4.8+/visual studio 2012)
-* cmake2.8.7
+* cmake 2.8.7
 * doxygen (only to generate documentation)
 * latex (only to build the manual/technical docs)
 
