@@ -267,7 +267,7 @@ Software
 
 \begin{block}{
 \vspace*{-0.002\textheight}
-Configuration \& Debugging GUI
+Configuration \& Debugging User Interfaces
 }
 
 \begin{columns} % Subdivide the first main column
@@ -299,7 +299,7 @@ Configuration \& Debugging GUI
 
 \begin{figure}
 \includegraphics[width=0.9\linewidth]{PosterDebuggerLogo.png}
-\caption{\centering \textit{Figure 7:} Main GUI window with the different processing steps (top left), profiling information for system modules (top right) and log messages (bottom)}
+\caption{\centering \textit{Figure 7:} Main user interface window with the different processing steps (top left), profiling information for system modules (top right) and log messages (bottom)}
 \end{figure}
 
 \end{block}
@@ -312,12 +312,26 @@ Configuration \& Debugging GUI
 
 \begin{block}{
 \vspace*{-0.002\textheight}
-Results: Table
+Results
 }
 
 \begin{itemize}
-\item Final system performance and equations used during evaluation.
+\item System performance and equations used for evaluation.
 \end{itemize}
+
+\begin{table}[h]
+\centering
+	\begin{tabular}{r | c | c | c | c | c  }
+		\emph{Sequence Name}		&  Total entered (GT) & \emph{$A_{in}$} & Total exited (GT) & \emph{$A_{out}$} & length \\
+		\hline \hline
+		R-Kitchen			& 108 (108) people & 99 \% & 101 (104) people & 97 \% & 32 min\\
+		U-Kitchen			& 127 (122) people & 96 \% & 136 (135) people & 99 \% & 31 min  \\
+		B25-Kitchen			& 122 (141) people & 87 \% & 77 (91) people & 85 \% & 30 min \\
+		\end{tabular}
+	\caption{System performance in the three evaluation sequences}
+\end{table}
+
+
 
 \begin{equation}
 \label{eq:in_accuracy}
@@ -330,17 +344,7 @@ A_{out} = 1 - \Big{\lvert} \frac{\sum_{frames}{out_{Est}}-\sum_{frames}out_{GT}}
 \end{equation} 
 
 
-\begin{table}[h]
-\centering
-	\begin{tabular}{r | c | c | c | c | c | c | c }
-		\emph{Sequence Name}		&  Total entered (GT) & \emph{$A_{in}$} & Total exited (GT) & \emph{$A_{out}$} & length \\
-		\hline \hline
-		R-Kitchen			& 108 (108) people & 99 \% & 101 (104) people & 97 \% & 30 min\\
-		B25-Kitchen			& 122 (141) people & 87 \% & 77 (91) people & 85 \% & 30 min \\
-		U-Kitchen			& 127 (122) people & 96 \% & 136 (135) people & 99 \% & 30 min  \\
-		\end{tabular}
-	\caption{System performance in the two evaluation sequences}
-\end{table}
+
     
 \end{block}
 
@@ -365,9 +369,9 @@ Conclusion
 }
 
 \begin{itemize}
-\item The system provides high-precision real time people counting using the Microsoft Kinect sensor at low computational cost. (2GHz low-end CPU)
+\item The system provides high-precision real-time people counting using the Microsoft Kinect sensor at low computational cost. (2GHz low-end CPU)
 \item Very simple assumptions are enough to get good results in practice.
-\item The software architecture enables fast implementing and testing of different algorithms. It gives a very lightweight and high-performing vision pipeline.
+\item The software architecture enables fast implementing and testing of different algorithms. It allows for a lightweight and high-performing vision pipeline.
 \end{itemize}
 \vspace*{0.0\textheight} % Manual alignment, change this factor if re-alignment is needed.
 \end{block}
