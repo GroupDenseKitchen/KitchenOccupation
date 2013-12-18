@@ -9,8 +9,8 @@ In table \ref{tab:evaluation_performance} below the video clips chosen for the e
 			\emph{Sequence Name}		&  Total entered (GT) & \emph{$A_{in}$} & Total exited (GT) & \emph{$A_{out}$} & length \\
 			\hline \hline
 			R-Kitchen			& 108 (108) people & 99 \% & 101 (104) people & 97 \% & 32 min\\
-			U-Kitchen			& 127 (122) people & 96 \% & 136 (135) people & 99 \% & 31 min  \\
-			B25-Kitchen			& 122 (141) people & 87 \% & 77 (91) people & 85 \% & 30 min \\
+			U-Kitchen			& 123 (122) people & 99 \% & 134 (135) people & 99 \% & 31 min  \\
+			B25-Kitchen			& 131 (141) people & 93 \% & 82 (91) people & 90 \% & 30 min \\
 			\end{tabular}
 	\caption[System performance]{\textit{Counting performance according to the evaluation metric as described in section \ref{sec:evaluation}.}}
 	\label{tab:evaluation_performance}
@@ -60,13 +60,13 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.1\linewidth]{images/EntriesEval.png}
+  \includegraphics[width=1.1\linewidth]{images/entriesGTB25.png}
   \caption{Measured entries and ground truth}
   \label{fig:sub1}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.1\linewidth]{images/AccEntriesEval.png}
+  \includegraphics[width=1.1\linewidth]{images/accInB25.png}
   \caption{Accuracy}
   \label{fig:sub2}
 \end{subfigure}
@@ -78,17 +78,53 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.1\linewidth]{images/ExitsEval.png}
+  \includegraphics[width=1.1\linewidth]{images/exitsGTB25.png}
   \caption{Measured exits and ground truth}
   \label{fig:sub1}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=1.1\linewidth]{images/AccExitsEval.png}
+  \includegraphics[width=1.1\linewidth]{images/accOutB25.png}
   \caption{Accuracy}
   \label{fig:sub2}
 \end{subfigure}
 \caption[B25-kitchen exits]{\textit{B25-Kitchen data. Plot of measured exits, ground truth and accuracy}}
+\label{fig:B25-kitchen exits}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1.1\linewidth]{images/entriesGTU.png}
+  \caption{Measured entries and ground truth}
+  \label{fig:sub1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1.1\linewidth]{images/accInU.png}
+  \caption{Accuracy}
+  \label{fig:sub2}
+\end{subfigure}
+\caption[B25-kitchen entries]{\textit{U-Kitchen data. Plot of measured entries, ground truth and accuracy}}
+\label{fig:B25-kitchen entries}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1.1\linewidth]{images/exitsGTU.png}
+  \caption{Measured exits and ground truth}
+  \label{fig:sub1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1.1\linewidth]{images/accOutU.png}
+  \caption{Accuracy}
+  \label{fig:sub2}
+\end{subfigure}
+\caption[B25-kitchen exits]{\textit{U-Kitchen data. Plot of measured exits, ground truth and accuracy}}
 \label{fig:B25-kitchen exits}
 \end{figure}
 
