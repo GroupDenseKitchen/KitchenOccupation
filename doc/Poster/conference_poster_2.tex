@@ -58,9 +58,9 @@
 
 \title{\huge Kitchen Occupation} % Poster title
 
-\author{People counting using depth sensors.} % Author(s)
+\author{People-counting using depth sensors.} % Author(s)
 
-\institute{Department of Electrical Engineering, Linköping University} % Institution(s)
+\institute{\vspace{0.01\textheight} \small TSBB11 - Bilder och Grafik CDIO \\ \vspace{0.007\textheight} Department of Electrical Engineering, Linköping University} % Institution(s)
 
 %----------------------------------------------------------------------------------------
 %	FOOTER TEXT
@@ -68,6 +68,7 @@
 
 \newcommand{\leftfoot}{
 \vspace*{-0.004\textheight}
+\hspace{-0.013\textwidth}
 \begin{tabular*}{\linewidth}{@{\extracolsep{\fill} } c c c c c c c}
 Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson & Mattias Tiger & Nikolaus West
 \end{tabular*}
@@ -96,10 +97,13 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 %	OBJECTIVES
 %----------------------------------------------------------------------------------------
 
-\begin{block}{Objectives}
+\begin{block}{
+\vspace*{-0.002\textheight}
+Objectives
+}
 
 \begin{enumerate}
-\item Create a system to monitor room usage intensity, primarily focusing on student kitchens.
+\item Create a system for monitoring room-usage intensity, primarily focusing on student kitchens.
 \item The system needs to be cheap and easy to install and maintain.
 \item The system should provide real-time information about room usage intensity.
 \end{enumerate}
@@ -122,7 +126,10 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 %	Hardware setup
 %----------------------------------------------------------------------------------------
 
-\begin{block}{System}
+\begin{block}{
+\vspace*{-0.002\textheight}
+System
+}
 	\begin{columns} % Subdivide the first main column
 		\begin{column}{.54\textwidth} % The first subdivided column within the first main column
 			\begin{itemize}
@@ -152,7 +159,10 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 %	Image Processing
 %----------------------------------------------------------------------------------------
 
-\begin{block}{Image Processing Pipeline}
+\begin{block}{
+\vspace*{-0.002\textheight}
+Image Processing Pipeline
+}
 \begin{itemize}
 	\item Human segmentation
 	\begin{itemize}
@@ -219,7 +229,10 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 %	Software system
 %----------------------------------------------------------------------------------------
 
-\begin{block}{Software}
+\begin{block}{
+\vspace*{-0.002\textheight}
+Software
+}
 \begin{itemize}
 	\item Built in C++ in a very modular, extendable and configurable fashion.
 \end{itemize}
@@ -244,7 +257,10 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 %	User Interface
 %----------------------------------------------------------------------------------------
 
-\begin{block}{Configuration \& Debugging GUI}
+\begin{block}{
+\vspace*{-0.002\textheight}
+Configuration \& Debugging GUI
+}
 
 \begin{columns} % Subdivide the first main column
 \begin{column}{.54\textwidth} % The first subdivided column within the first main column
@@ -274,7 +290,7 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 \end{columns} % End of the subdivision
 
 \begin{figure}
-\includegraphics[width=0.9\linewidth]{PosterDebuggerCrop.png}
+\includegraphics[width=0.9\linewidth]{PosterDebuggerLogo.png}
 \caption{\centering \textit{Figure 7:} Main GUI window with the different processing steps, (top left), profiling information (top right) and log messages (bottom)}
 \end{figure}
 
@@ -286,7 +302,10 @@ Erik Fall & Gustav Häger & Malin Rudin & Alexander Sjöholm & Martin Svensson &
 %----------------------------------------------------------------------------------------
 
 
-\begin{block}{Results: Table}
+\begin{block}{
+\vspace*{-0.002\textheight}
+Results: Table
+}
 
 \begin{itemize}
 \item Final system performance and equations used during evaluation.
@@ -332,7 +351,10 @@ A_{out} = 1 - |\frac{\sum_{frames}{out_{Est}}-\sum_{frames}out_{GT}}{\sum_{frame
 %	CONCLUSION
 %----------------------------------------------------------------------------------------
 
-\begin{block}{Conclusion}
+\begin{block}{
+\vspace*{-0.002\textheight}
+Conclusion
+}
 
 \begin{itemize}
 \item The system provides high-precision real time people counting using the Microsoft Kinect sensor at low computational cost. (2GHz low-end CPU)

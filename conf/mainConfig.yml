@@ -1,6 +1,6 @@
 %YAML:1.0
 MaximumTimeLostInDoorArea: 9
-TrackingMaximumTimeLost: 3
+TrackingMaximumTimeLost: 100
 TrackingMinimumLifeSpan: 7
 distanceToCameraMargin: 15
 evalPrecisionThreshold: 50
@@ -34,10 +34,10 @@ ImageProcessor:
    - EntryExitCounter
    - EntryExitEvaluator
 cameraPaths:
-   - "/Users/gustavhager/Desktop/TSBB11/project/data/seq12.mp4"
+   - "../data/seq9/seq9-3.mp4"
 entryExitGroundTruthPaths:
-   - "../data/GTseq14.yml"
+   - "../data/seq9/seq9-3.yml"
 trackerGroundTruthPaths:
    - /Users/gustavhager/Desktop/TSBB11/project/data/GTseq14
 videoFilePaths:
-   - "../data/seq14.mp4"
+   - "../data/seq12/seq12.mp4"

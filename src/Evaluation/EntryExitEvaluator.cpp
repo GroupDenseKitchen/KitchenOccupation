@@ -80,6 +80,11 @@ bool EntryExitEvaluator::initialize(configuration::ConfigurationManager &setting
     return true;
 }
 
+int round(float x)
+{
+    return std::floor(x + 0.5);
+}
+
 void EntryExitEvaluator::process(FrameList &frames)
 {
     frameCount++;
