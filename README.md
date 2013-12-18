@@ -76,17 +76,17 @@ Both ImageProcessor::populate and ImageProcessor::initialize return false if som
 
 ### Compilation instructions
 The following libraries are needed to compile the program
-Opencv 2.4.6+
-QT5.1 (for the gui parts)
-libcurl (for communication with a REST API)
-rapidxml (used in the evaluation parts, included in the project)
-For windows systems OpenNI2 is also required to communicate with the kinect
-For unix likes libfreenect is needed instead.
+* Opencv 2.4.6+
+* QT5.1 (for the gui parts)
+* libcurl (for communication with a REST API)
+* rapidxml (used in the evaluation parts, included in the project)
+* For windows systems OpenNI2 is also required to communicate with the kinect
+* For unix likes libfreenect is needed instead.
 
 For the acual build process you need:
-A c++11 capable compiler (clang/gcc4.8+/visual studio 2012)
-cmake2.8.7
-doxygen (only to generate documentation)
-latex (only to build the manual/technical docs)
+* A c++11 capable compiler (clang/gcc4.8+/visual studio 2012)
+* cmake2.8.7
+* doxygen (only to generate documentation)
+* latex (only to build the manual/technical docs)
 
 In order to build the program, run cmake on the src/ folder and then build the project using make.
