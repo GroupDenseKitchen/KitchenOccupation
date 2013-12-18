@@ -37,7 +37,7 @@ KinectFrame* KinectHandler::readFrame(int deviceID)
     double timeLeft = 1000000/30.0 - timeEllapsed;
     if (timeLeft > 0 ){
         useconds_t timeleftuint = timeLeft;
-        std::cout << "Time left: " << timeleftuint << ", Time ellapsed:  " << timeEllapsed << std::endl;
+        //std::cout << "Time left: " << timeleftuint << ", Time ellapsed:  " << timeEllapsed << std::endl;
         usleep( timeleftuint );
     }
     samplingTimer.reset();

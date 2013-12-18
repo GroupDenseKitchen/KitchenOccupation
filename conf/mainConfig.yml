@@ -9,20 +9,20 @@ highOccupancyThreshold: 2147483647
 historyLength: 1800
 isDebug: 1
 lowOccupancyThreshold: 2147483647
-lowestDistanceOverFloor: 57
+lowestDistanceOverFloor: 79
 maxRecursionDepth: 10
 minimalHeadArea: 225
 minimalHumanArea: 2500
 nCameras: 1
-runFromFile: 0
-useKinect: 1
+runFromFile: 1
+useKinect: 0
 TrackingMaximumDistance: 2500.
 headHeightMargin: 7.
 highQueThreshold: 6.6666666666666663e-001
 lowQueThreshold: 3.3333333333333331e-001
 maxSplineSegmentLength: 5.
 splineLengthThreshold: 600.
-velocityScaleFactor: 2.
+velocityScaleFactor: 1.5
 webServerUrl: "http://api.densekitchen.bloip.se/api/roomstate/1"
 Analytics:
    - FlowEstimator
@@ -32,7 +32,7 @@ ImageProcessor:
    - KinectSegmentation
    - TrackingBruteForce
    - EntryExitCounter
-   - EntryExitEvaluator
+   #- EntryExitEvaluator
 cameraPaths:
    - "../data/seq9/seq9-3.mp4"
 entryExitGroundTruthPaths:
@@ -40,4 +40,4 @@ entryExitGroundTruthPaths:
 trackerGroundTruthPaths:
    - /Users/gustavhager/Desktop/TSBB11/project/data/GTseq14
 videoFilePaths:
-   - "../data/seq12/seq12.mp4"
+   - "/Users/Niko/Dropbox/Liu/TSBB11/Dense Kitchen/seq9-4/seq9-4.mp4"
