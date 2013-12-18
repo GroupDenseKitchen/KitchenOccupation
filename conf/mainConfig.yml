@@ -14,8 +14,8 @@ maxRecursionDepth: 10
 minimalHeadArea: 225
 minimalHumanArea: 2500
 nCameras: 1
-runFromFile: 1
-useKinect: 0
+runFromFile: 0
+useKinect: 1
 TrackingMaximumDistance: 2500.
 headHeightMargin: 7.
 highQueThreshold: 6.6666666666666663e-001
