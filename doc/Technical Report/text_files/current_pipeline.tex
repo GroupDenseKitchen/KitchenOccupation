@@ -19,13 +19,21 @@ The human segmentation is based on the assumption that human heads are distingui
 
 \newpage
 \subsection{Tracking and counting}
-The tracking algorithm performs six different steps for each frame iteration. The tracker has a list with potential objects from the current frame and a list with current objects found by earlier image processing steps. The tracker pairs closest objects with each other from previous frame to the current frame. 
-\\ \\
-To register if objects enter or exit the room the objects has to fulfill some requirements. To be considered as entered, an object has to be found in a door area and pass three circle lines in addition to have existed a minimum of a set amount of frames. To be registered as exited an object has to have existed a minimum of a set amount of frames and disappear inside a door area, while also at least once passed the three lines. Examples of these circle lines and a door area can be seen in \ref{fig:entry_exit}.
+The tracking algorithm performs six different steps for each frame iteration. The tracker has a list objects found by earlier image processing steps and one list of objects passed from the previous frame. Tracking is done by pairing closest objects with each other, from previous frame to the current frame. Objects need to live for a predetermine configurable amount of frames before it will be counted. This will prevent false flickering objects from generating false entries. Lost objects are also kept alive for some frames, this enables objects to be lost and found. Figure \ref{fig:trackingexample} illustrates how objects are seen as real objects, lost objects or potential objects, depending on their lifetime. 
 
 \begin{figure}[htb]
 	\centering
-	\includegraphics[width=0.8\linewidth]{images/entry_exit_circles.png}
+	\includegraphics[width=0.7\linewidth]{images/trackingexample2.png}
+	\caption[Entry exit circles]{\textit{Visualization of the tracking. The image shows one person (green box) who has lived long enough to be considered a person, two (red boxes) who has just been found and one (blue box) which is a person who’s just been lost}}
+	\label{fig:trackingexample}  %Skapar referens till figuren
+\end{figure}
+
+
+To register if objects enter or exit the room the objects has to fulfill some requirements. To be considered as entered, an object has to be found in a door area and pass three circle lines in addition to have existed a minimum of a set amount of frames. To be registered as exited an object has to have existed a minimum of a set amount of frames and disappear inside a door area, while also at least once passed the three lines. Examples of these circle lines and a door area can be seen in figure \ref{fig:entry_exit}.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/entryexitexample.png}
 	\caption[Entry exit circles]{\textit{Entry and exit counting. Three circles are used to decide when a person has entered. The green area is the door area and the red area is excluded by the system.}}
 	\label{fig:entry_exit}  %Skapar referens till figuren
 \end{figure}
