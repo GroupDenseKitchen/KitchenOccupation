@@ -16,7 +16,7 @@ In table \ref{tab:evaluation_performance} below the video clips chosen for the e
 	\label{tab:evaluation_performance}
 \end{table}
 
-Plots of ground truth comparison and accuracy for the evaluation sequences can be found in figures \ref{fig:R-kitchen example} to \ref{fig:U-kitchen exits}.
+Plots of ground truth comparison and accuracy for the evaluation sequences can be found in figures \ref{fig:R_kitchen_example} to \ref{fig:U_kitchen_exits}.
 \newpage
 
 
@@ -35,7 +35,7 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
   \label{fig:sub2}
 \end{subfigure}
 \caption[R-kitchen exits]{\textit{Example depth images from the R-kitchen data set}}
-\label{fig:R-kitchen example}
+\label{fig:R_kitchen_example}
 \end{figure}
 
 \begin{figure}[h]
@@ -53,7 +53,7 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
   \label{fig:sub2}
 \end{subfigure}
 \caption[R-kitchen entries]{\textit{R-Kitchen data. Plot of measured entries, ground truth and accuracy}}
-\label{fig:R-kitchen entries}
+\label{fig:R_kitchen_entries}
 \end{figure}
 
 \begin{figure}[h]
@@ -71,7 +71,7 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
   \label{fig:sub2}
 \end{subfigure}
 \caption[R-kitchen exits]{\textit{R-Kitchen data. Plot of measured exits, ground truth and accuracy}}
-\label{fig:R-kitchen exits}
+\label{fig:R_kitchen_exits}
 \end{figure}
 
 
@@ -92,7 +92,7 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
   \label{fig:sub2}
 \end{subfigure}
 \caption[R-kitchen exits]{\textit{Example color and depth images from the B25-kithcen data set}}
-\label{fig:B25-kitchen example}
+\label{fig:B25_kitchen_example}
 \end{figure}
 
 \begin{figure}[h]
@@ -110,7 +110,7 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
   \label{fig:sub2}
 \end{subfigure}
 \caption[B25-kitchen entries]{\textit{B25-Kitchen data. Plot of measured entries, ground truth and accuracy}}
-\label{fig:B25-kitchen entries}
+\label{fig:B25_kitchen_entries}
 \end{figure}
 
 \begin{figure}[h]
@@ -128,7 +128,7 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
   \label{fig:sub2}
 \end{subfigure}
 \caption[B25-kitchen exits]{\textit{B25-Kitchen data. Plot of measured exits, ground truth and accuracy}}
-\label{fig:B25-kitchen exits}
+\label{fig:B25_kitchen_exits}
 \end{figure}
 \newpage
 
@@ -147,7 +147,7 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
   \label{fig:sub2}
 \end{subfigure}
 \caption[R-kitchen exits]{\textit{Example color and depth images from the U-kitchen data set}}
-\label{fig:U-kitchen example}
+\label{fig:U_kitchen_example}
 \end{figure}
 
 \begin{figure}[h]
@@ -165,7 +165,7 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
   \label{fig:sub2}
 \end{subfigure}
 \caption[U-kitchen entries]{\textit{U-Kitchen data. Plot of measured entries, ground truth and accuracy}}
-\label{fig:U-kitchen entries}
+\label{fig:U_kitchen_entries}
 \end{figure}
 
 \begin{figure}[h]
@@ -183,7 +183,7 @@ Plots of ground truth comparison and accuracy for the evaluation sequences can b
   \label{fig:sub2}
 \end{subfigure}
 \caption[U-kitchen exits]{\textit{U-Kitchen data. Plot of measured exits, ground truth and accuracy}}
-\label{fig:U-kitchen exits}
+\label{fig:U_kitchen_exits}
 \end{figure}
 \newpage
 
@@ -233,7 +233,7 @@ Below in figure \ref{fig:Queue Detection}, several screenshots from the queue de
 \end{figure}
 \newpage
 \subsection{Discussion}
-The performance of the R-Kitchen and U-Kitchen sets are very good. The R-Kitchen set is a sequence of 30 minutes, where only the first 5 was used for tuning. The system performed worse on the B25-Kitchen sequence, but that is probably explained by the fact that the sensor was a bit misplaced, making parts of the upper door area on one side to be outside of the field of view, as well as the lack of room-calibration. The reason no more data sets were used was simply that no more time was available.
+The performance of the R-Kitchen and U-Kitchen sets are very good. The R-Kitchen set is a sequence of 30 minutes, where only the first 5 was used for tuning. The system performed worse on the B25-Kitchen sequence, but that is probably explained by the fact that the sensor was a bit misplaced, making parts of the upper door area on one side to be outside of the field of view, more dynamic placement of count-checkpoint-lines might have helped as well. The reason no more data sets were used was simply that no more time was available.
 
 The queue detection and severity estimation in general worked as expected but performed worse for more sparse queues, in combination with a small field of view.  
 

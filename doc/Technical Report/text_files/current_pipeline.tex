@@ -1,8 +1,16 @@
-This section describes the image processing pipeline that is delivered with the system and that has yielded the best performance so far. Some less successful attempts are described in appendices \ref{sec:bg_subtraction}, \ref{sec:hough_circles}, and \ref{sec:stereoBM}. 
+This section describes the image processing pipeline that is delivered with the system and that has yielded the best performance so far. Some less successful attempts are described in appendices \ref{sec:bg_subtraction}, \ref{sec:hough_circles}, and \ref{sec:stereoBM}. An overview of the current pipeline can be seen in figure \ref{fig:currentPipelineOverview}.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\linewidth]{images/FinalSysOverview.png}
+	\caption[Current pipeline overview]{\textit{An overview of the current pipeline.}}
+	\label{fig:currentPipelineOverview}  %Skapar referens till figuren
+\end{figure}
 
 \subsection{Sensors}
 After reading several papers on counting people using a single camera with top-down view, and implementing the methods described in said papers, the realization was made that, in order to be able to solve the problem described in section \ref{sec:introduction}, some form of depth information would be necessary. Both stereo and Kinect-style sensors were considered. However due to time limitations and a customer desire to run the system on cheap hardware, the Microsoft Kinect sensor was chosen.
 
+\newpage
 \subsection{Image processing}
 The human segmentation is based on the assumption that human heads are distinguishable modes in the depth image and that people moving very close to each other seldom differ much more than a head in height. It is realized by a series of threshold and morphological operations, contour drawing and searches for local maxima. The output from some of the steps in the segmentation algorithm can be seen in figure \ref{fig:image_processing_steps}.
 
@@ -60,7 +68,7 @@ Queue severity is estimated by considering the proportion of frames with visible
   \caption{Persons moving in different directions, with large velocity, are connected by longer splines, and are thus not considered to be in a queue.}
   \label{fig:no_queue}
 \end{subfigure}
-\caption[Queue detection]{\textit{Detection of queues using splines. The images show the result of the queue detection steps in two different cases. Spines that are short enough are drawn to visualize detected queues.}}
+\caption[Queue detection]{\textit{Detection of queues using splines. The images show the result of the queue detection steps in two different cases. Splines that are short enough are drawn to visualize detected queues.}}
 \label{fig:queue_detection}
 \end{figure}
 
