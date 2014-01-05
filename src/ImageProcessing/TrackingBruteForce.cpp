@@ -14,7 +14,7 @@ namespace image_processing
         CONFIG(settings, maximumDistance, "TrackingMaximumDistance",                4000);
         CONFIG(settings, minimumLifeSpan, "TrackingMinimumLifeSpan",                  15);   //Currently # Frames, should be in ms...
         CONFIG(settings, maximumTimeLostInDoorArea, "MaximumTimeLostInDoorArea",       9);   //Currently # Frames, should be in ms...
-        CONFIG(settings, maximumTimeLostStill, "MaximumTimeLostInDoorArea",          100);
+        CONFIG(settings, maximumTimeLostStill, "TrackingMaximumTimeLost",          100);
 
         return isInitialized;
     }
@@ -141,7 +141,7 @@ namespace image_processing
     }
 
     bool TrackingBruteForce::isInsideRemovalArea(Object & object, cv::Mat mask, int height, int width) {
-        return isInsidePolygon(mask,object.exitPoint) || isCloseImageBorder(object.exitPoint,height,width, 30);
+        return isInsidePolygon(mask,object.exitPoint) || isCloseImageBorder(object.exitPoint,height,width, 60);
     }
 
     int TrackingBruteForce::getUniqueID() {

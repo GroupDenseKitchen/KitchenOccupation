@@ -1,7 +1,7 @@
 %YAML:1.0
-MaximumTimeLostInDoorArea: 9
+MaximumTimeLostInDoorArea: 7
 TrackingMaximumTimeLost: 100
-TrackingMinimumLifeSpan: 7
+TrackingMinimumLifeSpan: 5
 distanceToCameraMargin: 15
 evalPrecisionThreshold: 50
 hasGroundTruth: 0
@@ -9,20 +9,20 @@ highOccupancyThreshold: 2147483647
 historyLength: 1800
 isDebug: 1
 lowOccupancyThreshold: 2147483647
-lowestDistanceOverFloor: 79
+lowestDistanceOverFloor: 179
 maxRecursionDepth: 10
-minimalHeadArea: 225
-minimalHumanArea: 2500
+minimalHeadArea: 4005
+minimalHumanArea: 3000
 nCameras: 1
-runFromFile: 1
-useKinect: 0
-TrackingMaximumDistance: 2500.
+runFromFile: 0
+useKinect: 1
+TrackingMaximumDistance: 25000.
 headHeightMargin: 7.
-highQueThreshold: 6.6666666666666663e-001
-lowQueThreshold: 3.3333333333333331e-001
+highQueThreshold: 6.6666666666666663e-01
+lowQueThreshold: 3.3333333333333331e-01
 maxSplineSegmentLength: 5.
 splineLengthThreshold: 600.
-velocityScaleFactor: 1.5
+velocityScaleFactor: 1.5000000000000000e+00
 webServerUrl: "http://api.densekitchen.bloip.se/api/roomstate/1"
 Analytics:
    - FlowEstimator
@@ -32,7 +32,6 @@ ImageProcessor:
    - KinectSegmentation
    - TrackingBruteForce
    - EntryExitCounter
-   #- EntryExitEvaluator
 cameraPaths:
    - "../data/seq9/seq9-3.mp4"
 entryExitGroundTruthPaths:
