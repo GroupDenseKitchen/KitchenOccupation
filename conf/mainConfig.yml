@@ -16,7 +16,7 @@ minimalHumanArea: 3000
 nCameras: 1
 runFromFile: 0
 useKinect: 1
-TrackingMaximumDistance: 25000.
+TrackingMaximumDistance: 2500.
 headHeightMargin: 7.
 highQueThreshold: 6.6666666666666663e-01
 lowQueThreshold: 3.3333333333333331e-01

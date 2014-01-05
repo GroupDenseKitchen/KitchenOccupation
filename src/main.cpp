@@ -104,6 +104,8 @@ int main(int argc, char *argv[])
 
 	if(iterOK){
 		printf("iteration %d success! \n",counter);
+        cv::imshow("debugImage", frames->getCurrent().getCameras()[0].getImage("debugImage"));
+        cv::waitKey(1);
    	}else{
 		printf("error iterating, dying! \n");
 		exit(-1);
